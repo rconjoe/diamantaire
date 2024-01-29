@@ -17,6 +17,7 @@ interface AccordionProps {
 
 const Accordion: React.FC<AccordionProps> = ({ rows, activeDefault = null, isDiamondDetail, enableScroll }) => {
   const [activeIndex, setActiveIndex] = useState(activeDefault);
+  const isInitialMount = useRef(true);
   const accordion = useRef(null);
 
   const toggleAccordion = (index: number) => {
@@ -44,6 +45,12 @@ const Accordion: React.FC<AccordionProps> = ({ rows, activeDefault = null, isDia
   };
 
   useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+
+      return;
+    }
+
     if (enableScroll && activeIndex !== null) {
       const row = accordion.current?.querySelector(`.accordion-row:nth-child(${activeIndex + 1})`);
       const offsetTop = row.getBoundingClientRect().top + window.scrollY - 55;
