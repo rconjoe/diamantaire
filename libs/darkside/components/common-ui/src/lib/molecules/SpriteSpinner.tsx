@@ -16,7 +16,7 @@ const SpritSpinnerContainer = styled.div`
   }
 
   .spritespin-instance {
-    position: static;
+    min-height: 100%;
   }
 
   span {
