@@ -202,11 +202,11 @@ const StyledOptionSelector = styled.div`
           cursor: default; /* Optional: Changes the cursor to indicate the button is not clickable */
         }
         &.arrow-left {
-          left: -15px;
+          left: -2.2rem;
         }
 
         &.arrow-right {
-          right: -15px;
+          right: -2.2rem;
         }
       }
       svg {
@@ -294,7 +294,7 @@ function OptionSelector({
 
     if (initialIndex > -1) {
       setTimeout(() => {
-        emblaApi.scrollTo(initialIndex, true);
+        emblaApi.scrollTo(initialIndex);
       }, 0);
     }
   }, [emblaApi, options, selectedOptionValue]);
