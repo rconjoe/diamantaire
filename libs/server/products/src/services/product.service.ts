@@ -58,8 +58,13 @@ import { ProductRepository } from '../repository/product.repository';
 
 const OPTIONS_TO_SKIP = ['goldPurity'];
 const TTL_HOURS = 48;
-const PRODUCT_DATA_TTL = TTL_HOURS * 60 * 60 * 1000; // ttl in seconds
-const PLP_DATA_TTL = 60 * 60 * 1000; // ttl in seconds
+let PRODUCT_DATA_TTL = TTL_HOURS * 30 * 60 * 1000; // 30 min ttl in ms
+let PLP_DATA_TTL = 30 * 60 * 1000; // 30 min ttl in ms
+
+if (process.env.NODE_ENV !== 'production') {
+  PRODUCT_DATA_TTL = 60 * 1000; // 1 min ttl in ms
+  PLP_DATA_TTL = 60 * 1000; // 1 min ttl in ms
+}
 
 @Injectable()
 export class ProductsService {
@@ -136,7 +141,6 @@ export class ProductsService {
     const [isFresh, cachedData] = await this.getSWRCache(cacheKey);
 
     const fetchPlpData = async () => {
-      console.log('fetching data.');
       this.setSWRCacheRefresh(cacheKey);
       
       // Supports multiselect
@@ -349,7 +353,7 @@ export class ProductsService {
         paginator,
       };
 
-      this.setSWRCache(cacheKey, plpData, dataTTL);
+      this.setSWRCache(cacheKey, plpData, PLP_DATA_TTL);
 
       return plpData
     }
@@ -698,34 +702,41 @@ export class ProductsService {
   }
 
   async findProductBySlug(input: ProductSlugInput) {
-    this.logger.verbose(`findProductVariant :: input : ${JSON.stringify(input)}`);
-    try {
-      const findProductBySlugStart: number = performance.now();
+    const setLocal = input?.locale ? input?.locale : 'en_US'; // get locale from input or default to en_US
+    // create unique cacheKey for each product variant
+    const cachedKey = `pdp:${input?.slug}:${input?.id}:${setLocal}`;
+    const [isFresh, cachedData] = await this.getSWRCache(cachedKey);
 
-      const setLocal = input?.locale ? input?.locale : 'en_US'; // get locale from input or default to en_US
-      const bigQuery = {
-        ...getDraftQuery(),
-      };
-      const query = {
-        collectionSlug: input.slug,
-        ...getDraftQuery(),
-      };
+    const fetchPdpData = async () => {
+      this.logger.verbose(`findProductVariant :: input : ${JSON.stringify(input)}`);
 
+<<<<<<< HEAD
       const bigRedisKey: string = `products::` + setLocal + (includeDraftProducts() ? `:draft` : ``);
       const redisKey: string =
         `products:` + query.collectionSlug + `:` + setLocal + (includeDraftProducts() ? `:draft` : ``);
+=======
+      try {
+        const findProductBySlugStart: number = performance.now();
+>>>>>>> 60f96a45 (Added SWR cache to PDP data)
 
-      // create unique cacheKey for each prodyct variant
-      const cachedKey = `pdp:${input?.slug}:${input?.id}:${setLocal}`;
-      // check for cached data
-      const cachedData = await this.cacheManager.get(cachedKey);
+        const bigQuery = {
+          ...getDraftQuery(),
+        };
+        const query = {
+          collectionSlug: input.slug,
+          ...getDraftQuery(),
+        };
 
-      if (cachedData) {
-        this.logger.verbose(`findProductVariant :: cache hit on key ${cachedKey}`);
+        const bigRedisKey: string = `products::` + setLocal + (includeDraftProducts() ? `:draft` : ``);
+        const redisKey: string = `products:` + query.collectionSlug + `:` + setLocal + (includeDraftProducts() ? `:draft` : ``);
+        
+        // check for cached data
+        const cachedData = await this.cacheManager.get(cachedKey);
 
-        return cachedData; // return the entire cached data including dato content
-      }
+        if (cachedData) {
+          this.logger.verbose(`findProductVariant :: cache hit on key ${cachedKey}`);
 
+<<<<<<< HEAD
       let collection: VraiProduct[];
 
       const productsCollectionCacheValue = await this.cacheManager.get(redisKey);
@@ -753,8 +764,144 @@ export class ProductsService {
             return item.collectionSlug === input.slug;
           });
           this.cacheManager.set(redisKey, collection);
+=======
+          return cachedData; // return the entire cached data including dato content
+>>>>>>> 60f96a45 (Added SWR cache to PDP data)
         }
+
+        let collection: VraiProduct[];
+
+        const productsCollectionCacheValue = await this.cacheManager.get(redisKey);
+
+        const preProductsReq: number = performance.now();
+
+        if (productsCollectionCacheValue) {
+          this.logger.verbose(`findProductBySlug :: From Cache 1`);
+          collection = productsCollectionCacheValue as VraiProduct[];
+        } else {
+          this.logger.verbose(`findProductBySlug :: From DB 1`);
+          const bigProductsCollectionCacheValue = await this.cacheManager.get(bigRedisKey);
+
+          if (bigProductsCollectionCacheValue) {
+            this.logger.verbose(`findProductBySlug :: From Cache 2`);
+            collection = (bigProductsCollectionCacheValue as VraiProduct[]).filter((item) => {
+              return (item.collectionSlug === input.slug);
+            });
+            this.cacheManager.set(redisKey, collection);
+          } else {
+            this.logger.verbose(`findProductBySlug :: From DB 2`);
+            collection = await this.productRepository.find(bigQuery);
+            this.cacheManager.set(bigRedisKey, collection);
+            collection = collection.filter((item) => {
+              return (item.collectionSlug === input.slug);
+            });
+            this.cacheManager.set(redisKey, collection);
+          }
+        }
+
+        const postProductsReq: number = performance.now();
+
+        this.logger.verbose(`findProductBySlug :: Products request :: ${postProductsReq - preProductsReq}ms (total: ${postProductsReq - findProductBySlugStart}ms)`);
+
+        // Get variant data based on requested ID
+        const requestedProduct = collection.find((product) => product.productSlug === input.id);
+
+        if (!requestedProduct) {
+          return null;
+        }
+
+        const requestedContentId = requestedProduct.contentId;
+
+        let collectionContent, productContent;
+
+        if ([ProductType.EngagementRing as string].includes(requestedProduct.productType)) {
+          // dato ER query
+          const queryVars = {
+            collectionSlug: input.slug,
+            productHandle: requestedContentId,
+            locale: setLocal,
+          };
+
+          // TODO: Add Dato types
+          const datoEngagementRingPDP: object = await this.datoContentForEngagementRings(queryVars); // return dato engagement ring pdp content
+
+          collectionContent = datoEngagementRingPDP?.['engagementRingProduct'];
+          productContent = datoEngagementRingPDP?.['variantContent'];
+        } else if ([ProductType.WeddingBand as string].includes(requestedProduct.productType)) {
+          const queryVars = {
+            collectionSlug: input.slug,
+            productHandle: requestedContentId,
+            locale: setLocal,
+          };
+
+          // TODO: Add Dato types
+          const datoEngagementRingPDP: object = await this.datoContentForWeddingBands(queryVars); // return dato engagement ring pdp content
+
+          collectionContent = datoEngagementRingPDP?.['weddingBandProduct'];
+          productContent = datoEngagementRingPDP?.['variantContent'];
+        } else {
+          // dato ER query
+          const queryVars = {
+            slug: input.slug,
+            variantId: requestedContentId,
+            locale: setLocal,
+          };
+
+          // TODO: Add Dato types
+          const datoJewelryPDP: object = await this.datoContentForJewelry(queryVars); // return dato engagement ring pdp content
+
+          collectionContent = datoJewelryPDP?.['jewelryProduct'];
+          productContent = datoJewelryPDP?.['configuration'];
+        }
+
+        if (collection && requestedProduct) {
+          const { productType } = requestedProduct;
+
+          const allAvailableOptions = this.getAllAvailableOptions(collection);
+          const sortedAllAvailableOptions = Object.entries(allAvailableOptions).reduce((map, [type, values]) => {
+            map[type] = values.sort(getOptionValueSorterByType(type));
+
+            return map;
+          }, {});
+          const optionConfigs = this.getOptionsConfigurations(collection, requestedProduct);
+          const sortedOptionConfigs = Object.entries(optionConfigs).reduce((map, [type, values]) => {
+            const optionSorter = getOptionValueSorterByType(type);
+
+            map[type] = values.sort((objA, objB) => optionSorter(objA.value, objB.value));
+
+            return map;
+          }, {});
+
+          const canonicalVariant = findCanonivalVariant(collection, requestedProduct);
+          const reducedCanonicalVariant = {
+            productType: canonicalVariant.productType,
+            productSlug: canonicalVariant.productSlug,
+            collectionSlug: canonicalVariant.collectionSlug,
+          };
+
+          const pdpProductData = {
+            productType,
+            ...requestedProduct,
+            allAvailableOptions: sortedAllAvailableOptions,
+            optionConfigs: sortedOptionConfigs,
+            collectionContent, // dato er collection content
+            productContent, // dato er variant content
+            canonicalVariant: reducedCanonicalVariant,
+          };
+
+          this.setSWRCache(cachedKey, pdpProductData, PRODUCT_DATA_TTL);
+
+          return pdpProductData;
+        } else {
+          // TODO: Handle Cannot find variant ID request
+          this.logger.debug(`findProductVariant :: Cannot find variant ID request`);
+          throw new BadGatewayException('Invalid variant ID request');
+        }
+      } catch (error: any) {
+        this.logger.error(`findProductVariant :: error : ${error.message}`);
+        throw new NotFoundException(`Product not found :: error stack : ${error.message}`);
       }
+<<<<<<< HEAD
 
       const postProductsReq: number = performance.now();
 
@@ -862,7 +1009,15 @@ export class ProductsService {
     } catch (error: any) {
       this.logger.error(`findProductVariant :: error : ${error.message}`);
       throw new NotFoundException(`Product not found :: error stack : ${error.message}`);
+=======
+>>>>>>> 60f96a45 (Added SWR cache to PDP data)
     }
+
+    if (!isFresh){
+      fetchPdpData();
+    }
+
+    return cachedData;
   }
 
   getAllAvailableOptions = (products: VraiProduct[]): Record<string, string[]> => {
