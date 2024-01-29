@@ -43,7 +43,7 @@ import {
   parseValidLocale,
   pdpTypeSingleToPluralAsConst,
 } from '@diamantaire/shared/constants';
-import { generateCfyDiamondSpriteThumbUrl, generateDiamondSpriteUrl, specGenerator } from '@diamantaire/shared/helpers';
+import { generateDiamondSpriteImage, generateDiamondSpriteUrl, specGenerator } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
@@ -412,7 +412,7 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
   const diamondImages = useMemo(() => {
     return isDiamondCFY
       ? diamonds.map((diamond) => {
-          const spriteImageUrl = generateCfyDiamondSpriteThumbUrl(diamond?.diamondType);
+          const spriteImageUrl = generateDiamondSpriteImage({ diamondType: diamond?.diamondType });
 
           return spriteImageUrl;
         })

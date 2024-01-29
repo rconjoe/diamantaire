@@ -41,8 +41,10 @@ const StyledDiamondTableRowAccordion = styled.div`
     }
 
     &.certificate {
-      .tooltip-trigger {
-        transform: translateY(0.75rem);
+      .accordion-content-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
       }
     }
   }

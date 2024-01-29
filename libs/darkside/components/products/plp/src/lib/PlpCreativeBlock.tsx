@@ -16,7 +16,6 @@ import styled from 'styled-components';
 import PlpCreativeSlideOut from './PlpCreativeSlideout';
 
 const PlpCreativeBlockStyles = styled.div`
-  border: 0.1rem solid var(--color-light-grey);
   grid-column: 1/3;
 
   @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
@@ -33,10 +32,6 @@ const PlpCreativeBlockStyles = styled.div`
     ${media.medium`
       grid-area: 5 / 3 / 7 / 5;
     `}
-  }
-
-  .closing-animation {
-    background: red;
   }
 
   .creative-block__image {

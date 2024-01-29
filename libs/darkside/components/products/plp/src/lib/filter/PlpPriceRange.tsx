@@ -1,5 +1,5 @@
 import { Heading, Slider, UIString } from '@diamantaire/darkside/components/common-ui';
-import { PLP_PRICE_RANGES, getFormattedPrice } from '@diamantaire/shared/constants';
+import { PLP_PRICE_RANGES, getFormattedPrice, simpleFormatPrice } from '@diamantaire/shared/constants';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -58,12 +58,12 @@ const PlpPriceRange = ({ price, updateFilter, filterValue, handleSliderURLUpdate
             const selectedPriceSlug = `${min}-${max}`;
 
             const priceArray = [
-              ...(v.min ? [getFormattedPrice(v.min, locale).trim()] : []),
-              ...(v.max ? [getFormattedPrice(v.max, locale).trim()] : []),
+              ...(v.min ? [simpleFormatPrice(v.min, locale).trim()] : []),
+              ...(v.max ? [simpleFormatPrice(v.max, locale).trim()] : []),
             ];
 
             return (
-              <li key={`filter-${price.title}`} className={isSelected ? 'selected' : ''}>
+              <li key={`filter-${selectedPriceSlug}`} className={isSelected ? 'selected' : ''}>
                 <button
                   className="flex align-center"
                   onClick={() => {
@@ -72,6 +72,7 @@ const PlpPriceRange = ({ price, updateFilter, filterValue, handleSliderURLUpdate
                     updateFilter('price', {
                       min: v.min,
                       max: v.max,
+                      isPlpPriceRange: true,
                     });
                   }}
                 >

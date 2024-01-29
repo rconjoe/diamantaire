@@ -15,11 +15,13 @@ export const ModularShowroomBlockStyles = styled.div`
   .showroom__image-container {
     display: block;
     width: 100%;
-    max-width: 600px;
-    margin: auto;
+    margin: 5.55rem auto 0;
+
     ${desktopAndUp(`
-    margin: 0 ${setSpace(2)};
-  `)};
+      width: 600px;
+      margin: 0 ${setSpace(2)};
+    `)};
+
     img {
       width: 100%;
       height: auto;
@@ -86,16 +88,18 @@ export const ModularShowroomBlockStyles = styled.div`
 
   .showroom__side-direction-image {
     display: none;
+
     ${tabletAndUp(`
     display: block;
-    margin-top: ${setSpace(3)};
+    margin-top: 3rem;
+    margin-bottom: 3rem;
   `)}
   }
   .showroom__bottom-direction-image {
     display: block;
     width: 100%;
     img {
-      margin: auto;
+      margin: 0 auto 3rem;
       width: 100%;
     }
     ${desktopAndUp(`

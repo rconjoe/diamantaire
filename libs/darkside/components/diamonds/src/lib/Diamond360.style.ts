@@ -42,7 +42,7 @@ const StyledDiamond360 = styled.div`
     bottom: 1rem;
     left: 2rem;
 
-    @media (max-width: ${({ theme }) => theme.sizes.tabel}) {
+    @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
       padding: 0 8rem 0 2.4rem;
       left: 1rem;
     }

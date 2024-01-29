@@ -9,6 +9,7 @@ import {
   RING_STYLES_MAP,
   getFormattedPrice,
   ringStylesWithIconMap,
+  simpleFormatPrice,
 } from '@diamantaire/shared/constants';
 import { FilterIcon, diamondIconsMap } from '@diamantaire/shared/icons';
 import { FilterTypeProps } from '@diamantaire/shared-product';
@@ -42,6 +43,10 @@ const PlpAllFilterOptions = ({
 
   const { locale, asPath, pathname } = router;
 
+  const isAnyFilterActive = true;
+
+  const isDiamondFirstFlow = asPath.includes('diamond-to-setting');
+
   const renderCustomPriceRange = (price: { min?: number; max?: number }) => {
     return (
       <>
@@ -51,8 +56,6 @@ const PlpAllFilterOptions = ({
       </>
     );
   };
-
-  const isAnyFilterActive = true;
 
   const handleFormat = (value: number | string) => {
     const num = Number(value);
@@ -80,8 +83,6 @@ const PlpAllFilterOptions = ({
 
     setFilterValues(newFilters);
   }
-
-  const isDiamondFirstFlow = asPath.includes('diamond-to-setting');
 
   return (
     <PlpAllFilterOptionsStyles>
@@ -198,20 +199,31 @@ const PlpAllFilterOptions = ({
               <ul className="list-unstyled flex ">
                 {PLP_PRICE_RANGES.map((price) => {
                   const priceArray = [
-                    ...(price.min ? [getFormattedPrice(price.min, locale).trim()] : []),
-                    ...(price.max ? [getFormattedPrice(price.max, locale).trim()] : []),
+                    ...(price.min ? [simpleFormatPrice(price.min, locale).trim()] : []),
+                    ...(price.max ? [simpleFormatPrice(price.max, locale).trim()] : []),
                   ];
+
+                  const activeMin = filterValue?.price?.min;
+
+                  const activeMax = filterValue?.price?.max;
+
+                  const priceMin = price?.min?.toString();
+
+                  const priceMax = price?.max?.toString();
+
+                  const isActive = activeMin === priceMin && activeMax === priceMax;
 
                   return (
                     <li key={`filter-${price.title}`}>
                       <button
-                        className="flex align-center"
+                        className={clsx('flex align-center', { active: isActive })}
                         onClick={() => {
                           setIsCustomPriceRangeOpen(false);
 
                           updateFilter('price', {
                             min: price.min,
                             max: price.max,
+                            isPlpPriceRange: true,
                           });
                         }}
                       >
@@ -222,6 +234,7 @@ const PlpAllFilterOptions = ({
                     </li>
                   );
                 })}
+
                 <li>
                   <button
                     className={clsx('flex align-center', {
@@ -351,8 +364,8 @@ const PlpAllFilterOptions = ({
                       const selectedPrice = PLP_PRICE_RANGES.find((v) => v.slug === selectedPriceSlug);
 
                       const priceArray = [
-                        ...(price.min ? [getFormattedPrice(price.min, locale).trim()] : []),
-                        ...(price.max ? [getFormattedPrice(price.max, locale).trim()] : []),
+                        ...(price.min ? [simpleFormatPrice(price.min, locale).trim()] : []),
+                        ...(price.max ? [simpleFormatPrice(price.max, locale).trim()] : []),
                       ];
 
                       return (
@@ -378,11 +391,7 @@ const PlpAllFilterOptions = ({
                         if (Object.keys(DIAMOND_TYPE_HUMAN_NAMES).includes(val)) {
                           title = <UIString types={[humanNamesMapperType.DIAMOND_SHAPES]}>{val}</UIString>;
                         } else if (METALS_IN_HUMAN_NAMES[val]) {
-                          title = (
-                            <UIString types={[humanNamesMapperType.METALS_IN_HUMAN_NAMES]}>
-                              {METALS_IN_HUMAN_NAMES[val]}
-                            </UIString>
-                          );
+                          title = <UIString types={[humanNamesMapperType.METALS_IN_HUMAN_NAMES]}>{val}</UIString>;
                         } else {
                           title = <UIString>{val}</UIString>;
                         }
