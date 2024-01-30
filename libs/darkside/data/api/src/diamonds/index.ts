@@ -200,7 +200,7 @@ export const fetchDiamondCtoData = async (options) => {
       diamondCutAndColorUpgrade: findUpgrade((v) => v.color !== selectedColor && v.cut !== selectedCut),
       diamondCutAndClarityUpgrade: findUpgrade((v) => v.clarity !== selectedClarity && v.cut !== selectedCut),
       diamondColorAndClarityUpgrade: findUpgrade((v) => v.clarity !== selectedClarity && v.color !== selectedColor),
-      diamondColorAndCutAndClarityUpgrade: findUpgrade(
+      diamondCutAndColorAndClarityUpgrade: findUpgrade(
         (v) => v.clarity !== selectedClarity && v.color !== selectedColor && v.cut !== selectedCut,
       ),
     };
@@ -253,7 +253,7 @@ export const fetchDiamondCtoData = async (options) => {
       diamondCutAndColorUpgrade,
       diamondCutAndClarityUpgrade,
       diamondColorAndClarityUpgrade,
-      diamondColorAndCutAndClarityUpgrade,
+      diamondCutAndColorAndClarityUpgrade,
     } = diamondAvailableUpgrade || {};
 
     if (diamondCutUpgrade !== undefined) {
@@ -280,8 +280,8 @@ export const fetchDiamondCtoData = async (options) => {
       upgrades['diamondColorAndClarityUpgrade'] = diamondColorAndClarityUpgrade;
     }
 
-    if (diamondColorAndCutAndClarityUpgrade !== undefined) {
-      upgrades['diamondColorAndCutAndClarityUpgrade'] = diamondColorAndCutAndClarityUpgrade;
+    if (diamondCutAndColorAndClarityUpgrade !== undefined) {
+      upgrades['diamondCutAndColorAndClarityUpgrade'] = diamondCutAndColorAndClarityUpgrade;
     }
 
     return {

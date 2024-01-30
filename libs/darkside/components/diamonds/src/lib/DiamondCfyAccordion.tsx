@@ -86,9 +86,9 @@ const DiamondCfyAccordion = ({
                   display === 'diamondColorUpgrade' ||
                   display === 'diamondCutAndColorUpgrade' ||
                   display === 'diamondColorAndClarityUpgrade' ||
-                  display === 'diamondColorAndCutAndClarityUpgrade'
+                  display === 'diamondCutAndColorAndClarityUpgrade'
                 }
-                onChange={() => handleUpgradeClick('diamondColorUpgrade')}
+                onChange={() => handleUpgradeClick('color')}
               />
               <div className="label">{upgradeLabel}</div>
               <div className="price">{upgradePriceHuman}</div>
@@ -166,9 +166,9 @@ const DiamondCfyAccordion = ({
                   display === 'diamondClarityUpgrade' ||
                   display === 'diamondCutAndClarityUpgrade' ||
                   display === 'diamondColorAndClarityUpgrade' ||
-                  display === 'diamondColorAndCutAndClarityUpgrade'
+                  display === 'diamondCutAndColorAndClarityUpgrade'
                 }
-                onChange={() => handleUpgradeClick('diamondClarityUpgrade')}
+                onChange={() => handleUpgradeClick('clarity')}
               />
               <div className="label">{upgradeLabel}</div>
               <div className="price">{upgradePriceHuman}</div>
@@ -238,9 +238,9 @@ const DiamondCfyAccordion = ({
                   display === 'diamondCutUpgrade' ||
                   display === 'diamondCutAndColorUpgrade' ||
                   display === 'diamondCutAndClarityUpgrade' ||
-                  display === 'diamondColorAndCutAndClarityUpgrade'
+                  display === 'diamondCutAndColorAndClarityUpgrade'
                 }
-                onChange={() => handleUpgradeClick('diamondCutUpgrade')}
+                onChange={() => handleUpgradeClick('cut')}
               />
               <div className="label">
                 <UIString>{upgradeLabel}</UIString>
