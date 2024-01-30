@@ -76,7 +76,7 @@ const StyledOptionSelector = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: no-wrap;
-    gap: 0.25rem;
+    gap: 0.5rem;
     list-style: none;
     padding: 0;
     margin: 0;
