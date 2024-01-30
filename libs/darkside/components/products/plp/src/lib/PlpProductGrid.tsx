@@ -25,12 +25,12 @@ const PlpProductGridStyles = styled.div`
     z-index: var(--z-index-filter);
     background-color: var(--color-white);
     top: ${({ isSettingSelect }) => (isSettingSelect ? 0 : '55px')};
-    margin: 2rem 0;
+    margin: 1rem 0;
 
     .grid-controls {
       display: flex;
       padding: 0;
-      align-items: start;
+      align-items: center;
       justify-content: space-between;
 
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
@@ -39,13 +39,7 @@ const PlpProductGridStyles = styled.div`
     }
 
     .sort {
-      @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
-        position: absolute;
-        cursor: pointer;
-        padding-top: 0;
-        right: 0.5rem;
-        top: 0.1rem;
-      }
+      flex-shrink: 0;
 
       * {
         cursor: pointer;

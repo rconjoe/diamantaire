@@ -4,8 +4,9 @@ import { PlpBasicFieldSortOption } from '@diamantaire/shared/types';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import styled from 'styled-components';
 import { components, DropdownIndicatorProps } from 'react-select';
+import styled from 'styled-components';
+
 import { SortProperties } from './PlpSortOption';
 
 const Select = dynamic(() => import('react-select'), {
@@ -113,9 +114,6 @@ const PlpSortOptionStyle = styled.div`
   .sort-dropdown__control {
     border: none;
     min-height: unset;
-    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-      min-width: 8rem;
-    }
   }
 
   .sort-dropdown__menu {
