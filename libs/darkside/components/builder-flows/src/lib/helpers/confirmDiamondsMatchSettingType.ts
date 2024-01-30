@@ -9,15 +9,23 @@ export function confirmDiamondsMatchSettingType(diamonds, product, settingSlugs,
 
       const newProductSlug = product?.optionConfigs?.diamondType.find((type) => type.value === diamonds?.[0]?.diamondType);
 
+      console.log('newProductSlug', newProductSlug);
+
       if (router?.query?.flowType === 'setting-to-diamond') {
-        router.push(
+        router.replace(
           `/customize/setting-to-diamond/summary/${settingSlugs.collectionSlug}/${newProductSlug?.id}/${diamonds?.[0]?.lotId}`,
+          null,
+          { shallow: true },
+        );
+      } else {
+        router.replace(
+          `/customize/diamond-to-setting/summary/${diamonds?.[0]?.lotId}/${settingSlugs.collectionSlug}/${newProductSlug?.id}`,
           null,
           { shallow: true },
         );
       }
 
-      updateSettingSlugs({
+      return updateSettingSlugs({
         productSlug: newProductSlug?.id,
       });
     }
@@ -39,10 +47,19 @@ export function confirmDiamondsMatchSettingType(diamonds, product, settingSlugs,
           );
         }
 
-        updateSettingSlugs({
+        return updateSettingSlugs({
           productSlug: newProductSlug?.id,
         });
       }
     }
   }
+
+  removeURLParams(router);
+}
+
+function removeURLParams(router) {
+  const currentUrl = window.location.href;
+  const urlWithoutSearchParams = currentUrl.split('?')[0];
+
+  router.replace(urlWithoutSearchParams);
 }

@@ -19,7 +19,7 @@ export const ModularAccordionItemContainer = styled.div`
     background-color: transparent;
     border: none;
     padding-left: 0;
-    padding-right: calc(var(--space-gutter * 4));
+    padding-right: calc(var(--space-gutter) * 4);
     &[data-state='open'] .plus {
       display: none;
     }

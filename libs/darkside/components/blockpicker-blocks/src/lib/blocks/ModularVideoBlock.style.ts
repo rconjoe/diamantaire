@@ -1,4 +1,4 @@
-import { tabletAndUp, setSpace } from '@diamantaire/styles/darkside-styles';
+import { tabletAndUp, setSpace, contentBlockMargin } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 export const ModularVideoBlockStyles = styled.div<Props>`
   width: 100%;
   max-width: 144rem;
-  margin: ${setSpace(3)} auto;
+  ${contentBlockMargin}
   position: relative;
   display: flex;
   justify-content: center;

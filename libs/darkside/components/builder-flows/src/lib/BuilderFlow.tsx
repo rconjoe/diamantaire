@@ -31,6 +31,8 @@ const BuilderFlow = ({
   const [initDiamond, setInitDiamond] = useState(false);
   const [shopifyProductData, setShopifyProductData] = useState(null);
 
+  const [isFetchingData, setIsFetchingData] = useState(false);
+
   const [settingSlugs, setSettingSlugs] = useState({
     collectionSlug: initialCollectionSlug,
     productSlug: initialProductSlug,
@@ -124,6 +126,8 @@ const BuilderFlow = ({
       id: settingSlugs?.productSlug,
     }).toString();
 
+    setIsFetchingData(true);
+
     // Product Data
     const productResponse = await fetch(`/api/pdp/getPdpProduct?${qParams}`, {
       method: 'GET',
@@ -171,6 +175,9 @@ const BuilderFlow = ({
     console.log('configureCurrentStep');
     // EDGE CASES
     // Overrides all scenarios to edit the diamond selected - is triggered by clicking modify diamond on review build step
+
+    if (router.asPath.includes('edit-diamond') && builderProduct?.step === 'select-diamond') return null;
+
     if (router.asPath.includes('edit-diamond')) {
       console.log('case a');
 
@@ -233,7 +240,8 @@ const BuilderFlow = ({
       !router.asPath.includes('/summary')
     ) {
       console.log('case g');
-      updateFlowData('UPDATE_STEP', { step: 'customize-setting' });
+
+      return updateFlowData('UPDATE_STEP', { step: 'customize-setting' });
     } else if (
       type === 'diamond-to-setting' &&
       router.asPath.includes('/summary') &&
@@ -251,6 +259,8 @@ const BuilderFlow = ({
   }, [settingSlugs]);
 
   useEffect(() => {
+    console.log('route change to: ', router.asPath);
+    // if (isFetchingData) return null;
     configureCurrentStep();
   }, [router.asPath]);
 
@@ -329,7 +339,7 @@ const BuilderFlow = ({
         />
       )}
 
-      {builderProduct?.step === 'customize-setting' && shopifyProductData?.variantDetails && (
+      {builderProduct?.step === 'customize-setting' && (
         <SettingBuildStep
           shopifyProductData={shopifyProductData}
           updateSettingSlugs={updateSettingSlugs}

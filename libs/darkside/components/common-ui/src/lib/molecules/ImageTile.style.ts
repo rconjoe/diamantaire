@@ -6,9 +6,6 @@ interface Props {
 }
 
 export const ImageTileContainer = styled.div<Props>`
-  ${tabletAndUp(`
-    padding: ${setSpace(2)};
-  `)};
   &.-modular-content-quad-block {
     ${tabletAndUp(`
       padding: 0;
@@ -26,7 +23,7 @@ export const ImageTileContainer = styled.div<Props>`
     flex-direction: column;
     max-width: 40rem;
     margin-top: ${setSpace(0.5)};
-    margin-bottom: ${setSpace(4)};
+
     text-align: left;
 
     &.-modular-content-quad-block {

@@ -186,7 +186,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   }, [inView, fetchNextPage, hasNextPage]);
 
   useEffect(() => {
-    if (pageLoaded && !deepEqual(prevQuery, query)) {
+    if (!deepEqual(prevQuery, query)) {
       if (urlFilterMethod === 'param') {
         setFilterValues(getFiltersFromQueryParams(query));
       }
