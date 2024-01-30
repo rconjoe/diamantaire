@@ -18,7 +18,7 @@ export const DIAMOND_TABLE_FILTER_CUT_OPTIONS = {
 };
 export const DIAMOND_TABLE_DEFAULT_OPTIONS = {
   page: 1,
-  limit: 20,
+  limit: 40,
   sortBy: 'carat',
   sortOrder: 'desc',
 };
