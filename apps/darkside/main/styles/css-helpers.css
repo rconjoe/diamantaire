@@ -54,12 +54,12 @@ button:hover {
 }
 @media (min-width: 767px) {
   .container-wrapper {
-    max-width: 90vw;
+    /* max-width: 90vw; */
     padding-left: initial;
     padding-right: initial;
   }
 }
-@media (min-width: 992px) {
+/* @media (min-width: 992px) {
   .container-wrapper {
     max-width: 90vw;
   }
@@ -68,7 +68,7 @@ button:hover {
   .container-wrapper {
     max-width: 144rem;
   }
-}
+} */
 .okeReviews-widget-holder {
   padding: 0 3rem 4rem !important;
 }
