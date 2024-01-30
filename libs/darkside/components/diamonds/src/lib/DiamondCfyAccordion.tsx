@@ -331,7 +331,7 @@ const DiamondCfyAccordion = ({
 
   return (
     <StyledDiamondCfyAccordion>
-      <Accordion rows={accordionContent} activeDefault={getActiveDefault()} isDiamondDetail={true} enableScroll={true} />
+      <Accordion rows={accordionContent} activeDefault={getActiveDefault()} isDiamondDetail={true} />
     </StyledDiamondCfyAccordion>
   );
 };
