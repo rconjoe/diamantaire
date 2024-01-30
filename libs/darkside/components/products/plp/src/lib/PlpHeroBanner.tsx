@@ -50,7 +50,7 @@ const PlpHeroBannerStyles = styled.div`
         ${media.small`padding: 0 var(--gutter);`}
 
         h1 {
-          margin-bottom: 2rem;
+          margin-bottom: 1rem;
           color: var(--color-black);
           @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
             color: ${({ textColor }) => textColor || 'var(--color-black)'};
