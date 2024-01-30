@@ -165,7 +165,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
   }, [pagination?.pageCount, options.sortBy, options.sortOrder]);
 
   useEffect(() => {
-    router.push(getDiamondShallowRoute(options), undefined, { shallow: true });
+    router.replace(getDiamondShallowRoute(options), undefined, { shallow: true });
   }, [options]);
 
   const isDiamondPairs = options.view === 'pairs' || options.view === 'toimoi';
