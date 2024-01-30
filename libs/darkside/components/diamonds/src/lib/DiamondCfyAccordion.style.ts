@@ -62,11 +62,7 @@ const StyledDiamondCfyAccordion = styled.div`
     }
 
     * {
-      font-size: var(--font-size-xxxsmall) !important;
-
-      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-        font-size: var(--font-size-xxsmall) !important;
-      }
+      font-size: var(--font-size-xxsmall) !important;
     }
 
     form {
@@ -75,7 +71,7 @@ const StyledDiamondCfyAccordion = styled.div`
       gap: 1rem;
 
       .price {
-        margin: 0 0 0 1rem;
+        margin: 0;
         display: flex;
         gap: 0.25rem;
         align-items: center;
