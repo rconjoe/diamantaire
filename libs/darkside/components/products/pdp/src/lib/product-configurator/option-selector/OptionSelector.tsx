@@ -283,7 +283,7 @@ function OptionSelector({
     loop: false,
     dragFree: true,
     containScroll: 'trimSnaps',
-    align: 'center',
+    align: 'start',
   };
   const [emblaRef, emblaApi] = useEmblaCarousel(diamondSliderOptions);
 
