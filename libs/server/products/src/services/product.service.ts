@@ -375,7 +375,6 @@ export class ProductsService {
     }
 
     if (!isFresh) {
-      console.log("Not fresh", isFresh, cachedData);
       // If the data is not cached, wait for it and return it.
       if (!cachedData){
         return await fetchPlpData();
