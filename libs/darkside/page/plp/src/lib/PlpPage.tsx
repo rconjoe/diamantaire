@@ -21,6 +21,7 @@ import {
 } from '@diamantaire/shared/constants';
 import { isEmptyObject, getSwrRevalidateConfig } from '@diamantaire/shared/helpers';
 import { FilterValueProps } from '@diamantaire/shared-product';
+import { pageMargin } from '@diamantaire/styles/darkside-styles';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetStaticPropsContext, GetStaticPropsResult, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
@@ -49,8 +50,7 @@ type FilterQueryValues = {
 };
 
 const PlpStyles = styled.div`
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
+  ${pageMargin}
 `;
 
 function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {

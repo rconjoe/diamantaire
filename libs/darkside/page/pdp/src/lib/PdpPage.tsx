@@ -98,7 +98,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   useEffect(() => {
     const hasProductParams = router.pathname.includes('productParams');
-    const isAnyDiamondUnavailable = selectedDiamond && selectedDiamond.some((diamond) => !diamond.availableForSale);
+    const isAnyDiamondUnavailable =
+      selectedDiamond?.length > 0 && selectedDiamond?.some((diamond) => !diamond.availableForSale);
 
     if (!hasProductParams || isAnyDiamondUnavailable) {
       setSelectedDiamond(null);
