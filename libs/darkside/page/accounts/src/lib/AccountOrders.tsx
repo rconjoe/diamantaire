@@ -166,12 +166,12 @@ const AccountOrders = ({ customer }: { customer: AccountCustomer }) => {
                         {order?.name}
                       </a>
                     </div>
-                    <div className="table-col">{order?.created_at && getDate(order?.total_net_amount)}</div>
+                    <div className="table-col">{order?.created_at && getDate(order?.created_at)}</div>
                     <div className="table-col status">
                       <UIString>{order.financial_status}</UIString>
                     </div>
                     <div className="table-col hide-md">
-                      {simpleFormatPrice(order.total_price * 100, locale, true, order.currency)}
+                      {simpleFormatPrice(order.total_net_amount * 100, locale, true, order.currency)}
                     </div>
                   </div>
                 ))}
