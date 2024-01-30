@@ -169,6 +169,7 @@ const ProductIconList = ({
           </li>
         )}
       </ul>
+
       <AnimatePresence>
         {isDiamondSlideoutOpen && (
           <SlideOut title={slideoutContent?.title} onClose={() => setIsDiamondSlideoutOpen(false)}>
