@@ -159,22 +159,26 @@ const AccountOrders = ({ customer }: { customer: AccountCustomer }) => {
                 </div>
               </div>
               <div className="table-body">
-                {orders?.map((order) => (
-                  <div className="table-row" key={order?.id}>
-                    <div className="table-col">
-                      <a target="_blank" href={order?.order_status_url}>
-                        {order?.name}
-                      </a>
+                {orders?.map((order) => {
+                  console.log(order.total_price, order.currency);
+
+                  return (
+                    <div className="table-row" key={order?.id}>
+                      <div className="table-col">
+                        <a target="_blank" href={order?.order_status_url}>
+                          {order?.name}
+                        </a>
+                      </div>
+                      <div className="table-col">{order?.created_at && getDate(order?.created_at)}</div>
+                      <div className="table-col status">
+                        <UIString>{order.financial_status}</UIString>
+                      </div>
+                      <div className="table-col hide-md">
+                        {simpleFormatPrice(order.total_price * 100, locale, true, order.currency)}
+                      </div>
                     </div>
-                    <div className="table-col">{order?.created_at && getDate(order?.created_at)}</div>
-                    <div className="table-col status">
-                      <UIString>{order.financial_status}</UIString>
-                    </div>
-                    <div className="table-col hide-md">
-                      {simpleFormatPrice(order.total_net_amount * 100, locale, true, order.currency)}
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </>
           ) : (
