@@ -2,7 +2,6 @@ import { setSpace, desktopAndUp, XXLDesktopAndUp, customBPAndUp } from '@diamant
 import styled from 'styled-components';
 
 export const InstagramThumnailSlideContainer = styled.div`
-  margin-bottom: ${setSpace(1)};
   display: block;
   position: relative;
   cursor: pointer;

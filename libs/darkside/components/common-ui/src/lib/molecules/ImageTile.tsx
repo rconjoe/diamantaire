@@ -78,50 +78,48 @@ const ImageTile = ({
         />
       )}
 
-      {title && (
-        <div
-          className={clsx('image-tile__copy-container', {
-            svgCopyContainer: isSvg,
-            '-background-color': backgroundColorRgba,
-            '-modular-content-quad-block': extraClass === '-modular-content-quad-block',
-          })}
-        >
-          {title && <span className="image-tile__title primary">{title}</span>}
-          {subtitle && (
-            <div className="image-tile__subtitle">
-              <p>{subtitle}</p>
-            </div>
-          )}
-          {hasCopy && (
-            <div className="image-tile__copy">
-              <p>{copy}</p>
-            </div>
-          )}
-          {ctaCopy && ctaRoute && (
+      <div
+        className={clsx('image-tile__copy-container', {
+          svgCopyContainer: isSvg,
+          '-background-color': backgroundColorRgba,
+          '-modular-content-quad-block': extraClass === '-modular-content-quad-block',
+        })}
+      >
+        {title && <span className="image-tile__title primary">{title}</span>}
+        {subtitle && (
+          <div className="image-tile__subtitle">
+            <p>{subtitle}</p>
+          </div>
+        )}
+        {hasCopy && (
+          <div className="image-tile__copy">
+            <p>{copy}</p>
+          </div>
+        )}
+        {ctaCopy && ctaRoute && (
+          <DarksideButton
+            type="underline"
+            colorTheme="teal"
+            className={clsx(hasCopy ? '' : 'image-tile__button', 'secondary')}
+            href={ctaRoute}
+          >
+            {ctaCopy}
+          </DarksideButton>
+        )}
+        {darksideButtons?.map((button) => {
+          return (
             <DarksideButton
-              type="underline"
-              colorTheme="teal"
-              className={clsx(hasCopy ? '' : 'image-tile__button', 'secondary')}
-              href={ctaRoute}
+              colorTheme={button.ctaButtonColorTheme}
+              mobileColorTheme={button.ctaButtonMobileColorTheme}
+              href={button.ctaLinkUrl}
+              key={button.id}
+              type={button.ctaButtonType}
             >
-              {ctaCopy}
+              {button.ctaCopy}
             </DarksideButton>
-          )}
-          {darksideButtons?.map((button) => {
-            return (
-              <DarksideButton
-                colorTheme={button.ctaButtonColorTheme}
-                mobileColorTheme={button.ctaButtonMobileColorTheme}
-                href={button.ctaLinkUrl}
-                key={button.id}
-                type={button.ctaButtonType}
-              >
-                {button.ctaCopy}
-              </DarksideButton>
-            );
-          })}
-        </div>
-      )}
+          );
+        })}
+      </div>
     </ImageTileContainer>
   );
 };

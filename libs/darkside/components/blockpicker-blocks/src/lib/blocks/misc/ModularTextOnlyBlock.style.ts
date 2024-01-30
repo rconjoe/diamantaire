@@ -1,4 +1,11 @@
-import { mobileOnly, tabletAndUp, desktopAndUp, setSpace, media } from '@diamantaire/styles/darkside-styles';
+import {
+  mobileOnly,
+  tabletAndUp,
+  desktopAndUp,
+  setSpace,
+  media,
+  contentBlockMargin,
+} from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularTextOnlyBlockContainer = styled.div`
@@ -7,7 +14,7 @@ export const ModularTextOnlyBlockContainer = styled.div`
     justify-content: center;
     align-items: center;
     max-width: 90vw;
-    margin: 0.5rem auto;
+    ${contentBlockMargin}
 
     ${media.medium`max-width: 714px;`}
 
@@ -104,7 +111,7 @@ export const ModularTextOnlyBlockContainer = styled.div`
   .text-block__title {
     font-family: ${(props) => (props.titleFont ? props.titleFont : 'var(--font-family-main)')};
     font-style: ${(props) => (props.fontStyle ? props.fontStyle : 'initial')};
-    margin: ${setSpace(2)} 0 ${setSpace(1)} 0;
+
     text-align: center;
 
     ${mobileOnly(`
@@ -131,7 +138,6 @@ export const ModularTextOnlyBlockContainer = styled.div`
 
     & {
       text-align: left;
-      margin: ${setSpace(2)} 0 ${setSpace(1)} 0;
 
       &.-snug-center-copy {
         text-align: center;
@@ -144,7 +150,7 @@ export const ModularTextOnlyBlockContainer = styled.div`
 
       ${tabletAndUp(`
         text-align: center;
-        margin: ${setSpace(4)} 0 ${setSpace(1)} 0;
+
       `)};
     }
 

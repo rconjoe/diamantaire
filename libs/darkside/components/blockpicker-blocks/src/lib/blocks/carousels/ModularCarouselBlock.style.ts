@@ -1,9 +1,8 @@
-import { media } from '@diamantaire/styles/darkside-styles';
+import { contentBlockMargin, media } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularCarouselBlockContainer = styled.div`
-  margin: calc(var(--gutter) / 2) 0;
-  ${media.small`margin: 8rem 0;`}
+  ${contentBlockMargin}
 
   .carousel__title {
     text-align: center;
