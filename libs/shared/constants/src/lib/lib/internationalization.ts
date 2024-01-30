@@ -426,6 +426,7 @@ export function getPrimaryLanguage(countryCode: string): string {
   if (!countries[countryCode]) {
     return Language.English;
   }
+
   const languages = countries[countryCode].languages;
 
   return languages[0] || Language.English;
@@ -570,9 +571,14 @@ export function getFormattedPrice(
 }
 
 // This is just for adding a symbol + decimals to the price. This does not add VAT or conversion rate!!!
-export function simpleFormatPrice(priceInCents: number, locale: string = DEFAULT_LOCALE, hideZeroCents = true) {
+export function simpleFormatPrice(
+  priceInCents: number,
+  locale: string = DEFAULT_LOCALE,
+  hideZeroCents = true,
+  cur?: string, // sometime you want a different currency than locale currency so you have this.
+) {
   const { countryCode } = parseValidLocale(locale);
-  const currency = getCurrency(countryCode);
+  const currency = cur || getCurrency(countryCode);
   const numberFormat = new Intl.NumberFormat(locale, {
     currency,
     style: 'currency',
@@ -614,4 +620,10 @@ export function getFormattedCarat(carat: number, locale: string = DEFAULT_LOCALE
     minimumFractionDigits: digits ? digits : 2,
     maximumFractionDigits: digits ? digits : 2,
   }).format(carat);
+}
+
+export function convertPriceToUSD(amountInCents: number, currency: string) {
+  const rate = USDollarExchangeRates[currency];
+
+  return Math.ceil(amountInCents / rate);
 }

@@ -1,4 +1,11 @@
-import { setSpace, tabletAndUp, desktopAndUp, XLDesktopAndUp, XXLDesktopAndUp } from '@diamantaire/styles/darkside-styles';
+import {
+  setSpace,
+  tabletAndUp,
+  desktopAndUp,
+  XLDesktopAndUp,
+  XXLDesktopAndUp,
+  contentBlockMargin,
+} from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const FullWidthImageContainer = styled.div`
@@ -61,7 +68,7 @@ export const BannerWrapper = styled.div`
   position: relative;
   width: 100%;
   max-width: 144rem;
-  margin: 0 auto;
+  ${contentBlockMargin}
 
   &.-vertical-margins {
     margin-top: ${setSpace(1.5)};
@@ -77,6 +84,12 @@ export const BannerWrapper = styled.div`
     max-width: 100%;
   }
 
+  // hack to fix extra space below desktop banner image
+  .image {
+    ${tabletAndUp(`
+      aspect-ratio: 3 !important;
+    `)}
+  }
   .special_shapes & {
     margin: 0 auto !important;
   }
@@ -116,7 +129,7 @@ export const BannerTextContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   max-width: ${setSpace(40)};
-  margin: ${setSpace(3)} auto ${setSpace(5)};
+  margin: ${setSpace(3)} auto 0;
 
   ${tabletAndUp(`
     text-align: left;

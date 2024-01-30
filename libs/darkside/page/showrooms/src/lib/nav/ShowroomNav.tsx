@@ -1,15 +1,18 @@
-import { ShowMobileOnly, ShowTabletAndUpOnly, UniLink } from '@diamantaire/darkside/components/common-ui';
+import { Heading, ShowMobileOnly, ShowTabletAndUpOnly, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { useShowroomNav } from '@diamantaire/darkside/data/hooks';
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { ShowroomNavContainer } from './ShowroomNav.style';
+import { ShowroomNavStyle } from './ShowroomNav.style';
 
 const ShowroomNav = ({ currentLocation }: { currentLocation: string }) => {
   const router = useRouter();
-  const [isMobileNavOpen, setIsMobileNavOpen] = useState(true);
+
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+
   const { data }: any = useShowroomNav(router.locale);
+
   const { title, links } = data.showroomNav;
 
   const linksSortedByCountry = {};
@@ -22,12 +25,27 @@ const ShowroomNav = ({ currentLocation }: { currentLocation: string }) => {
     }
   });
 
+  const handleRouteChange = () => {
+    setIsMobileNavOpen(false);
+  };
+
+  useEffect(() => {
+    router.events.on('routeChangeComplete', handleRouteChange);
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, []);
+
   return (
-    <ShowroomNavContainer>
+    <ShowroomNavStyle>
       <ShowMobileOnly>
         <div className="mobile-nav">
           <div className="mobile-nav__toggle">
-            <h3>{title}:</h3>
+            <Heading type="h3" className="mobile-nav-title">
+              {title}:
+            </Heading>
+
             <button onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}>
               <span className="text">{currentLocation}</span> <span className="icon">{isMobileNavOpen ? '▲' : '▼'}</span>
             </button>
@@ -43,12 +61,14 @@ const ShowroomNav = ({ currentLocation }: { currentLocation: string }) => {
 
       <ShowTabletAndUpOnly>
         <div className="desktop-nav">
-          <h3>{title}</h3>
+          <Heading type="h3" className="desktop-nav-title">
+            {title}
+          </Heading>
 
           <ShowroomNavItems currentLocation={currentLocation} linksSortedByCountry={linksSortedByCountry} />
         </div>
       </ShowTabletAndUpOnly>
-    </ShowroomNavContainer>
+    </ShowroomNavStyle>
   );
 };
 
@@ -60,7 +80,8 @@ const ShowroomNavItems = ({ linksSortedByCountry, currentLocation }) => {
       {Object.keys(linksSortedByCountry).map((country) => {
         return (
           <div className="list__container" key={`showroom-${country}`}>
-            <h4>{country}</h4>
+            <Heading type="h4">{country}</Heading>
+
             <ul>
               {linksSortedByCountry[country].map((link) => {
                 const { copy, route } = link || {};

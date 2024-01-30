@@ -57,7 +57,6 @@ const HeaderWrapper = styled.div`
 
 const Header: FC<HeaderProps> = ({
   headerData,
-  // headerRef,
   headerHeight,
   isTopbarShowing,
   setIsTopbarShowing,
@@ -68,21 +67,21 @@ const Header: FC<HeaderProps> = ({
   const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
   const [isLanguageSelectorOpen, setIsLanguageSelectorOpen] = useState(false);
   const [isTopBarVisible, setIsTopBarVisible] = useState(true);
-
   const { cartViewed } = useAnalytics();
   const router = useRouter();
-
   const { data: checkout } = useCartData(router?.locale);
   const { isCartOpen } = useGlobalContext();
   const updateGlobalContext = useContext(GlobalUpdateContext);
-
   const { section } = headerData;
   const { scrollY } = useScroll();
   const { countryCode: selectedCountryCode, languageCode: selectedLanguageCode } = parseValidLocale(router.locale);
-
   const mobileMenuRef = useRef(null);
   const topBarRef = useRef(null);
   const stackedHeaderRef = useRef(null);
+  const [megaMenuIndex, setMegaMenuIndex] = useState(-1);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const isHome = router.pathname === '/';
+  const [showroomLocation, setShowroomLocation] = useState(null);
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     if (!isHome) {
@@ -98,10 +97,6 @@ const Header: FC<HeaderProps> = ({
       setMegaMenuIndex(-1);
     }
   });
-
-  const [megaMenuIndex, setMegaMenuIndex] = useState(-1);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [showroomLocation, setShowroomLocation] = useState(null);
 
   function toggleMegaMenuOpen(index: number) {
     return setMegaMenuIndex(index);
@@ -154,8 +149,6 @@ const Header: FC<HeaderProps> = ({
   function toggleMegaMenuClose() {
     return setMegaMenuIndex(-1);
   }
-
-  const isHome = router.pathname === '/';
 
   useEffect(() => {
     setIsLoaded(true);
@@ -264,10 +257,10 @@ const Header: FC<HeaderProps> = ({
                 >
                   <div ref={compactHeaderRef}>
                     <CompactHeader
+                      ref={compactHeaderRef}
                       navItems={section}
                       toggleMegaMenuOpen={toggleMegaMenuOpen}
                       menuIndex={megaMenuIndex}
-                      compactHeaderRef={compactHeaderRef}
                       toggleCart={toggleCart}
                     />
                   </div>
@@ -311,7 +304,6 @@ const Header: FC<HeaderProps> = ({
             navItems={section}
             toggleMegaMenuOpen={toggleMegaMenuOpen}
             menuIndex={megaMenuIndex}
-            compactHeaderRef={compactHeaderRef}
             toggleCart={toggleCart}
           />
           {isLoaded && (

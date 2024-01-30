@@ -25,9 +25,9 @@ export const CarouselSliderContainer = styled.div`
   .content-block__title {
     position: relative;
     text-align: center;
-    margin: ${setSpace(3)} 0;
+    margin: 0 0 ${setSpace(3)};
     ${tabletAndUp(`
-      margin: ${setSpace(3)} 0 ${setSpace(6)} 0;
+      margin: 0 0 ${setSpace(6)} 0;
     `)}
     &.-no-margin {
       margin: 0;
@@ -221,7 +221,7 @@ export const CarouselSliderContainer = styled.div`
   &.modular_instagram_reel_block,
   &.modular_grid_carousel_block {
     .embla__slide {
-      padding: 0 10px;
+      padding: 0 8px;
       max-width: 280px;
 
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
@@ -241,14 +241,6 @@ export const CarouselSliderContainer = styled.div`
         flex: 0 0 20%;
         padding: 0 40px;
         max-width: 100%;
-      }
-    }
-  }
-
-  &.modular_instagram_reel_block {
-    .content-block__title {
-      h2 {
-        font-size: 2.7rem;
       }
     }
   }

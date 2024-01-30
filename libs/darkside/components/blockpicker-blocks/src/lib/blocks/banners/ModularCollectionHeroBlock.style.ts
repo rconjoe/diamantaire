@@ -1,4 +1,11 @@
-import { setSpace, mobileOnly, tabletAndUp, desktopAndUp, media } from '@diamantaire/styles/darkside-styles';
+import {
+  setSpace,
+  mobileOnly,
+  tabletAndUp,
+  desktopAndUp,
+  media,
+  contentBlockMargin,
+} from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularCollectionHeroBlockContainer = styled.div`
@@ -6,12 +13,8 @@ export const ModularCollectionHeroBlockContainer = styled.div`
   width: 100%;
   max-width: 144rem;
   overflow: hidden;
-  margin: 0 auto ${setSpace(1.5)};
+  ${contentBlockMargin}
   background-color: ${(props) => (props.$backgroundColor ? props.$backgroundColor : 'transparent')};
-
-  ${tabletAndUp(`
-    margin: 0 auto ${setSpace(3)};
-  `)}
 
   &.no-margin {
     margin: 0 auto !important;
@@ -51,7 +54,7 @@ export const ModularCollectionHeroBlockContainer = styled.div`
       (props.subtitle &&
         mobileOnly(`
         top: 40%;
-        transform: translateY(-50%); 
+        transform: translateY(-50%);
       `))}
 
     ${(props) =>

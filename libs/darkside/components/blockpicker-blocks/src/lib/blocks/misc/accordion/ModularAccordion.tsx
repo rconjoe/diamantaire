@@ -68,9 +68,9 @@ const ModularAccordion = ({
   };
 
   return (
-    <ModularAccordionContainer>
+    <ModularAccordionContainer className="container-wrapper">
       <div
-        className={clsx('acc__container container-wrapper', {
+        className={clsx('acc__container', {
           '-with-image': hasImage,
         })}
       >

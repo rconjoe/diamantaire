@@ -1,23 +1,34 @@
 import styled from 'styled-components';
 
-export const ShowroomNavContainer = styled.div`
-  /* Responsive Menu Styles */
-  background-color: #fff;
+export const ShowroomNavStyle = styled.div`
+  position: relative;
+  background-color: var(--color-white);
+
   .mobile-nav {
     position: absolute;
     top: 0;
-    background-color: #fff;
+    background-color: var(--color-white);
     width: 100%;
     padding: ${(props) => props.$headerHeight + 'px'} calc(var(--gutter) / 2) calc(var(--gutter) / 3);
   }
 
+  .desktop-nav-title {
+    min-width: 13rem;
+  }
+
   .mobile-nav__toggle {
+    padding: 1rem 0 2rem;
+    display: block;
+    width: 90vw;
+    margin: auto;
+
     h3 {
       flex: 2;
       margin: 0;
       display: inline-block;
       margin-right: 0.5rem;
     }
+
     button {
       flex: 1.5;
       padding: 0;
@@ -30,6 +41,7 @@ export const ShowroomNavContainer = styled.div`
       span.text {
         text-decoration: underline;
       }
+
       span.icon {
         font-size: 1rem;
         text-decoration: none;
@@ -38,10 +50,10 @@ export const ShowroomNavContainer = styled.div`
   }
 
   .mobile-nav__menu {
-    padding-top: calc(var(--gutter) / 2);
+    margin: auto;
+    max-width: 90vw;
   }
 
-  /* General Menu Styles */
   h3,
   h4 {
     font-size: 1.7rem;
@@ -57,12 +69,15 @@ export const ShowroomNavContainer = styled.div`
 
   .list__container {
     margin: 0 0 calc(var(--gutter) / 1.5);
+
     ul {
       margin: 0;
       padding: 0;
       list-style: none;
+
       li {
         margin: 0 0 calc(var(--gutter) / 5);
+
         a {
           color: #979797;
           font-size: 1.7rem;

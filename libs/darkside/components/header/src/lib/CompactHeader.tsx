@@ -2,7 +2,7 @@ import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { Logo } from '@diamantaire/shared/icons';
 import { BP_LG } from '@diamantaire/styles/darkside-styles';
 import Link from 'next/link';
-import React, { FC } from 'react';
+import React, { FC, ForwardedRef, forwardRef } from 'react';
 import styled from 'styled-components';
 
 import { MenuLink, NavItemsProps } from './header-types';
@@ -12,9 +12,8 @@ type CompactHeaderTypes = {
   navItems: NavItemsProps;
   toggleMegaMenuOpen: (_index: number) => void;
   menuIndex: number;
-  compactHeaderRef?: React.RefObject<HTMLDivElement>;
   toggleCart?: () => void;
-  ref?: React.RefObject<HTMLDivElement>;
+  ref?: ForwardedRef<HTMLDivElement>;
 };
 
 const CompactHeaderStyles = styled.div`
@@ -115,58 +114,58 @@ const CompactHeaderStyles = styled.div`
   }
 `;
 
-const CompactHeader: FC<CompactHeaderTypes> = ({
-  navItems,
-  toggleMegaMenuOpen,
-  menuIndex,
-  compactHeaderRef,
-  toggleCart,
-}): JSX.Element => {
-  return (
-    <CompactHeaderStyles ref={compactHeaderRef ? compactHeaderRef : null}>
-      <div className="compact-header__container">
-        <div className="compact-header__nav-wrapper stacked-header__top-level">
-          <div className="nav__col--left">
-            <div className="nav__logo">
-              <Link aria-label="VRAI Logo" href="/">
-                <Logo />
-              </Link>
+const CompactHeader: FC<CompactHeaderTypes> = forwardRef<HTMLDivElement, CompactHeaderTypes>(
+  (props: CompactHeaderTypes, ref): JSX.Element => {
+    const { navItems, toggleMegaMenuOpen, menuIndex, toggleCart } = props;
+
+    return (
+      <CompactHeaderStyles ref={ref}>
+        <div className="compact-header__container">
+          <div className="compact-header__nav-wrapper stacked-header__top-level">
+            <div className="nav__col--left">
+              <div className="nav__logo">
+                <Link aria-label="VRAI Logo" href="/">
+                  <Logo />
+                </Link>
+              </div>
+            </div>
+
+            <div className="nav__col--center">
+              <nav className="compact-header__nav">
+                <ul>
+                  {Array.isArray(navItems) &&
+                    navItems?.map((link: MenuLink, index: number) => {
+                      const { title, route, newRoute }: Partial<MenuLink> = link;
+
+                      return (
+                        <li key={`stacked-link-${index}`}>
+                          {(route || newRoute) && (
+                            <Link
+                              href={newRoute ? newRoute : getRelativeUrl(route)}
+                              className={menuIndex === index ? 'active' : ''}
+                              onMouseOver={() => toggleMegaMenuOpen(index)}
+                              onFocus={() => toggleMegaMenuOpen(index)}
+                            >
+                              {title}
+                            </Link>
+                          )}
+                        </li>
+                      );
+                    })}
+                </ul>
+              </nav>
+            </div>
+
+            <div className="nav__col--right">
+              <HeaderActionsNav toggleCart={toggleCart} />
             </div>
           </div>
-
-          <div className="nav__col--center">
-            <nav className="compact-header__nav">
-              <ul>
-                {Array.isArray(navItems) &&
-                  navItems?.map((link: MenuLink, index: number) => {
-                    const { title, route, newRoute }: Partial<MenuLink> = link;
-
-                    return (
-                      <li key={`stacked-link-${index}`}>
-                        {(route || newRoute) && (
-                          <Link
-                            href={newRoute ? newRoute : getRelativeUrl(route)}
-                            className={menuIndex === index ? 'active' : ''}
-                            onMouseOver={() => toggleMegaMenuOpen(index)}
-                            onFocus={() => toggleMegaMenuOpen(index)}
-                          >
-                            {title}
-                          </Link>
-                        )}
-                      </li>
-                    );
-                  })}
-              </ul>
-            </nav>
-          </div>
-
-          <div className="nav__col--right">
-            <HeaderActionsNav toggleCart={toggleCart} />
-          </div>
         </div>
-      </div>
-    </CompactHeaderStyles>
-  );
-};
+      </CompactHeaderStyles>
+    );
+  },
+);
+
+CompactHeader.displayName = 'CompactHeader';
 
 export default CompactHeader;

@@ -6,6 +6,7 @@ import {
   DarksideButton,
   DatoImage,
   Heading,
+  Loader,
   NeedTimeToThinkForm,
   ProductAppointmentCTA,
   RingSizeGuide,
@@ -43,7 +44,7 @@ import {
   parseValidLocale,
   pdpTypeSingleToPluralAsConst,
 } from '@diamantaire/shared/constants';
-import { generateCfyDiamondSpriteThumbUrl, generateDiamondSpriteUrl, specGenerator } from '@diamantaire/shared/helpers';
+import { generateDiamondSpriteImage, generateDiamondSpriteUrl, specGenerator } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
@@ -137,6 +138,19 @@ const ReviewBuildStepStyles = styled(motion.div)`
           width: 100%;
           text-align: center;
           font-size: var(--font-size-xxsmall);
+          justify-content: center;
+        }
+
+        .image-loader {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          background: #fff;
+          z-index: 1000;
+          height: 100%;
+          display: flex;
+          align-items: center;
           justify-content: center;
         }
       }
@@ -376,6 +390,7 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
   const [isEngravingInputVisible, setIsEngravingInputVisible] = useState(false);
   const [engravingInputText, setEngravingInputText] = useState('');
   const [engravingText, setEngravingText] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedSize, setSelectedSize] = useState<{
     id: string;
     value?: string;
@@ -412,7 +427,7 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
   const diamondImages = useMemo(() => {
     return isDiamondCFY
       ? diamonds.map((diamond) => {
-          const spriteImageUrl = generateCfyDiamondSpriteThumbUrl(diamond?.diamondType);
+          const spriteImageUrl = generateDiamondSpriteImage({ diamondType: diamond?.diamondType });
 
           return spriteImageUrl;
         })
@@ -738,9 +753,7 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
         .map((diamond) => diamond?.carat.toString() + 'ct' + ', ' + diamond?.color + ', ' + diamond?.clarity)
         .join(' + '),
       onClick: () => {
-        router.push(router.asPath + (router.asPath.includes('/pair/') ? '/pair' : '') + '/edit-diamond', null, {
-          shallow: true,
-        });
+        router.push(router.asPath + (router.asPath.includes('/pair/') ? '/pair' : '') + '/edit-diamond', null, {});
       },
       slug: 'centerstone',
     },
@@ -843,6 +856,21 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
     setSpriteSpinnerIds(ids);
   }, [builderProduct?.diamonds]);
 
+  useEffect(() => {
+    const oldShapeUrl = builderProduct?.product?.productSlug;
+    const newShapeUrl = settingSlugs?.productSlug;
+
+    console.log('oldShapeUrl', oldShapeUrl, newShapeUrl);
+
+    if (oldShapeUrl !== newShapeUrl) {
+      setIsLoading(true);
+    } else {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 100);
+    }
+  }, [builderProduct?.product?.productSlug, settingSlugs?.productSlug]);
+
   return (
     <ReviewBuildStepStyles
       key="diamond-step-container"
@@ -877,6 +905,12 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
                       },
                     }}
                   />
+                )}
+
+                {isLoading && (
+                  <div className="image-loader">
+                    <Loader color="#000" />
+                  </div>
                 )}
                 {product?.productType === 'Engagement Ring' && (
                   <p>

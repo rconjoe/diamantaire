@@ -38,7 +38,7 @@ import {
 } from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import {
-  generateCfyDiamondSpriteThumbUrl,
+  generateDiamondSpriteImage,
   getCFYResultOptionsFromUrl,
   getDiamondType,
   getShipByDateCopy,
@@ -228,8 +228,6 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const updateGlobalContext = useContext(GlobalUpdateContext);
 
-  console.log('product', product);
-
   function handleAddLooseDiamondToCart() {
     const { color, clarity, cut, carat, lotId } = product || {};
     const mutatedLotId = lotId && getNumericalLotId(lotId);
@@ -246,7 +244,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
       _t,
     });
 
-    const spriteImageUrl = generateCfyDiamondSpriteThumbUrl(diamondType);
+    const spriteImageUrl = generateDiamondSpriteImage({ diamondType });
 
     const diamondAttributes: LooseDiamondAttributeProps = {
       _productTitle: `${_t('Loose Diamond')} (${_t(diamondType)})`,
