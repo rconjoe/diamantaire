@@ -30,7 +30,7 @@ const PlpProductGridStyles = styled.div`
     .grid-controls {
       display: flex;
       padding: 0;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
 
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {

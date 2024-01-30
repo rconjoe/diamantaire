@@ -165,6 +165,8 @@ const PlpSortOptionStyle = styled.div`
   .sort-icon {
     width: 1.2rem;
     transform: unset;
+    position: relative;
+    top: 0.5rem;
   }
   .sort-dropdown__option--is-focused {
     background-color: var(--color-lighter-grey);
