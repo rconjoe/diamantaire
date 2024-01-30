@@ -40,6 +40,9 @@ const Tooltip: React.FC<TooltipProps> = ({ id, children, className, place }) => 
         data-tooltip-id={id}
         className="tooltip-trigger"
         onMouseEnter={handleOpenTooltip}
+        onMouseLeave={() => {
+          setIsOpen(false);
+        }}
         onClick={handleToggleTooltip}
       >
         <span>i</span>
