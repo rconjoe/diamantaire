@@ -182,27 +182,41 @@ export const fetchDiamondCtoData = async (options) => {
   const getAvailableUpgrades = (diamonds, selectedDiamond) => {
     if (!selectedDiamond) return;
 
-    const { cut: selectedCut, color: selectedColor, clarity: selectedClarity } = selectedDiamond;
+    // const { cut: selectedCut, color: selectedColor, clarity: selectedClarity } = selectedDiamond;
+    // selectedDiamond => v.clarity === 'VVS+' && v.cut === 'Ideal+Hearts' && v.color === 'Colorless';
 
-    const findUpgrade = (filter) => diamonds.find((diamond) => filter(diamond, selectedDiamond));
+    const findUpgrade = (filter) => diamonds.find((diamond) => filter(diamond));
 
     const result = {
       diamond: selectedDiamond,
-      diamondCutUpgrade: findUpgrade(
-        (v) => v.cut !== selectedCut && v.clarity === selectedClarity && v.color === selectedColor,
-      ),
-      diamondColorUpgrade: findUpgrade(
-        (v) => v.cut === selectedCut && v.clarity === selectedClarity && v.color !== selectedColor,
-      ),
-      diamondClarityUpgrade: findUpgrade(
-        (v) => v.cut === selectedCut && v.clarity !== selectedClarity && v.color === selectedColor,
-      ),
-      diamondCutAndColorUpgrade: findUpgrade((v) => v.color !== selectedColor && v.cut !== selectedCut),
-      diamondCutAndClarityUpgrade: findUpgrade((v) => v.clarity !== selectedClarity && v.cut !== selectedCut),
-      diamondColorAndClarityUpgrade: findUpgrade((v) => v.clarity !== selectedClarity && v.color !== selectedColor),
-      diamondCutAndColorAndClarityUpgrade: findUpgrade(
-        (v) => v.clarity !== selectedClarity && v.color !== selectedColor && v.cut !== selectedCut,
-      ),
+      diamondCutUpgrade: findUpgrade((v) => {
+        // v.clarity === selectedClarity && v.cut !== selectedCut && v.color === selectedColor
+        return v.clarity === 'VVS+' && v.cut === 'Excellent+' && v.color === 'Colorless';
+      }),
+      diamondColorUpgrade: findUpgrade((v) => {
+        // v.clarity === selectedClarity && v.cut === selectedCut && v.color !== selectedColor
+        return v.clarity === 'VVS+' && v.cut === 'Ideal+Hearts' && v.color === 'NearColorless';
+      }),
+      diamondClarityUpgrade: findUpgrade((v) => {
+        // v.clarity !== selectedClarity && v.cut === selectedCut && v.color === selectedColor
+        return v.clarity === 'VS+' && v.cut === 'Ideal+Hearts' && v.color === 'Colorless';
+      }),
+      diamondCutAndColorUpgrade: findUpgrade((v) => {
+        // v.clarity === selectedClarity && v.cut !== selectedCut && v.color !== selectedColor
+        return v.clarity === 'VVS+' && v.cut === 'Excellent+' && v.color === 'NearColorless';
+      }),
+      diamondCutAndClarityUpgrade: findUpgrade((v) => {
+        // v.clarity !== selectedClarity && v.cut !== selectedCut && v.color === selectedColor
+        return v.clarity === 'VS+' && v.cut === 'Excellent+' && v.color === 'Colorless';
+      }),
+      diamondColorAndClarityUpgrade: findUpgrade((v) => {
+        // v.clarity !== selectedClarity && v.cut === selectedCut && v.color !== selectedColor
+        return v.clarity === 'VS+' && v.cut === 'Ideal+Hearts' && v.color === 'NearColorless';
+      }),
+      diamondCutAndColorAndClarityUpgrade: findUpgrade((v) => {
+        // v.clarity !== selectedClarity && v.cut !== selectedCut && v.color !== selectedColor
+        return v.clarity === 'VS+' && v.cut === 'Excellent+' && v.color === 'NearColorless';
+      }),
     };
 
     return result;

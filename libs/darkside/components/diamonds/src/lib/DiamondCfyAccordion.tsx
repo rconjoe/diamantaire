@@ -6,6 +6,7 @@ import {
   useHumanNameMapper,
 } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
+import { capitalizeFirstLetter } from '@diamantaire/shared/helpers';
 import { DiamondCtoDataTypes } from '@diamantaire/shared/types';
 
 import StyledDiamondCfyAccordion from './DiamondCfyAccordion.style';
@@ -17,6 +18,7 @@ const DiamondCfyAccordion = ({
   handleUpgradeClick,
   defaultProduct,
   display,
+  checkbox,
 }: {
   locale?: string;
   defaultProduct?: DiamondCtoDataTypes;
@@ -24,12 +26,42 @@ const DiamondCfyAccordion = ({
   diamondCtoData?: DiamondCtoDataProps;
   handleUpgradeClick?: (type: string) => void;
   display?: string;
+  checkbox: ('cut' | 'color' | 'clarity')[];
 }) => {
   const getInfo = (arr, v) => arr.find((x) => x.key === v);
   const { data: humanStrings = {} } = useHumanNameMapper(locale);
   const { data: { diamondTable: DiamondTableData } = {} } = useDiamondTableData(locale);
   const { data: { ctoDiamondTable: DiamondCfyData } = {} } = useDiamondCfyData(locale);
   const { specs } = DiamondTableData || {};
+
+  function getProduct(obj = {}, arr = []) {
+    const len = arr.length;
+
+    const sortOrder = ['cut', 'color', 'clarity'];
+
+    const sortedArray = arr.sort((a, b) => {
+      const indexA = sortOrder.indexOf(a);
+
+      const indexB = sortOrder.indexOf(b);
+
+      if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+
+      if (indexA !== -1) return -1;
+
+      if (indexB !== -1) return 1;
+
+      return 0;
+    });
+
+    const key =
+      len > 0
+        ? `${sortedArray.reduce((a, v, i) => {
+            return a + (i > 0 ? 'And' : '') + capitalizeFirstLetter(v);
+          }, 'diamond')}Upgrade`
+        : 'diamond';
+
+    return obj[key] || {};
+  }
 
   // COLOR
   const { DIAMOND_COLOR_GROUPS = {}, DIAMOND_COLOR_GROUP_TYPES = {} } = humanStrings;
@@ -47,26 +79,28 @@ const DiamondCfyAccordion = ({
     );
   };
   const getColorContent = () => {
-    const title = getInfo(specs, 'color')?.value;
+    const type = 'color';
+    const title = getInfo(specs, type)?.value;
     let upgradeLabel, upgradePrice, upgradePriceHuman, upgradePriceSymbol;
     const { color } = product || {};
     const { colorDetails, colorNearcolorlessDetails, colorLearnMoreLink } = DiamondCfyData || {};
     const desc = color === 'NearColorless' ? colorNearcolorlessDetails : colorDetails;
-    const upgrade = diamondCtoData?.diamondColorUpgrade;
+    const checked = checkbox.includes(type);
+    const arrayWithUpgrade = [...new Set([...checkbox, type])];
+    const arrayWithDowngrade = checkbox.filter((v) => v !== type);
+    const upgrade = getProduct(diamondCtoData, arrayWithUpgrade);
+    const downgrade = getProduct(diamondCtoData, arrayWithDowngrade);
 
     if (product && upgrade) {
       upgradeLabel = DIAMOND_COLOR_GROUPS[upgrade.color]?.value || '';
-
       upgradeLabel += ` (${DIAMOND_COLOR_GROUP_TYPES[upgrade.color]?.value})`;
-
-      upgradePrice = Math.abs(upgrade.price - defaultProduct.price);
-
-      upgradePriceSymbol = upgrade.price > defaultProduct.price ? '+' : '-';
+      upgradePrice = getDiff(upgrade.price, downgrade.price);
+      upgradePriceSymbol = upgrade.price > downgrade.price ? '+' : '-';
 
       upgradePriceHuman = (
         <>
           <i>{upgradePriceSymbol}</i>
-          <span>{getFormattedPrice(upgradePrice, locale)}</span>
+          <span>{upgradePrice}</span>
         </>
       );
     }
@@ -80,16 +114,7 @@ const DiamondCfyAccordion = ({
         {upgrade && (
           <div className="upgrade">
             <form>
-              <input
-                type="checkbox"
-                checked={
-                  display === 'diamondColorUpgrade' ||
-                  display === 'diamondCutAndColorUpgrade' ||
-                  display === 'diamondColorAndClarityUpgrade' ||
-                  display === 'diamondCutAndColorAndClarityUpgrade'
-                }
-                onChange={() => handleUpgradeClick('color')}
-              />
+              <input type="checkbox" checked={checked} onChange={() => handleUpgradeClick('color')} />
               <div className="label">{upgradeLabel}</div>
               <div className="price">{upgradePriceHuman}</div>
             </form>
@@ -133,22 +158,27 @@ const DiamondCfyAccordion = ({
     );
   };
   const getClarityContent = () => {
+    const type = 'clarity';
     let upgradeLabel, upgradePrice, upgradePriceHuman, upgradePriceSymbol;
     const { clarity, carat } = product || {};
     const { clarityDetails, clarityDetailsVvsLg, clarityDetailsVvsSm, clarityLearnMoreLink } = DiamondCfyData || {};
     const clarityContent = clarity === 'VVS+' ? (carat > 4 ? clarityDetailsVvsLg : clarityDetailsVvsSm) : clarityDetails;
-    const { diamondClarityUpgrade: upgrade } = diamondCtoData || {};
+    const checked = checkbox.includes(type);
+    const arrayWithUpgrade = [...new Set([...checkbox, type])];
+    const arrayWithDowngrade = checkbox.filter((v) => v !== type);
+    const upgrade = getProduct(diamondCtoData, arrayWithUpgrade);
+    const downgrade = getProduct(diamondCtoData, arrayWithDowngrade);
 
     if (product && upgrade) {
       upgradeLabel = clarityLabelMap[upgrade.clarity]
         ? clarityLabelMap[upgrade.clarity]
         : getInfo(specs, upgrade.clarity)?.value;
-      upgradePrice = Math.abs(upgrade.price - defaultProduct.price);
-      upgradePriceSymbol = upgrade.price > defaultProduct.price ? '+' : '-';
+      upgradePrice = getDiff(upgrade.price, downgrade.price);
+      upgradePriceSymbol = upgrade.price > downgrade.price ? '+' : '-';
       upgradePriceHuman = (
         <>
           <i>{upgradePriceSymbol}</i>
-          <span>{getFormattedPrice(upgradePrice, locale)}</span>
+          <span>{upgradePrice}</span>
         </>
       );
     }
@@ -160,16 +190,7 @@ const DiamondCfyAccordion = ({
         {upgrade && (
           <div className="upgrade">
             <form>
-              <input
-                type="checkbox"
-                checked={
-                  display === 'diamondClarityUpgrade' ||
-                  display === 'diamondCutAndClarityUpgrade' ||
-                  display === 'diamondColorAndClarityUpgrade' ||
-                  display === 'diamondCutAndColorAndClarityUpgrade'
-                }
-                onChange={() => handleUpgradeClick('clarity')}
-              />
+              <input type="checkbox" checked={checked} onChange={() => handleUpgradeClick('clarity')} />
               <div className="label">{upgradeLabel}</div>
               <div className="price">{upgradePriceHuman}</div>
             </form>
@@ -206,18 +227,23 @@ const DiamondCfyAccordion = ({
     );
   };
   const getCutContent = () => {
+    const type = 'cut';
     let upgradeLabel, upgradePrice, upgradePriceHuman, upgradePriceSymbol;
     const { cutDetails, cutDetailsRoundBrilliant, cutLearnMoreLink } = DiamondCfyData || {};
-    const upgrade = diamondCtoData?.diamondCutUpgrade;
+    const checked = checkbox.includes(type);
+    const arrayWithUpgrade = [...new Set([...checkbox, type])];
+    const arrayWithDowngrade = checkbox.filter((v) => v !== type);
+    const upgrade = getProduct(diamondCtoData, arrayWithUpgrade);
+    const downgrade = getProduct(diamondCtoData, arrayWithDowngrade);
 
     if (product && upgrade) {
       upgradeLabel = upgrade.cut || '';
-      upgradePrice = Math.abs(upgrade.price - defaultProduct.price);
-      upgradePriceSymbol = upgrade.price > defaultProduct.price ? '+' : '-';
+      upgradePrice = getDiff(upgrade.price, downgrade.price);
+      upgradePriceSymbol = upgrade.price > downgrade.price ? '+' : '-';
       upgradePriceHuman = (
         <>
           <i>{upgradePriceSymbol}</i>
-          <span>{getFormattedPrice(upgradePrice, locale)}</span>
+          <span>{upgradePrice}</span>
         </>
       );
     }
@@ -232,16 +258,7 @@ const DiamondCfyAccordion = ({
         {upgrade && (
           <div className="upgrade">
             <form>
-              <input
-                type="checkbox"
-                checked={
-                  display === 'diamondCutUpgrade' ||
-                  display === 'diamondCutAndColorUpgrade' ||
-                  display === 'diamondCutAndClarityUpgrade' ||
-                  display === 'diamondCutAndColorAndClarityUpgrade'
-                }
-                onChange={() => handleUpgradeClick('cut')}
-              />
+              <input type="checkbox" checked={checked} onChange={() => handleUpgradeClick('cut')} />
               <div className="label">
                 <UIString>{upgradeLabel}</UIString>
               </div>
@@ -335,6 +352,10 @@ const DiamondCfyAccordion = ({
     </StyledDiamondCfyAccordion>
   );
 };
+
+function getDiff(upgrade, downgrade) {
+  return getFormattedPrice(Math.abs(upgrade - downgrade));
+}
 
 export { DiamondCfyAccordion };
 

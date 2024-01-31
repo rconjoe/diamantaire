@@ -38,12 +38,14 @@ import {
 } from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import {
+  capitalizeFirstLetter,
   generateDiamondSpriteImage,
   getCFYResultOptionsFromUrl,
   getDiamondType,
   getShipByDateCopy,
   specGenerator,
 } from '@diamantaire/shared/helpers';
+import { DiamondCtoDataTypes } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import clsx from 'clsx';
@@ -98,11 +100,11 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const defaultProduct = diamondCtoData['diamond'];
 
-  const [checkbox, setCheckbox] = useState([]);
+  const [checkbox, setCheckbox] = useState<('cut' | 'color' | 'clarity')[]>([]);
 
-  const [display, setDisplay] = useState('diamond');
+  const [product, setProduct] = useState<DiamondCtoDataTypes>(defaultProduct);
 
-  const [product, setProduct] = useState(defaultProduct);
+  const [display, setDisplay] = useState<string>('diamond');
 
   const { diamondType, carat, price } = product;
 
@@ -384,6 +386,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                   handleUpgradeClick={handleUpgradeClick}
                   diamondCtoData={diamondCtoData}
                   defaultProduct={defaultProduct}
+                  checkbox={checkbox}
                   product={product}
                   display={display}
                   locale={locale}
@@ -573,10 +576,6 @@ function getOverrides(href: string, classOverride?: string) {
 
   // Return the `overrides` object.
   return overrides;
-}
-
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function updateCheckboxSelection(value, checkboxArray) {
