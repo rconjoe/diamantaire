@@ -9,6 +9,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 import { PlpProductVariant } from './PlpProductVariant';
+import clsx from 'clsx';
 
 const PlpProductItemStyles = styled.div`
   position: relative;
@@ -91,7 +92,10 @@ const PlpProductItem = (props: PlpProductItemProps) => {
             </div>
           )}
 
-          <WishlistLikeButton extraClass="plp" productId={`product-${selectedVariant?.productSlug}`} />
+          <WishlistLikeButton
+            extraClass={clsx('plp', { 'with-space': !useProductTitleOnly })}
+            productId={`product-${selectedVariant?.productSlug}`}
+          />
         </div>
 
         <div className="row txt">
