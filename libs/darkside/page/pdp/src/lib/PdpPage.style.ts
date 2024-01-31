@@ -19,7 +19,7 @@ export const PageContainerStyles = styled.div`
       padding: 0 2rem;
       ${media.medium`
       // subtracts pageMargin from right padding to make it equadistant
-      padding: 0 calc(2.4rem - 1.2rem) 0 2.4rem;
+      padding: 0 calc(2.4rem - var(--margin-gutter)) 0 2.4rem;
       `}
       ${media.xl`flex: 0 0 55rem;`}
 

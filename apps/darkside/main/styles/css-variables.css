@@ -1,6 +1,7 @@
 :root {
   --gutter: 5rem;
   --space-gutter: 0.8rem;
+  --margin-gutter: 1rem;
   --toastify-toast-width: 40rem;
   --toastify-color-progress-light: #719093;
 
