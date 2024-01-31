@@ -6,7 +6,7 @@ import { useCartData, useGlobalContext } from '@diamantaire/darkside/data/hooks'
 import { countries, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
 import { isUserCloseToShowroom } from '@diamantaire/shared/geolocation';
 import { media } from '@diamantaire/styles/darkside-styles';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, useScroll } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { FC, useContext, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
@@ -54,7 +54,6 @@ const HeaderWrapper = styled.div`
 `;
 
 const Header: FC<HeaderProps> = ({ headerData, isTopbarShowing, setIsTopbarShowing }): JSX.Element => {
-  const [isStickyNavShowing, setIsStickyNavShowing] = useState(false);
   const [isCompactMenuVisible, setIsCompactMenuVisible] = useState(true);
   const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
   const [isLanguageSelectorOpen, setIsLanguageSelectorOpen] = useState(false);
@@ -79,6 +78,16 @@ const Header: FC<HeaderProps> = ({ headerData, isTopbarShowing, setIsTopbarShowi
   const compactHeaderRef = useRef(null); // Ref for the Compact Header
 
   const [isMainHeaderVisible, setIsMainHeaderVisible] = useState(true); // State to track visibility
+  const { scrollY } = useScroll();
+
+  useEffect(() => {
+    const unsubscribe = scrollY.onChange(() => {
+      // Close the MegaMenu when the user starts scrolling
+      toggleMegaMenuClose();
+    });
+
+    return () => unsubscribe();
+  }, [scrollY]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -102,12 +111,20 @@ const Header: FC<HeaderProps> = ({ headerData, isTopbarShowing, setIsTopbarShowi
   }, []);
 
   const getMegaMenuPosition = () => {
-    if (isMainHeaderVisible) {
+    if (isHome) {
+      // On the homepage, position below the main header
       const rect = mainHeaderRef.current?.getBoundingClientRect();
-
       return (rect?.top || 0) + (rect?.height || 0);
     } else {
-      return compactHeaderRef.current?.offsetHeight || 0;
+      // On non-home pages, calculate position based on visibility of TopBar and CompactHeader
+      const topBarRect = topBarRef.current?.getBoundingClientRect();
+      const compactHeaderHeight = compactHeaderRef.current?.offsetHeight || 0;
+
+      // Check if TopBar is currently visible in the viewport
+      const isTopBarVisible = topBarRect && topBarRect.bottom > 0;
+
+      // Position is just the height of the CompactHeader if TopBar is not visible
+      return isTopBarVisible ? topBarRect.height + compactHeaderHeight : compactHeaderHeight;
     }
   };
 
@@ -187,10 +204,8 @@ const Header: FC<HeaderProps> = ({ headerData, isTopbarShowing, setIsTopbarShowi
 
         // Show Compact Header when main Header is not visible and it's the homepage
         if (!isHeaderVisible && isHome) {
-          setIsStickyNavShowing(true);
           setIsCompactMenuVisible(true);
         } else {
-          setIsStickyNavShowing(false);
           setIsCompactMenuVisible(false);
         }
       },
@@ -252,7 +267,7 @@ const Header: FC<HeaderProps> = ({ headerData, isTopbarShowing, setIsTopbarShowi
                 <motion.div
                   key="slide-in-header"
                   initial={isHome ? 'collapsed' : 'open'}
-                  animate={isStickyNavShowing || !isHome ? 'open' : 'collapsed'}
+                  animate={isCompactMenuVisible || !isHome ? 'open' : 'collapsed'}
                   exit="collapsed"
                   variants={{
                     open: { y: 0, opacity: 1 },
