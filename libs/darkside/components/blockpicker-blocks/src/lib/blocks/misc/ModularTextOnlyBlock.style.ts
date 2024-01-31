@@ -19,9 +19,13 @@ export const ModularTextOnlyBlockContainer = styled.div`
     ${media.medium`max-width: 714px;`}
 
     &.-vrai-created-diamond {
-      margin: 2.4rem auto;
-
-      ${media.medium`margin:0.5rem auto;`}
+      p {
+        text-align: center !important;
+      }
+      ${media.medium`margin:0.5rem auto;${contentBlockMargin};`}
+      .text-block__button-wrapper {
+        margin: 2rem auto 0;
+      }
     }
 
     &.--mobile-no-margin-top {
@@ -123,7 +127,7 @@ export const ModularTextOnlyBlockContainer = styled.div`
     }
   `)};
     &.-vrai-created-diamond {
-      margin-bottom: 0;
+      margin-bottom: 2rem;
       line-height: 1;
 
       ${mobileOnly(`
