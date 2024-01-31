@@ -6,6 +6,6 @@ export const contentBlockMargin = css`
 `;
 
 export const pageMargin = css`
-  margin-left: 1.25rem;
-  margin-right: 1.25rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
 `;

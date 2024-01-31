@@ -65,7 +65,7 @@ export const StyledWishlistLikeButton = styled.div`
 
   &.plp {
     position: relative;
-    right: auto;
+    right: 1rem;
     top: auto;
     height: 2rem;
 
