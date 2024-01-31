@@ -58,10 +58,6 @@ type ProductConfiguratorProps = {
   engravingText?: string;
   setEngravingText?: (value: string) => void;
   productIconListType?: string;
-  settingSlugs?: {
-    collectionSlug: string;
-    productSlug: string;
-  };
   setProductSlug: (_value: string) => void;
   trackInventory?: boolean;
   parentProductAttributes?: Record<string, string>;

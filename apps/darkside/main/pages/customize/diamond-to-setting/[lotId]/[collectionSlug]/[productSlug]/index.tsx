@@ -27,7 +27,6 @@ import { useProductDato, useTranslations } from '@diamantaire/darkside/data/hook
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { ENGAGEMENT_RING_PRODUCT_TYPE, PdpTypePlural } from '@diamantaire/shared/constants';
 import { generatePdpAssetAltTag, isEmptyObject } from '@diamantaire/shared/helpers';
-import { MediaAsset, OptionItemProps } from '@diamantaire/shared/types';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
@@ -42,6 +41,7 @@ const SettingBuildStepStyles = styled(motion.div)`
   }
 
   .product-container {
+    margin-bottom: 6rem;
     ${media.medium`display: flex;flex-direction: row;`}
     .media-container {
       flex: 1;
@@ -60,60 +60,9 @@ const SettingBuildStepStyles = styled(motion.div)`
   }
 `;
 
-type SettingBuildStepProps = {
-  updateSettingSlugs;
-  shopifyProductData;
-  parentProductAttributes: object;
-  assetStack: MediaAsset[];
-  selectedConfiguration: {
-    [key: string]: string;
-  };
-  configurations: { [key: string]: OptionItemProps[] };
-  variantId: string;
-  additionalVariantData: Record<string, string>;
-  productTitle: string;
-  price: string;
-  productDescription: string;
-  productSpecId: string;
-  disableVariantType?: string[];
-  productTitleOverride?: string;
-  productIconListType?: string;
-  settingSlugs: {
-    collectionSlug: string;
-    productSlug: string;
-  };
-  contentIds: {
-    productSuggestionBlockId: string;
-    trioBlocksId: string;
-    videoBlockId: string;
-    instagramReelId: string;
-    shopifyCollectionId: string;
-  };
-};
-
-const SettingBuildStep = ({
-  // updateSettingSlugs,
-  // shopifyProductData,
-  // parentProductAttributes,
-  // assetStack,
-  // selectedConfiguration,
-  // configurations,
-  // variantId,
-  // additionalVariantData,
-  // productTitle,
-  // price,
-  // productDescription,
-  // productSpecId,
-  disableVariantType,
-  // productTitleOverride,
-  productIconListType,
-  settingSlugs,
-  contentIds,
-}: SettingBuildStepProps) => {
+const SettingBuildStep = () => {
   const [shopifyProductData, setShopifyProductData] = useState(null);
   const { builderProduct, updateFlowData } = useContext(BuilderProductContext);
-
-  const { productSuggestionBlockId, shopifyCollectionId, instagramReelId, videoBlockId } = contentIds || {};
 
   const [totalPrice, setTotalPrice] = useState(null);
 
@@ -169,6 +118,13 @@ const SettingBuildStep = ({
     trioBlocks: { id: trioBlocksId = '' } = {},
   } = datoParentProductData || {};
 
+  const productSpecId = datoParentProductData?.specLabels?.id;
+  const productIconListType = datoParentProductData?.productIconList?.productType;
+  const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
+  const instagramReelId = datoParentProductData?.instagramReelBlock?.id;
+  const productSuggestionBlockId = shopifyProductData?.variantDetails?.productSuggestionQuadBlock?.id;
+  const shopifyCollectionId = shopifyProductData?.shopifyCollectionId;
+
   const parentProductAttributes = {
     bandWidth,
     bandDepth,
@@ -183,7 +139,6 @@ const SettingBuildStep = ({
   console.log('router?.query', router?.query);
 
   async function getSettingProduct() {
-    console.log('settingSlugs', settingSlugs);
     const qParams = new URLSearchParams({
       slug: router?.query?.collectionSlug?.toString(),
       id: router?.query?.productSlug?.toString(),
@@ -221,7 +176,6 @@ const SettingBuildStep = ({
     return productResponse;
   }
 
-  const productSpecId = datoParentProductData?.specLabels?.id;
   const { productTitle, productTitleOverride } = collectionContent || {};
 
   const product = useMemo(() => {
@@ -326,8 +280,7 @@ const SettingBuildStep = ({
                 additionalVariantData={shopifyProductData?.variantDetails}
                 isBuilderFlowOpen={true}
                 updateSettingSlugs={() => console.log('updateSettingSlugs')}
-                settingSlugs={settingSlugs}
-                disableVariantType={disableVariantType}
+                disableVariantType={['diamondType', 'ringSize', 'caratWeight']}
                 variantProductTitle={shopifyProductData?.productTitle}
                 requiresCustomDiamond={false}
                 productIconListType={productIconListType}

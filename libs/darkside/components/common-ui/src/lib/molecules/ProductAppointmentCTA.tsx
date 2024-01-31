@@ -12,7 +12,7 @@ import styled from 'styled-components';
 import { SlideOut } from './SlideOut';
 
 const ProductAppointmentCTAStyles = styled.div`
-  margin-top: 1rem;
+  margin: 1rem 0 2rem;
   .appointment-button {
     &.outline {
       width: 100%;
