@@ -112,19 +112,19 @@ const Header: FC<HeaderProps> = ({ headerData, isTopbarShowing, setIsTopbarShowi
 
   const getMegaMenuPosition = () => {
     if (isHome) {
-      // On the homepage, position below the main header
-      const rect = mainHeaderRef.current?.getBoundingClientRect();
-      return (rect?.top || 0) + (rect?.height || 0);
+      if (isMainHeaderVisible) {
+        const mainHeaderRect = mainHeaderRef.current?.getBoundingClientRect();
+
+        return (mainHeaderRect?.top || 0) + (mainHeaderRect?.height || 0);
+      } else {
+        const compactHeaderRect = compactHeaderRef.current?.getBoundingClientRect();
+
+        return (compactHeaderRect?.top || 0) + (compactHeaderRect?.height || 0);
+      }
     } else {
-      // On non-home pages, calculate position based on visibility of TopBar and CompactHeader
-      const topBarRect = topBarRef.current?.getBoundingClientRect();
-      const compactHeaderHeight = compactHeaderRef.current?.offsetHeight || 0;
+      const compactHeaderRect = compactHeaderRef.current?.getBoundingClientRect();
 
-      // Check if TopBar is currently visible in the viewport
-      const isTopBarVisible = topBarRect && topBarRect.bottom > 0;
-
-      // Position is just the height of the CompactHeader if TopBar is not visible
-      return isTopBarVisible ? topBarRect.height + compactHeaderHeight : compactHeaderHeight;
+      return (compactHeaderRect?.top || 0) + (compactHeaderRect?.height || 0);
     }
   };
 
