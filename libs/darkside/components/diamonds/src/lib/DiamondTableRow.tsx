@@ -101,9 +101,9 @@ const DiamondTableRow = ({
       });
     }
 
-    const flowType = router.asPath.includes('diamond-to-setting') ? 'diamond-to-setting' : 'setting-to-diamond';
+    const flowType = router.asPath.includes('setting-to-diamond') ? 'setting-to-diamond' : 'diamond-to-setting';
 
-    if (!flowType) {
+    if (flowType === 'diamond-to-setting' && !router.query.collectionSlug && !router.query.productSlug) {
       console.log('case 001');
       router.push(`/customize/diamond-to-setting/${product.lotId}`);
     } else if (flowType === 'setting-to-diamond') {
