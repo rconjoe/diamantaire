@@ -83,7 +83,14 @@ export class ProductsService {
   }
 
   async setSWRCacheData(key: string, value: unknown) {
-    await this.cacheManager.set(`${key}-data`, value);
+    if (process.env.REDIS_URL){
+      await this.cacheManager.set(`${key}-data`, value);
+    } else {
+      // If not using redis, default ttl is 5 seconds
+      // To disable expiration of the cache, set the ttl configuration property to 0:
+      // https://docs.nestjs.com/techniques/caching
+      await this.cacheManager.set(`${key}-data`, value, 0);
+    }    
   };
 
   async setSWRCacheRevalidate(key: string, ttl: number) {
@@ -147,9 +154,20 @@ export class ProductsService {
         ...(metals && { 'configuration.metal': { $in: metals.map(m => new RegExp(m, 'i')) }}),
         ...(styles && { 'styles': { $in: styles }}),
         ...(subStyles && { 'subStyles': { $in: subStyles }}),
-        ...(priceMin && { 'price': { $gte: priceMin } }),
-        ...(priceMax && { 'price': { $lte: priceMax } }),
       };
+
+      const priceQuery = {}
+
+      if (priceMin){
+        priceQuery['$gte'] = priceMin;
+      }
+      if (priceMax) {
+        priceQuery['$lte'] = priceMax;
+      }
+
+      if (priceMin || priceMax){
+        filterQuery['price'] = priceQuery;
+      }
 
       const sortQuery: Record<string, 1 | -1> = sortBy ? { [sortBy as string]: sortOrder === 'asc' ? 1 : -1 } : {};
 

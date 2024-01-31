@@ -234,6 +234,7 @@ const StyledOptionSelector = styled.div`
       button {
         min-width: 11.5rem;
         font-size: var(--font-size-xxxsmall);
+        padding: 0 1rem;
       }
     }
 
