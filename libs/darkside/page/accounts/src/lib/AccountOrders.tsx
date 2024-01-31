@@ -160,8 +160,6 @@ const AccountOrders = ({ customer }: { customer: AccountCustomer }) => {
               </div>
               <div className="table-body">
                 {orders?.map((order) => {
-                  console.log(`order`, JSON.stringify(order));
-
                   return (
                     <div className="table-row" key={order?.id}>
                       <div className="table-col">
@@ -174,7 +172,12 @@ const AccountOrders = ({ customer }: { customer: AccountCustomer }) => {
                         <UIString>{order.financial_status}</UIString>
                       </div>
                       <div className="table-col hide-md">
-                        {simpleFormatPrice(order.total_price * 100, locale, true, order.presentment_currency)}
+                        {simpleFormatPrice(
+                          (order?.current_total_price_set?.presentment_money?.amount || 0) * 100,
+                          locale,
+                          false,
+                          order.current_total_price_set.presentment_money.currency_code || null,
+                        )}
                       </div>
                     </div>
                   );
