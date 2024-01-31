@@ -11,13 +11,13 @@ import { MegaMenuStylesContainer } from './MegaMenuStyles.style';
 
 type MegaMenuProps = {
   navItems: NavItemsProps;
-  headerHeight: number;
   megaMenuIndex: number;
   isCompactMenuVisible: boolean;
+  dynamicTop: number;
 };
 
 const MegaMenu: FC<MegaMenuProps> = (props) => {
-  const { navItems, headerHeight, isCompactMenuVisible, megaMenuIndex } = props;
+  const { navItems, isCompactMenuVisible, megaMenuIndex, dynamicTop } = props;
   const router = useRouter();
   const locale = router.locale;
   const { countryCode } = parseValidLocale(locale);
@@ -25,8 +25,8 @@ const MegaMenu: FC<MegaMenuProps> = (props) => {
   return (
     <MegaMenuStylesContainer
       className={megaMenuIndex === -1 ? 'hide' : ''}
-      $headerHeight={headerHeight}
       $isFixed={isCompactMenuVisible}
+      $dynamicTop={dynamicTop}
     >
       <div className="mega-menu__wrapper container-wrapper">
         {Array.isArray(navItems) &&

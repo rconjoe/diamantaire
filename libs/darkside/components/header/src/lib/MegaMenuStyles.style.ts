@@ -8,7 +8,7 @@ export const MegaMenuStylesContainer = styled.div<Props>`
   border-bottom: 0.1rem solid #000;
   padding-bottom: 0;
   position: fixed;
-  top: ${({ $headerHeight }) => $headerHeight + 'px'};
+  top: ${({ $dynamicTop }) => $dynamicTop + 'px'};
   left: 0;
   width: 100%;
   background-color: #fff;
