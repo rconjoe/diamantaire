@@ -2,7 +2,6 @@ import { GTM_EVENTS, useAnalytics } from '@diamantaire/analytics';
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalContext, GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
-import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { LooseDiamondAttributeProps, addLooseDiamondToCart } from '@diamantaire/darkside/data/api';
 import { useCartData, useCartInfo, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { DIAMOND_VIDEO_BASE_URL, getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
@@ -43,8 +42,6 @@ const DiamondTableRow = ({
   const { pageCopy: cartCopy } = cartData || {};
   const { uniqueDiamondAlreadyInCartErrorMessage } = cartCopy?.[0] || {};
 
-  const { updateFlowData } = useContext(BuilderProductContext);
-
   const updateGlobalContext = useContext(GlobalUpdateContext);
 
   const { refetch } = useCartData(locale);
@@ -52,7 +49,6 @@ const DiamondTableRow = ({
   const { _t } = useTranslations(locale);
 
   const { isMobile } = useContext(GlobalContext);
-  const { builderProduct } = useContext(BuilderProductContext);
 
   const diamondDetailRoute = `${diamondRoutePdp}/${handle}${
     settingSlugs?.collectionSlug ? '?collectionSlug=' + settingSlugs?.collectionSlug : ''
@@ -99,18 +95,18 @@ const DiamondTableRow = ({
       currencyCode,
     });
 
-    await updateFlowData('ADD_DIAMOND', [product]);
-
     if (updateSettingSlugs) {
       updateSettingSlugs({
         lotIds: [product.lotId],
       });
     }
 
-    if (!router.query.flowType) {
+    const flowType = router.asPath.includes('diamond-to-setting') ? 'diamond-to-setting' : 'setting-to-diamond';
+
+    if (!flowType) {
       console.log('case 001');
       router.push(`/customize/diamond-to-setting/${product.lotId}`);
-    } else if (router.query.flowType === 'setting-to-diamond') {
+    } else if (flowType === 'setting-to-diamond') {
       console.log('case 002');
       router.push(
         `/customize/setting-to-diamond/${
@@ -119,13 +115,12 @@ const DiamondTableRow = ({
         null,
       );
     } else {
-      const nextUrl = `/customize/diamond-to-setting/${router.asPath.includes('summary/') ? 'summary/' : ''}${
-        product.lotId
-      }${builderProduct?.product ? `/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}` : ''}`;
+      // diamond to setting - edit diamond
+      const nextUrl = `/customize/diamond-to-setting/${product.lotId}/${router.query.collectionSlug}/${router.query.productSlug}/summary`;
 
       console.log('case 003', nextUrl);
 
-      return router.replace(nextUrl, null, { shallow: true, scroll: true });
+      return router.push(nextUrl, null);
     }
   };
 

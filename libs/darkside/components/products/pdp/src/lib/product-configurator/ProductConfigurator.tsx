@@ -109,7 +109,6 @@ function ProductConfigurator({
   engravingText,
   setEngravingText,
   productIconListType,
-  settingSlugs,
   setProductSlug,
   parentProductAttributes,
   isProductFeedUrl,
@@ -184,9 +183,8 @@ function ProductConfigurator({
         <DarksideButton
           onClick={() =>
             router.push(
-              `/customize/diamond-to-setting/summary/${builderProduct?.diamonds
-                .map((diamond) => diamond?.lotId)
-                .join('/')}/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`,
+              `/customize/diamond-to-setting/${builderProduct?.diamonds.map((diamond) => diamond?.lotId).join('/')}/${router
+                .query?.collectionSlug}/${router.query?.productSlug}/summary`,
             )
           }
         >

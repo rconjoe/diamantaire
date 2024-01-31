@@ -1,11 +1,14 @@
+import { BuilderFlowLoader } from '@diamantaire/darkside/components/builder-flows';
 import { DarksideButton, Heading, ShowTabletAndUpOnly, UIString } from '@diamantaire/darkside/components/common-ui';
 import { DiamondFilter, DiamondPromo, DiamondTable } from '@diamantaire/darkside/components/diamonds';
+import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { useDiamondsData } from '@diamantaire/darkside/data/hooks';
+import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
 import { getDiamondShallowRoute } from '@diamantaire/shared/helpers';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const DiamondBuildStepStyles = styled(motion.div)`
@@ -82,7 +85,7 @@ type DiamondBuildStepProps = {
 };
 
 const DiamondBuildStep = ({
-  diamondTypeToShow,
+  //   diamondTypeToShow,
   availableDiamonds,
   settingSlugs,
   settingProductType,
@@ -90,10 +93,14 @@ const DiamondBuildStep = ({
 }: DiamondBuildStepProps) => {
   const router = useRouter();
   const { asPath, query } = router;
+  const { builderProduct } = useContext(BuilderProductContext);
+
+  console.log('builderProduct?.diamonds?.[0]?.diamondType', builderProduct?.diamonds?.[0]?.diamondType);
+  console.log('router', router);
 
   const defaultInitialOptions = {
     caratMin: 1,
-    diamondType: diamondTypeToShow,
+    diamondType: builderProduct?.diamonds?.[0]?.diamondType,
     limit: 20,
     page: 1,
     sortBy: 'carat',
@@ -102,7 +109,7 @@ const DiamondBuildStep = ({
 
   let routerInitialOptions: object = {
     ...query,
-    diamondType: diamondTypeToShow,
+    diamondType: 'oval',
   };
 
   const acceptedParams = [
@@ -128,6 +135,8 @@ const DiamondBuildStep = ({
 
   const doesRouterHaveOptions = query.limit && query.page && query.sortBy && query.caratMin ? true : false;
 
+  console.log('doesRouterHaveOptions', doesRouterHaveOptions);
+
   const initialOptions = doesRouterHaveOptions ? { ...routerInitialOptions } : { ...defaultInitialOptions };
 
   console.log('initialOptions', initialOptions);
@@ -148,6 +157,8 @@ const DiamondBuildStep = ({
   const [options, setOptions] = useState(initialOptions);
   const [activeRow, setActiveRow] = useState(null);
 
+  console.log('options', options);
+
   const { data: { diamonds, pagination, ranges } = {} } = useDiamondsData({ ...options });
 
   const updateLoading = (newState) => {
@@ -156,7 +167,7 @@ const DiamondBuildStep = ({
 
   const tableOptions = {
     locale: DEFAULT_LOCALE,
-    initialOptions: { ...options },
+    initialOptions: { ...(options as any) },
     initialDiamonds: diamonds,
     initialPagination: pagination,
     currencyCode: 'USD',
@@ -164,6 +175,7 @@ const DiamondBuildStep = ({
   };
 
   const updateOptions = (newOptions) => {
+    console.log('updateOptions');
     setOptions((prevOptions) => {
       let updatedOptions: { [key: string]: string } = { ...prevOptions };
 
@@ -238,16 +250,20 @@ const DiamondBuildStep = ({
   };
 
   const clearOptions = () => {
-    updateOptions({ ...defaultInitialOptions, diamondType: diamondTypeToShow });
+    // updateOptions({ ...defaultInitialOptions, diamondType: diamondTypeToShow });
   };
 
   useEffect(() => {
-    updateOptions({ ...defaultInitialOptions, diamondType: diamondTypeToShow });
-  }, [diamondTypeToShow]);
+    console.log('builderProduct.diamonds', builderProduct.diamonds);
+    if (builderProduct?.diamonds?.[0]?.diamondType)
+      updateOptions({ ...defaultInitialOptions, diamondType: builderProduct?.diamonds?.[0]?.diamondType });
+  }, [builderProduct.diamonds]);
 
   useEffect(() => {
     router.replace(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {});
   }, [options]);
+
+  if (!diamonds || !tableOptions?.initialOptions?.diamondType) return <BuilderFlowLoader />;
 
   return (
     <DiamondBuildStepStyles
@@ -327,6 +343,6 @@ const DiamondBuildStep = ({
   );
 };
 
-// DiamondBuildStep.getTemplate = getStandardTemplate;
+DiamondBuildStep.getTemplate = getStandardTemplate;
 
 export default DiamondBuildStep;

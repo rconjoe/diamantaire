@@ -17,6 +17,7 @@ const SpritSpinnerContainer = styled.div`
 
   .spritespin-instance {
     min-height: 100%;
+    min-width: 100%;
   }
 
   span {

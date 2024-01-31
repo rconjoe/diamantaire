@@ -1,4 +1,5 @@
 import { ProductVariantPDPData } from '@diamantaire/server/products';
+import { useRouter } from 'next/router';
 import { Dispatch, createContext, useEffect, useReducer } from 'react';
 
 type BuilderDiamond = {
@@ -52,6 +53,10 @@ interface BuilderProductState {
   step: 'select-setting' | 'customize-setting' | 'select-diamond' | 'review-build';
   type: FlowType;
   builderState: (typeof builderState)[keyof typeof builderState];
+  tempSettingSlugs?: {
+    collectionSlug: string;
+    productSlug: string;
+  };
 }
 
 const initialBuilderProductState: BuilderProductState = {
@@ -88,7 +93,8 @@ type BuilderAction =
   | {
       type: 'UPDATE_FLOW_TYPE';
       payload: BuilderFlowType;
-    };
+    }
+  | { type: 'UPDATE_TEMP_SETTING_SLUGS'; payload: any };
 
 const builderReducer = (state: BuilderProductState, action: BuilderAction): BuilderProductState => {
   switch (action.type) {
@@ -160,6 +166,21 @@ const builderReducer = (state: BuilderProductState, action: BuilderAction): Buil
         builderState: getState(newState),
       };
     }
+    case 'UPDATE_TEMP_SETTING_SLUGS': {
+      const newState = {
+        ...state,
+        tempSettingSlugs: {
+          ...state.tempSettingSlugs,
+          // Should be an object of collectionSlug and productSlug
+          ...action.payload,
+        },
+      };
+
+      return {
+        ...newState,
+        builderState: getState(newState),
+      };
+    }
     default:
       return state;
   }
@@ -195,8 +216,33 @@ const BuilderProductContextProvider = ({ children }: BuilderProductContextProvid
     });
   }
 
+  const router = useRouter();
+
   useEffect(() => {
     // console.log('state changed', state);
+
+    // if there is a lotID in the query, we need to fetch the diamond data
+    async function getDiamond() {
+      const qParams = new URLSearchParams({
+        lotIds: router.query.lotId as string,
+      }).toString();
+
+      const diamondResponse = await fetch(`/api/diamonds/getDiamondByLotId?${qParams}`, {})
+        .then((res) => res.json())
+        .then((res) => res);
+
+      console.log('diamondResponse', diamondResponse);
+
+      updateFlowData('ADD_DIAMOND', diamondResponse);
+    }
+
+    if (router.query.lotId) {
+      getDiamond();
+    }
+  }, [router.query.lotId]);
+
+  useEffect(() => {
+    console.log('state changed', state);
   }, [state]);
 
   return (

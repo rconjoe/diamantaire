@@ -132,7 +132,7 @@ function ConfigurationSelector({
     });
 
     router.push(
-      `/customize/diamond-to-setting/${builderProduct?.diamonds?.[0]?.lotId}/${builderProduct?.product?.collectionSlug}/${option?.id}`,
+      `/customize/diamond-to-setting/${builderProduct?.diamonds?.[0]?.lotId}/${router?.query?.collectionSlug}/${option?.id}`,
     );
   }
 
