@@ -160,7 +160,7 @@ const AccountOrders = ({ customer }: { customer: AccountCustomer }) => {
               </div>
               <div className="table-body">
                 {orders?.map((order) => {
-                  console.log(order.total_price, order.currency);
+                  console.log(`order`, order);
 
                   return (
                     <div className="table-row" key={order?.id}>
