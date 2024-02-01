@@ -152,11 +152,17 @@ export const fetchDiamondCfyData = async (locale: string) => {
 
 // Get Diamond Cut To Order
 export const fetchDiamondCtoData = async (options) => {
-  const getDefaultCtoDiamond = (diamonds) => {
+  const getDefaultCtoDiamond = (diamonds, type, ct) => {
+    console.log(type, ct);
+    // 1-4ct + Round Brilliant => color = Colorless (DEF) && cut = Ideal+Hearts && clarity = VVS+
+    // 1-4ct + Other Shapes    => color = Colorless (DEF) && cut = Excellent && clarity = VVS+
+    // 4+ ct + Round Brilliant => color = Near Colorless (GHI) && cut = Excellent && clarity = VS+
+    // 4+ ct + Other Shapes    => color = Near Colorless (GHI) && cut = Excellent && clarity = VS+
+
     const conditions = [
-      (diamond) => diamond.color === 'Colorless',
-      (diamond) => diamond.cut === 'Ideal+Hearts',
-      (diamond) => diamond.clarity === 'VVS+',
+      (v) => (ct <= 4 ? v.color === 'Colorless' : v.color === 'NearColorless'),
+      (v) => (ct <= 4 && type === 'round-brilliant' ? v.cut === 'Ideal+Hearts' : v.cut === 'Excellent'),
+      (v) => (ct <= 4 ? v.clarity === 'VVS+' : v.clarity === 'VS+'),
     ];
 
     let bestMatch = null;
@@ -254,7 +260,9 @@ export const fetchDiamondCtoData = async (options) => {
 
     const diamonds = Object.values(response?.data || {});
 
-    const diamond = getDefaultCtoDiamond(diamonds);
+    console.log(`😄 searchParams`, searchParams);
+
+    const diamond = getDefaultCtoDiamond(diamonds, options.diamondType, caratNumber);
 
     const diamondAvailableUpgrade = getAvailableUpgrades(diamonds, diamond);
 
