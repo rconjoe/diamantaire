@@ -74,28 +74,14 @@ const DiamondBuildStepStyles = styled(motion.div)`
   }
 `;
 
-type DiamondBuildStepProps = {
-  diamondTypeToShow: string;
-  availableDiamonds?: string[];
-  settingSlugs?: {
-    [key: string]: string;
-  };
-  settingProductType?: string;
-  updateSettingSlugs?: (_obj) => void;
-};
-
-const DiamondBuildStep = ({
-  //   diamondTypeToShow,
-  availableDiamonds,
-  settingSlugs,
-  settingProductType,
-  updateSettingSlugs,
-}: DiamondBuildStepProps) => {
+const DiamondBuildStep = () => {
   const router = useRouter();
   const { asPath, query } = router;
   const { builderProduct } = useContext(BuilderProductContext);
 
-  console.log('builderProduct', builderProduct);
+  const diamondTypeToShow = builderProduct?.product?.configuration?.diamondType || 'round-brilliant';
+  const availableDiamonds = builderProduct?.product?.optionConfigs?.diamondType.map((d) => d.value) || [];
+  const settingProductType = builderProduct?.product?.productType;
 
   const defaultInitialOptions = {
     caratMin: 1,
@@ -242,11 +228,10 @@ const DiamondBuildStep = ({
   };
 
   const clearOptions = () => {
-    // updateOptions({ ...defaultInitialOptions, diamondType: diamondTypeToShow });
+    updateOptions({ ...defaultInitialOptions, diamondType: diamondTypeToShow });
   };
 
   useEffect(() => {
-    console.log('builderProduct.diamonds', builderProduct.diamonds);
     if (builderProduct?.diamonds?.[0]?.diamondType)
       updateOptions({ ...defaultInitialOptions, diamondType: builderProduct?.diamonds?.[0]?.diamondType });
   }, [builderProduct.diamonds]);
@@ -322,10 +307,8 @@ const DiamondBuildStep = ({
                 updateOptions={updateOptions}
                 clearOptions={() => null}
                 ranges={ranges}
-                settingSlugs={settingSlugs}
                 isDiamondPairs={isToiMoiOrPair}
                 settingProductType={settingProductType}
-                updateSettingSlugs={updateSettingSlugs}
               />
             </div>
           </div>

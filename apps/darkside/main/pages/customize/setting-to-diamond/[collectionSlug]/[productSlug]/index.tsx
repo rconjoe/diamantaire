@@ -84,8 +84,6 @@ const DiamondBuildStep = () => {
   const availableDiamonds = builderProduct?.product?.optionConfigs?.diamondType.map((d) => d.value) || [];
   const settingProductType = builderProduct?.product?.productType;
 
-  console.log('builderProduct', builderProduct);
-
   const defaultInitialOptions = {
     caratMin: 1,
     diamondType: diamondTypeToShow,

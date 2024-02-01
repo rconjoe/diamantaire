@@ -865,8 +865,6 @@ const ReviewBuildStep = ({ settingSlugs }) => {
 
   const diamondHandCaption = builderProduct?.diamonds?.map((diamond) => diamond?.carat?.toString() + 'ct').join(' | ');
 
-  console.log('builderProduct', builderProduct);
-
   const reviewVariantOrder = ['sideStoneShape', 'sideStoneCarat', 'bandAccent', 'hiddenHalo', 'bandWidth', 'metal'];
 
   const productData = {
