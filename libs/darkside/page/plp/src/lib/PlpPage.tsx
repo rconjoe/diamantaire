@@ -49,9 +49,7 @@ type FilterQueryValues = {
   subStyle?: string[];
 };
 
-const PlpStyles = styled.div`
-  ${pageMargin}
-`;
+const PlpStyles = styled.div``;
 
 function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   const { productListFiltered } = useAnalytics();
@@ -232,10 +230,11 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
       />
 
       <div ref={pageEndRef} />
+      <div className="container-wrapper">
+        <PlpPreviouslyViewed />
 
-      <PlpPreviouslyViewed />
-
-      {category && plpSlug && <PlpBlockPicker category={category} plpSlug={plpSlug} />}
+        {category && plpSlug && <PlpBlockPicker category={category} plpSlug={plpSlug} />}
+      </div>
     </PlpStyles>
   );
 }

@@ -12,16 +12,9 @@ import styled from 'styled-components';
 const MINI_BANNER_IMAGE_WIDTH = 'var(--max-width-small)';
 
 export const ModularContentQuadBlockContainer = styled.div`
-  padding-left: 2.4rem;
-  padding-right: 2.4rem;
   position: relative;
   display: block;
   ${contentBlockMargin}
-  ${tabletAndUp(`
-    padding-left: 0;
-    padding-right: 0;
-
-  `)};
 
   .content-block__layout {
     position: relative;

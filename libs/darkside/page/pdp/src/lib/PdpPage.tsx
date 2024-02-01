@@ -483,46 +483,50 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           </div>
         </div>
 
-        {trioBlocksId && <ProductTrioBlocks trioBlocksId={trioBlocksId} />}
+        <div class="container-wrapper">
+          {trioBlocksId && <ProductTrioBlocks trioBlocksId={trioBlocksId} />}
 
-        {additionalVariantData?.productSuggestionQuadBlock?.id && (
-          <ProductSuggestionBlock id={additionalVariantData?.productSuggestionQuadBlock?.id} />
-        )}
+          {additionalVariantData?.productSuggestionQuadBlock?.id && (
+            <ProductSuggestionBlock id={additionalVariantData?.productSuggestionQuadBlock?.id} />
+          )}
 
-        {shopifyProductData?.productType === 'Engagement Ring' && (
-          <ProductContentBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
-        )}
+          {shopifyProductData?.productType === 'Engagement Ring' && (
+            <ProductContentBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
+          )}
 
-        {shopifyCollectionId && <ProductReviews reviewsId={shopifyCollectionId.replace('gid://shopify/Collection/', '')} />}
+          {shopifyCollectionId && (
+            <ProductReviews reviewsId={shopifyCollectionId.replace('gid://shopify/Collection/', '')} />
+          )}
 
-        {openDropHintModal && (
-          <DropHintModal
-            title={_t('Drop a hint')}
-            subtitle={_t('Enter the email address where you would like this to be sent.')}
-            locale={locale}
-            onClose={handleModalClose}
-            productLink={dropHintData?.link}
-            productImage={dropHintData?.image}
-          />
-        )}
+          {openDropHintModal && (
+            <DropHintModal
+              title={_t('Drop a hint')}
+              subtitle={_t('Enter the email address where you would like this to be sent.')}
+              locale={locale}
+              onClose={handleModalClose}
+              productLink={dropHintData?.link}
+              productImage={dropHintData?.image}
+            />
+          )}
 
-        {hasBelowBannerBlocks && <ProductBlockPicker slug={collectionSlug} pdpType={pdpType} />}
+          {hasBelowBannerBlocks && <ProductBlockPicker slug={collectionSlug} pdpType={pdpType} />}
 
-        {accordionBlocksOverride?.length > 0 &&
-          accordionBlocksOverride.map((block, index) => {
-            const { _modelApiKey } = block;
+          {accordionBlocksOverride?.length > 0 &&
+            accordionBlocksOverride.map((block, index) => {
+              const { _modelApiKey } = block;
 
-            return (
-              <BlockPicker
-                _modelApiKey={_modelApiKey}
-                modularBlockData={{ ...block }}
-                shouldLazyLoad={true}
-                key={index}
-                countryCode={countryCode}
-                currencyCode={currencyCode}
-              />
-            );
-          })}
+              return (
+                <BlockPicker
+                  _modelApiKey={_modelApiKey}
+                  modularBlockData={{ ...block }}
+                  shouldLazyLoad={true}
+                  key={index}
+                  countryCode={countryCode}
+                  currencyCode={currencyCode}
+                />
+              );
+            })}
+        </div>
       </PageContainerStyles>
     );
   }

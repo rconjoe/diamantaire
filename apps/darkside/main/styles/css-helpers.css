@@ -64,6 +64,17 @@ button:hover {
     max-width: 90vw;
   }
 }
+.container-wrapper .container-wrapper:not(:first-child) {
+  padding-left: calc(var(--space-gutter) * 3);
+  padding-right: calc(var(--space-gutter) * 3);
+}
+
+@media (min-width: 767px) {
+  .container-wrapper .container-wrapper:not(:first-child) {
+    padding-left: initial;
+    padding-right: initial;
+  }
+}
 /*
 @media (min-width: 1441px) {
   .container-wrapper {

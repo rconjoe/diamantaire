@@ -2,7 +2,7 @@ import { Loader, UIString } from '@diamantaire/darkside/components/common-ui';
 import { useGlobalContext, usePlpDatoCreativeBlocks, usePlpDatoPromoCardCollection } from '@diamantaire/darkside/data/hooks';
 import { PlpBasicFieldSortOption } from '@diamantaire/shared/types';
 import { FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
-import { media } from '@diamantaire/styles/darkside-styles';
+import { media, pageMargin } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { Fragment, useMemo, useRef } from 'react';
@@ -20,17 +20,19 @@ const PlpProductGridStyles = styled.div`
   padding: 0 0 calc(var(--gutter) / 2);
   position: relative;
   height: 100%;
-
+  ${pageMargin}
   .grid-controls-container {
     position: sticky;
     z-index: var(--z-index-filter);
     background-color: var(--color-white);
     top: ${({ isSettingSelect }) => (isSettingSelect ? 0 : '54px')};
     // margin bottom accounts for .5rem margin on .filter
-    margin: 2rem 0 calc(2rem - 0.5rem);
+    padding: 0 1rem;
+    margin: 2rem -1rem calc(2rem - 0.5rem);
     &.-short-margin {
+      padding: 0 1.75rem;
       // normal margin - settings menu padding
-      margin: 2rem 0 calc(2rem - 1rem - 0.5rem);
+      margin: 2rem -1rem calc(2rem - 1rem - 0.5rem);
     }
     .grid-controls {
       display: flex;
@@ -58,7 +60,6 @@ const PlpProductGridStyles = styled.div`
     flex-wrap: wrap;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem 1.3rem;
-
     ${media.medium`
     grid-template-columns: repeat(4, 1fr);
     gap: 2rem 2.5rem;
