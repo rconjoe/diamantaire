@@ -43,7 +43,7 @@ const STAFF_PICKS_LABEL = 'staffPick';
 const DIAMOND_PROPERTY_ORDERS = {
   cut: ['Excellent', 'Ideal', 'Ideal+Hearts'],
   color: ['L', 'K', 'J', 'I', 'H', 'G', 'F', 'E', 'D'],
-  clarity: ['SI1', 'SI2', 'VS2', 'VS1', 'VVS1', 'VVS2'],
+  clarity: ['SI2', 'SI1', 'VS2', 'VS1', 'VVS2', 'VVS1'],
 }
 
 @Injectable()
@@ -93,7 +93,7 @@ export class DiamondsService {
       query['slug'] = 'diamonds';
     }
 
-    const stages: any = [{ $match: {...query}}]
+    const stages: any = [{ $match: {...filteredQuery} }]
 
     if(sortByKey){
       if (!['priceMin', 'priceMax', 'caratMin', 'caratMax', 'price', 'carat'].includes(sortByKey)) {
@@ -250,7 +250,7 @@ export class DiamondsService {
       };
     } else {
       // Exclude pink unless specified in color query
-      const regexPattern = /fancy/i;
+      const regexPattern = /pink/i;
 
       query['color'] = { $not: { $regex: regexPattern } };
     }
@@ -287,15 +287,15 @@ export class DiamondsService {
      */
     if (input.caratMin || input.caratMax) {
       query['carat'] = {
-        ...(input.caratMin && { $gte: input.caratMin.toFixed(1) }), // mongoose $gte operator greater than or equal to
-        ...(input.caratMax && { $lte: input.caratMax.toFixed(1) }), // mongoose $lte operator less than or equal to
+        ...(input.caratMin && { $gte: input.caratMin }), // mongoose $gte operator greater than or equal to
+        ...(input.caratMax && { $lte: input.caratMax }), // mongoose $lte operator less than or equal to
       };
     }
     // if carat range is not provided, calculate range
     else if (input.carat !== null && input.carat !== undefined) {
       query['carat'] = {
-        $gte: Math.max(input.carat - 0.2, 0).toFixed(1), // mongoose $gte operator greater than or equal to
-        $lte: (input.carat + 0.2).toFixed(1), // mongoose $lte operator less than or equal to
+        $gte: Math.max(input.carat - 0.2, 0), // mongoose $gte operator greater than or equal to
+        $lte: (input.carat + 0.2), // mongoose $lte operator less than or equal to
       };
     }
 
