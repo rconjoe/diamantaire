@@ -108,7 +108,6 @@ const DiamondBuildStep = ({
 
   let routerInitialOptions: object = {
     ...query,
-    diamondType: 'oval',
   };
 
   const acceptedParams = [
