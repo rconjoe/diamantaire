@@ -10,4 +10,5 @@
 
 ## Checklist before requesting a review
 - [ ] I have performed a self-review of my code
+- [ ] The preview branch has been approved by QA
 - [ ] Do we need to implement analytics?
