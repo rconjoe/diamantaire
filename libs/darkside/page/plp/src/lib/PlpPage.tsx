@@ -202,7 +202,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
       <PageViewTracker listPageData={listPageData} />
 
-      <Breadcrumb breadcrumb={refinedBreadcrumb} />
+      <Breadcrumb breadcrumb={refinedBreadcrumb} spacingType="containedWidth" />
 
       <PlpHeroBanner showHeroWithBanner={showHeroWithBanner} data={hero} />
 

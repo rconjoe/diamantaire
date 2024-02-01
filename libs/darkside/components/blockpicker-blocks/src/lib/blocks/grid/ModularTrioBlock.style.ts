@@ -2,6 +2,7 @@ import { setSpace, tabletAndUp, desktopAndUp, media, contentBlockMargin } from '
 import styled from 'styled-components';
 
 export const ModularTrioBlockContainer = styled.div`
+  max-width: var(--max-width-small);
   ${contentBlockMargin}
   &.trio-svg {
     .content-block__container {

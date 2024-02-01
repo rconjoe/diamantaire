@@ -3,6 +3,7 @@ import { useGlobalContext, usePlpDatoCreativeBlocks, usePlpDatoPromoCardCollecti
 import { PlpBasicFieldSortOption } from '@diamantaire/shared/types';
 import { FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
 import { media } from '@diamantaire/styles/darkside-styles';
+import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { Fragment, useMemo, useRef } from 'react';
 import styled from 'styled-components';
@@ -25,8 +26,11 @@ const PlpProductGridStyles = styled.div`
     z-index: var(--z-index-filter);
     background-color: var(--color-white);
     top: ${({ isSettingSelect }) => (isSettingSelect ? 0 : '55px')};
-    margin: 1rem 0;
-
+    margin: 2rem 0;
+    &.-short-margin {
+      // normal margin - settings menu padding
+      margin: 2rem 0 calc(2rem - 1rem);
+    }
     .grid-controls {
       display: flex;
       padding: 0;
@@ -195,7 +199,11 @@ const PlpProductGrid = ({
 
   return (
     <PlpProductGridStyles ref={gridRef} headerHeight={headerHeight}>
-      <div className="grid-controls-container">
+      <div
+        className={clsx('grid-controls-container', {
+          '-short-margin': filterOptionsOverride?.length > 0,
+        })}
+      >
         <div className="grid-controls container-wrapper">
           <div className="filter">
             <PlpProductFilter

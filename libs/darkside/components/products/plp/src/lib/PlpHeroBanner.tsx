@@ -20,7 +20,7 @@ type PlpHeroBannerProps = {
 
 const PlpHeroBannerStyles = styled.div`
   position: relative;
-
+  margin-bottom: 4rem;
   ${mobileOnly(`
     padding-left: .5rem;
     padding-right: .5rem;
@@ -79,13 +79,13 @@ const PlpHeroBannerStyles = styled.div`
 
     .hero-title {
       line-height: 1;
-      margin-bottom: 1rem;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
     }
 
     p {
       line-height: 1.3;
       font-size: var(--font-size-xxsmall);
-      ${media.small`margin:2rem 0;`}
     }
   }
 `;

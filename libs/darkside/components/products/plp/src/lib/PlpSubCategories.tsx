@@ -6,7 +6,7 @@ import styled from 'styled-components';
 const PlpSubCategoriesStyles = styled.div`
   display: flex;
   padding: 0 0.5rem;
-  margin: 1rem auto;
+  margin: 4rem auto;
   justify-content: center;
   overflow-x: auto;
   justify-content: start;

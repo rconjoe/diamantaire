@@ -1,19 +1,26 @@
-import { setSpace, tabletAndUp, mobileOnly, XXLDesktopAndUp, media } from '@diamantaire/styles/darkside-styles';
+import {
+  setSpace,
+  tabletAndUp,
+  mobileOnly,
+  XXLDesktopAndUp,
+  media,
+  contentBlockTitle,
+  contentBlockMargin,
+} from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
-const MINI_BANNER_IMAGE_WIDTH = '118rem';
+const MINI_BANNER_IMAGE_WIDTH = 'var(--max-width-small)';
 
 export const ModularContentQuadBlockContainer = styled.div`
   padding-left: 2.4rem;
   padding-right: 2.4rem;
   position: relative;
   display: block;
-  margin: 5rem 0;
-
+  ${contentBlockMargin}
   ${tabletAndUp(`
     padding-left: 0;
     padding-right: 0;
-    margin: 8rem 0;
+
   `)};
 
   .content-block__layout {
@@ -43,14 +50,7 @@ export const ModularContentQuadBlockContainer = styled.div`
       margin-top: 0;
     }
     .primary {
-      font-weight: 400 !important;
-      line-height: 3.6rem;
-      font-size: 3.2rem;
-
-      ${XXLDesktopAndUp(`
-      font-size: 4.2rem;
-      line-height: 4.8rem;
-    `)}
+      ${contentBlockTitle}
     }
   }
 

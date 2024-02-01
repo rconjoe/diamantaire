@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const ModularTallHalfWidthBlockContainer = styled.div`
   position: relative;
-  max-width: 118rem;
+  max-width: var(--max-width-small);
   margin: 0 auto;
 
   &.-vertical-margins {

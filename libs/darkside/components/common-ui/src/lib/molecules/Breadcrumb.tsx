@@ -18,7 +18,6 @@ const BreadcrumbStyles = styled.div<{ lastItemBolded?: boolean; spacingType?: st
       case 'containedWidth':
         return `
           width: 100%;
-          max-width: 144rem;
           margin-left: auto;
           margin-right: auto;
         `;
