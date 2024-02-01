@@ -10,10 +10,7 @@ const ProductTrioBlocksContainer = styled.div`
   ${contentBlockMargin}
   display: grid;
   gap: 2rem;
-  &.container-wrapper {
-    padding-left: calc(var(--space-gutter) * 3);
-    padding-right: calc(var(--space-gutter) * 3);
-  }
+
   ${media.medium`
     grid-template-columns: repeat(3, 1fr);
     gap: 2.5rem;

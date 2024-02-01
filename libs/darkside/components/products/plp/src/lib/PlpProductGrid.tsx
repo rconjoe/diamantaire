@@ -25,7 +25,7 @@ const PlpProductGridStyles = styled.div`
     position: sticky;
     z-index: var(--z-index-filter);
     background-color: var(--color-white);
-    top: ${({ isSettingSelect }) => (isSettingSelect ? 0 : '55px')};
+    top: ${({ isSettingSelect }) => (isSettingSelect ? 0 : '54px')};
     // margin bottom accounts for .5rem margin on .filter
     margin: 2rem 0 calc(2rem - 0.5rem);
     &.-short-margin {
