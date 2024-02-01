@@ -260,14 +260,7 @@ const Header: FC<HeaderProps> = ({ headerData, isTopbarShowing, setIsTopbarShowi
                   </div>
                 </motion.div>
 
-                {isHome && isLoaded && (
-                  <MegaMenu
-                    navItems={section}
-                    megaMenuIndex={megaMenuIndex}
-                    isCompactHeaderVisible={isCompactHeaderVisible}
-                    dynamicTop={dynamicTop}
-                  />
-                )}
+                {isHome && isLoaded && <MegaMenu navItems={section} megaMenuIndex={megaMenuIndex} dynamicTop={dynamicTop} />}
               </AnimatePresence>
             </>
           )}
@@ -300,14 +293,7 @@ const Header: FC<HeaderProps> = ({ headerData, isTopbarShowing, setIsTopbarShowi
             menuIndex={megaMenuIndex}
             toggleCart={toggleCart}
           />
-          {isLoaded && (
-            <MegaMenu
-              navItems={section}
-              megaMenuIndex={megaMenuIndex}
-              isCompactHeaderVisible={isCompactHeaderVisible}
-              dynamicTop={dynamicTop}
-            />
-          )}
+          {isLoaded && <MegaMenu navItems={section} megaMenuIndex={megaMenuIndex} dynamicTop={dynamicTop} />}
         </CompactHeaderWrapper>
       )}
 
