@@ -880,6 +880,8 @@ const ReviewBuildStep = ({ settingSlugs }) => {
   const CFY_RETURN_THRESHOLD = 5.1;
 
   useEffect(() => {
+    if (!router.query.lotId) return null;
+
     const ids = router.query.lotId
       .toString()
       .split(',')

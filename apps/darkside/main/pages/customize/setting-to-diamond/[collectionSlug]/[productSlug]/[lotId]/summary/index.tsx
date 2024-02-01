@@ -879,6 +879,7 @@ const SettingToDiamondSummaryPage = () => {
   const CFY_RETURN_THRESHOLD = 5.1;
 
   useEffect(() => {
+    if (!router.query.lotId) return null;
     const ids = router.query.lotId
       .toString()
       .split(',')
@@ -934,11 +935,6 @@ const SettingToDiamondSummaryPage = () => {
 
   useEffect(() => {
     if (router?.query?.productSlug && router?.query?.collectionSlug) {
-      console.log(
-        'router?.query?.productSlug && router?.query?.collectionSlug',
-        router?.query?.productSlug,
-        router?.query?.collectionSlug,
-      );
       getSettingProduct().then(() => setIsLoading(false));
     }
   }, [router?.query?.productSlug, router?.query?.collectionSlug]);

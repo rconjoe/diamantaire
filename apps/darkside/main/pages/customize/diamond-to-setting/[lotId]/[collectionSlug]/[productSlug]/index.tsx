@@ -204,7 +204,9 @@ const SettingBuildStep = () => {
   }, [builderProduct?.diamonds, price]); // Recalculate if items change
 
   useEffect(() => {
-    getSettingProduct();
+    if (router?.query?.productSlug && router?.query?.collectionSlug) {
+      getSettingProduct();
+    }
   }, [router?.query?.productSlug, router?.query?.collectionSlug]);
 
   // Need this here to not interefere with hooks
