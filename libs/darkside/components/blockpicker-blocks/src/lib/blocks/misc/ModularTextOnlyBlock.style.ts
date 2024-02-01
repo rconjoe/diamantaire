@@ -221,4 +221,14 @@ export const ModularTextOnlyBlockContainer = styled.div`
   .text-block__mobile-button-wrapper {
     width: 100%;
   }
+  /* We're overriding DarksideButton styles here */
+  .button-style--outline,
+  .button-style--solid {
+    a,
+    button {
+      display: inline-block;
+      width: auto;
+      min-width: 30rem;
+    }
+  }
 `;
