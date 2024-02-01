@@ -83,7 +83,9 @@ const StyledDiamondCfyFilterShape = styled.div`
   }
 
   svg {
-    height: 3.5rem;
+    height: auto;
+    width: 100%;
+    max-height: 3.5rem;
   }
 
   .cta {
