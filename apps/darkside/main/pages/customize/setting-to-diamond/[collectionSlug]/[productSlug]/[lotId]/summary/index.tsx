@@ -792,7 +792,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
       value: diamonds?.map((diamond) => _t(diamond?.diamondType)).join(' + '),
       onClick: () => {
         router.push(
-          `/customize/${flowType}/${router.query.lotId}/${router.query.collectionSlug}/${router.query.productSlug}/edit-diamond`,
+          `/customize/${flowType}/${router.query.collectionSlug}/${router.query.productSlug}/${router.query.lotId}/edit-diamond`,
         );
       },
       slug: 'diamondType',
@@ -804,7 +804,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
         .join(' + '),
       onClick: () => {
         router.push(
-          `/customize/${flowType}/${router.query.lotId}/${router.query.collectionSlug}/${router.query.productSlug}/edit-diamond`,
+          `/customize/${flowType}/${router.query.collectionSlug}/${router.query.productSlug}/${router.query.lotId}/edit-diamond`,
         );
       },
       slug: 'centerstone',
@@ -814,14 +814,10 @@ const ReviewBuildStep = ({ settingSlugs }) => {
   function handleBuilderFlowVariantChange(option: OptionItemProps, configurationType) {
     console.log({ configurationType, option });
 
-    // updateSettingSlugs({
-    //   productSlug: option?.id,
-    // });
-
     if (router.asPath.includes('setting-to-diamond')) {
-      const newUrl = `/customize/setting-to-diamond/summary/${
-        router.query.collectionSlug
-      }/${option?.id}/${builderProduct?.diamonds?.map((diamond) => diamond?.lotId).join('/')}`;
+      const newUrl = `/customize/setting-to-diamond/${router.query.collectionSlug}/${option?.id}/${builderProduct?.diamonds
+        ?.map((diamond) => diamond?.lotId)
+        .join('/')}/summary`;
 
       return router.replace(newUrl);
     } else {

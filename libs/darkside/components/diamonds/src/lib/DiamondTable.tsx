@@ -58,9 +58,7 @@ const DiamondTable = (props: DiamondTableProps) => {
     isBuilderFlowOpen,
     isTableView = true,
     isDiamondPairs,
-    settingSlugs,
     settingProductType,
-    updateSettingSlugs,
   } = props;
 
   const { asPath, locale } = useRouter();
@@ -452,13 +450,7 @@ const DiamondTable = (props: DiamondTableProps) => {
                       {isDiamondPairs ? (
                         <DiamondPairActiveRow isBuilderFlowOpen={isBuilderFlowOpen} diamonds={diamonds} locale={locale} />
                       ) : (
-                        <DiamondTableRow
-                          isBuilderFlowOpen={isBuilderFlowOpen}
-                          product={row?.original}
-                          locale={locale}
-                          settingSlugs={settingSlugs}
-                          updateSettingSlugs={updateSettingSlugs}
-                        />
+                        <DiamondTableRow isBuilderFlowOpen={isBuilderFlowOpen} product={row?.original} locale={locale} />
                       )}
                     </div>
                   )}

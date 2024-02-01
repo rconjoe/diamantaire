@@ -23,16 +23,10 @@ const DiamondTableRow = ({
   product,
   locale,
   isBuilderFlowOpen = false,
-  settingSlugs,
-  updateSettingSlugs,
 }: {
   product?: DiamondDataTypes;
   locale: string;
   isBuilderFlowOpen?: boolean;
-  settingSlugs?: {
-    [key: string]: string;
-  };
-  updateSettingSlugs?: (_obj) => void;
 }) => {
   const { emitDataLayer } = useAnalytics();
   const router = useRouter();
@@ -54,8 +48,8 @@ const DiamondTableRow = ({
   const { isMobile } = useContext(GlobalContext);
 
   const diamondDetailRoute = `${diamondRoutePdp}/${handle}${
-    settingSlugs?.collectionSlug ? '?collectionSlug=' + settingSlugs?.collectionSlug : ''
-  }${settingSlugs?.productSlug ? '&productSlug=' + settingSlugs?.productSlug : ''}`;
+    router?.query?.collectionSlug ? '?collectionSlug=' + router?.query?.collectionSlug : ''
+  }${router?.query?.productSlug ? '&productSlug=' + router?.query?.productSlug : ''}`;
 
   const diamondExpertRoute = diamondRouteAppointment;
 
@@ -98,12 +92,6 @@ const DiamondTableRow = ({
       currencyCode,
     });
 
-    if (updateSettingSlugs) {
-      updateSettingSlugs({
-        lotIds: [product.lotId],
-      });
-    }
-
     const flowType = router.asPath.includes('setting-to-diamond') ? 'setting-to-diamond' : 'diamond-to-setting';
 
     // starting from diamond table page
@@ -113,11 +101,14 @@ const DiamondTableRow = ({
     } else if (flowType === 'setting-to-diamond') {
       // mid-way through setting to diamond flow
       console.log('case 002');
+
+      // If the user changes their shape, we want to link back to the respective setting
+      const productShapeId = builderProduct?.product?.optionConfigs?.diamondType?.find(
+        (option) => option.value === diamondType,
+      )?.id;
+
       router.push(
-        `/customize/setting-to-diamond/${
-          router.asPath.includes('/pair/') ? '/pair/' : ''
-        }summary/${`${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`}/${product?.lotId}`,
-        null,
+        `/customize/setting-to-diamond/${router?.query?.collectionSlug}/${productShapeId}/${product.lotId}/summary`,
       );
     } else {
       // diamond to setting flow - edit diamond
