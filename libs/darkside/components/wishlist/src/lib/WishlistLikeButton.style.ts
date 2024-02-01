@@ -70,6 +70,9 @@ export const StyledWishlistLikeButton = styled.div`
     height: 2rem;
     &.with-space {
       right: 1rem;
+      &.with-space-small {
+        right: 0.5rem;
+      }
     }
     svg {
       height: 2rem;

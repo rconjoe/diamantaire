@@ -26,10 +26,11 @@ const PlpProductGridStyles = styled.div`
     z-index: var(--z-index-filter);
     background-color: var(--color-white);
     top: ${({ isSettingSelect }) => (isSettingSelect ? 0 : '55px')};
-    margin: 2rem 0;
+    // margin bottom accounts for .5rem margin on .filter
+    margin: 2rem 0 calc(2rem - 0.5rem);
     &.-short-margin {
       // normal margin - settings menu padding
-      margin: 2rem 0 calc(2rem - 1rem);
+      margin: 2rem 0 calc(2rem - 1rem - 0.5rem);
     }
     .grid-controls {
       display: flex;
@@ -71,6 +72,7 @@ const PlpProductGridStyles = styled.div`
 
   .filter {
     width: 100%;
+    margin-bottom: 0.5rem;
   }
 `;
 

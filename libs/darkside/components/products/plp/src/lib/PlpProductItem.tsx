@@ -58,6 +58,7 @@ const PlpProductItem = (props: PlpProductItemProps) => {
     isMultiShape,
     useProductTitleOnly,
   );
+  const isAboveTitleSpaceThreshold = metal?.length > 5;
 
   return (
     <PlpProductItemStyles>
@@ -93,7 +94,7 @@ const PlpProductItem = (props: PlpProductItemProps) => {
           )}
 
           <WishlistLikeButton
-            extraClass={clsx('plp', { 'with-space': !useProductTitleOnly })}
+            extraClass={clsx('plp', { 'with-space': !useProductTitleOnly, 'with-space-small': isAboveTitleSpaceThreshold })}
             productId={`product-${selectedVariant?.productSlug}`}
           />
         </div>
