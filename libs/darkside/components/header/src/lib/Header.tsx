@@ -54,7 +54,7 @@ const HeaderWrapper = styled.div`
 `;
 
 const Header: FC<HeaderProps> = ({ headerData, isTopbarShowing, setIsTopbarShowing }): JSX.Element => {
-  const [isCompactMenuVisible, setIsCompactMenuVisible] = useState(true);
+  const [isCompactHeaderVisible, setIsCompactHeaderVisible] = useState(true);
   const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
   const [isLanguageSelectorOpen, setIsLanguageSelectorOpen] = useState(false);
 
@@ -76,57 +76,19 @@ const Header: FC<HeaderProps> = ({ headerData, isTopbarShowing, setIsTopbarShowi
 
   const mainHeaderRef = useRef(null); // Ref for the main Header
   const compactHeaderRef = useRef(null); // Ref for the Compact Header
-
-  const [isMainHeaderVisible, setIsMainHeaderVisible] = useState(true); // State to track visibility
-  const { scrollY } = useScroll();
+  const { scrollYProgress } = useScroll();
 
   useEffect(() => {
-    const unsubscribe = scrollY.onChange(() => {
+    const handleScroll = () => {
       // Close the MegaMenu when the user starts scrolling
       toggleMegaMenuClose();
-    });
+    };
+
+    // Subscribe to scrollYProgress changes
+    const unsubscribe = scrollYProgress.onChange(handleScroll);
 
     return () => unsubscribe();
-  }, [scrollY]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-
-        setIsMainHeaderVisible(entry.isIntersecting);
-      },
-      { threshold: 0.1 },
-    );
-
-    if (mainHeaderRef.current) {
-      observer.observe(mainHeaderRef.current);
-    }
-
-    return () => {
-      if (mainHeaderRef.current) {
-        observer.unobserve(mainHeaderRef.current);
-      }
-    };
-  }, []);
-
-  const getMegaMenuPosition = () => {
-    if (isHome) {
-      if (isMainHeaderVisible) {
-        const mainHeaderRect = mainHeaderRef.current?.getBoundingClientRect();
-
-        return (mainHeaderRect?.top || 0) + (mainHeaderRect?.height || 0);
-      } else {
-        const compactHeaderRect = compactHeaderRef.current?.getBoundingClientRect();
-
-        return (compactHeaderRect?.top || 0) + (compactHeaderRect?.height || 0);
-      }
-    } else {
-      const compactHeaderRect = compactHeaderRef.current?.getBoundingClientRect();
-
-      return (compactHeaderRect?.top || 0) + (compactHeaderRect?.height || 0);
-    }
-  };
+  }, [scrollYProgress]);
 
   function toggleMegaMenuOpen(index: number) {
     return setMegaMenuIndex(index);
@@ -184,7 +146,7 @@ const Header: FC<HeaderProps> = ({ headerData, isTopbarShowing, setIsTopbarShowi
     setIsLoaded(true);
 
     if (isHome) {
-      setIsCompactMenuVisible(false);
+      setIsCompactHeaderVisible(false);
     }
 
     router.events.on('routeChangeComplete', toggleMegaMenuClose);
@@ -198,32 +160,38 @@ const Header: FC<HeaderProps> = ({ headerData, isTopbarShowing, setIsTopbarShowi
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
-        const isHeaderVisible = entry.isIntersecting;
 
-        setIsMainHeaderVisible(isHeaderVisible);
-
-        // Show Compact Header when main Header is not visible and it's the homepage
-        if (!isHeaderVisible && isHome) {
-          setIsCompactMenuVisible(true);
-        } else {
-          setIsCompactMenuVisible(false);
-        }
+        setIsCompactHeaderVisible(!entry.isIntersecting);
       },
-      { threshold: 0 },
+      { threshold: 0.1, rootMargin: '-5px 0px 0px 0px' },
     );
 
-    const mainHeaderEl = mainHeaderRef.current;
-
-    if (mainHeaderEl) {
-      observer.observe(mainHeaderEl);
+    if (mainHeaderRef.current) {
+      observer.observe(mainHeaderRef.current);
     }
 
     return () => {
-      if (mainHeaderEl) {
-        observer.unobserve(mainHeaderEl);
+      if (mainHeaderRef.current) {
+        observer.unobserve(mainHeaderRef.current);
       }
     };
-  }, [isHome]);
+  }, []);
+
+  const getMegaMenuPosition = () => {
+    if (isHome) {
+      if (!isCompactHeaderVisible) {
+        const mainHeaderRect = mainHeaderRef.current?.getBoundingClientRect();
+
+        return (mainHeaderRect?.top || 0) + (mainHeaderRect?.height || 0);
+      } else {
+        return compactHeaderRef.current?.offsetHeight || 0;
+      }
+    } else {
+      const compactHeaderRect = compactHeaderRef.current?.getBoundingClientRect();
+
+      return (compactHeaderRect?.top || 0) + (compactHeaderRect?.height || 0);
+    }
+  };
 
   useEffect(() => {
     const showroomLocationTemp = isUserCloseToShowroom();
@@ -267,7 +235,7 @@ const Header: FC<HeaderProps> = ({ headerData, isTopbarShowing, setIsTopbarShowi
                 <motion.div
                   key="slide-in-header"
                   initial={isHome ? 'collapsed' : 'open'}
-                  animate={isCompactMenuVisible || !isHome ? 'open' : 'collapsed'}
+                  animate={isCompactHeaderVisible || !isHome ? 'open' : 'collapsed'}
                   exit="collapsed"
                   variants={{
                     open: { y: 0, opacity: 1 },
@@ -296,7 +264,7 @@ const Header: FC<HeaderProps> = ({ headerData, isTopbarShowing, setIsTopbarShowi
                   <MegaMenu
                     navItems={section}
                     megaMenuIndex={megaMenuIndex}
-                    isCompactMenuVisible={isCompactMenuVisible}
+                    isCompactHeaderVisible={isCompactHeaderVisible}
                     dynamicTop={dynamicTop}
                   />
                 )}
@@ -336,7 +304,7 @@ const Header: FC<HeaderProps> = ({ headerData, isTopbarShowing, setIsTopbarShowi
             <MegaMenu
               navItems={section}
               megaMenuIndex={megaMenuIndex}
-              isCompactMenuVisible={isCompactMenuVisible}
+              isCompactHeaderVisible={isCompactHeaderVisible}
               dynamicTop={dynamicTop}
             />
           )}
