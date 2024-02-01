@@ -1,4 +1,7 @@
+import { toast } from 'react-toastify';
+
 export function confirmDiamondsMatchSettingType(diamonds, product, router) {
+  console.log('confirmDiamondsMatchSettingType', confirmDiamondsMatchSettingType);
   // Custom products with a single diamond
   if (diamonds.length === 1) {
     if (diamonds?.[0]?.diamondType !== product?.configuration?.diamondType) {
@@ -18,10 +21,11 @@ export function confirmDiamondsMatchSettingType(diamonds, product, router) {
         //   { shallow: true },
         // );
       } else {
+        toast('replacing url');
         router.replace(
           `/customize/diamond-to-setting/${diamonds?.[0]?.lotId}/${router?.query?.collectionSlug}/${newProductSlug?.id}/summary`,
           null,
-          { shallow: true },
+          // { shallow: true },
         );
       }
 

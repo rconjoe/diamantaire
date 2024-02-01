@@ -1,3 +1,4 @@
+import { fetchDatoVariant } from '@diamantaire/darkside/data/api';
 import { ProductVariantPDPData } from '@diamantaire/server/products';
 import { useRouter } from 'next/router';
 import { Dispatch, createContext, useEffect, useReducer } from 'react';
@@ -218,9 +219,8 @@ const BuilderProductContextProvider = ({ children }: BuilderProductContextProvid
 
   const router = useRouter();
 
+  // Maintain Diamond State
   useEffect(() => {
-    // console.log('state changed', state);
-
     // if there is a lotID in the query, we need to fetch the diamond data
     async function getDiamond() {
       const qParams = new URLSearchParams({
@@ -240,6 +240,46 @@ const BuilderProductContextProvider = ({ children }: BuilderProductContextProvid
       getDiamond();
     }
   }, [router.query.lotId]);
+
+  useEffect(() => {
+    async function getSettingProduct() {
+      const qParams = new URLSearchParams({
+        slug: router?.query?.collectionSlug?.toString(),
+        id: router?.query?.productSlug?.toString(),
+      }).toString();
+
+      // Product Data
+      const productResponse = await fetch(`/api/pdp/getPdpProduct?${qParams}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((res) => res.json())
+        .then(async (res) => {
+          const handle = res?.productContent?.shopifyProductHandle || res?.productContent?.configuredProductOptionsInOrder;
+          const category = res?.productType;
+
+          const variant: any = handle && (await fetchDatoVariant(handle, category, router.locale));
+
+          return {
+            ...res,
+            variantDetails: variant?.omegaProduct,
+          };
+        })
+        .catch((e) => {
+          console.log('getPdpProduct error', e);
+        });
+
+      updateFlowData('ADD_PRODUCT', productResponse);
+
+      return productResponse;
+    }
+
+    if (router.query.collectionSlug && router.query.productSlug) {
+      getSettingProduct();
+    }
+  }, [router.query.collectionSlug, router.query.productSlug]);
 
   useEffect(() => {
     console.log('state changed', state);

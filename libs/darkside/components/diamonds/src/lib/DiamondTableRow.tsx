@@ -2,6 +2,7 @@ import { GTM_EVENTS, useAnalytics } from '@diamantaire/analytics';
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalContext, GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
+import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { LooseDiamondAttributeProps, addLooseDiamondToCart } from '@diamantaire/darkside/data/api';
 import { useCartData, useCartInfo, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { DIAMOND_VIDEO_BASE_URL, getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
@@ -36,6 +37,8 @@ const DiamondTableRow = ({
   const { emitDataLayer } = useAnalytics();
   const router = useRouter();
   const { handle, lotId, diamondType } = product;
+
+  const { builderProduct } = useContext(BuilderProductContext);
 
   const { data: { cart: cartData } = {} } = useCartInfo(router.locale);
 
@@ -103,10 +106,12 @@ const DiamondTableRow = ({
 
     const flowType = router.asPath.includes('setting-to-diamond') ? 'setting-to-diamond' : 'diamond-to-setting';
 
+    // starting from diamond table page
     if (flowType === 'diamond-to-setting' && !router.query.collectionSlug && !router.query.productSlug) {
       console.log('case 001');
       router.push(`/customize/diamond-to-setting/${product.lotId}`);
     } else if (flowType === 'setting-to-diamond') {
+      // mid-way through setting to diamond flow
       console.log('case 002');
       router.push(
         `/customize/setting-to-diamond/${
@@ -115,8 +120,14 @@ const DiamondTableRow = ({
         null,
       );
     } else {
-      // diamond to setting - edit diamond
-      const nextUrl = `/customize/diamond-to-setting/${product.lotId}/${router.query.collectionSlug}/${router.query.productSlug}/summary`;
+      // diamond to setting flow - edit diamond
+
+      // If the user changes their shape, we want to link back to the respective setting
+      const productShapeId = builderProduct?.product?.optionConfigs?.diamondType?.find(
+        (option) => option.value === diamondType,
+      )?.id;
+
+      const nextUrl = `/customize/diamond-to-setting/${product.lotId}/${router.query.collectionSlug}/${productShapeId}/summary`;
 
       console.log('case 003', nextUrl);
 

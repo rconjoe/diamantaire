@@ -95,8 +95,7 @@ const DiamondBuildStep = ({
   const { asPath, query } = router;
   const { builderProduct } = useContext(BuilderProductContext);
 
-  console.log('builderProduct?.diamonds?.[0]?.diamondType', builderProduct?.diamonds?.[0]?.diamondType);
-  console.log('router', router);
+  console.log('builderProduct', builderProduct);
 
   const defaultInitialOptions = {
     caratMin: 1,
@@ -157,7 +156,7 @@ const DiamondBuildStep = ({
   const [options, setOptions] = useState(initialOptions);
   const [activeRow, setActiveRow] = useState(null);
 
-  console.log('options', options);
+  console.log('builderProduct', options);
 
   const { data: { diamonds, pagination, ranges } = {} } = useDiamondsData({ ...options });
 

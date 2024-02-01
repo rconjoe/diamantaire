@@ -2,11 +2,7 @@
 
 import { PageViewTracker, useAnalytics } from '@diamantaire/analytics';
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
-import {
-  BuilderFlowLoader,
-  ReviewVariantSelector,
-  confirmDiamondsMatchSettingType,
-} from '@diamantaire/darkside/components/builder-flows';
+import { BuilderFlowLoader, ReviewVariantSelector } from '@diamantaire/darkside/components/builder-flows';
 import {
   DarksideButton,
   DatoImage,
@@ -824,7 +820,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
 
     if (router.asPath.includes('setting-to-diamond')) {
       const newUrl = `/customize/setting-to-diamond/summary/${
-        settingSlugs.collectionSlug
+        router.query.collectionSlug
       }/${option?.id}/${builderProduct?.diamonds?.map((diamond) => diamond?.lotId).join('/')}`;
 
       return router.replace(newUrl);
@@ -845,12 +841,12 @@ const ReviewBuildStep = ({ settingSlugs }) => {
   const [activeSlide, setActiveSlide] = useState(0);
 
   // Last sec check to confirm diamond + setting shapes match
-  useEffect(() => {
-    if (!builderProduct?.diamonds || !shopifyProductData) return;
-    if (!builderProduct?.diamonds?.[0]?.diamondType === shopifyProductData.diamondType) return;
+  // useEffect(() => {
+  //   if (!builderProduct?.diamonds || !shopifyProductData) return;
+  //   // if (!builderProduct?.diamonds?.[0]?.diamondType === shopifyProductData.diamondType) return;
 
-    confirmDiamondsMatchSettingType(builderProduct?.diamonds, shopifyProductData, router);
-  }, [shopifyProductData]);
+  //   confirmDiamondsMatchSettingType(builderProduct?.diamonds, shopifyProductData, router);
+  // }, [router.query.lotId, builderProduct?.diamonds, shopifyProductData?.diamondType]);
 
   useEffect(() => {
     if (!emblaApi) return;
@@ -951,7 +947,14 @@ const ReviewBuildStep = ({ settingSlugs }) => {
   }
 
   useEffect(() => {
-    getSettingProduct().then(() => setIsLoading(false));
+    if (router?.query?.productSlug && router?.query?.collectionSlug) {
+      console.log(
+        'router?.query?.productSlug && router?.query?.collectionSlug',
+        router?.query?.productSlug,
+        router?.query?.collectionSlug,
+      );
+      getSettingProduct().then(() => setIsLoading(false));
+    }
   }, [router?.query?.productSlug, router?.query?.collectionSlug]);
 
   if (!shopifyProductData) return <BuilderFlowLoader />;
