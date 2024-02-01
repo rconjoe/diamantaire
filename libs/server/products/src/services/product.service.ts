@@ -15,7 +15,6 @@ import { UtilService } from '@diamantaire/server/common/utils';
 import { DIAMOND_PAGINATED_LABELS, ProductOption } from '@diamantaire/shared/constants';
 import {
   VraiProduct,
-  getConfigMatrix,
   ListPageItemConfiguration,
   ProductType,
   VraiProductData,
@@ -40,7 +39,7 @@ import {
 import * as Sentry from '@sentry/node';
 import Bottleneck from 'bottleneck';
 import { Variables } from 'graphql-request';
-import { PipelineStage, FilterQuery, PaginateOptions } from 'mongoose';
+import { PipelineStage, PaginateOptions } from 'mongoose';
 
 import { PaginateFilterDto } from '../dto/paginate-filter.dto';
 import { ProductSlugInput, ProductByVariantIdInput } from '../dto/product.input';
@@ -59,6 +58,12 @@ import { ProductRepository } from '../repository/product.repository';
 const OPTIONS_TO_SKIP = ['goldPurity'];
 let PRODUCT_DATA_TTL = 30 * 60 * 1000; // 30 min ttl in ms
 let PLP_DATA_TTL = 30 * 60 * 1000; // 30 min ttl in ms
+let PERSISTANT_CACHE_TTL;
+
+// If using in memory cache, set to zero for persistant cache
+if (!process.env.REDIS_URL){
+  PERSISTANT_CACHE_TTL = 0;
+}
 
 if (process.env.NODE_ENV !== 'production') {
   PRODUCT_DATA_TTL = 60 * 1000; // 1 min ttl in ms
@@ -761,10 +766,10 @@ export class ProductsService {
         const preProductsReq: number = performance.now();
 
         if (productsCollectionCacheValue) {
-          this.logger.verbose(`findProductBySlug :: From Cache 1`);
+          this.logger.verbose(`findProductBySlug :: Collection data :: From Cache 1`);
           collection = productsCollectionCacheValue as VraiProduct[];
         } else {
-          this.logger.verbose(`findProductBySlug :: From DB 1`);
+          this.logger.verbose(`findProductBySlug :: all product data :: From DB 1`);
           const bigProductsCollectionCacheValue = await this.cacheManager.get(bigRedisKey);
 
           if (bigProductsCollectionCacheValue) {
@@ -776,11 +781,11 @@ export class ProductsService {
           } else {
             this.logger.verbose(`findProductBySlug :: From DB 2`);
             collection = await this.productRepository.find(bigQuery);
-            this.cacheManager.set(bigRedisKey, collection);
+            this.cacheManager.set(bigRedisKey, collection, PERSISTANT_CACHE_TTL);
             collection = collection.filter((item) => {
               return (item.collectionSlug === input.slug);
             });
-            this.cacheManager.set(redisKey, collection);
+            this.cacheManager.set(redisKey, collection, PERSISTANT_CACHE_TTL);
           }
         }
 
@@ -1242,484 +1247,6 @@ export class ProductsService {
       return response;
     } catch (error: any) {
       this.logger.error(`datoContentForJewelry :: error : ${error.message}`);
-      throw error;
-    }
-  }
-
-  /**
-   * ------// PLP DATA //------
-   * This function accepts an input for retrieving PLP data.
-   * It will return a list of products with combined content and product data.
-   * @param {object} input - PLP input
-   * @param {string} input.slug - PLP slug
-   * @param {string} input.locale - locale for content
-   * @param {string} input.metal - metal filter
-   * @param {string} input.diamondType - diamond type filter
-   * @param {number} input.priceMin - price range filter min
-   * @param {number} input.priceMax - price range filter max
-   * @returns Array of plp products and page content
-   *
-   * 1) Get Dato PLP filter data and products (can be FJ, WB or ER)
-   *   Note: Merchandized products can be either in productsInOrder or configurationsInOrder
-   *         or bestSellersInOrder or collectionsInOrder. When supporting collectionsInOrder,
-   *         the algorithm handles 1 product per collection
-   * 2) Get paginated and filtered products from Mongo
-   * 3) Get all collections for (2) result products from Mongo to determine relationship
-   *    and variant products
-   * 4) Get all product content from Dato for merchandized products & variant products
-   * 5) Gat all product data from Mongo for merchandized products & variant products
-   * 6) Merge CMS content with Mongo product data and return plp datas
-   */
-
-  async findPlpData(query: PlpQuery) {
-    const {
-      slug,
-      category,
-      locale = 'en_US',
-      metals,
-      diamondTypes,
-      priceMin,
-      priceMax,
-      styles,
-      subStyles,
-      page,
-      limit,
-      sortBy,
-      sortOrder,
-    } = query;
-
-    // performance measurement
-    const p0 = performance.now();
-
-    const cachedKey = `plp-${category}-${slug}-${locale}-${this.generateQueryCacheKey(query)}`;
-
-    let plpReturnData;
-    // check for cached data
-    const cachedData = await this.cacheManager.get(cachedKey);
-
-    if (cachedData) {
-      this.logger.verbose(`PLP :: cache hit on key ${cachedKey} :: ${performance.now() - p0}ms`);
-
-      return cachedData; // return the entire cached data including dato content
-    }
-
-    try {
-      // Get Dato PLP data
-      const plpContent = await this.datoPLPContent({ slug, category, locale });
-
-      // performance measurement
-      const postDatoTime = performance.now();
-
-      this.logger.verbose(`PLP :: Dato PLP data Retrieved :: ${postDatoTime - p0}ms`);
-
-      if (!plpContent.listPage) {
-        throw new NotFoundException(`PLP slug: ${slug} and category: ${category} not found`);
-      }
-
-      const { bestSellersInOrder, configurationsInOrder, productsInOrder, collectionsInOrder } = plpContent.listPage;
-
-      // PLP merchandized by collection.  Currently only supports engagement rings
-      if (collectionsInOrder.length > 0) {
-        const collectionSlugsInOrder = collectionsInOrder.map((collection) => collection.slug);
-
-        plpReturnData = await this.getCollectionInOrderPlpProducts(slug, collectionSlugsInOrder, locale, {
-          metals,
-          diamondTypes,
-          page,
-          limit,
-        });
-
-        this.cacheManager.set(cachedKey, plpReturnData, PRODUCT_DATA_TTL);
-
-        return plpReturnData;
-      }
-
-      // Need to support both productsInOrder and ConfigurationsInOrder
-      let productList = configurationsInOrder;
-
-      if (productsInOrder.length) {
-        productList = productsInOrder;
-      }
-      if (bestSellersInOrder.length) {
-        productList = bestSellersInOrder;
-      }
-
-      const contentIdsInOrder: string[] = [];
-      let plpProductsContentData;
-
-      if (configurationsInOrder || productsInOrder || bestSellersInOrder) {
-        plpProductsContentData = productList.reduce((data, item) => {
-          let contentId: string, content: object;
-
-          if (item._modelApiKey === 'configuration') {
-            contentId = item.variantId;
-            content = { ...item.jewelryProduct };
-            // delete item.jewelryProduct;
-          } else if (item._modelApiKey === 'omega_product') {
-            contentId = item.shopifyProductHandle;
-            content = { ...item.collection };
-            // delete item.collection;
-          }
-
-          contentIdsInOrder.push(contentId);
-
-          data[contentId] = {
-            content: {
-              ...item,
-              ...content,
-            },
-          };
-
-          return data;
-        }, {});
-      }
-
-      const getFiltersQuery = ({
-        ms,
-        dTs,
-        pMin,
-        pMax,
-        stylesFilters,
-        subStylesFilters,
-      }): FilterQuery<{
-        'configuration.metal'?: string;
-        'configuration.diamondType'?: string;
-        price?: string;
-        style?: string;
-      }>[] => {
-        const query = [];
-
-        if (ms && ms.length > 0) {
-          query.push({ 'configuration.metal': { $in: ms } });
-        }
-        if (dTs && dTs.length > 0) {
-          const diamondTypeRegex = dTs.map((dt) => new RegExp(dt, 'i'));
-
-          query.push({ 'configuration.diamondType': { $in: diamondTypeRegex } });
-        }
-
-        if (typeof pMin !== 'undefined') {
-          query.push({ price: { $gte: priceMin } });
-        }
-        if (typeof pMax !== 'undefined') {
-          query.push({ price: { $lte: priceMax } });
-        }
-
-        if (typeof stylesFilters !== 'undefined' && stylesFilters.length > 0) {
-          query.push({ styles: { $in: stylesFilters } });
-        }
-
-        if (typeof subStylesFilters !== 'undefined' && subStylesFilters.length > 0) {
-          query.push({ subStyles: { $in: subStylesFilters } });
-        }
-
-        return query;
-      };
-
-      const filterQueries = getFiltersQuery({
-        ms: metals,
-        dTs: diamondTypes,
-        pMin: priceMin,
-        pMax: priceMax,
-        stylesFilters: styles,
-        subStylesFilters: subStyles,
-      });
-
-      // Build Query
-      const pipeline: PipelineStage[] = [
-        { $match: { $and: [{ contentId: { $in: contentIdsInOrder } }, ...filterQueries, getDraftQuery()] } },
-        { $addFields: { __order: { $indexOfArray: [contentIdsInOrder, '$contentId'] } } },
-        { $sort: { __order: 1 } },
-      ];
-
-      // sortOrder already declared
-      const sortByKey = sortBy || null;
-      const sortByObj = {};
-
-      if (sortByKey) {
-        sortByObj[sortByKey] = sortOrder;
-      }
-
-      const paginateOptions: PaginateOptions = {
-        limit: limit || 20,
-        page: page || 1,
-        ...(sortByKey && { sort: sortByObj }),
-      };
-
-      const productsResponse = await this.productRepository.aggregatePaginate<VraiProduct>(pipeline, paginateOptions);
-
-      // performance measurement
-      const postMainProductMongo = performance.now();
-
-      this.logger.verbose(
-        `PLP :: Mongo primary product data Retrieved :: ${postMainProductMongo - postDatoTime}ms (total: ${
-          postMainProductMongo - p0
-        }ms)`,
-      );
-
-      const availableFiltersCacheKey = `plp-${slug}-filter-types`;
-      // check for cached data
-      let availableFilters = await this.utils.memGet(availableFiltersCacheKey);
-
-      if (!availableFilters) {
-        this.logger.verbose(`PLP :: Filters :: cache miss on key ${availableFiltersCacheKey}`);
-
-        const simplified = await this.productRepository.find({ contentId: { $in: contentIdsInOrder } });
-        const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] = [
-          [],
-          [],
-          [],
-          [],
-          [],
-        ];
-
-        simplified.map((item) => {
-          if (item.configuration.metal !== undefined) {
-            if (availableMetals.indexOf(item.configuration.metal) < 0) {
-              availableMetals.push(item.configuration.metal);
-            }
-          }
-          if (item.configuration.diamondType !== undefined) {
-            if (availableDiamondTypes.indexOf(item.configuration.diamondType) < 0) {
-              availableDiamondTypes.push(item.configuration.diamondType);
-            }
-          }
-          if (item.price !== undefined) {
-            if (priceValues.indexOf(item.price) < 0) {
-              priceValues.push(item.price);
-            }
-          }
-          if (item.styles !== undefined) {
-            if (availableStyles.indexOf(item.styles) < 0) {
-              availableStyles.push(item.styles);
-            }
-          }
-          if (item.subStyles !== undefined) {
-            if (availableSubStyles.indexOf(item.subStyles) < 0) {
-              availableSubStyles.push(item.subStyles);
-            }
-          }
-        });
-
-        // split joined types to be individual types and remove duplicates
-        const explodedDiamondTypes = [...new Set(availableDiamondTypes.flatMap((d) => d.split('+')))];
-        const explodedMetalType = [...new Set(availableMetals.flatMap((m) => m.split(' and ')))];
-
-        availableFilters = {
-          metal: explodedMetalType.sort(sortMetalTypes),
-          diamondType: explodedDiamondTypes.sort(sortDiamondTypes),
-          price: [Math.min(...priceValues), Math.max(...priceValues)],
-          styles: availableStyles,
-          subStyles: availableSubStyles,
-        };
-        // performance measurement
-        //const postFilterReq = performance.now();
-
-        // this.logger.verbose(`PLP :: Available filters request :: ${postFilterReq - preFiltersReq}ms (total: ${postFilterReq - p0}ms)`);
-        this.utils.memSet(availableFiltersCacheKey, availableFilters, PRODUCT_DATA_TTL);
-      }
-
-      // Add product data to PLP data
-      const collectionSlugsSet = new Set<string>();
-      const products = productsResponse.docs;
-      const scopedPlpData = products.reduce((map: Record<string, { content: object; product: VraiProduct }>, product) => {
-        map[product.contentId] = {
-          content: plpProductsContentData[product?.contentId]?.content,
-          product,
-        };
-
-        collectionSlugsSet.add(product.collectionSlug);
-
-        return map;
-      }, {});
-
-      // PERFORMANCE BENCHMARK: Mongo collection request
-      const preMongoCollectionReq = performance.now();
-
-      const collectionSlugs = [...collectionSlugsSet];
-      const collections = await this.productRepository.find({ collectionSlug: { $in: collectionSlugs } });
-      const collectionsMap = collections.reduce((map: Record<string, VraiProduct[]>, collection) => {
-        if (!map[collection.collectionSlug]) {
-          map[collection.collectionSlug] = [collection];
-        } else {
-          map[collection.collectionSlug].push(collection);
-        }
-
-        return map;
-      }, {});
-
-      const postMongoCollectionReq = performance.now();
-
-      this.logger.verbose(
-        `PLP :: Mongo Collection Request :: ${postMongoCollectionReq - preMongoCollectionReq}ms (total: ${
-          postMongoCollectionReq - p0
-        }ms)`,
-      );
-
-      // for each collection slug, get each configuration based on the primary contentId
-      // get all configMatrices
-      const configMatrixByContentId: Record<string, Record<string, string[]>> = Object.keys(scopedPlpData).reduce(
-        (matrix, contentId) => {
-          const collectionSlug = scopedPlpData[contentId]?.product?.collectionSlug;
-
-          if (collectionSlug && collectionsMap[collectionSlug]) {
-            matrix[contentId] = getConfigMatrix(
-              collectionsMap[collectionSlug],
-              scopedPlpData[contentId].product.configuration,
-            );
-          } else {
-            this.logger.verbose(`Could not find product information for contentId: ${contentId}`);
-          }
-
-          return matrix;
-        },
-        {},
-      );
-
-      // split content ids into configurations and product record requests
-      const [variantIds, productHandles]: [string[], string[]] = Object.keys(configMatrixByContentId).reduce(
-        (idTuple, contentId) => {
-          const [v, p] = idTuple;
-          const configMatches = configMatrixByContentId[contentId];
-          const uniqueIds = Object.values(configMatches.metal).filter((id) => id !== contentId);
-
-          // Add to plp product data
-          scopedPlpData[contentId]['metal'] = configMatches.metal;
-
-          if (plpProductsContentData[contentId].content._modelApiKey === 'configuration') {
-            v.push(...uniqueIds);
-          } else {
-            p.push(...uniqueIds);
-          }
-
-          return [v, p];
-        },
-        [[], []],
-      );
-
-      const variantContentIds = [...variantIds, ...productHandles];
-
-      // PERFORMANCE BENCHMARK: Dato & Mongo variant request
-      const preVariantDataRequest = performance.now();
-
-      // TODO: may need paginated request but most likely not since we limit to ~12 items per page
-      // request all contentIds from Mongo and DB
-      const variantPromises: [Promise<object[]>, Promise<VraiProduct[]>] = [
-        this.datoConfigurationsAndProducts({ slug, locale, variantIds: variantContentIds, productHandles: productHandles }),
-        this.productRepository.find({ contentId: { $in: variantContentIds } }),
-      ];
-      const [variantContentData, variantProducts] = await Promise.all(variantPromises);
-
-      const postVariantDataRequest = performance.now();
-
-      this.logger.verbose(
-        `PLP :: Mongo & Dato variant Request :: ${postVariantDataRequest - preVariantDataRequest}ms (total: ${
-          postVariantDataRequest - p0
-        }ms)`,
-      );
-
-      const variantsMap = variantContentIds.reduce(
-        (map: Record<string, { content?: object; product?: VraiProduct }>, contentId) => {
-          map[contentId] = {
-            content: variantContentData.find((item) => {
-              return item['variantId'] === contentId || item['shopifyProductHandle'] === contentId;
-            }),
-            product: variantProducts.find((item) => item['contentId'] === contentId),
-          };
-
-          return map;
-        },
-        {},
-      );
-
-      const lowestPricesByCollection = await this.getLowestPricesByCollection();
-
-      // merge and reduce
-      const plpProducts = Object.values(scopedPlpData).reduce(
-        (plpItems: ListPageItemWithConfigurationVariants[], item: any /* VraiProductData */) => {
-          const { content, product, metal: metalOptions } = item;
-
-          const altConfigs = Object.values<string>(metalOptions).reduce((map, id) => {
-            const variantData = variantsMap[id];
-
-            if (id === product.contentId) {
-              return map;
-            }
-
-            if (variantData) {
-              if (variantData.product && variantData.content) {
-                const { product: variantProduct, content: variantContent } = variantsMap[id as string];
-
-                map[id as string] = this.createPlpProduct(variantProduct, variantContent);
-              } else if (!variantData.product) {
-                this.logger.debug(`Missing product data for contentId: ${id}`);
-              } else if (!variantData.content) {
-                this.logger.debug(
-                  `Missing content data for contentId: ${id}, collectionSlug: ${variantData?.product?.collectionSlug}`,
-                );
-              }
-            } else {
-              this.logger.debug(`Missing variantData data for contentId: ${id}`);
-            }
-
-            return map;
-          }, {});
-
-          const useLowestPrice = !content?.shouldUseDefaultPrice;
-          const hasOnlyOnePrice = content?.hasOnlyOnePrice;
-          const productLabel = content?.productLabel;
-          const variants = {
-            [product.contentId]: this.createPlpProduct(product, content),
-            ...altConfigs,
-          };
-          const lowestPrice = lowestPricesByCollection?.[product.collectionSlug];
-          const collectionContent = content?.collection || content?.jewelryProduct;
-
-          plpItems.push({
-            defaultId: product.contentId,
-            productType: product.productType,
-            productTitle: collectionContent?.productTitle,
-            plpTitle: content?.plpTitle,
-            ...(productLabel && { productLabel }),
-            ...(hasOnlyOnePrice && { hasOnlyOnePrice }),
-            ...(useLowestPrice && { useLowestPrice }),
-            ...(lowestPrice && { lowestPrice }),
-            metal: Object.keys(metalOptions)
-              .sort(getOptionValueSorterByType('metal'))
-              .map((metalType) => ({ value: metalType, id: metalOptions[metalType] })),
-            variants,
-          });
-
-          return plpItems;
-        },
-        [],
-      );
-
-      const paginator = {
-        totalDocs: productsResponse.totalDocs,
-        limit: productsResponse.limit,
-        page: productsResponse.page,
-        totalPages: productsResponse.totalPages,
-        pagingCounter: productsResponse.pagingCounter,
-        hasPrevPage: productsResponse.hasPrevPage,
-        hasNextPage: productsResponse.hasNextPage,
-        prevPage: productsResponse.prevPage,
-        nextPage: productsResponse.nextPage,
-      };
-
-      plpReturnData = {
-        // ...listPageContent,
-        products: plpProducts,
-        availableFilters,
-        paginator,
-      };
-
-      this.logger.verbose(`PLP :: cache set on key ${cachedKey}`);
-      this.cacheManager.set(cachedKey, plpReturnData, PRODUCT_DATA_TTL);
-
-      return plpReturnData;
-    } catch (error: any) {
-      this.logger.error(`findPlpData :: error : ${error.message}`);
       throw error;
     }
   }
