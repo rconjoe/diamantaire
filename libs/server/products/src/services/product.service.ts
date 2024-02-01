@@ -35,7 +35,7 @@ import {
   InternalServerErrorException,
   Logger,
   NotFoundException,
-  Inject,
+  Inject
 } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
 import Bottleneck from 'bottleneck';
@@ -260,7 +260,19 @@ export class ProductsService {
         this.getLowestPricesByCollection(),
         this.getPlpFilterData(plpSlug),
       ];
-      const [productContent, collectionLowestPrices, availableFilters] = await Promise.all(dataPromises);
+
+      let productContent, collectionLowestPrices, availableFilters;
+
+      try {
+        [productContent, collectionLowestPrices, availableFilters] = await Promise.all(dataPromises);
+      } catch (e){
+        this.logger.error(`Error fetching PLP data: ${e['message']}`);
+        
+        Sentry.captureException(e);
+
+        return null;
+      }
+      
 
       const paginator = {
         totalDocs: totalDocuments,
@@ -2145,7 +2157,8 @@ export class ProductsService {
 
     this.logger.verbose(`Getting Dato configurations & products for ${slug}`);
     const cachedKey = `plp-configurations-${slug}:${locale}:${ids.join('-')}-${first}-${skip}`;
-    let response = await this.utils.memGet<any>(cachedKey); // return the cached result if there's a key
+    const cachedData = await this.utils.memGet<any>(cachedKey); // return the cached result if there's a key
+    let response;
 
     const queryVars = {
       productHandles,
@@ -2156,7 +2169,7 @@ export class ProductsService {
     };
 
     try {
-      if (!response) {
+      if (!cachedData) {
         response = await this.utils.createDataGateway().request(CONFIGURATIONS_LIST, queryVars);
         this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
         this.utils.memSet(cachedKey, response, PRODUCT_DATA_TTL); //set the response in memory
@@ -2165,7 +2178,7 @@ export class ProductsService {
       return [...response.allConfigurations, ...response.allOmegaProducts];
     } catch (err) {
       this.logger.debug(`Cannot retrieve configurations and products for ${slug}`);
-      throw new NotFoundException(`Cannot retrieve configurations and products for ${slug}`, err);
+      throw new InternalServerErrorException(`Cannot retrieve configurations and products for ${slug}`, err);
     }
   }
 
@@ -2419,14 +2432,7 @@ export class ProductsService {
     try {
       const collectionTree = await this.getCollectionTreeStruct(collectionSlug);
       const product = await this.findProduct(collectionSlug, productSlug);
-
       const productConfigs = getProductConfigMatrix(product as any, collectionTree);
-
-      // Ensure all diamond types are represented
-      // const collectionOptions = await this.getCollectionOptions(collectionSlug);
-      // const allDiamondTypes: string[] = collectionOptions['diamondType'];
-
-      // addMissingDiamondTypesToConfigs(productConfigs, product, collectionTree, allDiamondTypes);
 
       this.utils.memSet(cacheKey, productConfigs, PRODUCT_DATA_TTL);
 
