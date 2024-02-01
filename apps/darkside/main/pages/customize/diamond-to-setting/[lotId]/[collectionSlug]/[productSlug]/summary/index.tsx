@@ -894,6 +894,8 @@ const ReviewBuildStep = ({ settingSlugs }) => {
       return id;
     });
 
+    console.log('spritespinner ids', ids);
+
     setSpriteSpinnerIds(ids);
   }, [builderProduct?.diamonds]);
 

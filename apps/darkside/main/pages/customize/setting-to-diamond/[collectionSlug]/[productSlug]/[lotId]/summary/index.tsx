@@ -286,7 +286,10 @@ const ReviewBuildStepStyles = styled(motion.div)`
     }
 
     .engraving-container {
-      padding: 2rem 0;
+      padding: 0 0 2rem;
+      .engraving {
+        padding: 2rem 0 0;
+      }
 
       .engraving-prompt-text {
         display: flex;
@@ -1095,7 +1098,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
               </div>
             </div>
 
-            {selectedSize && (
+            {selectedSize && productType === 'Engagement Ring' && (
               <div className="ring-size-container">
                 <OptionSelector
                   optionType={sizeOptionKey}
