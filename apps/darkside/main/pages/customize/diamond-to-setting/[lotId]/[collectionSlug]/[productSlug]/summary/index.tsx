@@ -937,11 +937,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
         console.log('getPdpProduct error', e);
       });
 
-    console.log('productResponse', productResponse);
-
     setShopifyProductData(productResponse);
-
-    // updateFlowData('ADD_PRODUCT', productResponse);
 
     return productResponse;
   }

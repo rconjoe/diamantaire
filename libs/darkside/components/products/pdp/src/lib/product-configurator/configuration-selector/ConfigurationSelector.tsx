@@ -131,7 +131,7 @@ function ConfigurationSelector({
       productSlug: option?.id,
     });
 
-    router.push(
+    router.replace(
       `/customize/diamond-to-setting/${builderProduct?.diamonds?.[0]?.lotId}/${router?.query?.collectionSlug}/${option?.id}`,
     );
   }

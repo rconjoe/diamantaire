@@ -40,14 +40,14 @@ const SettingSelectStepStyles = styled.div`
 const SettingSelectStep = () => {
   const { locale } = useRouter();
 
-  const { updateFlowData } = useContext(BuilderProductContext);
+  const { updateFlowData, builderProduct } = useContext(BuilderProductContext);
 
-  const settingTypeToShow = 'round-brilliant';
+  const settingTypeToShow = builderProduct?.diamonds?.[0]?.diamondType;
 
   const containerRef = useRef(null);
 
   const { ref: pageEndRef, inView } = useInView({
-    rootMargin: '800px',
+    rootMargin: '1600px',
   });
 
   const category = 'engagement-rings';
