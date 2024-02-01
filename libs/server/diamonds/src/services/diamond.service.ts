@@ -13,7 +13,7 @@ import { CFY_DIAMOND_LIMIT, DIAMOND_PAGINATED_LABELS, MIN_CARAT_EMPTY_RESULT } f
 
 import { ListPageDiamondItem } from '@diamantaire/shared-diamond';
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
-import { PaginateOptions, FilterQuery } from 'mongoose';
+import { PaginateOptions, FilterQuery, AggregatePaginateResult } from 'mongoose';
 
 import { DiamondPlp, GetDiamondCheckoutDto, LowestPricedDto, ProductInventoryDto } from '../dto/diamond-checkout.dto';
 import { GetDiamondByLotIdDto, GetDiamondDto, GetDiamondByHandleDto } from '../dto/get-diamond.input';
@@ -40,6 +40,12 @@ import { ToiMoiDiamondsRepository } from '../repository/toimoi-diamonds.reposito
 
 const STAFF_PICKS_LABEL = 'staffPick';
 
+const DIAMOND_PROPERTY_ORDERS = {
+  cut: ['Excellent', 'Ideal', 'Ideal+Hearts'],
+  color: ['L', 'K', 'J', 'I', 'H', 'G', 'F', 'E', 'D'],
+  clarity: ['SI1', 'SI2', 'VS2', 'VS1', 'VVS1', 'VVS2'],
+}
+
 @Injectable()
 export class DiamondsService {
   private Logger = new Logger('DiamondsService');
@@ -57,7 +63,7 @@ export class DiamondsService {
    * @returns {Promise<IDiamondCollection[]>} - paginated diamonds
    */
 
-  async getDiamonds(input: GetDiamondDto): Promise<IDiamondCollection[]> {
+  async getDiamonds(input: GetDiamondDto): Promise<AggregatePaginateResult<IDiamondCollection>> {
     //const cachedKey = `diamonds-${JSON.stringify(params)}-isCto=${isCto}-${JSON.stringify(input)}`;
     const sortOrder = input?.sortOrder || 'desc'; // asc or 1 or ascending, desc or -1 or descending
     const sortByKey = input?.sortBy || 'carat';
@@ -69,7 +75,7 @@ export class DiamondsService {
     const options: PaginateOptions = {
       limit: input.limit || 20,
       page: input.page || 1,
-      sort: sortByObj,
+      // sort: sortByObj,
       customLabels: DIAMOND_PAGINATED_LABELS,
     };
 
@@ -87,10 +93,25 @@ export class DiamondsService {
       query['slug'] = 'diamonds';
     }
 
-    const result = await this.diamondRepository.paginate(filteredQuery, options);
+    const stages: any = [{ $match: {...query}}]
+
+    if(sortByKey){
+      if (!['priceMin', 'priceMax', 'caratMin', 'caratMax', 'price', 'carat'].includes(sortByKey)) {
+        stages.push({ $addFields: { [`${sortByKey}_order`]: { $indexOfArray: [DIAMOND_PROPERTY_ORDERS[sortByKey], `$${sortByKey}`] } }});
+        stages.push(
+          { $sort: { [`${sortByKey}_order`]: sortOrder === 'desc' ? -1 : 1 } }
+        )
+      }else {
+        stages.push(
+          { $sort: { [sortByKey]: sortOrder === 'desc' ? -1 : 1 } }
+        )
+      }
+    }
+
+    const result = await this.diamondRepository.aggregatePaginate(stages, options);
 
     /* DATA RANGES : used for filters */
-    let dataRanges: unknown;
+    let dataRanges: any = {};
     const dataRangeCacheKey = `diamonds-data-ranges-${JSON.stringify(query)}`;
     const cachedDataRanges = await this.utils.memGet(dataRangeCacheKey);
 
