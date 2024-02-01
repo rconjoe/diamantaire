@@ -440,7 +440,7 @@ const SettingToDiamondSummaryPage = () => {
 
   const diamondImages = useMemo(() => {
     return isDiamondCFY
-      ? diamonds.map((diamond) => {
+      ? diamonds?.map((diamond) => {
           const spriteImageUrl = generateDiamondSpriteImage({ diamondType: diamond?.diamondType });
 
           return spriteImageUrl;
@@ -879,23 +879,28 @@ const SettingToDiamondSummaryPage = () => {
   const CFY_RETURN_THRESHOLD = 5.1;
 
   useEffect(() => {
-    if (!router.query.lotId) return null;
-    const ids = router.query.lotId
-      .toString()
-      .split(',')
-      .map((lotId) => {
-        const id = lotId.includes('cfy-')
-          ? lotId
-          : lotId
-              .split('')
-              .filter((v) => !isNaN(Number(v)))
-              .join('');
+    function getSpriteSpinnerIds() {
+      const ids = router.query.lotId
+        .toString()
+        .split(',')
+        .map((lotId) => {
+          const id = lotId.includes('cfy-')
+            ? lotId
+            : lotId
+                .split('')
+                .filter((v) => !isNaN(Number(v)))
+                .join('');
 
-        return id;
-      });
+          return id;
+        });
 
-    setSpriteSpinnerIds(ids);
-  }, [router.query.lotId]);
+      setSpriteSpinnerIds(ids);
+    }
+
+    if (router?.query?.lotId) {
+      getSpriteSpinnerIds();
+    }
+  }, [router?.query?.lotId]);
 
   async function getSettingProduct() {
     const qParams = new URLSearchParams({

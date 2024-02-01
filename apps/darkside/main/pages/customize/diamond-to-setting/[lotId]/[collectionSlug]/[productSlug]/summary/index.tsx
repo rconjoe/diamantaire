@@ -880,23 +880,27 @@ const ReviewBuildStep = ({ settingSlugs }) => {
   const CFY_RETURN_THRESHOLD = 5.1;
 
   useEffect(() => {
-    if (!router.query.lotId) return null;
+    function getSpriteSpinnerIds() {
+      const ids = router.query.lotId
+        .toString()
+        .split(',')
+        .map((lotId) => {
+          const id = lotId.includes('cfy-')
+            ? lotId
+            : lotId
+                .split('')
+                .filter((v) => !isNaN(Number(v)))
+                .join('');
 
-    const ids = router.query.lotId
-      .toString()
-      .split(',')
-      .map((lotId) => {
-        const id = lotId.includes('cfy-')
-          ? lotId
-          : lotId
-              .split('')
-              .filter((v) => !isNaN(Number(v)))
-              .join('');
+          return id;
+        });
 
-        return id;
-      });
+      setSpriteSpinnerIds(ids);
+    }
 
-    setSpriteSpinnerIds(ids);
+    if (router.query.lotId) {
+      getSpriteSpinnerIds();
+    }
   }, [router.query.lotId]);
 
   async function getSettingProduct() {
