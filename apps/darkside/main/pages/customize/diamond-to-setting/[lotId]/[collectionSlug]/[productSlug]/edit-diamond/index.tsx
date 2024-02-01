@@ -134,11 +134,7 @@ const DiamondBuildStep = ({
 
   const doesRouterHaveOptions = query.limit && query.page && query.sortBy && query.caratMin ? true : false;
 
-  console.log('doesRouterHaveOptions', doesRouterHaveOptions);
-
   const initialOptions = doesRouterHaveOptions ? { ...routerInitialOptions } : { ...defaultInitialOptions };
-
-  console.log('initialOptions', initialOptions);
 
   let isToiMoiOrPair = false;
 
@@ -155,8 +151,6 @@ const DiamondBuildStep = ({
   const isTableView = true;
   const [options, setOptions] = useState(initialOptions);
   const [activeRow, setActiveRow] = useState(null);
-
-  console.log('builderProduct', options);
 
   const { data: { diamonds, pagination, ranges } = {} } = useDiamondsData({ ...options });
 
