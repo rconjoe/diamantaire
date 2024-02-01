@@ -882,22 +882,22 @@ const ReviewBuildStep = ({ settingSlugs }) => {
   const CFY_RETURN_THRESHOLD = 5.1;
 
   useEffect(() => {
-    const ids = builderProduct?.diamonds?.map((diamond) => {
-      const diamondID = diamond?.lotId;
-      const id = diamondID.includes('cfy-')
-        ? diamondID
-        : diamondID
-            .split('')
-            .filter((v) => !isNaN(Number(v)))
-            .join('');
+    const ids = router.query.lotId
+      .toString()
+      .split(',')
+      .map((lotId) => {
+        const id = lotId.includes('cfy-')
+          ? lotId
+          : lotId
+              .split('')
+              .filter((v) => !isNaN(Number(v)))
+              .join('');
 
-      return id;
-    });
-
-    console.log('spritespinner ids', ids);
+        return id;
+      });
 
     setSpriteSpinnerIds(ids);
-  }, [builderProduct?.diamonds]);
+  }, [router.query.lotId]);
 
   async function getSettingProduct() {
     console.log('settingSlugs', settingSlugs);
