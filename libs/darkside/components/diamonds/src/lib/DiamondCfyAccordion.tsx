@@ -34,35 +34,6 @@ const DiamondCfyAccordion = ({
   const { data: { ctoDiamondTable: DiamondCfyData } = {} } = useDiamondCfyData(locale);
   const { specs } = DiamondTableData || {};
 
-  function getProduct(obj = {}, arr = []) {
-    const len = arr.length;
-
-    const sortOrder = ['cut', 'color', 'clarity'];
-
-    const sortedArray = arr.sort((a, b) => {
-      const indexA = sortOrder.indexOf(a);
-
-      const indexB = sortOrder.indexOf(b);
-
-      if (indexA !== -1 && indexB !== -1) return indexA - indexB;
-
-      if (indexA !== -1) return -1;
-
-      if (indexB !== -1) return 1;
-
-      return 0;
-    });
-
-    const key =
-      len > 0
-        ? `${sortedArray.reduce((a, v, i) => {
-            return a + (i > 0 ? 'And' : '') + capitalizeFirstLetter(v);
-          }, 'diamond')}Upgrade`
-        : 'diamond';
-
-    return obj[key] || {};
-  }
-
   // COLOR
   const { DIAMOND_COLOR_GROUPS = {}, DIAMOND_COLOR_GROUP_TYPES = {} } = humanStrings;
   const getColorTitle = () => {
@@ -360,3 +331,32 @@ function getDiff(upgrade, downgrade) {
 export { DiamondCfyAccordion };
 
 export default DiamondCfyAccordion;
+
+function getProduct(obj = {}, arr = []) {
+  const len = arr.length;
+
+  const sortOrder = ['cut', 'color', 'clarity'];
+
+  const sortedArray = arr.sort((a, b) => {
+    const indexA = sortOrder.indexOf(a);
+
+    const indexB = sortOrder.indexOf(b);
+
+    if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+
+    if (indexA !== -1) return -1;
+
+    if (indexB !== -1) return 1;
+
+    return 0;
+  });
+
+  const key =
+    len > 0
+      ? `${sortedArray.reduce((a, v, i) => {
+          return a + (i > 0 ? 'And' : '') + capitalizeFirstLetter(v);
+        }, 'diamond')}Upgrade`
+      : 'diamond';
+
+  return obj[key];
+}
