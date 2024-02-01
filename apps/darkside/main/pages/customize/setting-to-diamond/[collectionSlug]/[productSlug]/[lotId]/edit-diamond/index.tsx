@@ -85,7 +85,7 @@ const DiamondBuildStep = () => {
 
   const defaultInitialOptions = {
     caratMin: 1,
-    diamondType: builderProduct?.diamonds?.[0]?.diamondType,
+    diamondType: diamondTypeToShow,
     limit: 20,
     page: 1,
     sortBy: 'carat',
@@ -233,8 +233,7 @@ const DiamondBuildStep = () => {
   };
 
   useEffect(() => {
-    if (builderProduct?.diamonds?.[0]?.diamondType)
-      updateOptions({ ...defaultInitialOptions, diamondType: builderProduct?.diamonds?.[0]?.diamondType });
+    if (diamondTypeToShow) updateOptions({ ...defaultInitialOptions, diamondType: diamondTypeToShow });
   }, [builderProduct.diamonds]);
 
   useEffect(() => {

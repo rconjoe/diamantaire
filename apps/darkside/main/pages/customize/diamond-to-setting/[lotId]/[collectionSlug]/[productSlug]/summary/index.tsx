@@ -814,22 +814,22 @@ const ReviewBuildStep = ({ settingSlugs }) => {
   function handleBuilderFlowVariantChange(option: OptionItemProps, configurationType) {
     console.log({ configurationType, option });
 
-    // updateSettingSlugs({
-    //   productSlug: option?.id,
-    // });
-
     if (router.asPath.includes('setting-to-diamond')) {
       const newUrl = `/customize/setting-to-diamond/summary/${
         router.query.collectionSlug
       }/${option?.id}/${builderProduct?.diamonds?.map((diamond) => diamond?.lotId).join('/')}`;
 
-      return router.replace(newUrl);
+      return router.replace(newUrl, null, {
+        shallow: true,
+      });
     } else {
       const newUrl = `/customize/diamond-to-setting/${builderProduct?.diamonds
         ?.map((diamond) => diamond?.lotId)
         .join('/')}/${router.query.collectionSlug}/${option?.id}/summary`;
 
-      router.replace(newUrl);
+      router.replace(newUrl, null, {
+        shallow: true,
+      });
     }
   }
 
@@ -898,7 +898,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
       setSpriteSpinnerIds(ids);
     }
 
-    if (router.query.lotId) {
+    if (router?.query?.lotId) {
       getSpriteSpinnerIds();
     }
   }, [router.query.lotId]);
@@ -987,6 +987,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
                         src: shopifyProductData?.productContent?.assetStack[0]?.url,
                       },
                     }}
+                    onLoad={() => console.log('swapped image loaded')}
                   />
                 )}
 
