@@ -53,7 +53,6 @@ const StyledTooltip = styled.div`
   }
 
   .tooltip-trigger {
-    display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
@@ -64,6 +63,22 @@ const StyledTooltip = styled.div`
     padding: 0;
     position: relative;
     background: transparent;
+
+    &.mobile-only {
+      display: flex;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        display: none;
+      }
+    }
+
+    &.desktop-and-up {
+      display: none;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        display: flex;
+      }
+    }
 
     &:after {
       content: '';

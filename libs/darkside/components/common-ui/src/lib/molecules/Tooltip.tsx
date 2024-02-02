@@ -28,6 +28,10 @@ const Tooltip: React.FC<TooltipProps> = ({ id, children, className, place }) => 
     setIsOpen(!isOpen);
   };
 
+  const handleCloseTooltip = () => {
+    setIsOpen(false);
+  };
+
   const handleOpenTooltip = () => {
     setIsOpen(true);
 
@@ -38,13 +42,15 @@ const Tooltip: React.FC<TooltipProps> = ({ id, children, className, place }) => 
     <StyledTooltip ref={tooltipRef}>
       <button
         data-tooltip-id={id}
-        className="tooltip-trigger"
+        className="tooltip-trigger tablet-and-up"
         onMouseEnter={handleOpenTooltip}
-        onMouseLeave={() => {
-          setIsOpen(false);
-        }}
+        onMouseLeave={handleCloseTooltip}
         onClick={handleToggleTooltip}
       >
+        <span>i</span>
+      </button>
+
+      <button data-tooltip-id={id} className="tooltip-trigger mobile-only" onClick={handleToggleTooltip}>
         <span>i</span>
       </button>
 
