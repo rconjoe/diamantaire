@@ -222,12 +222,10 @@ const BuilderProductContextProvider = ({ children }: BuilderProductContextProvid
   // Maintain Diamond State
   useEffect(() => {
     // if there is a lotID in the query, we need to fetch the diamond data
-
-    console.log('getting diamonds', router.query.lotId?.toString()?.split(','));
     async function getDiamond() {
       const qParams = new URLSearchParams({
-        lotIds: router.query.lotId?.toString()?.split(','),
-      }).toString();
+        lotIds: router.query.lotId?.toString()?.split(',').toString(),
+      });
 
       const diamondResponse = await fetch(`/api/diamonds/getDiamondByLotId?${qParams}`, {})
         .then((res) => res.json())

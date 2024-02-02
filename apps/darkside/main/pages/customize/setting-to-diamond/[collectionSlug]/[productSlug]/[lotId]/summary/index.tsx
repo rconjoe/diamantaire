@@ -448,7 +448,7 @@ const SettingToDiamondSummaryPage = () => {
       : (Array.isArray(mutatedLotIds) &&
           mutatedLotIds.map((mutatedLotId) => `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`)) ||
           [];
-  }, [isDiamondCFY]);
+  }, [isDiamondCFY, diamonds]);
 
   function confirmEngraving() {
     setEngravingText(engravingInputText);

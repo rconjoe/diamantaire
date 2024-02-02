@@ -40,6 +40,8 @@ export const DiamondPairActiveRow = ({
 
   const [diamond1, diamond2] = diamonds;
 
+  console.log('diamondsxxx', diamonds);
+
   const { data: { diamondTable: { specs, origin: originValue } = {} } = {} } = useDiamondTableData(locale);
 
   const originLabel = (specs && Object.values(specs).find((v) => v.key === 'origin').value) || null;
@@ -48,6 +50,22 @@ export const DiamondPairActiveRow = ({
 
   const { updateFlowData, builderProduct } = useContext(BuilderProductContext);
   const router = useRouter();
+
+  function getToiMoiShapeProductSlug(builderProduct, diamonds) {
+    // Extract the list of available diamond types from the builder product
+    const availableDiamondTypes = builderProduct?.product?.optionConfigs?.diamondType;
+
+    console.log('availableDiamondTypes', availableDiamondTypes);
+
+    // Check if every diamond's type is included in the available diamond types
+    const final = availableDiamondTypes.find((diamondType) =>
+      diamonds.every((diamond) => diamondType.value.includes(diamond.diamondType)),
+    );
+
+    console.log('xxx', final);
+
+    return final?.id;
+  }
 
   const handleSelectDiamond = () => {
     // TODO: add handler
@@ -61,10 +79,26 @@ export const DiamondPairActiveRow = ({
 
     console.log('lotIdSlug', lotIdSlug);
 
-    router.push(
-      `/customize/setting-to-diamond${isPair ? '/pairs' : ''}/${builderProduct?.product?.collectionSlug}/${builderProduct
-        ?.product?.productSlug}/${lotIdSlug}/summary`,
-    );
+    const toiMoiProductSlug = getToiMoiShapeProductSlug(builderProduct, diamonds);
+
+    console.log('toiMoiProductSlug', toiMoiProductSlug);
+
+    const isToiMoi = router.asPath.includes('toi-moi');
+
+    // If the user changes their shape, we want to link back to the respective setting
+    const productShapeId = isToiMoi
+      ? toiMoiProductSlug
+      : builderProduct?.product?.optionConfigs?.diamondType?.find((option) => option.value === diamondType)?.id ||
+        router?.query?.productSlug;
+
+    // router.push(
+    //   `/customize/setting-to-diamond${isPair ? '/pairs' : ''}/${builderProduct?.product
+    //     ?.collectionSlug}/${productShapeId}/${lotIdSlug}/summary`,
+    // );
+
+    // better for perf....
+    window.location.href = `${window.location.origin}/customize/setting-to-diamond${isPair ? '/pairs' : ''}/${builderProduct
+      ?.product?.collectionSlug}/${productShapeId}/${lotIdSlug}/summary`;
   };
 
   return (

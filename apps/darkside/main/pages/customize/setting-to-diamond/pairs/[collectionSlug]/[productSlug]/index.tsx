@@ -82,6 +82,8 @@ const DiamondBuildStep = () => {
 
   const diamondTypeToShow = builderProduct?.product?.configuration?.diamondType || 'round-brilliant';
   const availableDiamonds = builderProduct?.product?.optionConfigs?.diamondType.map((d) => d.value) || [];
+
+  console.log('availableDiamonds', availableDiamonds);
   const settingProductType = builderProduct?.product?.productType;
 
   const defaultInitialOptions = {
@@ -130,7 +132,7 @@ const DiamondBuildStep = () => {
   if (asPath.includes('toi-moi')) {
     initialOptions['view'] = 'toimoi';
     isToiMoiOrPair = true;
-  } else if (asPath.includes('pair')) {
+  } else if (asPath.includes('pairs')) {
     initialOptions['view'] = 'pairs';
     isToiMoiOrPair = true;
   }
@@ -231,12 +233,12 @@ const DiamondBuildStep = () => {
   };
 
   const clearOptions = () => {
-    updateOptions({ ...defaultInitialOptions, diamondType: diamondTypeToShow });
+    updateOptions({ ...initialOptions, diamondType: diamondTypeToShow });
   };
 
   useEffect(() => {
-    updateOptions({ ...defaultInitialOptions, diamondType: diamondTypeToShow });
-  }, [diamondTypeToShow]);
+    updateOptions({ ...initialOptions, diamondType: diamondTypeToShow });
+  }, [builderProduct.diamonds, builderProduct?.product]);
 
   useEffect(() => {
     router.replace(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {});

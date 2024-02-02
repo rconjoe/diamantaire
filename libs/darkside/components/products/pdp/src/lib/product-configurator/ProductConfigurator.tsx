@@ -701,8 +701,11 @@ function AddToCartButton({
               select_shape: diamondType,
               diamond_type: diamondType,
             });
+
+            const isToiMoi = router.asPath.includes('toi-moi');
+
             router.push(
-              `/customize/setting-to-diamond/${isSoldAsDouble && selectedPair === 'pair' ? 'pairs/' : ''}${
+              `/customize/setting-to-diamond/${(isSoldAsDouble && selectedPair === 'pair') || isToiMoi ? 'pairs/' : ''}${
                 router.query.collectionSlug
               }/${router.query.productSlug}/`,
             );

@@ -431,6 +431,8 @@ const SettingToDiamondSummaryPage = () => {
   const isDiamondCFY = diamonds?.filter((diamond) => diamond?.slug === 'cto-diamonds').length > 0;
   const isER = shopifyProductData?.productType === 'Engagement Ring';
 
+  console.log('isDiamondCFY', isDiamondCFY);
+
   const { data: blockpickerData }: any = useStandardPage(
     isER ? 'engagement_ring_summary_page' : 'jewelry_summary_page',
     router.locale,
@@ -448,7 +450,7 @@ const SettingToDiamondSummaryPage = () => {
       : (Array.isArray(mutatedLotIds) &&
           mutatedLotIds.map((mutatedLotId) => `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`)) ||
           [];
-  }, [isDiamondCFY]);
+  }, [isDiamondCFY, diamonds]);
 
   function confirmEngraving() {
     setEngravingText(engravingInputText);
@@ -795,7 +797,7 @@ const SettingToDiamondSummaryPage = () => {
       value: diamonds?.map((diamond) => _t(diamond?.diamondType)).join(' + '),
       onClick: () => {
         router.push(
-          `/customize/${flowType}/${router.query.collectionSlug}/${router.query.productSlug}/${router.query.lotId}/edit-diamond`,
+          `/customize/${flowType}/pairs/${router.query.collectionSlug}/${router.query.productSlug}/${router.query.lotId}/edit-diamond`,
         );
       },
       slug: 'diamondType',
@@ -807,7 +809,7 @@ const SettingToDiamondSummaryPage = () => {
         .join(' + '),
       onClick: () => {
         router.push(
-          `/customize/${flowType}/${router.query.collectionSlug}/${router.query.productSlug}/${router.query.lotId}/edit-diamond`,
+          `/customize/${flowType}/pairs/${router.query.collectionSlug}/${router.query.productSlug}/${router.query.lotId}/edit-diamond`,
         );
       },
       slug: 'centerstone',
@@ -818,9 +820,9 @@ const SettingToDiamondSummaryPage = () => {
     console.log({ configurationType, option });
 
     if (router.asPath.includes('setting-to-diamond')) {
-      const newUrl = `/customize/setting-to-diamond/${router.query.collectionSlug}/${option?.id}/${builderProduct?.diamonds
-        ?.map((diamond) => diamond?.lotId)
-        .join('/')}/summary`;
+      const newUrl = `/customize/setting-to-diamond/${router.asPath.includes('/pairs/') ? 'pairs/' : ''}${
+        router.query.collectionSlug
+      }/${option?.id}/${builderProduct?.diamonds?.map((diamond) => diamond?.lotId).join(',')}/summary`;
 
       return router.replace(newUrl);
     } else {

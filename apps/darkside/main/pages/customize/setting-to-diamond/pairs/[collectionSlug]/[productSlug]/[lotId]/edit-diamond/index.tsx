@@ -5,7 +5,6 @@ import { BuilderProductContext } from '@diamantaire/darkside/context/product-bui
 import { useDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
-import { getDiamondShallowRoute } from '@diamantaire/shared/helpers';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
@@ -78,6 +77,8 @@ const DiamondBuildStep = () => {
   const router = useRouter();
   const { asPath, query } = router;
   const { builderProduct } = useContext(BuilderProductContext);
+
+  console.log('builderProduct', builderProduct);
 
   const diamondTypeToShow = builderProduct?.product?.configuration?.diamondType || 'round-brilliant';
   const availableDiamonds = builderProduct?.product?.optionConfigs?.diamondType.map((d) => d.value) || [];
@@ -229,15 +230,17 @@ const DiamondBuildStep = () => {
   };
 
   const clearOptions = () => {
-    updateOptions({ ...defaultInitialOptions, diamondType: diamondTypeToShow });
+    updateOptions({ ...initialOptions, diamondType: diamondTypeToShow });
   };
 
   useEffect(() => {
-    if (diamondTypeToShow) updateOptions({ ...defaultInitialOptions, diamondType: diamondTypeToShow });
-  }, [builderProduct.diamonds]);
+    if (diamondTypeToShow) updateOptions({ ...initialOptions, diamondType: diamondTypeToShow });
+  }, [builderProduct.diamonds, builderProduct?.product]);
 
+  // This interferes with the builder flow routing....
   useEffect(() => {
-    router.replace(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {});
+    // router.replace(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {});
+    console.log('options changed', options);
   }, [options]);
 
   if (!diamonds || !tableOptions?.initialOptions?.diamondType) return <BuilderFlowLoader />;
