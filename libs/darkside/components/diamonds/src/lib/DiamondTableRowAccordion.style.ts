@@ -15,6 +15,11 @@ const StyledDiamondTableRowAccordion = styled.div`
 
         img {
           max-width: 20%;
+
+          @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+            height: 7.7rem;
+            width: 8.6rem;
+          }
         }
       }
     }
@@ -23,12 +28,13 @@ const StyledDiamondTableRowAccordion = styled.div`
       img {
         margin-bottom: 1rem;
         object-fit: cover;
-        height: 110px;
+        height: 11rem;
         display: block;
         width: 100%;
 
         @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-          height: 100px;
+          height: 10rem;
+          width: 43.1rem;
         }
       }
     }
@@ -37,6 +43,11 @@ const StyledDiamondTableRowAccordion = styled.div`
       img {
         margin-top: 1rem;
         display: block;
+
+        @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+          height: 16.7rem;
+          width: 43.1rem;
+        }
       }
     }
 
