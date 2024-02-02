@@ -80,7 +80,13 @@ const LanguageSelector = ({ toggleLanguageSelector }: LanguageSelectorProps) => 
 
           return (
             <li key={languageCode} className={selectedLocale === locale ? 'active' : ''}>
-              <button className="language-selector-sub" onClick={() => toggleLanguageSelector()}>
+              <button
+                className="language-selector-sub"
+                onClick={() => {
+                  toggleLanguageSelector();
+                  window.scrollTo(0, 0);
+                }}
+              >
                 <Link href={router.asPath} locale={locale} scroll={false}>
                   {name !== 'English' ? <UIString>{name && name.toLowerCase()}</UIString> : name}
                 </Link>
