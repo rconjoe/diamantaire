@@ -5,11 +5,11 @@ export const ShowroomNavStyle = styled.div`
   background-color: var(--color-white);
 
   .mobile-nav {
-    z-index: 1;
-    position: absolute;
     top: 0;
-    background-color: var(--color-white);
+    z-index: 1;
     width: 100%;
+    position: absolute;
+    background-color: var(--color-white);
     padding: ${(props) => props.$headerHeight + 'px'} calc(var(--gutter) / 2) calc(var(--gutter) / 3);
   }
 

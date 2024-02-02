@@ -32,7 +32,7 @@ const StyledDiamondFilter = styled.aside`
 
   .vo-filter-radio .vo-filter-list {
     justify-content: flex-start;
-    gap: 0.5rem;
+    gap: 0.25rem;
 
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       gap: 1rem;
