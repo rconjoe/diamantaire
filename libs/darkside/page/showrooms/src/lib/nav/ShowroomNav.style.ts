@@ -5,6 +5,7 @@ export const ShowroomNavStyle = styled.div`
   background-color: var(--color-white);
 
   .mobile-nav {
+    z-index: 1;
     position: absolute;
     top: 0;
     background-color: var(--color-white);
