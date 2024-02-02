@@ -35,7 +35,7 @@ import {
   InternalServerErrorException,
   Logger,
   NotFoundException,
-  Inject,
+  Inject
 } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
 import Bottleneck from 'bottleneck';
@@ -83,7 +83,14 @@ export class ProductsService {
   }
 
   async setSWRCacheData(key: string, value: unknown) {
-    await this.cacheManager.set(`${key}-data`, value);
+    if (process.env.REDIS_URL){
+      await this.cacheManager.set(`${key}-data`, value);
+    } else {
+      // If not using redis, default ttl is 5 seconds
+      // To disable expiration of the cache, set the ttl configuration property to 0:
+      // https://docs.nestjs.com/techniques/caching
+      await this.cacheManager.set(`${key}-data`, value, 0);
+    }    
   };
 
   async setSWRCacheRevalidate(key: string, ttl: number) {
@@ -147,9 +154,20 @@ export class ProductsService {
         ...(metals && { 'configuration.metal': { $in: metals.map(m => new RegExp(m, 'i')) }}),
         ...(styles && { 'styles': { $in: styles }}),
         ...(subStyles && { 'subStyles': { $in: subStyles }}),
-        ...(priceMin && { 'price': { $gte: priceMin } }),
-        ...(priceMax && { 'price': { $lte: priceMax } }),
       };
+
+      const priceQuery = {}
+
+      if (priceMin){
+        priceQuery['$gte'] = priceMin;
+      }
+      if (priceMax) {
+        priceQuery['$lte'] = priceMax;
+      }
+
+      if (priceMin || priceMax){
+        filterQuery['price'] = priceQuery;
+      }
 
       const sortQuery: Record<string, 1 | -1> = sortBy ? { [sortBy as string]: sortOrder === 'asc' ? 1 : -1 } : {};
 
@@ -242,7 +260,19 @@ export class ProductsService {
         this.getLowestPricesByCollection(),
         this.getPlpFilterData(plpSlug),
       ];
-      const [productContent, collectionLowestPrices, availableFilters] = await Promise.all(dataPromises);
+
+      let productContent, collectionLowestPrices, availableFilters;
+
+      try {
+        [productContent, collectionLowestPrices, availableFilters] = await Promise.all(dataPromises);
+      } catch (e){
+        this.logger.error(`Error fetching PLP data: ${e['message']}`);
+        
+        Sentry.captureException(e);
+
+        return null;
+      }
+      
 
       const paginator = {
         totalDocs: totalDocuments,
@@ -2127,7 +2157,8 @@ export class ProductsService {
 
     this.logger.verbose(`Getting Dato configurations & products for ${slug}`);
     const cachedKey = `plp-configurations-${slug}:${locale}:${ids.join('-')}-${first}-${skip}`;
-    let response = await this.utils.memGet<any>(cachedKey); // return the cached result if there's a key
+    const cachedData = await this.utils.memGet<any>(cachedKey); // return the cached result if there's a key
+    let response;
 
     const queryVars = {
       productHandles,
@@ -2138,7 +2169,7 @@ export class ProductsService {
     };
 
     try {
-      if (!response) {
+      if (!cachedData) {
         response = await this.utils.createDataGateway().request(CONFIGURATIONS_LIST, queryVars);
         this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
         this.utils.memSet(cachedKey, response, PRODUCT_DATA_TTL); //set the response in memory
@@ -2147,7 +2178,7 @@ export class ProductsService {
       return [...response.allConfigurations, ...response.allOmegaProducts];
     } catch (err) {
       this.logger.debug(`Cannot retrieve configurations and products for ${slug}`);
-      throw new NotFoundException(`Cannot retrieve configurations and products for ${slug}`, err);
+      throw new InternalServerErrorException(`Cannot retrieve configurations and products for ${slug}`, err);
     }
   }
 
@@ -2401,14 +2432,7 @@ export class ProductsService {
     try {
       const collectionTree = await this.getCollectionTreeStruct(collectionSlug);
       const product = await this.findProduct(collectionSlug, productSlug);
-
       const productConfigs = getProductConfigMatrix(product as any, collectionTree);
-
-      // Ensure all diamond types are represented
-      // const collectionOptions = await this.getCollectionOptions(collectionSlug);
-      // const allDiamondTypes: string[] = collectionOptions['diamondType'];
-
-      // addMissingDiamondTypesToConfigs(productConfigs, product, collectionTree, allDiamondTypes);
 
       this.utils.memSet(cacheKey, productConfigs, PRODUCT_DATA_TTL);
 

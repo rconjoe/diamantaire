@@ -202,11 +202,11 @@ const StyledOptionSelector = styled.div`
           cursor: default; /* Optional: Changes the cursor to indicate the button is not clickable */
         }
         &.arrow-left {
-          left: -15px;
+          left: -2.2rem;
         }
 
         &.arrow-right {
-          right: -15px;
+          right: -2.2rem;
         }
       }
       svg {
@@ -234,6 +234,7 @@ const StyledOptionSelector = styled.div`
       button {
         min-width: 11.5rem;
         font-size: var(--font-size-xxxsmall);
+        padding: 0 1rem;
       }
     }
 
@@ -283,14 +284,12 @@ function OptionSelector({
   const diamondSliderOptions: any = {
     loop: false,
     dragFree: true,
-    containScroll: 'trimSnaps',
-    align: 'center',
   };
   const [emblaRef, emblaApi] = useEmblaCarousel(diamondSliderOptions);
 
   useEffect(() => {
     if (!emblaApi) return;
-
+    emblaApi.reInit();
     const initialIndex = options.findIndex((option) => option.value === selectedOptionValue);
 
     if (initialIndex > -1) {

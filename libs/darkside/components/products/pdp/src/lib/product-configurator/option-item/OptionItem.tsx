@@ -3,6 +3,7 @@ import { EAST_WEST_SHAPES } from '@diamantaire/shared/constants';
 import { generateIconImageUrl, getTranslatedName, iconLoader } from '@diamantaire/shared/helpers';
 import { getIconsForDiamondType } from '@diamantaire/shared/icons';
 import { OptionItemProps, OptionItemContainerProps } from '@diamantaire/shared/types';
+import { theme } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -386,8 +387,14 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
     border-color: var(--color-teal);
   }
   &.-other {
-    white-space: nowrap;
-    padding: 0.5rem;
+    font-size: 1.2rem;
+    letter-spacing: 0.3px;
+    line-height: 1.3;
+    padding: 0 0.5rem;
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      padding: 0 1rem;
+      font-size: 1.3rem;
+    }
   }
 
   span.em-dash {
