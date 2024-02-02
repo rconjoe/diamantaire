@@ -140,8 +140,9 @@ export const MegaMenuStylesContainer = styled.div<Props>`
                   justify-content: center;
 
                   svg {
-                    max-width: 2.8rem;
-                    height: 2.8rem;
+                    height: auto;
+                    width: 100%;
+                    max-height: 2.8rem;
                   }
                 }
 
@@ -150,8 +151,9 @@ export const MegaMenuStylesContainer = styled.div<Props>`
                   top: 0.4rem;
 
                   svg {
-                    max-width: 6rem;
-                    height: 2.8rem;
+                    height: auto;
+                    width: 100%;
+                    max-height: 2.8rem;
                   }
                 }
               }
