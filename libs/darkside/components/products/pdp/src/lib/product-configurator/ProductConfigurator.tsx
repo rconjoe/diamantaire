@@ -702,7 +702,7 @@ function AddToCartButton({
               diamond_type: diamondType,
             });
             router.push(
-              `/customize/setting-to-diamond/${isSoldAsDouble && selectedPair === 'pair' ? 'pair/' : ''}${
+              `/customize/setting-to-diamond/${isSoldAsDouble && selectedPair === 'pair' ? 'pairs/' : ''}${
                 router.query.collectionSlug
               }/${router.query.productSlug}/`,
             );
