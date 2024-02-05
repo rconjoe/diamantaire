@@ -113,7 +113,7 @@ const DiamondDetailRowAccordion = ({
 
   return (
     <StyledDiamondTableRowAccordion>
-      <Accordion rows={accordionContent} activeDefault={isMobile ? null : 3} />
+      <Accordion rows={accordionContent} />
     </StyledDiamondTableRowAccordion>
   );
 };

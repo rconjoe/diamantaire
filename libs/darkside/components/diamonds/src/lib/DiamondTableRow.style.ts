@@ -86,13 +86,12 @@ const StyledDiamondTableRow = styled.div`
     align-items: flex-start;
     justify-content: flex-start;
     width: 100%;
-    gap: ${gap};
+    gap: 1.5rem;
     order: 1;
 
     @media (min-width: ${({ theme }) => theme.sizes.xl}) {
       order: 2;
-      padding: 0 0 ${gap};
-      padding-right: ${gap};
+      padding: 0 ${gap} 0 0;
     }
 
     button {
