@@ -394,7 +394,6 @@ const ReviewBuildStep = ({ settingSlugs }) => {
   const [isEngravingInputVisible, setIsEngravingInputVisible] = useState(false);
   const [engravingInputText, setEngravingInputText] = useState('');
   const [engravingText, setEngravingText] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   const [selectedSize, setSelectedSize] = useState<{
     id: string;
@@ -940,12 +939,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
 
   useEffect(() => {
     if (router?.query?.productSlug && router?.query?.collectionSlug) {
-      console.log(
-        'router?.query?.productSlug && router?.query?.collectionSlug',
-        router?.query?.productSlug,
-        router?.query?.collectionSlug,
-      );
-      getSettingProduct().then(() => setIsLoading(false));
+      getSettingProduct();
     }
   }, [router?.query?.productSlug, router?.query?.collectionSlug]);
 
