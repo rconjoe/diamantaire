@@ -245,7 +245,7 @@ const DiamondTable = (props: DiamondTableProps) => {
         cell: (info: Info) => {
           const amount = info.getValue();
 
-          return getFormattedPrice(Number(amount), locale, false);
+          return getFormattedPrice(Number(amount), locale, true);
         },
         header: () => <UIString>price</UIString>,
       },

@@ -25,7 +25,7 @@ const DiamondBuildStepStyles = styled(motion.div)`
   }
 
   .table-container {
-    padding: 4rem 2rem;
+    padding: 4rem 0rem;
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       display: flex;
     }

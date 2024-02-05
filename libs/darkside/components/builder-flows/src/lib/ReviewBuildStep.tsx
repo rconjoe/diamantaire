@@ -736,10 +736,12 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
     return;
   }
 
+  const { _t: shapes_t } = useTranslations(locale, ['DIAMOND_SHAPES']);
+
   const summaryItems = [
     {
       label: _t('diamondType'),
-      value: diamonds.map((diamond) => _t(diamond?.diamondType)).join(' + '),
+      value: diamonds?.map((diamond) => shapes_t(diamond?.diamondType)).join(' + '),
       onClick: () => {
         router.push(router.asPath + (router.asPath.includes('/pair/') ? '/pair' : '') + '/edit-diamond', null, {
           shallow: true,
@@ -961,7 +963,7 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
           <div className="product-summary__inner">
             <WishlistLikeButton
               extraClass="bundle"
-              productId={`bundle-${settingSlugs?.productSlug}::${diamonds[0]?.lotId}`}
+              productId={`bundle-${settingSlugs?.productSlug}::${diamonds?.[0]?.lotId}`}
             />
 
             <Heading type="h1" className="secondary no-margin">

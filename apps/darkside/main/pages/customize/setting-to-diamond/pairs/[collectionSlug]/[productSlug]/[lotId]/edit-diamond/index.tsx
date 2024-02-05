@@ -1,5 +1,11 @@
 import { BuilderFlowLoader } from '@diamantaire/darkside/components/builder-flows';
-import { DarksideButton, Heading, ShowTabletAndUpOnly, UIString } from '@diamantaire/darkside/components/common-ui';
+import {
+  DarksideButton,
+  Heading,
+  HideTopBar,
+  ShowTabletAndUpOnly,
+  UIString,
+} from '@diamantaire/darkside/components/common-ui';
 import { DiamondFilter, DiamondPromo, DiamondTable } from '@diamantaire/darkside/components/diamonds';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { useDiamondsData } from '@diamantaire/darkside/data/hooks';
@@ -27,7 +33,7 @@ const DiamondBuildStepStyles = styled(motion.div)`
   }
 
   .table-container {
-    padding: 4rem 2rem;
+    padding: 4rem 0rem;
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       display: flex;
     }
@@ -260,7 +266,8 @@ const DiamondBuildStep = () => {
         duration: 0.75,
       }}
     >
-      <div className="">
+      <HideTopBar />
+      <div>
         {diamonds && (
           <div className="table-container">
             <aside>

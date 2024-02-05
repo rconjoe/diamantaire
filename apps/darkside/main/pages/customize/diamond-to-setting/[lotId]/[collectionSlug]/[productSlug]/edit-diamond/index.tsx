@@ -1,11 +1,18 @@
 import { BuilderFlowLoader } from '@diamantaire/darkside/components/builder-flows';
-import { DarksideButton, Heading, ShowTabletAndUpOnly, UIString } from '@diamantaire/darkside/components/common-ui';
+import {
+  DarksideButton,
+  Heading,
+  HideTopBar,
+  ShowTabletAndUpOnly,
+  UIString,
+} from '@diamantaire/darkside/components/common-ui';
 import { DiamondFilter, DiamondPromo, DiamondTable } from '@diamantaire/darkside/components/diamonds';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { useDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
 import { getDiamondShallowRoute } from '@diamantaire/shared/helpers';
+import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
@@ -18,6 +25,11 @@ const DiamondBuildStepStyles = styled(motion.div)`
     padding: 0;
   }
 
+  ${tabletAndUp(`
+    margin: 0 auto;
+    max-width: 90vw;
+  `)}
+
   .switch-container {
     text-align: right;
     padding-right: 1rem;
@@ -28,7 +40,7 @@ const DiamondBuildStepStyles = styled(motion.div)`
   }
 
   .table-container {
-    padding: 4rem 2rem;
+    padding: 4rem 0rem;
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       display: flex;
     }
@@ -244,7 +256,6 @@ const DiamondBuildStep = () => {
 
   return (
     <DiamondBuildStepStyles
-      className="container-wrapper"
       key="diamond-step-container "
       initial="collapsed"
       animate="open"
@@ -257,6 +268,7 @@ const DiamondBuildStep = () => {
         duration: 0.75,
       }}
     >
+      <HideTopBar />
       <div className="">
         {diamonds && (
           <div className="table-container">

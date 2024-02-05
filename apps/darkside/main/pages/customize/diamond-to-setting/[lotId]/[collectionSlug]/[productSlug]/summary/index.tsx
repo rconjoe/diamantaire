@@ -6,7 +6,7 @@ import { BuilderFlowLoader, ReviewVariantSelector } from '@diamantaire/darkside/
 import {
   DarksideButton,
   DatoImage,
-  Heading,
+  HideTopBar,
   NeedTimeToThinkForm,
   ProductAppointmentCTA,
   RingSizeGuide,
@@ -22,6 +22,7 @@ import {
   ProductKlarna,
   ProductPrice,
   ProductReviews,
+  ProductTitle,
 } from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
@@ -419,6 +420,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
   const currencyCode = getCurrency(countryCode);
 
   const { _t } = useTranslations(locale);
+  const { _t: shapes_t } = useTranslations(locale, ['DIAMOND_SHAPES']);
 
   const mutatedLotIds = Array.isArray(diamonds) ? diamonds?.map((diamond) => getNumericalLotId(diamond?.lotId)) : [];
 
@@ -480,7 +482,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
     shownWithCtwLabel,
     // extraOptions,
     diamondDescription,
-    // productTitleOverride,
+    productTitleOverride,
     // trioBlocks,
     // accordionBlocks,
     // ctaCopy,
@@ -520,6 +522,8 @@ const ReviewBuildStep = ({ settingSlugs }) => {
   };
 
   const { productTitle } = datoParentProductData || {};
+
+  console.log('datoParentProductData', datoParentProductData);
 
   const productType = shopifyProductData?.productType;
 
@@ -786,7 +790,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
   const summaryItems = [
     {
       label: _t('diamondType'),
-      value: diamonds?.map((diamond) => _t(diamond?.diamondType)).join(' + '),
+      value: diamonds?.map((diamond) => shapes_t(diamond?.diamondType)).join(' + '),
       onClick: () => {
         router.push(
           `/customize/${flowType}/${router.query.lotId}/${router.query.collectionSlug}/${router.query.productSlug}/edit-diamond`,
@@ -965,6 +969,8 @@ const ReviewBuildStep = ({ settingSlugs }) => {
         src="https://js.klarna.com/web-sdk/v1/klarna.js"
         data-client-id="4b79b0e8-c6d3-59da-a96b-2eca27025e8e"
       ></Script>
+
+      <HideTopBar />
       <div className="review-wrapper">
         <div className="product-images">
           <div className="embla" ref={isWindowDefined && window.innerWidth < 767 ? emblaRef : null}>
@@ -1040,12 +1046,16 @@ const ReviewBuildStep = ({ settingSlugs }) => {
           <div className="product-summary__inner">
             <WishlistLikeButton
               extraClass="bundle"
-              productId={`bundle-${router.query?.productSlug}::${diamonds[0]?.lotId}`}
+              productId={`bundle-${router.query?.productSlug}::${diamonds?.[0]?.lotId}`}
             />
 
-            <Heading type="h1" className="secondary no-margin">
-              {productTitle}
-            </Heading>
+            <ProductTitle
+              title={productTitle}
+              override={productTitleOverride}
+              diamondType={shopifyProductData?.configuration?.diamondType}
+              productType={shopifyProductData?.productType}
+              className="no-margin"
+            />
 
             <div className="total-price">
               <ProductPrice

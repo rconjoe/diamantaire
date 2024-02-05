@@ -6,7 +6,7 @@ import { BuilderFlowLoader, ReviewVariantSelector } from '@diamantaire/darkside/
 import {
   DarksideButton,
   DatoImage,
-  Heading,
+  HideTopBar,
   Loader,
   NeedTimeToThinkForm,
   ProductAppointmentCTA,
@@ -23,6 +23,7 @@ import {
   ProductKlarna,
   ProductPrice,
   ProductReviews,
+  ProductTitle,
 } from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
@@ -480,14 +481,14 @@ const SettingToDiamondSummaryPage = () => {
     // Jewelry SEO
     // seoFields,
     productDescription,
-    // productTitle,
+    productTitle,
     bandWidth,
     bandDepth,
     settingHeight,
     shownWithCtwLabel,
     // extraOptions,
     diamondDescription,
-    // productTitleOverride,
+    productTitleOverride,
     // trioBlocks,
     // accordionBlocks,
     // ctaCopy,
@@ -525,8 +526,6 @@ const SettingToDiamondSummaryPage = () => {
     width: shopifyProductData?.productContent?.assetStack?.[0]?.width,
     height: shopifyProductData?.productContent?.assetStack?.[0]?.height,
   };
-
-  const { productTitle } = datoParentProductData || {};
 
   const productType = shopifyProductData?.productType;
 
@@ -790,10 +789,11 @@ const SettingToDiamondSummaryPage = () => {
 
   const flowType = router?.asPath.includes('diamond-to-setting') ? 'diamond-to-setting' : 'setting-to-diamond';
 
+  const { _t: shapes_t } = useTranslations(locale, ['DIAMOND_SHAPES']);
   const summaryItems = [
     {
       label: _t('diamondType'),
-      value: diamonds?.map((diamond) => _t(diamond?.diamondType)).join(' + '),
+      value: diamonds?.map((diamond) => shapes_t(diamond?.diamondType)).join(' + '),
       onClick: () => {
         router.push(
           `/customize/${flowType}/pairs/${router.query.collectionSlug}/${router.query.productSlug}/${router.query.lotId}/edit-diamond`,
@@ -967,6 +967,7 @@ const SettingToDiamondSummaryPage = () => {
         src="https://js.klarna.com/web-sdk/v1/klarna.js"
         data-client-id="4b79b0e8-c6d3-59da-a96b-2eca27025e8e"
       ></Script>
+      <HideTopBar />
       <div className="review-wrapper">
         <div className="product-images">
           <div className="embla" ref={isWindowDefined && window.innerWidth < 767 ? emblaRef : null}>
@@ -1029,7 +1030,7 @@ const SettingToDiamondSummaryPage = () => {
           </div>
           <div className="slider-dots">
             <ul>
-              {[0, 1, 2].map((_item, index) => {
+              {[0, 1, 2, 3].map((_item, index) => {
                 return (
                   <li key={`review-build-dot-${index}`}>
                     <button
@@ -1049,9 +1050,13 @@ const SettingToDiamondSummaryPage = () => {
               //   productId={`bundle-${settingSlugs?.productSlug}::${diamonds[0]?.lotId}`}
             />
 
-            <Heading type="h1" className="secondary no-margin">
-              {productTitle}
-            </Heading>
+            <ProductTitle
+              title={productTitle}
+              override={productTitleOverride}
+              diamondType={shopifyProductData?.configuration?.diamondType}
+              productType={shopifyProductData?.productType}
+              className="no-margin"
+            />
 
             <div className="total-price">
               <ProductPrice

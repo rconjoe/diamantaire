@@ -2,6 +2,7 @@ import { BuilderFlowLoader } from '@diamantaire/darkside/components/builder-flow
 import {
   Form,
   Heading,
+  HideTopBar,
   ProductAppointmentCTA,
   ShowDesktopAndUpOnly,
   ShowMobileOnly,
@@ -115,6 +116,8 @@ const SettingBuildStep = () => {
     paveCaratWeight,
     metalWeight,
     shownWithCtwLabel,
+    productTitle,
+    productTitleOverride,
     trioBlocks: { id: trioBlocksId = '' } = {},
   } = datoParentProductData || {};
 
@@ -176,8 +179,6 @@ const SettingBuildStep = () => {
     return productResponse;
   }
 
-  const { productTitle, productTitleOverride } = collectionContent || {};
-
   const product = useMemo(() => {
     return {
       title: productTitle,
@@ -228,6 +229,7 @@ const SettingBuildStep = () => {
         duration: 0.75,
       }}
     >
+      <HideTopBar />
       <div className="nav-title container-wrapper">
         <Heading type="h1" className="primary h2 text-center">
           <UIString>Complete your ring</UIString>
@@ -266,7 +268,7 @@ const SettingBuildStep = () => {
         <div className="info-container">
           <div className="info__inner">
             <ProductTitle
-              title={product?.title}
+              title={productTitle}
               diamondType={selectedConfiguration?.diamondType}
               productType={shopifyProductData?.productType}
               override={productTitleOverride}
