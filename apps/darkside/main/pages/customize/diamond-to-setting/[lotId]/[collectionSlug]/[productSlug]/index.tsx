@@ -239,7 +239,6 @@ const SettingBuildStep = () => {
             <MediaGallery
               assets={assetStack}
               options={selectedConfiguration}
-              disableVideos={true}
               productType={shopifyProductData?.productType}
               shownWithCtw={shopifyProductData?.variantDetails?.shownWithCtw}
               diamondType={selectedConfiguration?.diamondType}

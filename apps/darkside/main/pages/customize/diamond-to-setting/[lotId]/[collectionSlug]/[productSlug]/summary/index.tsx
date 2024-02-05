@@ -7,7 +7,6 @@ import {
   DarksideButton,
   DatoImage,
   Heading,
-  Loader,
   NeedTimeToThinkForm,
   ProductAppointmentCTA,
   RingSizeGuide,
@@ -162,7 +161,6 @@ const ReviewBuildStepStyles = styled(motion.div)`
 
       .slider-dots {
         flex: 1 1 100%;
-        padding: 20px 0 0;
         @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
           display: none;
         }
@@ -197,7 +195,7 @@ const ReviewBuildStepStyles = styled(motion.div)`
 
       .product-summary__inner {
         position: relative;
-        padding: 2rem 0;
+        padding: 1rem 0 2rem;
         max-width: 55rem;
         margin: 0 auto;
 
@@ -991,11 +989,6 @@ const ReviewBuildStep = ({ settingSlugs }) => {
                   />
                 )}
 
-                {isLoading && (
-                  <div className="image-loader">
-                    <Loader color="#000" />
-                  </div>
-                )}
                 {product?.productType === 'Engagement Ring' && (
                   <p>
                     <UIString>Shown with</UIString> 1.5ct
@@ -1053,7 +1046,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
           <div className="product-summary__inner">
             <WishlistLikeButton
               extraClass="bundle"
-              //   productId={`bundle-${settingSlugs?.productSlug}::${diamonds[0]?.lotId}`}
+              productId={`bundle-${router.query?.productSlug}::${diamonds[0]?.lotId}`}
             />
 
             <Heading type="h1" className="secondary no-margin">

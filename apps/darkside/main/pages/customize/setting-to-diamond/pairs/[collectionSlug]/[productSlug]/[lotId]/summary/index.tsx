@@ -162,7 +162,6 @@ const ReviewBuildStepStyles = styled(motion.div)`
 
       .slider-dots {
         flex: 1 1 100%;
-        padding: 20px 0 0;
         @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
           display: none;
         }
@@ -197,7 +196,7 @@ const ReviewBuildStepStyles = styled(motion.div)`
 
       .product-summary__inner {
         position: relative;
-        padding: 2rem 0;
+        padding: 1rem 0 2rem;
         max-width: 55rem;
         margin: 0 auto;
 
