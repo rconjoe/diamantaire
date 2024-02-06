@@ -2,6 +2,7 @@ import { contentBlockMargin, mobileOnly, setSpace } from '@diamantaire/styles/da
 import styled from 'styled-components';
 
 export const ModularAccordionContainer = styled.div`
+  max-width: var(--max-width-small);
   ${contentBlockMargin}
   .acc__container {
     display: grid;

@@ -9,7 +9,7 @@ import styled from 'styled-components';
 
 const ModularMiniBannerBlockStyles = styled.div`
   width: 100%;
-  max-width: 118rem;
+  max-width: var(--max-width-small);
   height: auto;
   margin: 0 auto;
   position: relative;

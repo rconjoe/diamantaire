@@ -30,7 +30,7 @@ type StandardPageEntryProps = {
 const StandardPageEntry = ({ page, countryCode, currencyCode, gtmClass }: StandardPageEntryProps) => {
   return (
     <div className={clsx('content-one-container', gtmClass)}>
-      {page?.breadcrumb.length > 0 && <Breadcrumb breadcrumb={page?.breadcrumb} />}
+      {page?.breadcrumb.length > 0 && <Breadcrumb breadcrumb={page?.breadcrumb} spacingType="containedWidth" />}
 
       {page?.content1?.map((contentBlockData, idx) => {
         const { _modelApiKey } = contentBlockData;

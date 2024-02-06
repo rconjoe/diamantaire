@@ -78,7 +78,7 @@ const CarouselSlider = ({
       <div className="content-block__layout">
         <div className="content-block__title">
           {title && (
-            <Heading type="h2" className="h1 primary">
+            <Heading type="h2" className="h1 secondary">
               {title}
             </Heading>
           )}

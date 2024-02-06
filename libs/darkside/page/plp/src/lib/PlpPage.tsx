@@ -21,6 +21,7 @@ import {
 } from '@diamantaire/shared/constants';
 import { isEmptyObject, getSwrRevalidateConfig } from '@diamantaire/shared/helpers';
 import { FilterValueProps } from '@diamantaire/shared-product';
+import { pageMargin } from '@diamantaire/styles/darkside-styles';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetStaticPropsContext, GetStaticPropsResult, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
@@ -48,21 +49,7 @@ type FilterQueryValues = {
   subStyle?: string[];
 };
 
-const PlpStyles = styled.div`
-  #breadcrumb {
-    padding-top: 2rem;
-
-    @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
-      padding-top: 1rem;
-    }
-  }
-
-  .container-wrapper {
-    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-      max-width: 90vw;
-    }
-  }
-`;
+const PlpStyles = styled.div``;
 
 function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   const { productListFiltered } = useAnalytics();
@@ -213,7 +200,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
       <PageViewTracker listPageData={listPageData} />
 
-      <Breadcrumb breadcrumb={refinedBreadcrumb} />
+      <Breadcrumb breadcrumb={refinedBreadcrumb} spacingType="containedWidth" />
 
       <PlpHeroBanner showHeroWithBanner={showHeroWithBanner} data={hero} />
 
@@ -243,10 +230,11 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
       />
 
       <div ref={pageEndRef} />
+      <div className="container-wrapper">
+        <PlpPreviouslyViewed />
 
-      <PlpPreviouslyViewed />
-
-      {category && plpSlug && <PlpBlockPicker category={category} plpSlug={plpSlug} />}
+        {category && plpSlug && <PlpBlockPicker category={category} plpSlug={plpSlug} />}
+      </div>
     </PlpStyles>
   );
 }

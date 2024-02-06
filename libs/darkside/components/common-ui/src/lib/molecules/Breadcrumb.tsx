@@ -1,16 +1,30 @@
-import { mobileOnly } from '@diamantaire/styles/darkside-styles';
+import { mobileOnly, pageMargin } from '@diamantaire/styles/darkside-styles';
 import Link from 'next/link';
 import styled from 'styled-components';
 
 import { UIString } from './UIString';
 
-const BreadcrumbStyles = styled.div<{ lastItemBolded?: boolean }>`
-  padding-bottom: calc(var(--gutter) / 4);
+const BreadcrumbStyles = styled.div<{ lastItemBolded?: boolean; spacingType?: string }>`
+  margin: 2rem 0;
 
   ${mobileOnly(`
     padding-left: 0;
     padding-right: 0;
   `)}
+  ${({ spacingType }) => {
+    switch (spacingType) {
+      case 'default':
+        return `${pageMargin}`;
+      case 'containedWidth':
+        return `
+          width: 100%;
+          margin-left: auto;
+          margin-right: auto;
+        `;
+      default:
+        return '';
+    }
+  }}
 
   ul {
     display: flex;
@@ -49,11 +63,17 @@ type BreadcrumbProps = {
   }[];
   lastItemBolded?: boolean;
   simple?: boolean;
+  spacingType?: string;
 };
 
-const Breadcrumb = ({ breadcrumb, simple = false, lastItemBolded = true }: BreadcrumbProps) => {
+const Breadcrumb = ({ breadcrumb, simple = false, lastItemBolded = true, spacingType = 'default' }: BreadcrumbProps) => {
   return (
-    <BreadcrumbStyles id="breadcrumb" className="container-wrapper" lastItemBolded={lastItemBolded}>
+    <BreadcrumbStyles
+      id="breadcrumb"
+      className="container-wrapper"
+      lastItemBolded={lastItemBolded}
+      spacingType={spacingType}
+    >
       {simple ? (
         <ul className="list-unstyled flex">
           {breadcrumb?.map((item, index) => {
