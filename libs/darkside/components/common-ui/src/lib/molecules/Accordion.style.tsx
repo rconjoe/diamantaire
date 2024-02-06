@@ -26,7 +26,7 @@ const StyledAccordion = styled.div`
     cursor: pointer;
 
     .text {
-      gap: 1rem;
+      gap: 0.5rem;
       display: flex;
       align-items: flex-start;
       font-size: var(--font-size-xxsmall);
@@ -38,7 +38,6 @@ const StyledAccordion = styled.div`
 
       .value {
         padding: 0 1rem 0 0;
-        // line-height: 1.2;
       }
     }
 
