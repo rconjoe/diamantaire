@@ -1,4 +1,3 @@
-import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondCfyFilterShape = styled.div`
@@ -12,9 +11,9 @@ const StyledDiamondCfyFilterShape = styled.div`
     font-size: var(--font-size-xxxsmall);
     margin: 2rem auto 1rem;
 
-    ${tabletAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       font-size: var(--font-size-xsmall);
-    `)}
+    }
   }
 
   .subtitle {

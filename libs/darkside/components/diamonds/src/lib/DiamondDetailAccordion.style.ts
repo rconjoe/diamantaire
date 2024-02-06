@@ -1,4 +1,3 @@
-import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondDetailAccordion = styled.div`
@@ -10,9 +9,9 @@ const StyledDiamondDetailAccordion = styled.div`
       margin: 2rem 0;
       gap: 1rem;
 
-      ${tabletAndUp(`
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         gap: 2rem;
-      `)}
+      }
     }
 
     .sub {

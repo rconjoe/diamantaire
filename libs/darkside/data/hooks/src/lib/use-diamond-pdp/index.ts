@@ -5,6 +5,7 @@ export interface DiamondPdpDataTypes {
   id: string;
   header: string;
   productTitle: string;
+  fullProductTitle: string;
   carat: string;
   cut: string;
   color: string;

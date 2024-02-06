@@ -1,4 +1,3 @@
-import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondDetailSpecs = styled.div`
@@ -11,10 +10,10 @@ const StyledDiamondDetailSpecs = styled.div`
     text-align: left;
     margin-top: 3rem;
 
-    ${desktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       font-size: var(--font-size-xsmall);
       margin-top: 0px;
-    `)}
+    }
   }
 
   .spec-list {

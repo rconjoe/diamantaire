@@ -1,4 +1,3 @@
-import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondCfyBreadCrumb = styled.div`
@@ -16,9 +15,9 @@ const StyledDiamondCfyBreadCrumb = styled.div`
     margin: 2rem 0 0;
     padding: 0 2.4rem;
 
-    ${desktopAndUp(`
-    padding:0;
-    `)}
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+      padding: 0;
+    }
 
     &:empty {
       display: none;

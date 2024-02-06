@@ -13,6 +13,8 @@ import { useRouter } from 'next/router';
 import { useState, useMemo, useEffect } from 'react';
 import styled from 'styled-components';
 
+import { Heading } from './Heading';
+
 const CountrySelectorStyles = styled.div`
   ul {
     list-style: none;
@@ -115,14 +117,20 @@ const CountrySelector = ({ toggleCountrySelector }: { toggleCountrySelector: () 
 
           return (
             <div key={regionName} className={clsx('region', regionHandle)}>
-              <h4 className="region-title">{regionName}</h4>
+              <Heading type="h4" className="region-title">
+                {regionName}
+              </Heading>
+
               <ul className={clsx('region-list', columnsClass)}>
                 {regionCountries.map((country) => {
                   return (
                     <li key={country.code}>
                       <button
                         className={clsx(selectedCountryCode === country.code ? 'active' : '')}
-                        onClick={() => toggleCountrySelector()}
+                        onClick={() => {
+                          toggleCountrySelector();
+                          window.scrollTo(0, 0);
+                        }}
                       >
                         <Link
                           href={router.asPath}

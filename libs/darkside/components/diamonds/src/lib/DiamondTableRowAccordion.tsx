@@ -1,9 +1,7 @@
 import { Accordion, CertificateThumb, Markdown } from '@diamantaire/darkside/components/common-ui';
-import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useDiamondTableData } from '@diamantaire/darkside/data/hooks';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
 // import Markdown from 'markdown-to-jsx';
-import { useContext } from 'react';
 
 import StyledDiamondTableRowAccordion from './DiamondTableRowAccordion.style';
 
@@ -16,7 +14,6 @@ const DiamondDetailRowAccordion = ({
   productPair?: DiamondDataTypes;
   locale?: string;
 }) => {
-  const { isMobile } = useContext(GlobalContext);
   const { data: diamondTableData } = useDiamondTableData(locale);
 
   if (!product) return;
@@ -113,7 +110,7 @@ const DiamondDetailRowAccordion = ({
 
   return (
     <StyledDiamondTableRowAccordion>
-      <Accordion rows={accordionContent} activeDefault={isMobile ? null : 3} />
+      <Accordion rows={accordionContent} />
     </StyledDiamondTableRowAccordion>
   );
 };

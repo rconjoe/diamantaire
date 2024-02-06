@@ -21,7 +21,6 @@ import {
 } from '@diamantaire/shared/constants';
 import { isEmptyObject, getSwrRevalidateConfig } from '@diamantaire/shared/helpers';
 import { FilterValueProps } from '@diamantaire/shared-product';
-import { pageMargin } from '@diamantaire/styles/darkside-styles';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetStaticPropsContext, GetStaticPropsResult, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
@@ -53,8 +52,6 @@ const PlpStyles = styled.div``;
 
 function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   const { productListFiltered } = useAnalytics();
-
-  const [pageLoaded, setPageLoaded] = useState(false);
 
   const [prevQuery, setPrevQuery] = useState(null);
 
@@ -181,8 +178,6 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
     return () => {
       setPrevQuery(query);
-
-      setPageLoaded(true);
     };
   }, [query]);
 
@@ -280,7 +275,6 @@ const createStaticProps = (category: string) => {
 
     const { plpSlug, ...qParams } = params;
 
-    // Render 404 if no plpSlug
     if (!plpSlug) {
       return {
         notFound: true,
@@ -288,6 +282,14 @@ const createStaticProps = (category: string) => {
     }
 
     const [slug, ...plpParams] = plpSlug;
+
+    const pageSlugs = await getAllPlpSlugs();
+
+    if (!pageSlugs.find((v) => v.slug === slug)) {
+      return {
+        notFound: true,
+      };
+    }
 
     // All ER PLPs use faceted nav
     if (category === 'engagement-rings') {

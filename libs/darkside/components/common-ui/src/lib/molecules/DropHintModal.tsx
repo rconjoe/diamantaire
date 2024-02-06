@@ -72,7 +72,7 @@ const DropHintModal: React.FC<DropHintModalProps> = ({ title, subtitle, onClose,
       recipientEmail: userEmail,
       name: userName,
       email: recipientEmail,
-      productImageUrl: `${baseUrl}${productLink}`,
+      productImageUrl: `${baseUrl}${locale !== 'en-US' ? `/${locale}` : ''}${productLink}`,
       productImage: productImage,
     };
 

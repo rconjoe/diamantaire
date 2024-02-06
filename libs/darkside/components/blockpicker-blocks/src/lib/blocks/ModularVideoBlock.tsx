@@ -49,6 +49,7 @@ const ModularVideoBlock = (props: ModularVideoBlockProps) => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(shouldAutoplay || false);
 
   const { streamingUrl } = video.video;
+
   const mobileStreamingUrl = mobileVideo?.video?.streamingUrl;
 
   return (

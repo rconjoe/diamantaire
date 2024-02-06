@@ -1,4 +1,3 @@
-import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const gap = '2rem';
@@ -20,11 +19,11 @@ export const StyledDiamondPairActiveRow = styled.div`
     align-items: flex-start;
     justify-content: flex-start;
 
-    ${desktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       flex-direction: row;
       gap: ${gap};
       padding: ${gap} 0;
-    `)}
+    }
   }
 
   .row-media {
@@ -33,9 +32,9 @@ export const StyledDiamondPairActiveRow = styled.div`
     display: flex;
     align-items: flex-start;
 
-    ${desktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       width: ${mediaWidth};
-    `)}
+    }
 
     .row-media-content {
       width: 100%;
@@ -69,9 +68,9 @@ export const StyledDiamondPairActiveRow = styled.div`
     padding: ${gap};
     margin-bottom: ${gap};
 
-    ${desktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       padding: 0;
-    `)}
+    }
   }
 
   .row-accordion {
@@ -80,9 +79,9 @@ export const StyledDiamondPairActiveRow = styled.div`
     justify-content: center;
     padding: 0;
 
-    ${desktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       padding-right: ${gap};
-    `)}
+    }
 
     .certificate {
       .accordion-content-wrapper {
@@ -131,9 +130,9 @@ export const StyledDiamondPairActiveRow = styled.div`
     width: 100%;
     gap: ${gap};
 
-    ${desktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       padding-right: ${gap};
-    `)}
+    }
 
     button {
       width: 100%;

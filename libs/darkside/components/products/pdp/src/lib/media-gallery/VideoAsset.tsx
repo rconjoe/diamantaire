@@ -13,12 +13,29 @@ const VideoAssetContainer = styled.div`
 export function VideoAsset({ video }) {
   if (!video) return null;
 
-  const { streamingUrl } = video?.video || {};
+  const { streamingUrl, thumbnailUrl } = video?.video || {};
 
   return (
     <VideoAssetContainer>
       {streamingUrl && (
-        <ReactPlayer height="100%" width="100%" playing loop muted playsinline={true} url={streamingUrl} controls={false} />
+        <ReactPlayer
+          height="100%"
+          width="100%"
+          playing
+          loop
+          muted
+          playsinline={true}
+          url={streamingUrl}
+          controls={false}
+          config={{
+            file: {
+              attributes: {
+                title: video.title,
+                poster: thumbnailUrl,
+              },
+            },
+          }}
+        />
       )}
     </VideoAssetContainer>
   );
