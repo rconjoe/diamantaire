@@ -19,7 +19,9 @@ const DiamondDetailRowAccordion = ({
   if (!product) return;
 
   const { diamondTable } = diamondTableData || {};
-  const { cut: productCut, clarity: productClarity, color: productColor, dfCertificateUrl } = product;
+  const { cut: productCut, clarity: productClarity, color: productColor, dfCertificateUrl, _id } = product;
+  const { cut: productTwoCut, clarity: productTwoClarity, color: productTwoColor, _id: _id2 } = productPair || {};
+
   const {
     specs,
     cutMapAbridged,
@@ -42,13 +44,46 @@ const DiamondDetailRowAccordion = ({
   const labelClarity = clarityMapAbridged.find((v) => v.key === productClarity);
   const titleCertificate = specs.find((v) => v.key === 'certificate');
 
+  const cutOrder = ['Ideal+Hearts', 'Ideal', 'Excellent+', 'Excellent', 'Very Good'];
+
+  let mappedValues = [
+    {
+      id: _id,
+      cut: productCut,
+      clarity: productClarity,
+      color: productColor,
+    },
+  ];
+
+  if (productPair) {
+    mappedValues.push({
+      id: _id2,
+      cut: productTwoCut,
+      clarity: productTwoClarity,
+      color: productTwoColor,
+    });
+  }
+
+  mappedValues = mappedValues.sort((a, b) => {
+    const indexA = cutOrder.indexOf(a.cut);
+    const indexB = cutOrder.indexOf(b.cut);
+
+    // Compare the indices
+    return indexA - indexB;
+  });
+
   const accordionContent = [
     {
       title: (
         <>
           <strong className="label">{titleCut?.value}:</strong>{' '}
           <div className="value">
-            <span>{labelCut?.value}</span> <strong>{labelCut?.key}</strong>
+            <span>{labelCut?.value}</span>{' '}
+            {mappedValues?.map((diamond, index) => (
+              <strong key={`cut-${diamond.id}`}>
+                {diamond.cut} {index === mappedValues.length - 1 ? '' : ' - '}
+              </strong>
+            ))}
           </div>
         </>
       ),
@@ -64,7 +99,12 @@ const DiamondDetailRowAccordion = ({
         <>
           <strong className="label">{titleColor?.value}:</strong>{' '}
           <div className="value">
-            <span>{labelColor?.value}</span> <strong>{labelColor?.key}</strong>
+            <span>{labelColor?.value}</span>{' '}
+            {mappedValues?.map((diamond, index) => (
+              <strong key={`color-${diamond.id}`}>
+                {diamond.color} {index === mappedValues.length - 1 ? '' : ' - '}
+              </strong>
+            ))}
           </div>
         </>
       ),
@@ -80,7 +120,12 @@ const DiamondDetailRowAccordion = ({
         <>
           <strong className="label">{titleClarity?.value}:</strong>{' '}
           <div className="value">
-            <span>{labelClarity?.value}</span> <strong>{labelClarity?.key}</strong>
+            <span>{labelClarity?.value}</span>{' '}
+            {mappedValues?.map((diamond, index) => (
+              <strong key={`clarity-${diamond.id}`}>
+                {diamond.clarity} {index === mappedValues.length - 1 ? '' : ' - '}
+              </strong>
+            ))}
           </div>
         </>
       ),

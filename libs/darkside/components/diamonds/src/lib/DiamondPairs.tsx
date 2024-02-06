@@ -21,7 +21,7 @@ export const DiamondPairCell = ({ diamonds, accessorKey, renderValue }: DiamondP
   return (
     <StyledDiamondPairCell>
       {values.map((v, i) => (
-        <div key={i.toString()}>{renderValue ? renderValue(v) : v}</div>
+        <div key={i.toString()}>{renderValue ? renderValue(v) : <UIString>{v}</UIString>}</div>
       ))}
     </StyledDiamondPairCell>
   );

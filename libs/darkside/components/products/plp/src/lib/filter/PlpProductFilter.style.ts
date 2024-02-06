@@ -163,9 +163,14 @@ export const PlpProductFilterStyles = styled.div`
       button {
         border-bottom: 0.2rem solid transparent;
 
-        &:hover,
         &.active {
           border-color: var(--color-teal);
+        }
+
+        @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+          &:hover {
+            border-color: var(--color-teal);
+          }
         }
       }
     }

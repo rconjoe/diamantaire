@@ -275,12 +275,14 @@ const SettingBuildStep = () => {
 
         <div className="info-container">
           <div className="info__inner">
-            <ProductTitle
-              title={productTitle}
-              diamondType={selectedConfiguration?.diamondType}
-              productType={shopifyProductData?.productType}
-              override={productTitleOverride}
-            />
+            {productTitle && (
+              <ProductTitle
+                title={productTitle}
+                diamondType={selectedConfiguration?.diamondType}
+                productType={shopifyProductData?.productType}
+                override={productTitleOverride}
+              />
+            )}
 
             <ProductPrice isBuilderProduct={false} price={parseFloat(totalPrice)} engravingText={null} />
             {shopifyProductData?.variantDetails && (

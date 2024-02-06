@@ -523,7 +523,9 @@ export function getFormattedPrice(
 
   let finalPrice = getPriceWithAddedTax(convertedPrice, countryCode);
 
-  if (currency !== Currency.USDollars) {
+  if (excludeExchangeRate && currency === Currency.BritishPounds) {
+    finalPrice = Math.floor(finalPrice);
+  } else if (currency !== Currency.USDollars) {
     finalPrice = Math.ceil(finalPrice);
   }
 

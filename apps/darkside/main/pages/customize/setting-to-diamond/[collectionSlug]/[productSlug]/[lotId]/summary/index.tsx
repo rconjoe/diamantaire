@@ -7,7 +7,6 @@ import {
   DarksideButton,
   DatoImage,
   HideTopBar,
-  Loader,
   NeedTimeToThinkForm,
   ProductAppointmentCTA,
   RingSizeGuide,
@@ -406,7 +405,6 @@ const SettingToDiamondSummaryPage = () => {
   const [isEngravingInputVisible, setIsEngravingInputVisible] = useState(false);
   const [engravingInputText, setEngravingInputText] = useState('');
   const [engravingText, setEngravingText] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [handCaratValue, setHandCaratValue] = useState(null);
 
   const [selectedSize, setSelectedSize] = useState<{
@@ -946,7 +944,7 @@ const SettingToDiamondSummaryPage = () => {
 
   useEffect(() => {
     if (router?.query?.productSlug && router?.query?.collectionSlug) {
-      getSettingProduct().then(() => setIsLoading(false));
+      getSettingProduct();
     }
   }, [router?.query?.productSlug, router?.query?.collectionSlug]);
 
@@ -999,11 +997,6 @@ const SettingToDiamondSummaryPage = () => {
                   />
                 )}
 
-                {isLoading && (
-                  <div className="image-loader">
-                    <Loader color="#000" />
-                  </div>
-                )}
                 {product?.productType === 'Engagement Ring' && (
                   <p>
                     <UIString>Shown with</UIString> 1.5ct

@@ -191,10 +191,9 @@ const StyledDiamondFilter = styled.aside`
         content: '';
         border-bottom: 0.2rem solid var(--color-teal);
         position: absolute;
-        margin-left: -1.2rem;
         bottom: -0.8rem;
-        width: 2.4rem;
-        left: 50%;
+        width: 100%;
+        left: 0;
       }
 
       svg {
