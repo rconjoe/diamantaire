@@ -292,9 +292,9 @@ const DiamondTable = (props: DiamondTableProps) => {
   };
 
   const onHeaderClick = (header) => {
+    const newSortBy = header.id;
     const currentSortOrder = options.sortOrder || 'asc';
     const newSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
-    const newSortBy = header.id;
 
     if (!queryDiamond.isFetching) {
       updateOptions({

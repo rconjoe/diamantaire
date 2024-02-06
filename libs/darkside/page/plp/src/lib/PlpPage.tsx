@@ -67,8 +67,6 @@ const PlpStyles = styled.div`
 function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   const { productListFiltered } = useAnalytics();
 
-  const [pageLoaded, setPageLoaded] = useState(false);
-
   const [prevQuery, setPrevQuery] = useState(null);
 
   const router = useRouter();
@@ -194,8 +192,6 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
     return () => {
       setPrevQuery(query);
-
-      setPageLoaded(true);
     };
   }, [query]);
 
