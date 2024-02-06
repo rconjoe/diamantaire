@@ -7,7 +7,6 @@ import {
   humanNamesMapperType,
   useCartData,
   useDiamondPdpData,
-  useDiamondTableData,
   useDiamondsData,
   useTranslations,
 } from '@diamantaire/darkside/data/hooks';
@@ -39,16 +38,14 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
   const { headerHeight } = useContext(GlobalContext);
   const { refetch } = useCartData(locale);
   const { _t } = useTranslations(locale);
-  const { _t: __t } = useTranslations(locale, [humanNamesMapperType.DIAMOND_SHAPES]);
+  const { _t: getDiamondTitle } = useTranslations(locale, [humanNamesMapperType.DIAMOND_SHAPES]);
   const { data: { diamond: product } = {} } = useDiamondsData({ handle, withAdditionalInfo: true });
-  const { data: { diamondTable: DiamondTableData } = {} } = useDiamondTableData(locale);
   const { data: { diamondProduct: DiamondPdpData } = {} } = useDiamondPdpData(locale);
-  const { specs } = DiamondTableData || {};
-  const { productTitle, buttonTextDiamondFlow, quickCheckoutText } = DiamondPdpData || {};
+  const { fullProductTitle, buttonTextDiamondFlow, quickCheckoutText } = DiamondPdpData || {};
   const { carat: productCarat, price: productPrice, lotId } = product || {};
-  const getInfo = (arr, v) => arr.find((x) => x.key === v);
   const price = productPrice ? getFormattedPrice(productPrice, locale, true) : null;
-  const diamondTitle = __t(getDiamondType(diamondType)?.slug);
+  const diamondTypeSlug = getDiamondType(diamondType)?.slug;
+  const diamondTitle = getDiamondTitle(diamondTypeSlug);
   const formattedCarat = getFormattedCarat(productCarat, locale);
   const updateGlobalContext = useContext(GlobalUpdateContext);
   const [activeSlide, setActiveSlide] = useState(0);
@@ -192,10 +189,9 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
 
         <div className="aside">
           <Heading className="title" type="h2">
-            {formattedCarat} {getInfo(specs, 'carat')?.value} {diamondTitle}
-            <br />
-            {productTitle}
+            {fullProductTitle.replace('%%carat%%', formattedCarat).replace('%%diamondType%%', diamondTitle)}
           </Heading>
+
           {price && (
             <div className="price">
               <span>{price}</span>
