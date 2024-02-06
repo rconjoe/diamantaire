@@ -2,7 +2,7 @@ import { HideTopBar, Loader } from '@diamantaire/darkside/components/common-ui';
 import { PlpHeroBanner, PlpProductGrid } from '@diamantaire/darkside/components/products/plp';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
-import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
+import { useBuilderFlowSeo, usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { FilterValueProps } from '@diamantaire/shared-product';
