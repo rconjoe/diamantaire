@@ -232,12 +232,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     ? selectedDiamond.reduce((total, diamond) => total + (diamond?.price || 0), 0)
     : 0;
 
-  console.log('diamondFeedPrice', diamondFeedPrice);
-
   const totalPrice = diamondFeedPrice ? diamondFeedPrice + price : price;
   const isProductFeedUrl = diamondFeedPrice !== 0 && Boolean(diamondFeedPrice);
 
-  console.log('isProductFeedUrl', isProductFeedUrl);
   // Can this item go Out Of Stock?
   const trackInventory = Boolean(shopifyProductData?.trackInventory);
   // Can this product be added directly to cart?
