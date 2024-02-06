@@ -23,13 +23,17 @@ const StandardPage = (props: StandardPageProps) => {
   const router = useRouter();
 
   const { pageSlug: pageSlugFromProps } = props; // for static page slugs
+
   const { pageSlug } = router.query;
+
   const pageSlugMerge = pageSlug || pageSlugFromProps;
 
   const { data }: any = useStandardPage(pageSlugMerge?.toString(), router.locale);
+
   const page = data?.standardPage;
 
   const { seo } = page || {};
+
   const { seoTitle, seoDescription } = seo || {};
 
   return (
@@ -72,12 +76,22 @@ async function getStaticPaths() {
 
 async function getStaticProps({ locale, params }: GetStaticPropsContext<{ pageSlug: string; location: string }>) {
   const isMobile = false;
+
   const { pageSlug, location } = params || {};
 
   const { countryCode } = parseValidLocale(locale);
+
   const currencyCode = getCurrency(countryCode);
 
   const standardPageContentQuery = queries['standard-page'].content(pageSlug, locale);
+
+  const pageSlugs = await getAllStandardPageSlugs();
+
+  if (!pageSlugs.includes(pageSlug)) {
+    return {
+      notFound: true,
+    };
+  }
 
   // dato
   const queryClient = new QueryClient();
@@ -89,15 +103,6 @@ async function getStaticProps({ locale, params }: GetStaticPropsContext<{ pageSl
   await queryClient.prefetchQuery({
     ...standardPageContentQuery,
   });
-
-  // Need to refine - in prog - Sam D.
-  // if (!queryClient.getQueryData(standardPageContentQuery.queryKey)?.['standardPage']) {
-  //   console.log('404 caseeeee', queryClient.getQueryData(standardPageContentQuery.queryKey)?.['standardPage']);
-
-  //   return {
-  //     notFound: true,
-  //   };
-  // }
 
   return {
     props: {
