@@ -134,6 +134,8 @@ const StyledOptionSelector = styled.div`
         max-width: 3.8rem;
         max-height: 3.8rem;
         min-width: unset;
+        display: flex;
+        justify-content: center;
       }
     }
 

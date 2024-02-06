@@ -56,9 +56,14 @@ const ProductPrice = ({
   const basePrice = lowestPricedDiamond ? lowestPricedDiamond.price + price : price;
   const shouldAddEngravingCost = engravingText && productType !== 'Ring' && !doesProductQualifyForFreeEngraving;
 
+  console.log('basePrice', basePrice);
+
   const finalPrice = calculateFinalPrice(basePrice, productType, shouldDoublePrice, shouldAddEngravingCost);
 
   const refinedPrice = getFormattedPrice(finalPrice, locale, true, false, false);
+
+  console.log('final price', finalPrice);
+  console.log('refinedPrice', refinedPrice);
 
   const translatedText = _t('Starting at %%price%%');
 

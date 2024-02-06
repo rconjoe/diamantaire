@@ -1,6 +1,6 @@
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { useDiamondTableData, useInfiniteDiamondsData } from '@diamantaire/darkside/data/hooks';
+import { useDiamondTableData, useInfiniteDiamondsData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
 import { getDiamondType } from '@diamantaire/shared/helpers';
 import { DiamondDataTypes, DiamondPairDataTypes, isDiamondPairType } from '@diamantaire/shared/types';
@@ -169,6 +169,8 @@ const DiamondTable = (props: DiamondTableProps) => {
     [locale],
   );
 
+  const { _t: diamond_shape_t } = useTranslations(locale, ['DIAMOND_SHAPES']);
+
   const diamondPairColumns = useMemo(
     () => [
       {
@@ -183,7 +185,7 @@ const DiamondTable = (props: DiamondTableProps) => {
                 accessorKey="diamondType"
                 renderValue={(v: unknown): string => {
                   if (typeof v === 'string') {
-                    return v && getDiamondType(v).title;
+                    return `${diamond_shape_t(v)}`;
                   } else {
                     return 'Invalid Diamond Type';
                   }

@@ -946,7 +946,7 @@ const SettingToDiamondSummaryPage = () => {
 
   useEffect(() => {
     if (router?.query?.productSlug && router?.query?.collectionSlug) {
-      getSettingProduct().then(() => setIsLoading(false));
+      getSettingProduct();
     }
   }, [router?.query?.productSlug, router?.query?.collectionSlug]);
 
@@ -1074,6 +1074,9 @@ const SettingToDiamondSummaryPage = () => {
             )}
 
             <div className="total-price">
+              <p>Diamond price: {getFormattedPrice(diamondPrice, locale, true, true)}</p>
+              <p>Setting price: {getFormattedPrice(shopifyProductData?.price, locale, true, true)}</p>
+              <p>Total price: {getFormattedPrice(shopifyProductData?.price + diamondPrice, locale, true, true)}</p>
               <ProductPrice
                 isBuilderProduct={false}
                 price={totalPriceInCents}
