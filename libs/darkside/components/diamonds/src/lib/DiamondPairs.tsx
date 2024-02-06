@@ -36,11 +36,7 @@ export const DiamondPairActiveRow = ({
   diamonds: DiamondDataTypes[];
   isBuilderFlowOpen: boolean;
 }) => {
-  console.log('pair active');
-
   const [diamond1, diamond2] = diamonds;
-
-  console.log('diamondsxxx', diamonds);
 
   const { data: { diamondTable: { specs, origin: originValue } = {} } = {} } = useDiamondTableData(locale);
 
@@ -55,33 +51,22 @@ export const DiamondPairActiveRow = ({
     // Extract the list of available diamond types from the builder product
     const availableDiamondTypes = builderProduct?.product?.optionConfigs?.diamondType;
 
-    console.log('availableDiamondTypes', availableDiamondTypes);
-
     // Check if every diamond's type is included in the available diamond types
     const final = availableDiamondTypes.find((diamondType) =>
       diamonds.every((diamond) => diamondType.value.includes(diamond.diamondType)),
     );
 
-    console.log('xxx', final);
-
     return final?.id;
   }
 
   const handleSelectDiamond = () => {
-    // TODO: add handler
-    console.log(`handleSelectDiamond`, diamonds);
-    // updateUrlParameter('lotId', product.lotId);
     updateFlowData('ADD_DIAMOND', diamonds);
 
     // By pair, we mean two diamonds with the same lotId
     const isPair = router?.asPath.includes('/pairs/');
     const lotIdSlug = diamonds?.map((diamond) => diamond?.lotId).join(',');
 
-    console.log('lotIdSlug', lotIdSlug);
-
     const toiMoiProductSlug = getToiMoiShapeProductSlug(builderProduct, diamonds);
-
-    console.log('toiMoiProductSlug', toiMoiProductSlug);
 
     const isToiMoi = router.asPath.includes('toi-moi');
 
@@ -90,11 +75,6 @@ export const DiamondPairActiveRow = ({
       ? toiMoiProductSlug
       : builderProduct?.product?.optionConfigs?.diamondType?.find((option) => option.value === diamondType)?.id ||
         router?.query?.productSlug;
-
-    // router.push(
-    //   `/customize/setting-to-diamond${isPair ? '/pairs' : ''}/${builderProduct?.product
-    //     ?.collectionSlug}/${productShapeId}/${lotIdSlug}/summary`,
-    // );
 
     // better for perf....
     window.location.href = `${window.location.origin}/customize/setting-to-diamond${isPair ? '/pairs' : ''}/${builderProduct

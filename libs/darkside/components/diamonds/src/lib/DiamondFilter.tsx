@@ -87,7 +87,6 @@ const SliderFilter = (props) => {
 const RadioFilter = (props) => {
   const { stringMap, type, ranges, options, handleRadioFilterChange, availableDiamonds } = props;
 
-  console.log('ranges', ranges);
   const { isMobile } = useContext(GlobalContext);
   const [useLeftArrow, setUseLeftArrow] = useState(false);
   const [useRightArrow, setUseRightArrow] = useState(true);

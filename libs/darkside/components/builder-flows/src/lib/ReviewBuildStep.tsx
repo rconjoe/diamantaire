@@ -58,7 +58,6 @@ import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
-import { confirmDiamondsMatchSettingType } from './helpers/confirmDiamondsMatchSettingType';
 import { ReviewVariantSelector } from './ReviewVariantSelector';
 
 const ReviewBuildStepStyles = styled(motion.div)`
@@ -789,11 +788,6 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
 
   const [emblaRef, emblaApi] = useEmblaCarousel();
   const [activeSlide, setActiveSlide] = useState(0);
-
-  // Last sec check to confirm diamond + setting shapes match
-  useEffect(() => {
-    confirmDiamondsMatchSettingType(builderProduct?.diamonds, builderProduct?.product, router);
-  }, [builderProduct.diamonds?.[0]?.diamondType]);
 
   useEffect(() => {
     if (!emblaApi) return;

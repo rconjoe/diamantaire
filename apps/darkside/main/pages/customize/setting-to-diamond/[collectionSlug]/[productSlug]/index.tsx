@@ -134,8 +134,6 @@ const DiamondBuildStep = () => {
 
   const initialOptions = doesRouterHaveOptions ? { ...routerInitialOptions } : { ...defaultInitialOptions };
 
-  console.log('initialOptions', initialOptions);
-
   let isToiMoiOrPair = false;
 
   if (asPath.includes('toi-moi')) {

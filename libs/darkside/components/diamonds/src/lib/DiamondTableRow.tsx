@@ -120,9 +120,7 @@ const DiamondTableRow = ({
 
       const nextUrl = `/customize/diamond-to-setting/${product.lotId}/${router.query.collectionSlug}/${productShapeId}/summary`;
 
-      console.log('case 003', nextUrl);
-
-      return router.push(nextUrl, null);
+      return (window.location.href = nextUrl);
     }
   };
 

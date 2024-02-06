@@ -25,8 +25,8 @@ const DiamondBuildStepStyles = styled(motion.div)`
   }
 
   @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-    max-width: 90vw;
     margin: 0 auto;
+    max-width: 90vw;
   }
 
   .switch-container {
@@ -135,8 +135,6 @@ const DiamondBuildStep = () => {
   const doesRouterHaveOptions = query.limit && query.page && query.sortBy && query.caratMin ? true : false;
 
   const initialOptions = doesRouterHaveOptions ? { ...routerInitialOptions } : { ...defaultInitialOptions };
-
-  console.log('initialOptions', initialOptions);
 
   let isToiMoiOrPair = false;
 

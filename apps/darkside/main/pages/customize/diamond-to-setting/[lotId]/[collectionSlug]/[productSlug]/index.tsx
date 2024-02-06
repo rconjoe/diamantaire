@@ -90,7 +90,6 @@ const SettingBuildStep = () => {
 
   const {
     productContent,
-    collectionContent,
     configuration: selectedConfiguration,
     price,
     // defaultRingSize,
