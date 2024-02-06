@@ -243,11 +243,7 @@ const PlpProductVariant = ({
             onClick={() => {
               selectSettingForBuilderFlow();
 
-              router.push(
-                `/customize/diamond-to-setting/${
-                  Array.isArray(router.query.flowParams) && router.query.flowParams.join('/')
-                }/${collectionSlug}/${productSlug}`,
-              );
+              router.push(`/customize/diamond-to-setting/${router.query.lotId}/${collectionSlug}/${productSlug}`);
             }}
           >
             <div className="plp-variant__image">

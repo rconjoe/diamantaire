@@ -115,6 +115,7 @@ function MediaAsset({ type, asset, options, defaultAlt, disableVideos, productTy
         />
       );
     }
+
     case MimeTypes.VideoMP4:
     case MimeTypes.VideoMov:
     case MimeTypes.QuicktimeVideo: {

@@ -6,6 +6,8 @@ export async function getDiamondByLotId(options) {
   const API_URL = `${BASE_URL}/v1/diamonds/list/`;
   const reqUrl = `${API_URL}${qParams.toString().replace('lotIds=', '')}`;
 
+  console.log('doggg', reqUrl);
+
   try {
     response = await fetch(reqUrl, {
       headers: {
@@ -17,9 +19,9 @@ export async function getDiamondByLotId(options) {
     console.log({ getDiamondByLotIdError: error });
   }
 
-  let productData = await response.json();
+  const productData = await response.json();
 
-  productData = productData.filter((item) => item.hidden !== true);
+  // productData = productData.filter((item) => item.hidden !== true);
 
   return productData;
 }

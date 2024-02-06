@@ -234,7 +234,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     : 0;
 
   const totalPrice = diamondFeedPrice ? diamondFeedPrice + price : price;
-  const isProductFeedUrl = Boolean(diamondFeedPrice);
+  const isProductFeedUrl = diamondFeedPrice !== 0 && Boolean(diamondFeedPrice);
+
   // Can this item go Out Of Stock?
   const trackInventory = Boolean(shopifyProductData?.trackInventory);
   // Can this product be added directly to cart?
@@ -328,7 +329,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     setDropHintData(null);
   };
 
-  // console.log('shopifyProductData', shopifyProductData);
+  console.log('shopifyProductData', shopifyProductData);
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
