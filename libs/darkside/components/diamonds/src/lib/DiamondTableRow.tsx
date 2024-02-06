@@ -23,27 +23,21 @@ const DiamondTableRow = ({
   product,
   locale,
   isBuilderFlowOpen = false,
-  settingSlugs,
-  updateSettingSlugs,
 }: {
   product?: DiamondDataTypes;
   locale: string;
   isBuilderFlowOpen?: boolean;
-  settingSlugs?: {
-    [key: string]: string;
-  };
-  updateSettingSlugs?: (_obj) => void;
 }) => {
   const { emitDataLayer } = useAnalytics();
   const router = useRouter();
   const { handle, lotId, diamondType } = product;
 
+  const { builderProduct } = useContext(BuilderProductContext);
+
   const { data: { cart: cartData } = {} } = useCartInfo(router.locale);
 
   const { pageCopy: cartCopy } = cartData || {};
   const { uniqueDiamondAlreadyInCartErrorMessage } = cartCopy?.[0] || {};
-
-  const { updateFlowData } = useContext(BuilderProductContext);
 
   const updateGlobalContext = useContext(GlobalUpdateContext);
 
@@ -52,11 +46,10 @@ const DiamondTableRow = ({
   const { _t } = useTranslations(locale);
 
   const { isMobile } = useContext(GlobalContext);
-  const { builderProduct } = useContext(BuilderProductContext);
 
   const diamondDetailRoute = `${diamondRoutePdp}/${handle}${
-    settingSlugs?.collectionSlug ? '?collectionSlug=' + settingSlugs?.collectionSlug : ''
-  }${settingSlugs?.productSlug ? '&productSlug=' + settingSlugs?.productSlug : ''}`;
+    router?.query?.collectionSlug ? '?collectionSlug=' + router?.query?.collectionSlug : ''
+  }${router?.query?.productSlug ? '&productSlug=' + router?.query?.productSlug : ''}`;
 
   const diamondExpertRoute = diamondRouteAppointment;
 
@@ -99,33 +92,35 @@ const DiamondTableRow = ({
       currencyCode,
     });
 
-    await updateFlowData('ADD_DIAMOND', [product]);
+    const flowType = router.asPath.includes('setting-to-diamond') ? 'setting-to-diamond' : 'diamond-to-setting';
 
-    if (updateSettingSlugs) {
-      updateSettingSlugs({
-        lotIds: [product.lotId],
-      });
-    }
-
-    if (!router.query.flowType) {
+    // starting from diamond table page
+    if (flowType === 'diamond-to-setting' && !router.query.collectionSlug && !router.query.productSlug) {
       console.log('case 001');
       router.push(`/customize/diamond-to-setting/${product.lotId}`);
-    } else if (router.query.flowType === 'setting-to-diamond') {
+    } else if (flowType === 'setting-to-diamond') {
+      // mid-way through setting to diamond flow
       console.log('case 002');
+
+      // If the user changes their shape, we want to link back to the respective setting
+      const productShapeId = builderProduct?.product?.optionConfigs?.diamondType?.find(
+        (option) => option.value === diamondType,
+      )?.id;
+
       router.push(
-        `/customize/setting-to-diamond/${
-          router.asPath.includes('/pair/') ? '/pair/' : ''
-        }summary/${`${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`}/${product?.lotId}`,
-        null,
+        `/customize/setting-to-diamond/${router?.query?.collectionSlug}/${productShapeId}/${product.lotId}/summary`,
       );
     } else {
-      const nextUrl = `/customize/diamond-to-setting/${router.asPath.includes('summary/') ? 'summary/' : ''}${
-        product.lotId
-      }${builderProduct?.product ? `/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}` : ''}`;
+      // diamond to setting flow - edit diamond
 
-      console.log('case 003', nextUrl);
+      // If the user changes their shape, we want to link back to the respective setting
+      const productShapeId = builderProduct?.product?.optionConfigs?.diamondType?.find(
+        (option) => option.value === diamondType,
+      )?.id;
 
-      return router.replace(nextUrl, null, { shallow: true, scroll: true });
+      const nextUrl = `/customize/diamond-to-setting/${product.lotId}/${router.query.collectionSlug}/${productShapeId}/summary`;
+
+      return (window.location.href = nextUrl);
     }
   };
 

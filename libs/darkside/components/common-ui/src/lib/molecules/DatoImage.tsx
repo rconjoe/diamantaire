@@ -12,6 +12,7 @@ type DatoImageProps = {
   quality?: number;
   enableDpr?: boolean;
   title?: string;
+  onLoad?: () => void;
 };
 
 const DatoImageContainer = styled.div`
@@ -31,7 +32,7 @@ const DatoImageContainer = styled.div`
 `;
 
 const DatoImage = (props: DatoImageProps) => {
-  const { image, className, overrideAlt, isSVG = false, quality = 50, enableDpr = true } = props;
+  const { image, className, overrideAlt, isSVG = false, quality = 50, enableDpr = true, onLoad } = props;
   let { shouldLazyLoad } = props;
   const { alt, responsiveImage } = image || {};
 
@@ -85,6 +86,7 @@ const DatoImage = (props: DatoImageProps) => {
           style={{
             aspectRatio,
           }}
+          onLoad={onLoad}
         />
       )}
     </DatoImageContainer>

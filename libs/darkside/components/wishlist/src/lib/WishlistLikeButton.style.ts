@@ -25,8 +25,13 @@ export const StyledWishlistLikeButton = styled.div`
   }
 
   &.bundle {
-    top: 3rem;
-    right: 4rem;
+    top: 1rem;
+    right: 0;
+
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      top: 3rem;
+      right: 5.2rem;
+    }
   }
 
   &.wishlist-page {

@@ -65,7 +65,9 @@ const ChildProduct = ({ lineItem }) => {
   const image = useMemo(() => {
     const imageSrc = attributes?.find((item) => item.key === 'productAsset')?.value;
 
-    return imageSrc.includes('https')
+    if (!imageSrc) return null;
+
+    return imageSrc?.includes('https')
       ? imageSrc
       : JSON.parse(attributes?.find((item) => item.key === 'productAsset')?.value);
   }, [lineItem]);

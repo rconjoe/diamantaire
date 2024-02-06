@@ -1,11 +1,23 @@
-import { DarksideButton, Heading, ShowTabletAndUpOnly, UIString } from '@diamantaire/darkside/components/common-ui';
+import { BuilderFlowLoader } from '@diamantaire/darkside/components/builder-flows';
+import {
+  DarksideButton,
+  Heading,
+  HideTopBar,
+  ShowTabletAndUpOnly,
+  UIString,
+} from '@diamantaire/darkside/components/common-ui';
 import { DiamondFilter, DiamondPromo, DiamondTable } from '@diamantaire/darkside/components/diamonds';
-import { useDiamondsData } from '@diamantaire/darkside/data/hooks';
+import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
+import { useBuilderFlowSeo, useDiamondsData } from '@diamantaire/darkside/data/hooks';
+import { queries } from '@diamantaire/darkside/data/queries';
+import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
-import { getDiamondShallowRoute } from '@diamantaire/shared/helpers';
+import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
+import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { NextSeo } from 'next-seo';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const DiamondBuildStepStyles = styled(motion.div)`
@@ -71,25 +83,18 @@ const DiamondBuildStepStyles = styled(motion.div)`
   }
 `;
 
-type DiamondBuildStepProps = {
-  diamondTypeToShow: string;
-  availableDiamonds?: string[];
-  settingSlugs?: {
-    [key: string]: string;
-  };
-  settingProductType?: string;
-  updateSettingSlugs?: (_obj) => void;
-};
-
-const DiamondBuildStep = ({
-  diamondTypeToShow,
-  availableDiamonds,
-  settingSlugs,
-  settingProductType,
-  updateSettingSlugs,
-}: DiamondBuildStepProps) => {
+const DiamondBuildStep = () => {
   const router = useRouter();
   const { asPath, query } = router;
+  const { builderProduct } = useContext(BuilderProductContext);
+
+  const diamondTypeToShow = builderProduct?.product?.configuration?.diamondType || 'round-brilliant';
+  const availableDiamonds = builderProduct?.product?.optionConfigs?.diamondType.map((d) => d.value) || [];
+  const settingProductType = builderProduct?.product?.productType;
+
+  const { locale } = useRouter();
+  const { data: seoData } = useBuilderFlowSeo(locale);
+  const { seoTitle, seoDescription, addNoindexNofollow } = seoData?.builderFlow?.seoFields || {};
 
   const defaultInitialOptions = {
     caratMin: 1,
@@ -154,7 +159,7 @@ const DiamondBuildStep = ({
 
   const tableOptions = {
     locale: DEFAULT_LOCALE,
-    initialOptions: { ...options },
+    initialOptions: { ...(options as any) },
     initialDiamonds: diamonds,
     initialPagination: pagination,
     currencyCode: 'USD',
@@ -162,6 +167,7 @@ const DiamondBuildStep = ({
   };
 
   const updateOptions = (newOptions) => {
+    console.log('updateOptions');
     setOptions((prevOptions) => {
       let updatedOptions: { [key: string]: string } = { ...prevOptions };
 
@@ -236,16 +242,20 @@ const DiamondBuildStep = ({
   };
 
   const clearOptions = () => {
-    updateOptions({ ...defaultInitialOptions, diamondType: diamondTypeToShow });
+    updateOptions({ ...initialOptions, diamondType: diamondTypeToShow });
   };
 
   useEffect(() => {
-    updateOptions({ ...defaultInitialOptions, diamondType: diamondTypeToShow });
-  }, [diamondTypeToShow]);
+    if (diamondTypeToShow) updateOptions({ ...initialOptions, diamondType: diamondTypeToShow });
+  }, [builderProduct.diamonds, builderProduct?.product]);
 
+  // This interferes with the builder flow routing....
   useEffect(() => {
-    router.replace(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {});
+    // router.replace(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {});
+    console.log('options changed', options);
   }, [options]);
+
+  if (!diamonds || !tableOptions?.initialOptions?.diamondType) return <BuilderFlowLoader />;
 
   return (
     <DiamondBuildStepStyles
@@ -262,7 +272,9 @@ const DiamondBuildStep = ({
         duration: 0.75,
       }}
     >
-      <div className="">
+      <NextSeo title={seoTitle} description={seoDescription} nofollow={addNoindexNofollow} noindex={addNoindexNofollow} />
+      <HideTopBar />
+      <div>
         {diamonds && (
           <div className="table-container">
             <aside>
@@ -312,10 +324,8 @@ const DiamondBuildStep = ({
                 updateOptions={updateOptions}
                 clearOptions={() => null}
                 ranges={ranges}
-                settingSlugs={settingSlugs}
                 isDiamondPairs={isToiMoiOrPair}
                 settingProductType={settingProductType}
-                updateSettingSlugs={updateSettingSlugs}
               />
             </div>
           </div>
@@ -325,6 +335,28 @@ const DiamondBuildStep = ({
   );
 };
 
-// DiamondBuildStep.getTemplate = getStandardTemplate;
+DiamondBuildStep.getTemplate = getStandardTemplate;
 
 export default DiamondBuildStep;
+
+type BuilderStepSeoProps = {
+  dehydratedState: DehydratedState;
+};
+
+export async function getServerSideProps(
+  context: GetServerSidePropsContext,
+): Promise<GetServerSidePropsResult<BuilderStepSeoProps>> {
+  const { locale } = context;
+
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    ...queries['builder-flow'].seo(locale),
+  });
+
+  return {
+    props: {
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+    },
+  };
+}

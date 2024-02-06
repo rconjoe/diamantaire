@@ -131,8 +131,8 @@ function ConfigurationSelector({
       productSlug: option?.id,
     });
 
-    router.push(
-      `/customize/diamond-to-setting/${builderProduct?.diamonds?.[0]?.lotId}/${builderProduct?.product?.collectionSlug}/${option?.id}`,
+    router.replace(
+      `/customize/diamond-to-setting/${builderProduct?.diamonds?.[0]?.lotId}/${router?.query?.collectionSlug}/${option?.id}`,
     );
   }
 
@@ -145,15 +145,7 @@ function ConfigurationSelector({
       newOrientation = configurations['diamondOrientation'].find((option) => option.value !== 'vertical');
     }
 
-    // Extract the dynamic part of the URL path
-    const pathSegments = router.pathname.split('/');
-    const dynamicSegment = pathSegments[1]; // Assuming it's the second segment
-
-    // Construct the new path using the dynamic segment
-    const newPath = `/${dynamicSegment}/${router.query.collectionSlug}/${newOrientation?.id}`;
-
     setProductSlug(newOrientation?.id);
-    router.push(newPath, newPath, { shallow: true });
   }
 
   return (

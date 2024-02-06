@@ -131,11 +131,16 @@ const StyledDiamondTable = styled.div`
     `)}
   }
 
-  .vo-table-body .vo-table-row.active,
+  .vo-table-body .vo-table-row.active {
+    color: var(--color-white);
+  }
+
   .vo-table-body .vo-table-row-head:hover,
   .vo-table-body .vo-table-row-head:focus {
-    background-color: var(--color-teal);
-    color: var(--color-white);
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      background-color: var(--color-teal);
+      color: var(--color-white);
+    }
   }
 
   .vo-table-body .vo-table-row.active {
