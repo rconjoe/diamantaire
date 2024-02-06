@@ -283,6 +283,14 @@ const createStaticProps = (category: string) => {
 
     const [slug, ...plpParams] = plpSlug;
 
+    const pageSlugs = await getAllPlpSlugs();
+
+    if (!pageSlugs.find((v) => v.slug === slug)) {
+      return {
+        notFound: true,
+      };
+    }
+
     // All ER PLPs use faceted nav
     if (category === 'engagement-rings') {
       urlFilterMethod = 'facet';

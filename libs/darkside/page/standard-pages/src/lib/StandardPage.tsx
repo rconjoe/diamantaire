@@ -39,6 +39,7 @@ const StandardPage = (props: StandardPageProps) => {
   return (
     <>
       <StandardPageSeo title={seoTitle} description={seoDescription} />
+
       <StandardPageEntry
         page={page}
         isMobile={props?.isMobile}
