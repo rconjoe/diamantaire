@@ -260,8 +260,6 @@ export const fetchDiamondCtoData = async (options) => {
 
     const diamonds = Object.values(response?.data || {});
 
-    console.log(`😄 searchParams`, searchParams);
-
     const diamond = getDefaultCtoDiamond(diamonds, options.diamondType, caratNumber);
 
     const diamondAvailableUpgrade = getAvailableUpgrades(diamonds, diamond);
