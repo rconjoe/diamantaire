@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const StackedHeaderStylesContainer = styled.div`
   display: none;
-  z-index: 6000;
+  z-index: 4000;
   position: relative;
   left: 0;
   width: 100%;

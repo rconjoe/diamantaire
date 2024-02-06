@@ -6,7 +6,7 @@ import { useCartData, useGlobalContext } from '@diamantaire/darkside/data/hooks'
 import { countries, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
 import { isUserCloseToShowroom } from '@diamantaire/shared/geolocation';
 import { media } from '@diamantaire/styles/darkside-styles';
-import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
+import { AnimatePresence, motion, useScroll } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { FC, useContext, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
@@ -22,10 +22,8 @@ import TopBar from './TopBar';
 type HeaderProps = {
   headerData?: any;
   isHome: boolean;
-  headerHeight: number;
   isTopbarShowing: boolean;
   setIsTopbarShowing: React.Dispatch<React.SetStateAction<boolean>>;
-  compactHeaderRef: React.RefObject<HTMLDivElement>;
 };
 
 const CompactHeaderWrapper = styled.div`
@@ -55,25 +53,18 @@ const HeaderWrapper = styled.div`
   /* ${media.medium`${({ $isHome }) => ($isHome ? 'position: static;' : 'position: fixed;')}`} */
 `;
 
-const Header: FC<HeaderProps> = ({
-  headerData,
-  headerHeight,
-  isTopbarShowing,
-  setIsTopbarShowing,
-  compactHeaderRef,
-}): JSX.Element => {
-  const [isStickyNavShowing, setIsStickyNavShowing] = useState(false);
-  const [isCompactMenuVisible, setIsCompactMenuVisible] = useState(true);
+const Header: FC<HeaderProps> = ({ headerData, isTopbarShowing, setIsTopbarShowing }): JSX.Element => {
+  const [isCompactHeaderVisible, setIsCompactHeaderVisible] = useState(true);
   const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
   const [isLanguageSelectorOpen, setIsLanguageSelectorOpen] = useState(false);
-  const [isTopBarVisible, setIsTopBarVisible] = useState(true);
+
   const { cartViewed } = useAnalytics();
   const router = useRouter();
   const { data: checkout } = useCartData(router?.locale);
   const { isCartOpen } = useGlobalContext();
   const updateGlobalContext = useContext(GlobalUpdateContext);
   const { section } = headerData;
-  const { scrollY } = useScroll();
+
   const { countryCode: selectedCountryCode, languageCode: selectedLanguageCode } = parseValidLocale(router.locale);
   const mobileMenuRef = useRef(null);
   const topBarRef = useRef(null);
@@ -83,20 +74,21 @@ const Header: FC<HeaderProps> = ({
   const isHome = router.pathname === '/';
   const [showroomLocation, setShowroomLocation] = useState(null);
 
-  useMotionValueEvent(scrollY, 'change', (latest) => {
-    if (!isHome) {
-      return;
-    }
-    if (latest > headerHeight * 2) {
-      setIsStickyNavShowing(true);
-      setIsCompactMenuVisible(true);
-      setMegaMenuIndex(-1);
-    } else {
-      setIsStickyNavShowing(false);
-      setIsCompactMenuVisible(false);
-      setMegaMenuIndex(-1);
-    }
-  });
+  const mainHeaderRef = useRef(null); // Ref for the main Header
+  const compactHeaderRef = useRef(null); // Ref for the Compact Header
+  const { scrollYProgress } = useScroll();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Close the MegaMenu when the user starts scrolling
+      toggleMegaMenuClose();
+    };
+
+    // Subscribe to scrollYProgress changes
+    const unsubscribe = scrollYProgress.onChange(handleScroll);
+
+    return () => unsubscribe();
+  }, [scrollYProgress]);
 
   function toggleMegaMenuOpen(index: number) {
     return setMegaMenuIndex(index);
@@ -154,7 +146,7 @@ const Header: FC<HeaderProps> = ({
     setIsLoaded(true);
 
     if (isHome) {
-      setIsCompactMenuVisible(false);
+      setIsCompactHeaderVisible(false);
     }
 
     router.events.on('routeChangeComplete', toggleMegaMenuClose);
@@ -167,34 +159,39 @@ const Header: FC<HeaderProps> = ({
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        // entries is an array of observed elements
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // Element is visible in the viewport
-            setIsTopBarVisible(true);
-          } else {
-            setIsTopBarVisible(false);
-          }
-        });
+        const [entry] = entries;
+
+        setIsCompactHeaderVisible(!entry.isIntersecting);
       },
-      {
-        root: null, // observing for viewport
-        rootMargin: '0px',
-        threshold: 0.1, // adjust as per requirement
-      },
+      { threshold: 0.1, rootMargin: '-5px 0px 0px 0px' },
     );
 
-    if (topBarRef.current) {
-      observer.observe(topBarRef.current);
+    if (mainHeaderRef.current) {
+      observer.observe(mainHeaderRef.current);
     }
 
-    // Clean up the observer on unmount
     return () => {
-      if (topBarRef.current) {
-        observer.unobserve(topBarRef.current);
+      if (mainHeaderRef.current) {
+        observer.unobserve(mainHeaderRef.current);
       }
     };
   }, []);
+
+  const getMegaMenuPosition = () => {
+    if (isHome) {
+      if (!isCompactHeaderVisible) {
+        const mainHeaderRect = mainHeaderRef.current?.getBoundingClientRect();
+
+        return (mainHeaderRect?.top || 0) + (mainHeaderRect?.height || 0);
+      } else {
+        return compactHeaderRef.current?.offsetHeight || 0;
+      }
+    } else {
+      const compactHeaderRect = compactHeaderRef.current?.getBoundingClientRect();
+
+      return (compactHeaderRect?.top || 0) + (compactHeaderRect?.height || 0);
+    }
+  };
 
   useEffect(() => {
     const showroomLocationTemp = isUserCloseToShowroom();
@@ -202,18 +199,16 @@ const Header: FC<HeaderProps> = ({
     setShowroomLocation(showroomLocationTemp);
   }, []);
 
-  const combinedHeight =
-    isHome && isTopBarVisible
-      ? stackedHeaderRef?.current?.offsetHeight + topBarRef?.current?.offsetHeight
-      : isHome && !isTopBarVisible
-      ? headerHeight
-      : isTopBarVisible
-      ? headerHeight + topBarRef?.current?.offsetHeight
-      : headerHeight;
+  const dynamicTop = getMegaMenuPosition();
 
   return (
     <>
-      <HeaderWrapper $isHome={isHome} id="primary-navigation--parent" onMouseLeave={() => setMegaMenuIndex(-1)}>
+      <HeaderWrapper
+        ref={mainHeaderRef}
+        $isHome={isHome}
+        id="primary-navigation--parent"
+        onMouseLeave={() => setMegaMenuIndex(-1)}
+      >
         <FullHeaderStyles id="primary-navigation--stacked" $isHome={isHome}>
           {isTopbarShowing && (
             <div className="top-bar__outer-container" ref={topBarRef}>
@@ -240,7 +235,7 @@ const Header: FC<HeaderProps> = ({
                 <motion.div
                   key="slide-in-header"
                   initial={isHome ? 'collapsed' : 'open'}
-                  animate={isStickyNavShowing || !isHome ? 'open' : 'collapsed'}
+                  animate={isCompactHeaderVisible || !isHome ? 'open' : 'collapsed'}
                   exit="collapsed"
                   variants={{
                     open: { y: 0, opacity: 1 },
@@ -257,7 +252,6 @@ const Header: FC<HeaderProps> = ({
                 >
                   <div ref={compactHeaderRef}>
                     <CompactHeader
-                      ref={compactHeaderRef}
                       navItems={section}
                       toggleMegaMenuOpen={toggleMegaMenuOpen}
                       menuIndex={megaMenuIndex}
@@ -266,14 +260,7 @@ const Header: FC<HeaderProps> = ({
                   </div>
                 </motion.div>
 
-                {isHome && isLoaded && (
-                  <MegaMenu
-                    navItems={section}
-                    megaMenuIndex={megaMenuIndex}
-                    headerHeight={combinedHeight}
-                    isCompactMenuVisible={isCompactMenuVisible}
-                  />
-                )}
+                {isHome && isLoaded && <MegaMenu navItems={section} megaMenuIndex={megaMenuIndex} dynamicTop={dynamicTop} />}
               </AnimatePresence>
             </>
           )}
@@ -306,24 +293,14 @@ const Header: FC<HeaderProps> = ({
             menuIndex={megaMenuIndex}
             toggleCart={toggleCart}
           />
-          {isLoaded && (
-            <MegaMenu
-              navItems={section}
-              megaMenuIndex={megaMenuIndex}
-              headerHeight={combinedHeight}
-              isCompactMenuVisible={isCompactMenuVisible}
-            />
-          )}
+          {isLoaded && <MegaMenu navItems={section} megaMenuIndex={megaMenuIndex} dynamicTop={dynamicTop} />}
         </CompactHeaderWrapper>
       )}
 
       <MobileHeader
         navItems={section}
-        headerHeight={headerHeight}
         toggleCart={toggleCart}
         mobileMenuRef={mobileMenuRef}
-        topBarRef={topBarRef}
-        isTopBarVisible={isTopBarVisible}
         showroomLocation={showroomLocation}
       />
     </>

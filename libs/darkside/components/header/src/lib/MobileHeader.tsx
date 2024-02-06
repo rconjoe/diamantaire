@@ -12,11 +12,8 @@ import MobileMenu from './MobileMenu';
 
 type MobileHeaderTypes = {
   navItems: NavItemsProps;
-  headerHeight: number;
   toggleCart?: () => void;
-  topBarRef: React.RefObject<HTMLDivElement>;
   mobileMenuRef: React.RefObject<HTMLDivElement>;
-  isTopBarVisible: boolean;
   showroomLocation: ShowroomLocation | null;
 };
 
@@ -151,18 +148,16 @@ const MobileHeaderContainer = styled.div`
   }
 `;
 
-const MobileHeader: FC<MobileHeaderTypes> = ({
-  navItems,
-  toggleCart,
-  topBarRef,
-  mobileMenuRef,
-  isTopBarVisible,
-  showroomLocation,
-}): JSX.Element => {
+const MobileHeader: FC<MobileHeaderTypes> = ({ navItems, toggleCart, mobileMenuRef, showroomLocation }): JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const mobileMenuHeight = mobileMenuRef?.current?.getBoundingClientRect().height;
-  const topBarHeight = topBarRef?.current?.getBoundingClientRect().height;
+  const getMobileMenuPosition = () => {
+    const rect = mobileMenuRef.current?.getBoundingClientRect();
+
+    return (rect?.top || 0) + (rect?.height || 0);
+  };
+
+  const headerHeight = getMobileMenuPosition();
 
   return (
     <>
@@ -210,11 +205,7 @@ const MobileHeader: FC<MobileHeaderTypes> = ({
 
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <MobileMenu
-            navItems={navItems}
-            headerHeight={!isTopBarVisible ? mobileMenuHeight : topBarHeight + mobileMenuHeight}
-            setIsMobileMenuOpen={setIsMobileMenuOpen}
-          />
+          <MobileMenu navItems={navItems} headerHeight={headerHeight} setIsMobileMenuOpen={setIsMobileMenuOpen} />
         )}
       </AnimatePresence>
     </>
