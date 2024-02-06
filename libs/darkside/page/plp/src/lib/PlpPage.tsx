@@ -181,10 +181,6 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
     };
   }, [query]);
 
-  if (!isValidPlpSlug(plpSlug)) {
-    return <></>;
-  }
-
   return (
     <PlpStyles>
       <NextSeo
@@ -279,7 +275,7 @@ const createStaticProps = (category: string) => {
 
     const { plpSlug, ...qParams } = params;
 
-    if (!plpSlug || !isValidPlpSlug(plpSlug[0])) {
+    if (!plpSlug) {
       return {
         notFound: true,
       };
@@ -557,17 +553,6 @@ function deepEqual(obj1, obj2) {
     if (!keys2.includes(key) || !deepEqual(obj1[key], obj2[key])) {
       return false;
     }
-  }
-
-  return true;
-}
-
-function isValidPlpSlug(slug: string) {
-  if (
-    typeof slug !== 'string' ||
-    (typeof slug === 'string' && !slug.includes('-engagement-rings') && !slug.includes('-jewelry'))
-  ) {
-    return false;
   }
 
   return true;

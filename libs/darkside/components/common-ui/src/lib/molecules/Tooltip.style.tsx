@@ -80,19 +80,13 @@ const StyledTooltip = styled.div`
       }
     }
 
-    &:after {
-      content: '';
-      background: transparent;
-      width: 3rem;
-      height: 3rem;
-      position: absolute;
-    }
-
     * {
       font-size: var(--font-size-xxxxxsmall);
       font-family: var(--font-family-main);
       text-transform: none;
       color: var(--color-grey);
+      display: block;
+      line-height: 1rem;
     }
 
     &:hover {

@@ -57,33 +57,31 @@ const Tooltip: React.FC<TooltipProps> = ({ id, children, className, place }) => 
   }, []);
 
   return (
-    <StyledTooltip>
-      <div ref={tooltipRef}>
-        <button
-          data-tooltip-id={id}
-          className="tooltip-trigger tablet-and-up"
-          onMouseEnter={handleOpenTooltip}
-          onMouseLeave={handleCloseTooltip}
-          onClick={handleToggleTooltip}
-        >
-          <span>i</span>
-        </button>
+    <StyledTooltip ref={tooltipRef}>
+      <button
+        data-tooltip-id={id}
+        className="tooltip-trigger tablet-and-up"
+        onMouseEnter={handleOpenTooltip}
+        onMouseLeave={handleCloseTooltip}
+        onClick={handleToggleTooltip}
+      >
+        <span>i</span>
+      </button>
 
-        <button data-tooltip-id={id} className="tooltip-trigger mobile-only" onClick={handleToggleTooltip}>
-          <span>i</span>
-        </button>
+      <button data-tooltip-id={id} className="tooltip-trigger mobile-only" onClick={handleToggleTooltip}>
+        <span>i</span>
+      </button>
 
-        <ReactToolTip
-          id={id}
-          place={place}
-          className={`tooltip-window ${className}`}
-          classNameArrow="tooltip-arrow"
-          data-tooltip-variant="light"
-          isOpen={isOpen}
-        >
-          {children}
-        </ReactToolTip>
-      </div>
+      <ReactToolTip
+        id={id}
+        place={place}
+        className={`tooltip-window ${className}`}
+        classNameArrow="tooltip-arrow"
+        data-tooltip-variant="light"
+        isOpen={isOpen}
+      >
+        {children}
+      </ReactToolTip>
     </StyledTooltip>
   );
 };
