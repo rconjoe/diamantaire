@@ -133,6 +133,9 @@ type ProductDiamondHandProps = {
 const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = false, prefix }: ProductDiamondHandProps) => {
   const [sliderValue, setSliderValue] = useState(Number(initValue));
   const { locale } = useRouter();
+
+  if (!initValue) return null;
+
   const pickDiamondWidth = (carat) => {
     const powerFn = powerFnPicker();
     const widthInMillimeter = powerFn(carat);
