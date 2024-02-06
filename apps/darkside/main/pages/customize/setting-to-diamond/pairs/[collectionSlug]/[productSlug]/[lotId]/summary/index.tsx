@@ -35,6 +35,7 @@ import {
   fetchDatoVariant,
 } from '@diamantaire/darkside/data/api';
 import {
+  useBuilderFlowSeo,
   useCartData,
   useCartInfo,
   useProductDato,
@@ -42,6 +43,7 @@ import {
   useStandardPage,
   useTranslations,
 } from '@diamantaire/darkside/data/hooks';
+import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
@@ -57,11 +59,14 @@ import { generateDiamondSpriteImage, generateDiamondSpriteUrl, specGenerator } f
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
+import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import clsx from 'clsx';
 import useEmblaCarousel from 'embla-carousel-react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
+import { NextSeo } from 'next-seo';
 import { useCallback, useContext, useEffect, useMemo, useReducer, useState } from 'react';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
@@ -390,6 +395,9 @@ const SettingToDiamondSummaryPage = () => {
   const sizeOptionKey = 'ringSize';
   const router = useRouter();
   const { locale } = router;
+
+  const { data: seoData } = useBuilderFlowSeo(locale);
+  const { seoTitle, seoDescription, addNoindexNofollow } = seoData?.builderFlow?.seoFields || {};
   const { data: checkout, refetch } = useCartData(locale);
   const { builderProduct } = useContext(BuilderProductContext);
   const updateGlobalContext = useContext(GlobalUpdateContext);
@@ -967,6 +975,7 @@ const SettingToDiamondSummaryPage = () => {
         src="https://js.klarna.com/web-sdk/v1/klarna.js"
         data-client-id="4b79b0e8-c6d3-59da-a96b-2eca27025e8e"
       ></Script>
+      <NextSeo title={seoTitle} description={seoDescription} nofollow={addNoindexNofollow} noindex={addNoindexNofollow} />
       <HideTopBar />
       <div className="review-wrapper">
         <div className="product-images">
@@ -1315,3 +1324,25 @@ const SpriteSpinnerBlock = ({ id }) => {
     )
   );
 };
+
+type BuilderStepSeoProps = {
+  dehydratedState: DehydratedState;
+};
+
+export async function getServerSideProps(
+  context: GetServerSidePropsContext,
+): Promise<GetServerSidePropsResult<BuilderStepSeoProps>> {
+  const { locale } = context;
+
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    ...queries['builder-flow'].seo(locale),
+  });
+
+  return {
+    props: {
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+    },
+  };
+}

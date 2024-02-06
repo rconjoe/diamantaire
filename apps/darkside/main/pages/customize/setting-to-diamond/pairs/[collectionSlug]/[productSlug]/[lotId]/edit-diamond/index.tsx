@@ -8,11 +8,15 @@ import {
 } from '@diamantaire/darkside/components/common-ui';
 import { DiamondFilter, DiamondPromo, DiamondTable } from '@diamantaire/darkside/components/diamonds';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
-import { useDiamondsData } from '@diamantaire/darkside/data/hooks';
+import { useBuilderFlowSeo, useDiamondsData } from '@diamantaire/darkside/data/hooks';
+import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
+import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
+import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
+import { NextSeo } from 'next-seo';
 import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -84,11 +88,13 @@ const DiamondBuildStep = () => {
   const { asPath, query } = router;
   const { builderProduct } = useContext(BuilderProductContext);
 
-  console.log('builderProduct', builderProduct);
-
   const diamondTypeToShow = builderProduct?.product?.configuration?.diamondType || 'round-brilliant';
   const availableDiamonds = builderProduct?.product?.optionConfigs?.diamondType.map((d) => d.value) || [];
   const settingProductType = builderProduct?.product?.productType;
+
+  const { locale } = useRouter();
+  const { data: seoData } = useBuilderFlowSeo(locale);
+  const { seoTitle, seoDescription, addNoindexNofollow } = seoData?.builderFlow?.seoFields || {};
 
   const defaultInitialOptions = {
     caratMin: 1,
@@ -266,6 +272,7 @@ const DiamondBuildStep = () => {
         duration: 0.75,
       }}
     >
+      <NextSeo title={seoTitle} description={seoDescription} nofollow={addNoindexNofollow} noindex={addNoindexNofollow} />
       <HideTopBar />
       <div>
         {diamonds && (
@@ -331,3 +338,25 @@ const DiamondBuildStep = () => {
 DiamondBuildStep.getTemplate = getStandardTemplate;
 
 export default DiamondBuildStep;
+
+type BuilderStepSeoProps = {
+  dehydratedState: DehydratedState;
+};
+
+export async function getServerSideProps(
+  context: GetServerSidePropsContext,
+): Promise<GetServerSidePropsResult<BuilderStepSeoProps>> {
+  const { locale } = context;
+
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    ...queries['builder-flow'].seo(locale),
+  });
+
+  return {
+    props: {
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+    },
+  };
+}

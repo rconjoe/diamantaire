@@ -24,13 +24,17 @@ import {
 } from '@diamantaire/darkside/components/products/pdp';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { fetchDatoVariant } from '@diamantaire/darkside/data/api';
-import { useProductDato, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { useBuilderFlowSeo, useProductDato, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { ENGAGEMENT_RING_PRODUCT_TYPE, PdpTypePlural } from '@diamantaire/shared/constants';
 import { generatePdpAssetAltTag, isEmptyObject } from '@diamantaire/shared/helpers';
 import { media } from '@diamantaire/styles/darkside-styles';
+import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
+import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
+import { NextSeo } from 'next-seo';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
@@ -66,6 +70,10 @@ const SettingBuildStep = () => {
   const { builderProduct, updateFlowData } = useContext(BuilderProductContext);
 
   const [totalPrice, setTotalPrice] = useState(null);
+
+  const { locale } = useRouter();
+  const { data: seoData } = useBuilderFlowSeo(locale);
+  const { seoTitle, seoDescription, addNoindexNofollow } = seoData?.builderFlow?.seoFields || {};
 
   const router = useRouter();
 
@@ -228,6 +236,7 @@ const SettingBuildStep = () => {
         duration: 0.75,
       }}
     >
+      <NextSeo title={seoTitle} description={seoDescription} nofollow={addNoindexNofollow} noindex={addNoindexNofollow} />
       <HideTopBar />
       <div className="nav-title container-wrapper">
         <Heading type="h1" className="primary h2 text-center">
@@ -340,3 +349,25 @@ const SettingBuildStep = () => {
 
 SettingBuildStep.getTemplate = getStandardTemplate;
 export default SettingBuildStep;
+
+type BuilderStepSeoProps = {
+  dehydratedState: DehydratedState;
+};
+
+export async function getServerSideProps(
+  context: GetServerSidePropsContext,
+): Promise<GetServerSidePropsResult<BuilderStepSeoProps>> {
+  const { locale } = context;
+
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    ...queries['builder-flow'].seo(locale),
+  });
+
+  return {
+    props: {
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+    },
+  };
+}
