@@ -30,10 +30,6 @@ const DiamondDetailIconList = ({ locale = DEFAULT_LOCALE }: { locale?: string })
     setIsSlideOutOpen(false);
   };
 
-  items.forEach((v) => {
-    console.log(v);
-  });
-
   return (
     <StyledDiamondDetailIconList className="icon-list">
       <div className="icon-list-item slideout-link">
