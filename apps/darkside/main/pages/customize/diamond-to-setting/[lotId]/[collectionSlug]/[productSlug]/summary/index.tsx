@@ -1059,13 +1059,15 @@ const ReviewBuildStep = ({ settingSlugs }) => {
               productId={`bundle-${router.query?.productSlug}::${diamonds?.[0]?.lotId}`}
             />
 
-            <ProductTitle
-              title={productTitle}
-              override={productTitleOverride}
-              diamondType={shopifyProductData?.configuration?.diamondType}
-              productType={shopifyProductData?.productType}
-              className="no-margin"
-            />
+            {productTitle && (
+              <ProductTitle
+                title={productTitle}
+                override={productTitleOverride}
+                diamondType={shopifyProductData?.configuration?.diamondType}
+                productType={shopifyProductData?.productType}
+                className="no-margin"
+              />
+            )}
 
             <div className="total-price">
               <ProductPrice

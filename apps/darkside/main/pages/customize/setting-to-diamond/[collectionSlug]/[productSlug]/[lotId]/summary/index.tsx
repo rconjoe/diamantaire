@@ -1055,13 +1055,15 @@ const SettingToDiamondSummaryPage = () => {
               //   productId={`bundle-${settingSlugs?.productSlug}::${diamonds[0]?.lotId}`}
             />
 
-            {productTitle && <ProductTitle
-              title={productTitle}
-              override={productTitleOverride}
-              diamondType={shopifyProductData?.configuration?.diamondType}
-              productType={shopifyProductData?.productType}
-              className="no-margin"
-            />}
+            {productTitle && (
+              <ProductTitle
+                title={productTitle}
+                override={productTitleOverride}
+                diamondType={shopifyProductData?.configuration?.diamondType}
+                productType={shopifyProductData?.productType}
+                className="no-margin"
+              />
+            )}
 
             <div className="total-price">
               <ProductPrice
