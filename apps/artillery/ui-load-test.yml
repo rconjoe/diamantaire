@@ -1,0 +1,26 @@
+config:
+  target: https://main.vrai.qa
+  phases:
+    # - duration: 5
+    #   arrivalCount: 1
+    #   name: Functional Test Phase. 
+    - duration: 120
+      arrivalCount: 1
+      name: Warm up phase
+    - duration: 600
+      arrivalCount: 46
+      name: Spike phase
+  plugins:
+    ensure: {}
+  engines:
+    playwright: 
+        launchOptions: 
+          headless: true
+          extendedMetrics: true
+          defaultNavigationTimeout: 8
+          defaultActionTimeout: 10000 
+  # Path to JavaScript file that defines Playwright test functions
+  processor: "ui/engagement-ring-flow.js"
+scenarios:
+  - engine: playwright
+    testFunction: "settingFirstFlow"
