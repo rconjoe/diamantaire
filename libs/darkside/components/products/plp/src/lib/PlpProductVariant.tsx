@@ -19,10 +19,6 @@ const PlpProductVariantStyles = styled.div`
   .plp-variant__image {
     position: relative;
 
-    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-      min-height: 30rem;
-    }
-
     button {
       padding: 0;
       width: 100%;

@@ -57,7 +57,7 @@ const MediaSliderContainer = styled.div`
 
   .slider-dots {
     flex: 1 1 100%;
-    padding: 20px 0;
+    padding: 10px 0;
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       display: none;
     }

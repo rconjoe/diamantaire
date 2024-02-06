@@ -120,7 +120,6 @@ export const PlpProductFilterStyles = styled.div`
   }
 
   .filter-option-set {
-    padding: 1rem 0.4rem 0;
     overflow-x: auto;
     max-width: 100%;
 

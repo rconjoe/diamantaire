@@ -8,7 +8,7 @@ export const MegaMenuStylesContainer = styled.div<Props>`
   border-bottom: 0.1rem solid #000;
   padding-bottom: 0;
   position: fixed;
-  top: ${({ $headerHeight }) => $headerHeight + 'px'};
+  top: ${({ $dynamicTop }) => $dynamicTop + 'px'};
   left: 0;
   width: 100%;
   background-color: #fff;
@@ -21,11 +21,13 @@ export const MegaMenuStylesContainer = styled.div<Props>`
 
   .mega-menu__wrapper {
     margin: 0 auto;
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      max-width: 90vw;
+    }
   }
 
   .menu-container {
     justify-content: start;
-    margin: 0 -4rem;
     flex-wrap: wrap;
 
     @media (min-width: ${({ theme }) => theme.sizes.xl}) {
@@ -40,14 +42,14 @@ export const MegaMenuStylesContainer = styled.div<Props>`
       margin: 0 auto;
     }
 
-    &.four-col {
-      .menu-container__col {
-        padding: 0 3rem;
-      }
-    }
+    // &.four-col {
+    //   .menu-container__col {
+    //     padding: 0 3rem;
+    //   }
+    // }
 
     .menu-container__col {
-      padding: 0 6rem;
+      // padding: 0 6rem;
       flex: 0 0 50%;
       margin-bottom: 4rem;
       @media (min-width: ${({ theme }) => theme.sizes.xl}) {

@@ -1,4 +1,4 @@
-import { setSpace, mobileOnly, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { setSpace, mobileOnly, tabletAndUp, contentBlockMargin } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularQuoteBlockContainer = styled.div`
@@ -9,6 +9,7 @@ export const ModularQuoteBlockContainer = styled.div`
     background-color: ${(props) => props.$backgroundColor};
     max-width: 144rem;
     margin: 0 auto;
+    ${contentBlockMargin};
   }
 
   .quote-block__container {

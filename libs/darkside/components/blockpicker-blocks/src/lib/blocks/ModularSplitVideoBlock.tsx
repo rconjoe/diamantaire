@@ -71,7 +71,7 @@ const ModularSplitVideoBlockContainer = styled.div`
 
     .split-video__content {
       .split-video__content-inner {
-        padding: calc(var(--gutter) / 2) 0 0 0;
+        padding: calc(var(--gutter) / 2) calc(var(--space-gutter) * 3) 0;
         ${media.medium`padding: 0 var(--gutter);`}
 
         .split-video__title {

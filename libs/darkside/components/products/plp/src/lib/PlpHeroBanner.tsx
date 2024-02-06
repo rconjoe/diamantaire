@@ -20,7 +20,7 @@ type PlpHeroBannerProps = {
 
 const PlpHeroBannerStyles = styled.div`
   position: relative;
-
+  margin-bottom: 4rem;
   ${mobileOnly(`
     padding-left: .5rem;
     padding-right: .5rem;
@@ -50,7 +50,7 @@ const PlpHeroBannerStyles = styled.div`
         ${media.small`padding: 0 var(--gutter);`}
 
         h1 {
-          margin-bottom: calc(var(--gutter) / 6);
+          margin-bottom: 1rem;
           color: var(--color-black);
           @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
             color: ${({ textColor }) => textColor || 'var(--color-black)'};
@@ -60,7 +60,6 @@ const PlpHeroBannerStyles = styled.div`
         p {
           max-width: 32rem;
           font-size: var(--font-size-xsmall);
-          line-height: 1.6;
           margin: 0 auto;
           color: var(--color-black);
           line-height: 1.3;
@@ -78,35 +77,15 @@ const PlpHeroBannerStyles = styled.div`
   .hero__content {
     text-align: center;
 
-    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-      padding: 3rem 0 2.5rem;
-    }
-
     .hero-title {
-      min-height: 4.8rem;
-      line-height: 1.3;
-
-      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-        margin-bottom: 1rem;
-      }
-    }
-
-    .hero__content-inner {
-      @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
-        padding: 1rem 0 0;
-      }
-      > div {
-        padding-top: 1rem;
-      }
+      line-height: 1;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
     }
 
     p {
       line-height: 1.3;
       font-size: var(--font-size-xxsmall);
-      margin: 0.5rem 0 0;
-      @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
-        margin: 0;
-      }
     }
   }
 `;

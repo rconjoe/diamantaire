@@ -229,7 +229,7 @@ function getGTMNormalizedListPageItems({ productData, locale, currencyCode, list
     return [];
   }
 
-  const allProducts = productData.pages.flatMap((page) => page?.products);
+  const allProducts = productData?.pages?.flatMap((page) => (page ? page.products : [])) || [];
 
   const normalizedProducts = allProducts.map((product, idx) => {
     const { defaultId, variants } = product || {};

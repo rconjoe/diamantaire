@@ -1,30 +1,33 @@
+import { contentBlockMargin, contentBlockTitle } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularQuadImageGridContainer = styled.div`
-  max-width: 118rem;
-  margin: 0 auto;
+  max-width: var(--max-width-small);
+  ${contentBlockMargin}
   .title__container {
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       padding-bottom: var(--gutter);
     }
+    .primary {
+      ${contentBlockTitle}
+    }
   }
+
   .blocks__grid {
     display: none;
-    flex-wrap: wrap;
-    margin: 0 -1rem;
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
     }
 
     .item__container {
       flex: 0 0 50%;
-      padding: 0 1rem;
 
       .item__title {
-        padding: 0.5rem 0 2rem;
         h3 {
           font-size: 2.2rem;
-          margin: 0;
+          margin-top: 0.5rem;
         }
       }
     }

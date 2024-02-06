@@ -44,7 +44,7 @@ const ModularQuadImageGrid = ({
           {title}
         </Heading>
 
-        <p>{subtitle}</p>
+        {subtitle ? <p>{subtitle}</p> : null}
       </div>
 
       <div className="blocks__grid">

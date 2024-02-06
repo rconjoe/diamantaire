@@ -247,6 +247,10 @@ const DarksideButton = ({
   disabled = false,
   style,
 }: DarksideButtonProps) => {
+  if (!children) {
+    return null;
+  }
+
   return (
     <DarksideButtonStyles
       className={clsx(

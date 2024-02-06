@@ -1,8 +1,10 @@
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import { SortIcon, ChevronDownIcon } from '@diamantaire/shared/icons';
 import { PlpBasicFieldSortOption } from '@diamantaire/shared/types';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { components, DropdownIndicatorProps } from 'react-select';
 import styled from 'styled-components';
 
 import { SortProperties } from './PlpSortOption';
@@ -57,9 +59,18 @@ function PlpSortOptions({ sortOptions, onSortOptionChange }: PlpSortOptionsProps
 
   if (!sortOptions?.length) return null;
 
+  const DropdownIndicator = (props: DropdownIndicatorProps) => {
+    return (
+      <components.DropdownIndicator {...props}>
+        <SortIcon className="show-on-mobile sort-icon" />
+        <ChevronDownIcon className="hide-on-mobile chevron-icon" />
+      </components.DropdownIndicator>
+    );
+  };
+
   return (
     <PlpSortOptionStyle>
-      <span className="sort-label">{_t('Sort')}:</span>
+      <span className="sort-label hide-on-mobile">{_t('Sort')}:</span>
 
       <Select
         options={options}
@@ -69,12 +80,19 @@ function PlpSortOptions({ sortOptions, onSortOptionChange }: PlpSortOptionsProps
         classNamePrefix="sort-dropdown"
         components={{
           IndicatorSeparator: () => null,
+          DropdownIndicator: DropdownIndicator,
         }}
         styles={{
           control: (base) => ({
             ...base,
             border: 0,
             boxShadow: 'none',
+          }),
+          valueContainer: (base) => ({
+            ...base,
+            '@media (max-width: 767px)': {
+              display: 'none',
+            },
           }),
         }}
       />
@@ -95,16 +113,13 @@ const PlpSortOptionStyle = styled.div`
 
   .sort-dropdown__control {
     border: none;
-
-    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-      min-width: 8rem;
-    }
+    min-height: unset;
   }
 
   .sort-dropdown__menu {
     min-width: 15rem;
     left: auto;
-    top: 3.75rem;
+    top: 2rem;
     right: 0.5rem;
 
     @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
@@ -143,11 +158,17 @@ const PlpSortOptionStyle = styled.div`
     }
   }
 
-  .sort-dropdown__indicator svg {
+  .sort-dropdown__indicator .chevron-icon {
     fill: var(--color-black);
     transform: scale(0.7);
   }
-
+  .sort-icon {
+    width: 1.2rem;
+    transform: unset;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.2rem;
+  }
   .sort-dropdown__option--is-focused {
     background-color: var(--color-lighter-grey);
     color: var(--color-black);

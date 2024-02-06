@@ -2,7 +2,8 @@ import { Loader, UIString } from '@diamantaire/darkside/components/common-ui';
 import { useGlobalContext, usePlpDatoCreativeBlocks, usePlpDatoPromoCardCollection } from '@diamantaire/darkside/data/hooks';
 import { PlpBasicFieldSortOption } from '@diamantaire/shared/types';
 import { FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
-import { media } from '@diamantaire/styles/darkside-styles';
+import { media, pageMargin } from '@diamantaire/styles/darkside-styles';
+import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { Fragment, useMemo, useRef } from 'react';
 import styled from 'styled-components';
@@ -19,17 +20,24 @@ const PlpProductGridStyles = styled.div`
   padding: 0 0 calc(var(--gutter) / 2);
   position: relative;
   height: 100%;
-
+  ${pageMargin}
   .grid-controls-container {
     position: sticky;
     z-index: var(--z-index-filter);
     background-color: var(--color-white);
-    top: ${({ isSettingSelect }) => (isSettingSelect ? 0 : '55px')};
-
+    top: ${({ isSettingSelect }) => (isSettingSelect ? 0 : '54px')};
+    // margin bottom accounts for .5rem margin on .filter
+    padding: 0 1rem;
+    margin: 2rem -1rem calc(2rem - 0.5rem);
+    &.-short-margin {
+      padding: 0 1.75rem;
+      // normal margin - settings menu padding
+      margin: 2rem -1rem calc(2rem - 1rem - 0.5rem);
+    }
     .grid-controls {
       display: flex;
-      padding: 0 1rem;
-      align-items: start;
+      padding: 0;
+      align-items: flex-start;
       justify-content: space-between;
 
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
@@ -38,27 +46,12 @@ const PlpProductGridStyles = styled.div`
     }
 
     .sort {
-      padding-top: 1rem;
-
-      @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
-        position: absolute;
-        cursor: pointer;
-        padding-top: 0;
-        right: 0.5rem;
-        top: 0.1rem;
-      }
+      flex-shrink: 0;
 
       * {
         cursor: pointer;
+        align-items: flex-start;
       }
-    }
-  }
-
-  .product-grid {
-    padding: 0 1rem;
-
-    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-      padding: 0;
     }
   }
 
@@ -66,9 +59,11 @@ const PlpProductGridStyles = styled.div`
     display: grid;
     flex-wrap: wrap;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem 1rem;
-
-    ${media.medium`grid-template-columns: repeat(4, 1fr);gap: 2rem 1rem;`}
+    gap: 1.5rem 1.3rem;
+    ${media.medium`
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem 2.5rem;
+    `}
   }
 
   .loader-container {
@@ -78,7 +73,7 @@ const PlpProductGridStyles = styled.div`
 
   .filter {
     width: 100%;
-    padding: 1rem 0;
+    margin-bottom: 0.5rem;
   }
 `;
 
@@ -207,7 +202,11 @@ const PlpProductGrid = ({
 
   return (
     <PlpProductGridStyles ref={gridRef} headerHeight={headerHeight}>
-      <div className="grid-controls-container">
+      <div
+        className={clsx('grid-controls-container', {
+          '-short-margin': filterOptionsOverride?.length > 0,
+        })}
+      >
         <div className="grid-controls container-wrapper">
           <div className="filter">
             <PlpProductFilter
