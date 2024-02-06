@@ -404,6 +404,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
   const [isEngravingInputVisible, setIsEngravingInputVisible] = useState(false);
   const [engravingInputText, setEngravingInputText] = useState('');
   const [engravingText, setEngravingText] = useState(null);
+  const [handCaratValue, setHandCaratValue] = useState(null);
 
   const [selectedSize, setSelectedSize] = useState<{
     id: string;
@@ -956,6 +957,14 @@ const ReviewBuildStep = ({ settingSlugs }) => {
     }
   }, [router?.query?.productSlug, router?.query?.collectionSlug]);
 
+  useEffect(() => {
+    if (!diamonds) return;
+
+    if (diamonds?.[0]?.carat) {
+      setHandCaratValue(parseFloat(diamonds?.[0]?.carat));
+    }
+  }, [diamonds]);
+
   if (!shopifyProductData || !shopifyProductData?.productContent?.assetStack[0] || !spriteSpinnerIds)
     return <BuilderFlowLoader />;
 
@@ -1029,7 +1038,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
                   <ProductDiamondHand
                     diamondType={selectedConfiguration?.diamondType}
                     range={[0.5, 8]}
-                    initValue={parseFloat(diamonds?.[0]?.carat)}
+                    initValue={handCaratValue}
                     disableControls={true}
                     prefix={diamondHandCaption}
                   />
@@ -1065,7 +1074,6 @@ const ReviewBuildStep = ({ settingSlugs }) => {
                 override={productTitleOverride}
                 diamondType={shopifyProductData?.configuration?.diamondType}
                 productType={shopifyProductData?.productType}
-                className="no-margin"
               />
             )}
 

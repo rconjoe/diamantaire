@@ -407,6 +407,7 @@ const SettingToDiamondSummaryPage = () => {
   const [engravingInputText, setEngravingInputText] = useState('');
   const [engravingText, setEngravingText] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [handCaratValue, setHandCaratValue] = useState(null);
 
   const [selectedSize, setSelectedSize] = useState<{
     id: string;
@@ -949,6 +950,14 @@ const SettingToDiamondSummaryPage = () => {
     }
   }, [router?.query?.productSlug, router?.query?.collectionSlug]);
 
+  useEffect(() => {
+    if (!diamonds) return;
+
+    if (diamonds?.[0]?.carat) {
+      setHandCaratValue(parseFloat(diamonds?.[0]?.carat));
+    }
+  }, [diamonds]);
+
   if (!shopifyProductData || !shopifyProductData?.productContent?.assetStack[0] || !spriteSpinnerIds)
     return <BuilderFlowLoader />;
 
@@ -1025,7 +1034,7 @@ const SettingToDiamondSummaryPage = () => {
                   <ProductDiamondHand
                     diamondType={selectedConfiguration?.diamondType}
                     range={[0.5, 8]}
-                    initValue={parseFloat(diamonds?.[0]?.carat)}
+                    initValue={handCaratValue}
                     disableControls={true}
                     prefix={diamondHandCaption}
                   />
@@ -1052,7 +1061,7 @@ const SettingToDiamondSummaryPage = () => {
           <div className="product-summary__inner">
             <WishlistLikeButton
               extraClass="bundle"
-              //   productId={`bundle-${settingSlugs?.productSlug}::${diamonds[0]?.lotId}`}
+              productId={`bundle-${router?.query?.productSlug}::${diamonds?.[0]?.lotId}`}
             />
 
             {productTitle && (
@@ -1061,7 +1070,6 @@ const SettingToDiamondSummaryPage = () => {
                 override={productTitleOverride}
                 diamondType={shopifyProductData?.configuration?.diamondType}
                 productType={shopifyProductData?.productType}
-                className="no-margin"
               />
             )}
 
