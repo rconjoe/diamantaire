@@ -30,8 +30,8 @@ const DiamondBuildStepStyles = styled(motion.div)`
   }
 
   ${tabletAndUp(`
-    margin: 0 auto;
-    max-width: 90vw;
+  margin: 0 auto;
+  max-width: 90vw;
   `)}
 
   .switch-container {

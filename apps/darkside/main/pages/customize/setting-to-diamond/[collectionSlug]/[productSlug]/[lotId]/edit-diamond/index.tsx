@@ -13,6 +13,7 @@ import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
 import { getDiamondShallowRoute } from '@diamantaire/shared/helpers';
+import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
@@ -23,6 +24,11 @@ import styled from 'styled-components';
 
 const DiamondBuildStepStyles = styled(motion.div)`
   padding-bottom: 14rem;
+
+  ${tabletAndUp(`
+    margin: 0 auto;
+    max-width: 90vw;
+  `)}
 
   @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
     padding: 0;
