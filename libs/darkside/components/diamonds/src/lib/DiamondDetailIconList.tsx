@@ -1,6 +1,6 @@
 import { SlideOut, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { useDiamondInfoData, useDiamondPdpData, useProductIconList } from '@diamantaire/darkside/data/hooks';
+import { useDiamondInfoData, useProductIconList } from '@diamantaire/darkside/data/hooks';
 import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
 import { DiamondIcon } from '@diamantaire/shared/icons';
 import { AnimatePresence } from 'framer-motion';
@@ -16,7 +16,6 @@ const DiamondDetailIconList = ({ locale = DEFAULT_LOCALE }: { locale?: string })
   const { isMobile } = useContext(GlobalContext);
 
   const info: any = useDiamondInfoData(locale)?.data?.additionalInfo ?? {};
-  const productTitle = useDiamondPdpData(locale)?.data?.diamondProduct?.productTitle || '';
   const items = useProductIconList('Diamond PDP', locale)?.data?.productIconList?.items ?? [];
 
   const handleOpenSlideOut = () => {
@@ -31,6 +30,10 @@ const DiamondDetailIconList = ({ locale = DEFAULT_LOCALE }: { locale?: string })
     setIsSlideOutOpen(false);
   };
 
+  items.forEach((v) => {
+    console.log(v);
+  });
+
   return (
     <StyledDiamondDetailIconList className="icon-list">
       <div className="icon-list-item slideout-link">
@@ -38,7 +41,7 @@ const DiamondDetailIconList = ({ locale = DEFAULT_LOCALE }: { locale?: string })
           <DiamondIcon />
         </div>
 
-        <p>{productTitle}</p>
+        <p>{items[0].copy}</p>
 
         <div className="slideout-trigger" onClick={handleOpenSlideOut}>
           <span>i</span>
@@ -65,7 +68,7 @@ const DiamondDetailIconList = ({ locale = DEFAULT_LOCALE }: { locale?: string })
 
       <AnimatePresence>
         {isSlideOutOpen && (
-          <SlideOut title={productTitle} onClose={handleCloseSlideOut} className="slideout" scrollPosition={scrollPosition}>
+          <SlideOut title={items[0].copy} onClose={handleCloseSlideOut} className="slideout" scrollPosition={scrollPosition}>
             <div
               style={{
                 width: '100%',
