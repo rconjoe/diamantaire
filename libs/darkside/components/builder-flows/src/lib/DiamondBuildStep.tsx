@@ -34,8 +34,11 @@ const DiamondBuildStepStyles = styled(motion.div)`
       @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
         flex: 0 0 450px;
         padding-right: 5rem;
-        top: 55px;
         height: 100vh;
+      }
+
+      @media (min-width: ${({ theme }) => theme.sizes.xl}) {
+        top: 55px;
         position: sticky;
       }
     }
@@ -55,7 +58,7 @@ const DiamondBuildStepStyles = styled(motion.div)`
       &.desktop {
         display: none;
         @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-          margin-bottom: 6rem;
+          margin-bottom: 3rem;
           display: block;
         }
       }
@@ -63,7 +66,8 @@ const DiamondBuildStepStyles = styled(motion.div)`
   }
 
   .vo-filter-clear-button {
-    margin: 2rem 0 0;
+    margin: 1rem 0 0;
+
     button {
       font-size: var(--font-size-xxxsmall);
       font-weight: var(--font-weight-normal);

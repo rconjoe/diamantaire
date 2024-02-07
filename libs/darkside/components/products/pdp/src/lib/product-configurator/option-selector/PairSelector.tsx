@@ -21,6 +21,10 @@ const PairSelector = ({
 }) => {
   const { locale } = useRouter();
   const { _t } = useTranslations(locale);
+
+  // Pairs require a dollar being added when they are not in the US
+  const shouldAddPairDollar = locale !== 'en-US' && isSoldAsDouble ? 1 : 0;
+
   const pairSelector = useMemo(() => {
     if (isSoldAsPairOnly) {
       return [
@@ -28,7 +32,7 @@ const PairSelector = ({
           id: 'pair',
           value:
             `${_t('Pair')} ${selectedConfiguration.caratWeight !== 'other' && '<span class="em-dash"></span>'}` +
-            getFormattedPrice(variantPrice * 2, locale),
+            getFormattedPrice((variantPrice + shouldAddPairDollar) * 2, locale),
           valueLabel: 'Pair',
           isSelected: selectedPair === 'pair',
         },
@@ -48,7 +52,7 @@ const PairSelector = ({
           id: 'pair',
           value: `${_t('Pair')} ${
             selectedConfiguration.caratWeight !== 'other'
-              ? '<span class="em-dash"></span> ' + getFormattedPrice(variantPrice * 2, locale)
+              ? '<span class="em-dash"></span> ' + getFormattedPrice((variantPrice + shouldAddPairDollar) * 2, locale)
               : ''
           } `,
           valueLabel: 'Pair',

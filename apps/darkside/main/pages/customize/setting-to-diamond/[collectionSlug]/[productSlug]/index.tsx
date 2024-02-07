@@ -13,7 +13,6 @@ import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
 import { getDiamondShallowRoute } from '@diamantaire/shared/helpers';
-import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
@@ -24,10 +23,8 @@ import styled from 'styled-components';
 
 const DiamondBuildStepStyles = styled(motion.div)`
   padding-bottom: 14rem;
-  ${tabletAndUp(`
-    margin: 0 auto;
-    max-width: 90vw;
-  `)}
+  margin: 0 auto;
+  max-width: 90vw;
 
   @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
     padding: 0;
@@ -52,8 +49,11 @@ const DiamondBuildStepStyles = styled(motion.div)`
       @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
         flex: 0 0 450px;
         padding-right: 5rem;
-        top: 55px;
         height: 100vh;
+      }
+
+      @media (min-width: ${({ theme }) => theme.sizes.xl}) {
+        top: 55px;
         position: sticky;
       }
     }
@@ -73,7 +73,7 @@ const DiamondBuildStepStyles = styled(motion.div)`
       &.desktop {
         display: none;
         @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-          margin-bottom: 6rem;
+          margin-bottom: 3rem;
           display: block;
         }
       }
@@ -81,7 +81,8 @@ const DiamondBuildStepStyles = styled(motion.div)`
   }
 
   .vo-filter-clear-button {
-    margin: 2rem 0 0;
+    margin: 1rem 0 0;
+
     button {
       font-size: var(--font-size-xxxsmall);
       font-weight: var(--font-weight-normal);

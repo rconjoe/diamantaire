@@ -6,6 +6,7 @@ import { BuilderFlowLoader, ReviewVariantSelector } from '@diamantaire/darkside/
 import {
   DarksideButton,
   DatoImage,
+  Heading,
   HideTopBar,
   NeedTimeToThinkForm,
   ProductAppointmentCTA,
@@ -22,7 +23,6 @@ import {
   ProductKlarna,
   ProductPrice,
   ProductReviews,
-  ProductTitle,
 } from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
@@ -492,7 +492,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
     shownWithCtwLabel,
     // extraOptions,
     diamondDescription,
-    productTitleOverride,
+    // productTitleOverride,
     // trioBlocks,
     // accordionBlocks,
     // ctaCopy,
@@ -1069,12 +1069,9 @@ const ReviewBuildStep = ({ settingSlugs }) => {
             />
 
             {productTitle && (
-              <ProductTitle
-                title={productTitle}
-                override={productTitleOverride}
-                diamondType={shopifyProductData?.configuration?.diamondType}
-                productType={shopifyProductData?.productType}
-              />
+              <Heading type="h1" className="secondary no-margin">
+                {productTitle}
+              </Heading>
             )}
 
             <div className="total-price">
@@ -1086,7 +1083,6 @@ const ReviewBuildStep = ({ settingSlugs }) => {
                 engravingText={engravingText}
               />
             </div>
-
             <div className="builder-summary__content">
               <div className="builder-summary__content__inner">
                 <ul className="list-unstyled">
@@ -1122,7 +1118,6 @@ const ReviewBuildStep = ({ settingSlugs }) => {
                 </ul>
               </div>
             </div>
-
             {selectedSize && (
               <div className="ring-size-container">
                 <OptionSelector
@@ -1141,7 +1136,6 @@ const ReviewBuildStep = ({ settingSlugs }) => {
                 </div>
               </div>
             )}
-
             <div className="engraving-container">
               {isER && (
                 <div className="engraving">

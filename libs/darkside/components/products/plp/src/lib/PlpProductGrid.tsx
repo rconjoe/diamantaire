@@ -21,6 +21,12 @@ const PlpProductGridStyles = styled.div`
   position: relative;
   height: 100%;
   ${pageMargin}
+
+  .container-wrapper:not(:first-child) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
   .grid-controls-container {
     position: sticky;
     z-index: var(--z-index-filter);

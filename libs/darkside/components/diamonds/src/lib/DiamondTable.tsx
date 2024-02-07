@@ -1,4 +1,4 @@
-import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, HideTopBar, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useDiamondTableData, useInfiniteDiamondsData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
@@ -386,6 +386,7 @@ const DiamondTable = (props: DiamondTableProps) => {
       triggerOffset={triggerOffset}
       tableHeadHeight={tableHeadHeight}
     >
+      <HideTopBar />
       <div className="vo-table-container">
         {/* TABLE HEAD */}
         <div ref={tableHead} className="vo-table-head">

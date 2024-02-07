@@ -6,6 +6,7 @@ import { BuilderFlowLoader, ReviewVariantSelector } from '@diamantaire/darkside/
 import {
   DarksideButton,
   DatoImage,
+  Heading,
   HideTopBar,
   NeedTimeToThinkForm,
   ProductAppointmentCTA,
@@ -22,7 +23,6 @@ import {
   ProductKlarna,
   ProductPrice,
   ProductReviews,
-  ProductTitle,
 } from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
@@ -492,7 +492,7 @@ const SettingToDiamondSummaryPage = () => {
     shownWithCtwLabel,
     // extraOptions,
     diamondDescription,
-    productTitleOverride,
+    // productTitleOverride,
     // trioBlocks,
     // accordionBlocks,
     // ctaCopy,
@@ -1058,12 +1058,9 @@ const SettingToDiamondSummaryPage = () => {
             />
 
             {productTitle && (
-              <ProductTitle
-                title={productTitle}
-                override={productTitleOverride}
-                diamondType={shopifyProductData?.configuration?.diamondType}
-                productType={shopifyProductData?.productType}
-              />
+              <Heading type="h1" className="secondary no-margin">
+                {productTitle}
+              </Heading>
             )}
 
             <div className="total-price">

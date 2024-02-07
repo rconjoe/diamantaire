@@ -19,7 +19,6 @@ import {
   ProductPrice,
   ProductReviews,
   ProductSuggestionBlock,
-  ProductTitle,
   ProductTrioBlocks,
 } from '@diamantaire/darkside/components/products/pdp';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
@@ -124,7 +123,7 @@ const SettingBuildStep = () => {
     metalWeight,
     shownWithCtwLabel,
     productTitle,
-    productTitleOverride,
+    // productTitleOverride,
     trioBlocks: { id: trioBlocksId = '' } = {},
   } = datoParentProductData || {};
 
@@ -276,12 +275,9 @@ const SettingBuildStep = () => {
         <div className="info-container">
           <div className="info__inner">
             {productTitle && (
-              <ProductTitle
-                title={productTitle}
-                diamondType={selectedConfiguration?.diamondType}
-                productType={shopifyProductData?.productType}
-                override={productTitleOverride}
-              />
+              <Heading type="h1" className="secondary no-margin">
+                {productTitle}
+              </Heading>
             )}
 
             <ProductPrice isBuilderProduct={false} price={parseFloat(totalPrice)} engravingText={null} />

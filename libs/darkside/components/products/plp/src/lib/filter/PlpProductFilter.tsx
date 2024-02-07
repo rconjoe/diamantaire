@@ -79,6 +79,8 @@ const PlpProductFilter = ({
   const updateFilter = (filterType: string, value) => {
     let newFilterValue = filterValue[filterType];
 
+    console.log('newFilterValue', newFilterValue);
+
     // ALL FILTERS EXCEPT PRICE
     if (filterType !== 'price') {
       if (urlFilterMethod === 'param') {
