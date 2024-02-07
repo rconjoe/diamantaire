@@ -1,6 +1,7 @@
 import { sendHubspotForm } from '@diamantaire/darkside/data/api';
-import { useTranslations, useEmailPopup } from '@diamantaire/darkside/data/hooks';
+import { useTranslations, useEmailPopup, useGlobalData } from '@diamantaire/darkside/data/hooks';
 import { HUBSPOT_NEED_TIME_TO_THINK_LISTDATA, VO_ROOT_URL, DEFAULT_LOCALE } from '@diamantaire/shared/constants';
+import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import { getCountry } from '@diamantaire/shared/helpers';
 import * as EmailValidator from 'email-validator';
 import { useRouter } from 'next/router';
@@ -10,22 +11,33 @@ import styled from 'styled-components';
 
 import { Form } from './';
 
-const NeedTimeToThinkFormStyles = styled.div`
+const NeedTimeToThinkFormStyles = styled.div<{ isUserInEu?: boolean }>`
   h4 {
     font-size: 2rem;
+  }
+
+  .form {
+    ${(props) => (props.isUserInEu ? `padding: 0 0 3.5rem;` : '')}
+    position: relative;
+  }
+
+  .input-opt-in {
+    position: absolute;
+    bottom: 0;
+    left: 0;
   }
 `;
 
 const NeedTimeToThinkForm = ({ productData }) => {
-  const [pageTitle, setPageTitle] = useState('VRAI: Engagement Rings & Jewelry | Sustainable Diamonds');
-
-  useEffect(() => {
-    // Set the page title from document.title on the client side
-    setPageTitle(document.title);
-  }, []);
-
   const router = useRouter();
+  const isUserInEu = getIsUserInEu();
+  const [valid, setValid] = useState(false);
+  const [gdprError, setGdprError] = useState(false);
   const { locale, asPath } = router || {};
+  const globalTemplateData = useGlobalData(locale);
+  const footerData = globalTemplateData.data?.footerNavigation;
+  const { optInCopy = '' } = footerData.emailSignUpCopy[0] as { optInCopy?: string };
+  const [pageTitle, setPageTitle] = useState('VRAI: Engagement Rings & Jewelry | Sustainable Diamonds');
   const countryCode = getCountry(locale);
   const { data: { emailPopup: emailPopUpContent } = {} } = useEmailPopup(locale);
   const { errorCopy, successCopy } = emailPopUpContent || {};
@@ -46,6 +58,12 @@ const NeedTimeToThinkForm = ({ productData }) => {
 
   const handleSubmit = async (e, formState) => {
     e.preventDefault();
+
+    if (!valid) {
+      setGdprError(true);
+
+      return;
+    }
 
     const { email, isConsent = true } = formState;
 
@@ -82,14 +100,23 @@ const NeedTimeToThinkForm = ({ productData }) => {
     }
   };
 
+  useEffect(() => {
+    // Set the page title from document.title on the client side
+    setPageTitle(document.title);
+  }, []);
+
   return (
-    <NeedTimeToThinkFormStyles>
+    <NeedTimeToThinkFormStyles isUserInEu={isUserInEu}>
       <Form
         title={_t('Need more time to think?')}
         onSubmit={handleSubmit}
         ctaCopy={_t('Submit')}
         isSuccessful={isSuccessful}
         formSubmissionResult={formSubmissionResult}
+        showOptIn={isUserInEu}
+        optInCopy={optInCopy}
+        showGdprError={gdprError}
+        setIsValid={setValid}
       />
     </NeedTimeToThinkFormStyles>
   );

@@ -36,13 +36,13 @@ type FormProps = {
   ctaCopy?: string;
   optInCopy?: string;
   extraClass?: string;
-  isValid?: boolean;
   setIsValid?: (state: boolean) => void;
   gridStyle?: 'single' | 'split';
   emailPlaceholderText?: string;
   flexDirection?: 'column' | 'row';
   isSuccessful?: boolean;
   formSubmissionResult?: string;
+  showGdprError?: boolean;
 };
 
 type FormStateType = {
@@ -223,13 +223,13 @@ const Form = ({
   ctaCopy = 'Submit',
   optInCopy,
   extraClass,
-  isValid,
   setIsValid,
   emailPlaceholderText = 'Enter your email',
   headingType = 'h4',
   flexDirection,
   isSuccessful,
   formSubmissionResult,
+  showGdprError,
 }: FormProps) => {
   const { locale } = useRouter();
 
@@ -260,8 +260,6 @@ const Form = ({
 
     setFormState((prevState) => ({ ...prevState, [name]: value }));
   };
-
-  const showGdprError = showOptIn && !isValid;
 
   useEffect(() => {
     const regions = getRegions(formState.country_code);
@@ -407,6 +405,7 @@ const Form = ({
                   setIsValid(true);
                 }}
               />
+
               <label htmlFor="optin">
                 <Markdown options={{ forceBlock: false }} extraClass="-opt-in">
                   {optInCopy}
