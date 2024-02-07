@@ -612,7 +612,11 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
       const diamondAttributes: ProductAddonDiamond['attributes'] = {
         _productTitle: diamond?.productTitle,
         productAsset: diamondImages[index],
-        _productAssetObject: '',
+        _productAssetObject: JSON.stringify({
+          src: diamondImages[index],
+          width: 200,
+          height: 200,
+        }),
         _dateAdded: (Date.now() + 100).toString(),
         caratWeight: diamond.carat.toString(),
         clarity: diamond.clarity,
