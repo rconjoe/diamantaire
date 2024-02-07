@@ -5,7 +5,6 @@ import {
   ENGRAVEABLE_JEWELRY_SLUGS,
   ENGRAVING_PRICE_CENTS,
   getFormattedPrice,
-  parseValidLocale,
 } from '@diamantaire/shared/constants';
 import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';
@@ -45,7 +44,7 @@ const ProductPrice = ({
   lowestPricedDiamond,
 }: ProductPriceProps) => {
   const { locale, query } = useRouter();
-  const { countryCode } = parseValidLocale(locale);
+  // const { countryCode } = parseValidLocale(locale);
 
   console.log('init price', price);
 
@@ -57,7 +56,7 @@ const ProductPrice = ({
     ENGRAVEABLE_JEWELRY_SLUGS.filter((slug) => slug === query.collectionSlug).length > 0;
 
   // lowestPricedDiamond if FJ and caratWeight is `other`
-  const basePrice = lowestPricedDiamond ? lowestPricedDiamond.price + price : price + 50;
+  const basePrice = lowestPricedDiamond ? lowestPricedDiamond.price + price : price + (shouldDoublePrice ? 50 : 0);
   const shouldAddEngravingCost = engravingText && productType !== 'Ring' && !doesProductQualifyForFreeEngraving;
 
   // console.log('basePrice', basePrice);
