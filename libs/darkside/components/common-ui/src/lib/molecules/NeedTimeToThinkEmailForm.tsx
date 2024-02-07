@@ -31,8 +31,7 @@ const NeedTimeToThinkFormStyles = styled.div<{ isUserInEu?: boolean }>`
 const NeedTimeToThinkForm = ({ productData }) => {
   const router = useRouter();
   const isUserInEu = getIsUserInEu();
-  const [valid, setValid] = useState(false);
-  const [gdprError, setGdprError] = useState(false);
+  const [valid, setValid] = useState(true);
   const { locale, asPath } = router || {};
   const globalTemplateData = useGlobalData(locale);
   const footerData = globalTemplateData.data?.footerNavigation;
@@ -115,7 +114,7 @@ const NeedTimeToThinkForm = ({ productData }) => {
         formSubmissionResult={formSubmissionResult}
         showOptIn={isUserInEu}
         optInCopy={optInCopy}
-        showGdprError={gdprError}
+        isValid={isValid}
         setIsValid={setValid}
       />
     </NeedTimeToThinkFormStyles>

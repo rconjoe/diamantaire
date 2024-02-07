@@ -42,7 +42,7 @@ type FormProps = {
   flexDirection?: 'column' | 'row';
   isSuccessful?: boolean;
   formSubmissionResult?: string;
-  showGdprError?: boolean;
+  isValid?: boolean;
 };
 
 type FormStateType = {
@@ -229,7 +229,7 @@ const Form = ({
   flexDirection,
   isSuccessful,
   formSubmissionResult,
-  showGdprError,
+  isValid,
 }: FormProps) => {
   const { locale } = useRouter();
 
@@ -242,6 +242,7 @@ const Form = ({
   const [allRegions, setAllRegions] = useState(initialCountryCode ? getRegions(initialCountryCode) : []);
   const isUserInUs = getIsUserInUs();
   const initialFormState = { isConsent: isUserInUs };
+  const showGdprError = showOptIn && !isValid;
 
   schema?.forEach((field) => {
     if (field.inputType === 'state-dropdown') {
