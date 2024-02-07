@@ -110,7 +110,7 @@ const NeedTimeToThinkForm = ({ productData }) => {
         ctaCopy={_t('Submit')}
         isSuccessful={isSuccessful}
         formSubmissionResult={formSubmissionResult}
-        showOptIn={isUserInEu || true}
+        showOptIn={isUserInEu}
         optInCopy={optInCopy}
         isValid={valid}
         setIsValid={setValid}

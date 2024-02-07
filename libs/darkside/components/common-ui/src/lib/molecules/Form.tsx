@@ -442,6 +442,7 @@ const Form = ({
                 setIsValid(checked);
               }}
             />
+
             <label htmlFor="optin">
               <Markdown options={{ forceBlock: false }} extraClass="-opt-in">
                 {optInCopy}
