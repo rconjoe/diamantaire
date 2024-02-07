@@ -5,7 +5,7 @@ import { PropsWithChildren } from 'react';
 
 import { MarkdownContainer } from './Markdown.style';
 
-type imageConfig = {
+export type MarkdownImageConfig = {
   alt?: string;
   h?: number;
   w?: number;
@@ -17,7 +17,7 @@ type MarkdownProps = {
   options?: object;
   children: string;
   withStyles?: boolean;
-  imageConfig?: imageConfig;
+  imageConfig?: MarkdownImageConfig;
 };
 
 const Markdown = ({ children, options, extraClass, withStyles = true, imageConfig }: PropsWithChildren<MarkdownProps>) => {
