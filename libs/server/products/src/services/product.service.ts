@@ -147,7 +147,7 @@ export class ProductsService {
     const plpSlug = `${category}/${slug}`; // "jewelry/best-selling-gifts"
     const skip = (page - 1) * limit;
     const { metals, styles, diamondTypes, subStyles, priceMin, priceMax } = filters;
-    const cacheKey = `plp-data:${plpSlug}:limit=${limit}-page=${page}:${this.generateQueryCacheKey(filters)}`;
+    const cacheKey = `plp-data:${plpSlug}:limit=${limit}-page=${page}:${this.generateQueryCacheKey(filters)}:${getDatoRequestLocale(locale)}`;
     const [isFresh, cachedData] = await this.getSWRCache(cacheKey);
 
     const fetchPlpData = async () => {
@@ -742,7 +742,7 @@ export class ProductsService {
   async findProductBySlug(input: ProductSlugInput) {
     const setLocal = input?.locale ? input?.locale : 'en_US'; // get locale from input or default to en_US
     // create unique cacheKey for each product variant
-    const cachedKey = `pdp:${input?.slug}:${input?.id}:${setLocal}`;
+    const cachedKey = `pdp:${input?.slug}:${input?.id}:${getDatoRequestLocale(setLocal)}`;
     const [isFresh, cachedData] = await this.getSWRCache(cachedKey);
 
     const fetchPdpData = async () => {
