@@ -59,8 +59,6 @@ const NeedTimeToThinkForm = ({ productData }) => {
     e.preventDefault();
 
     if (!valid) {
-      setGdprError(true);
-
       return;
     }
 
