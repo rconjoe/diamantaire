@@ -29,8 +29,8 @@ export const StyledWishlistLikeButton = styled.div`
     right: 0;
 
     @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-      top: 3rem;
-      right: 5.2rem;
+      top: 1.5rem;
+      right: 1.5rem;
     }
   }
 
