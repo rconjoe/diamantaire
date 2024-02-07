@@ -112,7 +112,7 @@ const NeedTimeToThinkForm = ({ productData }) => {
         formSubmissionResult={formSubmissionResult}
         showOptIn={isUserInEu}
         optInCopy={optInCopy}
-        isValid={isValid}
+        isValid={valid}
         setIsValid={setValid}
       />
     </NeedTimeToThinkFormStyles>
