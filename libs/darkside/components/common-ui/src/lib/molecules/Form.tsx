@@ -153,7 +153,9 @@ const FormContainer = styled.div<{
   .input-opt-in {
     width: 100%;
     position: relative;
+
     input[type='checkbox'] {
+      cursor: pointer;
       width: 1.3rem;
       height: 1.3rem;
       appearance: none;
@@ -173,11 +175,12 @@ const FormContainer = styled.div<{
       transition: 120ms transform ease-in-out;
       box-shadow: inset 1.3rem 1.3rem currentColor;
     }
-    /* Check styling */
+
     input[type='checkbox']:checked {
       &::before {
         transform: scale(1);
       }
+
       &::after {
         content: '';
         display: inline-block;
@@ -188,8 +191,6 @@ const FormContainer = styled.div<{
         border-bottom: 1.75px solid;
         transform: rotate(-45deg);
         border-color: white;
-
-        /* Placement of check */
         left: 1px;
         top: 8px;
       }
@@ -202,6 +203,7 @@ const FormContainer = styled.div<{
       }
     }
   }
+
   ${({ extraClass }) =>
     extraClass === '-modular-block' &&
     `
@@ -395,15 +397,16 @@ const Form = ({
               })}
             >
               <input
+                id="optin"
                 type="checkbox"
                 name="isConsent"
-                id="optin"
                 checked={formState?.isConsent}
                 onChange={(e) => {
                   const { name, checked } = e.target;
 
                   setFormState((prevState) => ({ ...prevState, [name]: checked }));
-                  setIsValid(true);
+
+                  setIsValid(checked);
                 }}
               />
 
@@ -432,10 +435,11 @@ const Form = ({
               id="optin"
               checked={formState?.isConsent}
               onChange={(e) => {
-                const { name, checked } = e.target;
+                const { checked } = e.target;
 
-                setFormState((prevState) => ({ ...prevState, [name]: checked }));
-                setIsValid(true);
+                setFormState((prevState) => ({ ...prevState, isConsent: checked }));
+
+                setIsValid(checked);
               }}
             />
             <label htmlFor="optin">

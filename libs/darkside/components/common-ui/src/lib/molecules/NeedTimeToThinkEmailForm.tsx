@@ -31,7 +31,7 @@ const NeedTimeToThinkFormStyles = styled.div<{ isUserInEu?: boolean }>`
 const NeedTimeToThinkForm = ({ productData }) => {
   const router = useRouter();
   const isUserInEu = getIsUserInEu();
-  const [valid, setValid] = useState(true);
+  const [valid, setValid] = useState(false);
   const { locale, asPath } = router || {};
   const globalTemplateData = useGlobalData(locale);
   const footerData = globalTemplateData.data?.footerNavigation;
@@ -110,7 +110,7 @@ const NeedTimeToThinkForm = ({ productData }) => {
         ctaCopy={_t('Submit')}
         isSuccessful={isSuccessful}
         formSubmissionResult={formSubmissionResult}
-        showOptIn={isUserInEu}
+        showOptIn={isUserInEu || true}
         optInCopy={optInCopy}
         isValid={valid}
         setIsValid={setValid}
