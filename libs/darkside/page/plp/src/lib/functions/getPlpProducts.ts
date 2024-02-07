@@ -1,4 +1,4 @@
-import { vraiApiClient } from '@diamantaire/darkside/data/api';
+import { setApiRouteCacheHeader, vraiApiClient } from '@diamantaire/darkside/data/api';
 import { NextApiResponse } from 'next';
 
 type plpProductsOptionsProps = {
@@ -21,7 +21,6 @@ export default async function getPlpProducts(options: plpProductsOptionsProps, r
   } catch (error) {
     console.log({ getPlpError: error });
   }
-  console.log('reqUrlyyyy', response);
 
   return response.data;
 }
