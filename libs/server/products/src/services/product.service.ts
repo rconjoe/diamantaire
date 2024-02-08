@@ -1685,28 +1685,34 @@ export class ProductsService {
     this.logger.verbose(`Getting Dato configurations & products for ${slug}`);
     const cachedKey = `plp-configurations-${slug}:${locale}:${ids.join('-')}-${first}-${skip}`;
     const cachedData = await this.utils.memGet<any>(cachedKey); // return the cached result if there's a key
-    let response;
 
-    const queryVars = {
-      productHandles,
-      variantIds,
-      first,
-      skip,
-      locale: getDatoRequestLocale(locale),
-    };
+    if (!cachedData) {
+      let response;
 
-    try {
-      if (!cachedData) {
+      const queryVars = {
+        productHandles,
+        variantIds,
+        first,
+        skip,
+        locale: getDatoRequestLocale(locale),
+      };
+
+      try {
         response = await this.utils.createDataGateway().request(CONFIGURATIONS_LIST, queryVars);
-        this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
-        this.utils.memSet(cachedKey, response, PRODUCT_DATA_TTL); //set the response in memory
-      }
+        const result = [...response.allConfigurations, ...response.allOmegaProducts];
 
-      return [...response.allConfigurations, ...response.allOmegaProducts];
-    } catch (err) {
-      this.logger.debug(`Cannot retrieve configurations and products for ${slug}: ${JSON.stringify(err)}`);
-      throw new InternalServerErrorException(`Cannot retrieve configurations and products for ${slug} : ${JSON.stringify(err)}`);
+        this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
+        this.utils.memSet(cachedKey, result, PRODUCT_DATA_TTL);
+
+        return result;
+      } catch (err) {
+        this.logger.error(`Cannot retrieve configurations and products for ${slug}: ${JSON.stringify(err)}`);
+
+        return [];
+      }
     }
+
+    return cachedData
   }
 
   async getDatoContent<TData, TVars extends Variables>({
