@@ -255,11 +255,6 @@ const DiamondBuildStep = () => {
     updateOptions({ ...initialOptions, diamondType: diamondTypeToShow });
   };
 
-  // useEffect(() => {
-  //   if (diamondTypeToShow) updateOptions({ ...initialOptions, diamondType: diamondTypeToShow });
-  // }, [builderProduct.diamonds, builderProduct?.product]);
-
-  // This interferes with the builder flow routing....
   useEffect(() => {
     router.replace(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {});
     // console.log('options changed', options);

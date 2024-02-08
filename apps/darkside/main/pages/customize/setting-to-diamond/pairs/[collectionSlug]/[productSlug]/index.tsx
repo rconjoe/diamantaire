@@ -256,12 +256,7 @@ const DiamondBuildStep = () => {
     updateOptions({ ...initialOptions, diamondType: diamondTypeToShow });
   };
 
-  // useEffect(() => {
-  //   updateOptions({ ...initialOptions, diamondType: diamondTypeToShow });
-  // }, [builderProduct.diamonds, builderProduct?.product]);
-
   useEffect(() => {
-    console.log('options changed', options);
     router.replace(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {});
   }, [options]);
 

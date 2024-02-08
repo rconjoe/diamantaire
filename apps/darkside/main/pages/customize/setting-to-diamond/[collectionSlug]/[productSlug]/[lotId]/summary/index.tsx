@@ -637,7 +637,7 @@ const SettingToDiamondSummaryPage = () => {
       _EngravingBack: engravingText,
       _specs: settingSpecs,
       productGroupKey,
-      diamondShape: diamonds.map((diamond) => DIAMOND_TYPE_HUMAN_NAMES[diamond?.diamondType]).join(' + '),
+      diamondShape: diamonds.map((diamond) => shapes_t(diamond?.diamondType)).join(' + '),
       // centerStone: diamond?.carat + ', ' + diamond?.color + ', ' + diamond?.clarity,
       ringSize: selectedSize?.value,
       bandAccent: refinedBandAccent,

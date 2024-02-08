@@ -106,7 +106,8 @@ const DiamondTableRow = ({
         (option) => option.value === diamondType,
       )?.id;
 
-      const nextUrl = `/${locale}/customize/setting-to-diamond/${router?.query?.collectionSlug}/${productShapeId}/${product.lotId}/summary`;
+      const nextUrl = `${locale === 'en-US' ? '' : `/${locale}`}/customize/setting-to-diamond/${router?.query
+        ?.collectionSlug}/${productShapeId}/${product.lotId}/summary`;
 
       return (window.location.href = nextUrl);
     } else {
@@ -117,7 +118,9 @@ const DiamondTableRow = ({
         (option) => option.value === diamondType,
       )?.id;
 
-      const nextUrl = `/${locale}/customize/diamond-to-setting/${product.lotId}/${router.query.collectionSlug}/${productShapeId}/summary`;
+      const nextUrl = `${locale === 'en-US' ? '' : `/${locale}`}/customize/diamond-to-setting/${product.lotId}/${
+        router.query.collectionSlug
+      }/${productShapeId}/summary`;
 
       return (window.location.href = nextUrl);
     }
