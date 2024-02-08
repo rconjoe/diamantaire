@@ -24,6 +24,7 @@ import {
   ProductKlarna,
   ProductPrice,
   ProductReviews,
+  ProductTitle,
 } from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
@@ -497,7 +498,7 @@ const SettingToDiamondSummaryPage = () => {
     shownWithCtwLabel,
     // extraOptions,
     diamondDescription,
-    // productTitleOverride,
+    productTitleOverride,
     // trioBlocks,
     // accordionBlocks,
     // ctaCopy,
@@ -1097,10 +1098,19 @@ const SettingToDiamondSummaryPage = () => {
               productId={`bundle-${router.query?.productSlug}::${diamonds?.map((diamond) => diamond.lotId).join('::')}`}
             />
 
-            {productTitle && (
+            {productTitle && languageCode === 'en' ? (
               <Heading type="h1" className="secondary no-margin">
                 {productTitle}
               </Heading>
+            ) : productTitle ? (
+              <ProductTitle
+                title={productTitle}
+                override={productTitleOverride}
+                diamondType={shopifyProductData?.configuration?.diamondType}
+                productType={shopifyProductData?.productType}
+              />
+            ) : (
+              ''
             )}
 
             <div className="total-price">

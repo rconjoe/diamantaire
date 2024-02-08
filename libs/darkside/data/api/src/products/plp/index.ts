@@ -87,7 +87,7 @@ export async function getVRAIServerPlpData(
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': process.env.VRAI_SERVER_API_KEY,
+        ...(isServer && { 'x-api-key': process.env.VRAI_SERVER_API_KEY }),
       },
     })
       .then((res) => {
