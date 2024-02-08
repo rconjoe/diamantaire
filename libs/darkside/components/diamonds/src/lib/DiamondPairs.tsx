@@ -108,7 +108,9 @@ export const DiamondPairActiveRow = ({
 
           <div className="row-cta">
             {isBuilderFlowOpen ? (
-              <DarksideButton onClick={() => handleSelectDiamond()}>Select</DarksideButton>
+              <DarksideButton onClick={() => handleSelectDiamond()}>
+                <UIString>Select</UIString>
+              </DarksideButton>
             ) : (
               <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
                 <UIString>Select</UIString>

@@ -25,6 +25,7 @@ export const humanNamesMapperType = {
   DIAMOND_SPECS: 'DIAMOND_SPECS',
   DIAMOND_CUTS: 'DIAMOND_CUTS',
   PRICE_RANGE_OPTIONS_HUMAN_NAMES: 'PRICE_RANGE_OPTIONS_HUMAN_NAMES',
+  PRODUCT_TYPES: 'PRODUCT_TYPES',
 } as const;
 
 type HumanNameMapperResponse = {
