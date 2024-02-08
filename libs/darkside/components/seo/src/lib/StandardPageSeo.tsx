@@ -7,6 +7,7 @@ We should update the dato seo component to includes custom meta images, and twit
 https://github.com/garmeeh/next-seo
 */
 
+import { parseValidLocale } from '@diamantaire/shared/constants';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 
@@ -20,6 +21,15 @@ type StandardPageSeoProps = {
 const StandardPageSeo = ({ title, description, noIndex = false, noFollow = false }: StandardPageSeoProps) => {
   const router = useRouter();
 
+  const { languageCode } = parseValidLocale(router.locale);
+
+  const seoParam = {
+    en: '',
+    es: '/en-ES/',
+    fr: '/fr-FR/',
+    de: '/de-DE/',
+  };
+
   return (
     <NextSeo
       title={title}
@@ -28,7 +38,7 @@ const StandardPageSeo = ({ title, description, noIndex = false, noFollow = false
       nofollow={noFollow}
       canonical={
         (process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') +
-        `/${router.locale}` +
+        seoParam[languageCode] +
         router.asPath
       }
     />
