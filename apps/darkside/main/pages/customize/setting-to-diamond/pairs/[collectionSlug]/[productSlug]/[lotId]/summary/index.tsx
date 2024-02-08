@@ -817,7 +817,15 @@ const SettingToDiamondSummaryPage = () => {
     },
     {
       label: _t(diamonds?.[0]?.diamondType),
-      value: diamonds?.[0]?.carat.toString() + 'ct' + ', ' + diamonds?.[0]?.color + ', ' + diamonds?.[0]?.clarity,
+      value:
+        diamonds?.[0]?.carat.toString() +
+        'ct' +
+        ', ' +
+        diamonds?.[0]?.color +
+        ', ' +
+        diamonds?.[0]?.clarity +
+        ', ' +
+        _t(diamonds?.[0]?.cut),
       onClick: () => {
         router.push(
           `/customize/${flowType}/pairs/${router.query.collectionSlug}/${router.query.productSlug}/${router.query.lotId}/edit-diamond`,
@@ -827,7 +835,15 @@ const SettingToDiamondSummaryPage = () => {
     },
     {
       label: _t(diamonds?.[1]?.diamondType),
-      value: diamonds?.[1]?.carat.toString() + 'ct' + ', ' + diamonds?.[1]?.color + ', ' + diamonds?.[1]?.clarity,
+      value:
+        diamonds?.[1]?.carat.toString() +
+        'ct' +
+        ', ' +
+        diamonds?.[1]?.color +
+        ', ' +
+        diamonds?.[1]?.clarity +
+        ', ' +
+        _t(diamonds?.[1]?.cut),
       onClick: () => {
         router.push(
           `/customize/${flowType}/pairs/${router.query.collectionSlug}/${router.query.productSlug}/${router.query.lotId}/edit-diamond`,

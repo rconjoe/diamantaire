@@ -8,7 +8,7 @@ import {
 } from '@diamantaire/darkside/components/common-ui';
 import { DiamondFilter, DiamondPromo, DiamondTable } from '@diamantaire/darkside/components/diamonds';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
-import { useBuilderFlowSeo, useDiamondsData } from '@diamantaire/darkside/data/hooks';
+import { useBuilderFlowSeo, useDiamondTableData, useDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
@@ -100,6 +100,10 @@ const DiamondBuildStep = () => {
   const diamondTypeToShow = builderProduct?.product?.configuration?.diamondType || 'round-brilliant';
   const availableDiamonds = builderProduct?.product?.optionConfigs?.diamondType.map((d) => d.value) || [];
   const settingProductType = builderProduct?.product?.productType;
+
+  const { data: diamondTableData } = useDiamondTableData(locale);
+  const { diamondTable } = diamondTableData || {};
+  const { clearFiltersButtonCopy } = diamondTable || {};
 
   const defaultInitialOptions = {
     caratMin: 1,
@@ -292,12 +296,11 @@ const DiamondBuildStep = () => {
                 loading={loading}
                 options={options}
                 ranges={ranges}
-                locale={router?.locale || DEFAULT_LOCALE}
                 availableDiamonds={availableDiamonds}
               />
 
               <DarksideButton type="underline" colorTheme="teal" className="vo-filter-clear-button" onClick={clearOptions}>
-                <UIString>Clear filters</UIString>
+                {clearFiltersButtonCopy}
               </DarksideButton>
 
               <ShowTabletAndUpOnly>{router?.locale && <DiamondPromo locale={router?.locale} />}</ShowTabletAndUpOnly>

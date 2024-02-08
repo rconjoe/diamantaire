@@ -16,7 +16,9 @@ type DiamondPairCellProps = {
 };
 
 export const DiamondPairCell = ({ diamonds, accessorKey, renderValue }: DiamondPairCellProps) => {
-  const values = diamonds.map((d) => d[accessorKey]);
+  // Don't show duplicate diamondType values
+  const values =
+    accessorKey === 'diamondType' ? [...new Set(diamonds.map((d) => d[accessorKey]))] : diamonds.map((d) => d[accessorKey]);
 
   return (
     <StyledDiamondPairCell>
@@ -76,8 +78,9 @@ export const DiamondPairActiveRow = ({
         router?.query?.productSlug;
 
     // better for perf....
-    window.location.href = `${window.location.origin}/customize/setting-to-diamond${isPair ? '/pairs' : ''}/${builderProduct
-      ?.product?.collectionSlug}/${productShapeId}/${lotIdSlug}/summary`;
+    window.location.href = `${window.location.origin}/${locale}/customize/setting-to-diamond${
+      isPair ? '/pairs' : ''
+    }/${builderProduct?.product?.collectionSlug}/${productShapeId}/${lotIdSlug}/summary`;
   };
 
   return (

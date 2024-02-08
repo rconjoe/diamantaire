@@ -1,12 +1,6 @@
 import { ParsedUrlQuery } from 'querystring';
 
-import {
-  DarksideButton,
-  Heading,
-  ShowMobileOnly,
-  ShowTabletAndUpOnly,
-  UIString,
-} from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Heading, ShowMobileOnly, ShowTabletAndUpOnly } from '@diamantaire/darkside/components/common-ui';
 import { DiamondFilter, DiamondPromo, DiamondTable } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
@@ -66,7 +60,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
   const DiamondTableContent = useDiamondTableData(locale);
 
-  const { title: pageTitle, dynamicTitle } = DiamondTableContent.data.diamondTable || {};
+  const { title: pageTitle, dynamicTitle, clearFiltersButtonCopy } = DiamondTableContent.data.diamondTable || {};
 
   const seo = DiamondTableContent.data.diamondTable.seo;
 
@@ -210,12 +204,11 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
               loading={loading}
               options={options}
               ranges={ranges}
-              locale={locale}
             />
           )}
 
           <DarksideButton type="underline" colorTheme="teal" className="vo-filter-clear-button" onClick={clearOptions}>
-            <UIString>Clear filters</UIString>
+            {clearFiltersButtonCopy}
           </DarksideButton>
 
           <ShowTabletAndUpOnly>

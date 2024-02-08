@@ -106,9 +106,9 @@ const DiamondTableRow = ({
         (option) => option.value === diamondType,
       )?.id;
 
-      router.push(
-        `/customize/setting-to-diamond/${router?.query?.collectionSlug}/${productShapeId}/${product.lotId}/summary`,
-      );
+      const nextUrl = `/${locale}/customize/setting-to-diamond/${router?.query?.collectionSlug}/${productShapeId}/${product.lotId}/summary`;
+
+      return (window.location.href = nextUrl);
     } else {
       // diamond to setting flow - edit diamond
 
@@ -117,7 +117,7 @@ const DiamondTableRow = ({
         (option) => option.value === diamondType,
       )?.id;
 
-      const nextUrl = `/customize/diamond-to-setting/${product.lotId}/${router.query.collectionSlug}/${productShapeId}/summary`;
+      const nextUrl = `/${locale}/customize/diamond-to-setting/${product.lotId}/${router.query.collectionSlug}/${productShapeId}/summary`;
 
       return (window.location.href = nextUrl);
     }

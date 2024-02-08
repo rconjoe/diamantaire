@@ -809,7 +809,10 @@ const SettingToDiamondSummaryPage = () => {
     {
       label: _t('centerstone'),
       value: diamonds
-        ?.map((diamond) => diamond?.carat.toString() + 'ct' + ', ' + diamond?.color + ', ' + diamond?.clarity)
+        ?.map(
+          (diamond) =>
+            diamond?.carat.toString() + 'ct' + ', ' + diamond?.color + ', ' + diamond?.clarity + ', ' + _t(diamond?.cut),
+        )
         .join(' + '),
       onClick: () => {
         router.push(

@@ -114,6 +114,7 @@ const DiamondTable = (props: DiamondTableProps) => {
         bottomPromoContentCtaCopy,
         bottomPromoContentCtaLink,
         bottomPromoContent,
+        clearFiltersButtonCopy,
       } = {},
     } = {},
   } = useDiamondTableData(locale);
@@ -480,7 +481,7 @@ const DiamondTable = (props: DiamondTableProps) => {
                       className="vo-table-clear-button"
                       onClick={clearOptions}
                     >
-                      <UIString>Clear filters</UIString>
+                      {clearFiltersButtonCopy}
                     </DarksideButton>
                   </li>
                   {/* <li>
@@ -493,7 +494,7 @@ const DiamondTable = (props: DiamondTableProps) => {
             <div className="vo-table-no-result">
               <div className="vo-table-no-result-container">
                 <DarksideButton type="underline" colorTheme="teal" className="vo-table-clear-button" onClick={clearOptions}>
-                  <UIString>Clear filters</UIString>
+                  {clearFiltersButtonCopy}
                 </DarksideButton>
               </div>
             </div>
