@@ -51,7 +51,7 @@ const PairSelector = ({
           id: 'pair',
           value: `${_t('Pair')} ${
             selectedConfiguration.caratWeight !== 'other'
-              ? '<span class="em-dash"></span> ' + getFormattedPrice((variantPrice + shouldAddPairDollar) * 2, locale)
+              ? '<span class="em-dash"></span> ' + getFormattedPrice(variantPrice * 2, locale)
               : ''
           } `,
           valueLabel: 'Pair',
