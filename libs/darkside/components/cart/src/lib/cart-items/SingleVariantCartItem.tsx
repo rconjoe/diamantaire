@@ -316,7 +316,7 @@ const SingleVariantCartItem = ({
   // The price needs to be combined in the case of two identical earrings
 
   const totalPrice = getFormattedPrice(
-    (parseFloat(price) * (countryCode !== 'US' ? quantity : 1) + (quantity > 1 && countryCode !== 'US' ? 1 : 0)) * 100,
+    parseFloat(price) * (countryCode !== 'US' ? quantity : 1) * 100,
     locale,
     true,
     false,

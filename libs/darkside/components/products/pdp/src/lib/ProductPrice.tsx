@@ -56,7 +56,7 @@ const ProductPrice = ({
     ENGRAVEABLE_JEWELRY_SLUGS.filter((slug) => slug === query.collectionSlug).length > 0;
 
   // lowestPricedDiamond if FJ and caratWeight is `other`
-  const basePrice = lowestPricedDiamond ? lowestPricedDiamond.price + price : price + (shouldDoublePrice ? 50 : 0);
+  const basePrice = lowestPricedDiamond ? lowestPricedDiamond.price + price : price;
   const shouldAddEngravingCost = engravingText && productType !== 'Ring' && !doesProductQualifyForFreeEngraving;
 
   // console.log('basePrice', basePrice);
