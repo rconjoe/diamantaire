@@ -257,7 +257,6 @@ const DiamondBuildStep = () => {
 
   useEffect(() => {
     router.replace(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {});
-    // console.log('options changed', options);
   }, [options]);
 
   if (!diamonds || !tableOptions?.initialOptions?.diamondType) return <BuilderFlowLoader />;
