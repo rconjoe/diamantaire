@@ -952,6 +952,15 @@ export class ProductsService {
     const allOptions = {};
     const productOptionsToMatch = productToMatch.configuration;
 
+    // All ER products have the ability to use a custom diamond which is indicated
+    // by the carat weight being set to "other" or undefined (legacy).  However, it will
+    // not look to match caratWeight if its nor a property.
+    if (productToMatch.productType === ProductType.EngagementRing) {
+      if (!productOptionsToMatch['caratWeight']){
+        productOptionsToMatch['caratWeight'] = 'other';
+      }
+    }
+
     /* Helper function to sort options */
     function sortOptions(optionsArr, comparator) {
       if (optionsArr) {
