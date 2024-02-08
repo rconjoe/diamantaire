@@ -26,16 +26,16 @@ const SettingSelectStepStyles = styled.div`
   .loader-container {
     text-align: center;
     padding-top: 4rem;
+    margin: 0;
   }
 
   .grid-wrapper {
-    padding: 2rem 0 20rem;
+    padding: 0rem;
     > div {
       height: auto;
     }
   }
   .load-more-trigger {
-    height: 10rem;
     width: 100%;
     display: block;
   }
@@ -57,7 +57,7 @@ const SettingSelectStep = () => {
   });
 
   const category = 'engagement-rings';
-  const plpSlug = settingTypeToShow ? settingTypeToShow + '-cut' : 'round-brilliant-cut';
+  const plpSlug = settingTypeToShow ? settingTypeToShow + '-cut' : null;
 
   const [filterValue, setFilterValues] = useState<FilterValueProps>({});
   const [activeSortOptions, setActiveSortOptions] = useState({});

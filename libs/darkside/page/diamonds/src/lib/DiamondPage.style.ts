@@ -30,7 +30,6 @@ const StyledDiamondPage = styled.div`
     ${tabletAndUp(`
       display: flex;
       justify-content: center;
-      padding: 0 0 6rem;
     `)}
 
     .title {
@@ -73,7 +72,8 @@ const StyledDiamondPage = styled.div`
   }
 
   .vo-filter-clear-button {
-    margin: 2rem 0 0;
+    margin: 1rem 0 0;
+
     button {
       font-size: var(--font-size-xxxsmall);
       font-weight: var(--font-weight-normal);

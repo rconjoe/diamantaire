@@ -16,7 +16,9 @@ type DiamondPairCellProps = {
 };
 
 export const DiamondPairCell = ({ diamonds, accessorKey, renderValue }: DiamondPairCellProps) => {
-  const values = diamonds.map((d) => d[accessorKey]);
+  // Don't show duplicate diamondType values
+  const values =
+    accessorKey === 'diamondType' ? [...new Set(diamonds.map((d) => d[accessorKey]))] : diamonds.map((d) => d[accessorKey]);
 
   return (
     <StyledDiamondPairCell>
@@ -29,15 +31,14 @@ export const DiamondPairCell = ({ diamonds, accessorKey, renderValue }: DiamondP
 
 export const DiamondPairActiveRow = ({
   diamonds,
-  locale,
   isBuilderFlowOpen,
 }: {
-  locale: string;
   diamonds: DiamondDataTypes[];
   isBuilderFlowOpen: boolean;
 }) => {
   const [diamond1, diamond2] = diamonds;
 
+  const { locale } = useRouter();
   const { data: { diamondTable: { specs, origin: originValue } = {} } = {} } = useDiamondTableData(locale);
 
   const originLabel = (specs && Object.values(specs).find((v) => v.key === 'origin').value) || null;
@@ -76,9 +77,10 @@ export const DiamondPairActiveRow = ({
       : builderProduct?.product?.optionConfigs?.diamondType?.find((option) => option.value === diamondType)?.id ||
         router?.query?.productSlug;
 
-    // better for perf....
-    window.location.href = `${window.location.origin}/customize/setting-to-diamond${isPair ? '/pairs' : ''}/${builderProduct
-      ?.product?.collectionSlug}/${productShapeId}/${lotIdSlug}/summary`;
+    // This is an anti=pattern but we need it for builder flow actions (or data doesn't propagate properly)
+    window.location.href = `${window.location.origin}/${locale}/customize/setting-to-diamond${
+      isPair ? '/pairs' : ''
+    }/${builderProduct?.product?.collectionSlug}/${productShapeId}/${lotIdSlug}/summary`;
   };
 
   return (

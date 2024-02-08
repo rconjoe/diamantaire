@@ -110,7 +110,7 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
 
   const selectYourSettingLink =
     query?.collectionSlug && query.productSlug
-      ? `/customize/setting-to-diamond/summary/${query?.collectionSlug}/${query?.productSlug}/${lotId}`
+      ? `/customize/setting-to-diamond/${query?.collectionSlug}/${query?.productSlug}/${lotId}/summary`
       : `/customize/diamond-to-setting/${lotId}`;
 
   const sliderOptions: any = {

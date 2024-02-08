@@ -8,6 +8,7 @@ export const CartStyles = styled(motion.aside)`
   right: 0;
   width: 100%;
   height: 100vh;
+  overflow-y: auto;
   z-index: 10000;
   background-color: #fff;
   ${media.medium`width: 35%;`}
