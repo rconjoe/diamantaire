@@ -450,9 +450,9 @@ const DiamondTable = (props: DiamondTableProps) => {
                   {active && (
                     <div className="vo-table-row-body">
                       {isDiamondPairs ? (
-                        <DiamondPairActiveRow isBuilderFlowOpen={isBuilderFlowOpen} diamonds={diamonds} locale={locale} />
+                        <DiamondPairActiveRow isBuilderFlowOpen={isBuilderFlowOpen} diamonds={diamonds} />
                       ) : (
-                        <DiamondTableRow isBuilderFlowOpen={isBuilderFlowOpen} product={row?.original} locale={locale} />
+                        <DiamondTableRow isBuilderFlowOpen={isBuilderFlowOpen} product={row?.original} />
                       )}
                     </div>
                   )}

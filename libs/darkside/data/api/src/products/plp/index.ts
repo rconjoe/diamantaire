@@ -78,20 +78,16 @@ export async function getVRAIServerPlpData(
 
   let reqUrl = `${process.env.VRAI_SERVER_BASE_URL}/v1/products/plp?${qParams?.toString()}`;
 
-  console.log('isServer', isServer);
-  console.log('reqUrlxxx 1', reqUrl);
-
   if (!isServer) {
     reqUrl = `${window.location.origin}/api/plp/getPlpProducts?${qParams?.toString()}`;
   }
-  console.log('reqUrlxxx 2', reqUrl);
 
   try {
     const response = await fetch(reqUrl, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': process.env.NEXT_PUBLIC_VRAI_SERVER_API_KEY,
+        'x-api-key': process.env.VRAI_SERVER_API_KEY,
       },
     })
       .then((res) => {
@@ -102,8 +98,6 @@ export async function getVRAIServerPlpData(
 
         return res;
       });
-
-    console.log('responsexxx', response);
 
     return response;
   } catch (err) {

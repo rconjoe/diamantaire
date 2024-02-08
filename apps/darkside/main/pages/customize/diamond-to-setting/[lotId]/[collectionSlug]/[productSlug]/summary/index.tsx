@@ -23,6 +23,7 @@ import {
   ProductKlarna,
   ProductPrice,
   ProductReviews,
+  ProductTitle,
 } from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
@@ -425,7 +426,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
 
   const diamondPrice = Array.isArray(diamonds) && diamonds?.map((diamond) => diamond.price).reduce((a, b) => a + b, 0);
 
-  const { countryCode } = parseValidLocale(locale);
+  const { countryCode, languageCode } = parseValidLocale(locale);
 
   const currencyCode = getCurrency(countryCode);
 
@@ -441,8 +442,6 @@ const ReviewBuildStep = ({ settingSlugs }) => {
     isER ? 'engagement_ring_summary_page' : 'jewelry_summary_page',
     router.locale,
   );
-
-  console.log('blockpickerData', blockpickerData);
 
   const diamondImages = useMemo(() => {
     return isDiamondCFY
@@ -492,7 +491,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
     shownWithCtwLabel,
     // extraOptions,
     diamondDescription,
-    // productTitleOverride,
+    productTitleOverride,
     // trioBlocks,
     // accordionBlocks,
     // ctaCopy,
@@ -1073,10 +1072,19 @@ const ReviewBuildStep = ({ settingSlugs }) => {
               productId={`bundle-${router.query?.productSlug}::${diamonds?.[0]?.lotId}`}
             />
 
-            {productTitle && (
+            {productTitle && languageCode === 'en' ? (
               <Heading type="h1" className="secondary no-margin">
                 {productTitle}
               </Heading>
+            ) : productTitle ? (
+              <ProductTitle
+                title={productTitle}
+                override={productTitleOverride}
+                diamondType={shopifyProductData?.configuration?.diamondType}
+                productType={shopifyProductData?.productType}
+              />
+            ) : (
+              ''
             )}
 
             <div className="total-price">

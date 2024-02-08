@@ -211,7 +211,10 @@ const PlpProductFilter = ({
   useEffect(() => {
     updateURL();
 
-    window.scrollTo(0, 0);
+    // only scroll on plps with specific fields
+    if (filterOptionsOverride?.length < 1) {
+      window.scrollTo(0, 0);
+    }
   }, [filterValue]);
 
   return (

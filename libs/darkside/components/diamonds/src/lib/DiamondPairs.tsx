@@ -29,15 +29,14 @@ export const DiamondPairCell = ({ diamonds, accessorKey, renderValue }: DiamondP
 
 export const DiamondPairActiveRow = ({
   diamonds,
-  locale,
   isBuilderFlowOpen,
 }: {
-  locale: string;
   diamonds: DiamondDataTypes[];
   isBuilderFlowOpen: boolean;
 }) => {
   const [diamond1, diamond2] = diamonds;
 
+  const { locale } = useRouter();
   const { data: { diamondTable: { specs, origin: originValue } = {} } = {} } = useDiamondTableData(locale);
 
   const originLabel = (specs && Object.values(specs).find((v) => v.key === 'origin').value) || null;

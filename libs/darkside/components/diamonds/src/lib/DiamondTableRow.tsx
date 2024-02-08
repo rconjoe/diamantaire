@@ -21,16 +21,15 @@ import DiamondtableRowAccordion from './DiamondTableRowAccordion';
 
 const DiamondTableRow = ({
   product,
-  locale,
   isBuilderFlowOpen = false,
 }: {
   product?: DiamondDataTypes;
-  locale: string;
   isBuilderFlowOpen?: boolean;
 }) => {
   const { emitDataLayer } = useAnalytics();
   const router = useRouter();
   const { handle, lotId, diamondType } = product;
+  const { locale } = router;
 
   const { builderProduct } = useContext(BuilderProductContext);
 
@@ -219,7 +218,7 @@ const DiamondTableRow = ({
           </div>
 
           <div className="row-accordion">
-            <DiamondtableRowAccordion product={product} locale={locale} />
+            <DiamondtableRowAccordion product={product} />
 
             {isMobile && (
               <DarksideButton href={diamondDetailRoute} type="underline" colorTheme="teal" className="button-details">

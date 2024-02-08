@@ -1,19 +1,18 @@
 import { Accordion, CertificateThumb, Markdown } from '@diamantaire/darkside/components/common-ui';
 import { useDiamondTableData } from '@diamantaire/darkside/data/hooks';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
-// import Markdown from 'markdown-to-jsx';
+import { useRouter } from 'next/router';
 
 import StyledDiamondTableRowAccordion from './DiamondTableRowAccordion.style';
 
 const DiamondDetailRowAccordion = ({
   product,
   productPair,
-  locale = 'en_US',
 }: {
   product?: DiamondDataTypes;
   productPair?: DiamondDataTypes;
-  locale?: string;
 }) => {
+  const { locale } = useRouter();
   const { data: diamondTableData } = useDiamondTableData(locale);
 
   if (!product) return;

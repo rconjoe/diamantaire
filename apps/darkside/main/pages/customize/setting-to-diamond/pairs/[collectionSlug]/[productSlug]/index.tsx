@@ -52,7 +52,7 @@ const DiamondBuildStepStyles = styled(motion.div)`
         height: 100vh;
       }
 
-      @media (min-width: ${({ theme }) => theme.sizes.xl}) {
+      @media (min-width: ${({ theme }) => theme.sizes.xxl}) {
         top: 55px;
         position: sticky;
       }

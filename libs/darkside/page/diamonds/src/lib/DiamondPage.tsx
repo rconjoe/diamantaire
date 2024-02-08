@@ -41,7 +41,6 @@ interface DiamondPageQueryParams extends ParsedUrlQuery {
 }
 
 interface DiamondPageProps {
-  locale: string;
   options: OptionsDataTypes;
   currencyCode: string;
   dehydratedState: DehydratedState;
@@ -51,8 +50,9 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
   const router = useRouter();
 
   const { isMobile } = useContext(GlobalContext);
+  const { locale } = router;
 
-  const { locale, currencyCode } = props;
+  const { currencyCode } = props;
 
   const [options, setOptions] = useState(props.options);
 
@@ -264,7 +264,6 @@ async function getServerSideProps(
 
   return {
     props: {
-      locale,
       options,
       currencyCode,
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
