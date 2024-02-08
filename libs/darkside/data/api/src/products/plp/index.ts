@@ -94,8 +94,6 @@ export async function getVRAIServerPlpData(
         return res.json();
       })
       .then((res) => {
-        console.log('what is the res', res);
-
         return res;
       });
 

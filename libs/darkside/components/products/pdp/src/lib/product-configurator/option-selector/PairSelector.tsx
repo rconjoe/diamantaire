@@ -22,8 +22,6 @@ const PairSelector = ({
   const { locale } = useRouter();
   const { _t } = useTranslations(locale);
 
-  // Pairs require a dollar being added when they are not in the US
-
   const pairSelector = useMemo(() => {
     if (isSoldAsPairOnly) {
       return [

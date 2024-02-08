@@ -77,7 +77,7 @@ export const DiamondPairActiveRow = ({
       : builderProduct?.product?.optionConfigs?.diamondType?.find((option) => option.value === diamondType)?.id ||
         router?.query?.productSlug;
 
-    // better for perf....
+    // This is an anti=pattern but we need it for builder flow actions (or data doesn't propagate properly)
     window.location.href = `${window.location.origin}/${locale}/customize/setting-to-diamond${
       isPair ? '/pairs' : ''
     }/${builderProduct?.product?.collectionSlug}/${productShapeId}/${lotIdSlug}/summary`;

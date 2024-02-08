@@ -13,10 +13,6 @@ const StyledDiamondPromo = styled.div`
   .banner {
     display: block;
     margin: 0;
-
-    /* @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-      padding: 0rem 0 0rem;
-    } */
   }
 
   .title {
