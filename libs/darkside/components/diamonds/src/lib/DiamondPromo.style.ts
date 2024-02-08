@@ -1,4 +1,3 @@
-import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondPromo = styled.div`
@@ -7,22 +6,18 @@ const StyledDiamondPromo = styled.div`
   margin: 0 0 3rem;
   gap: 3rem;
 
-  ${tabletAndUp(`
+  @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
     margin: 2rem 0 0;
-  `)}
+  }
 
   .banner {
     display: block;
     margin: 0;
-
-    ${tabletAndUp(`
-      padding: 2rem 0;
-    `)}
   }
 
   .title {
     padding: 0;
-    margin: 0 0 1.5rem;
+    margin: 0 0 0.5rem;
     font-size: var(--font-size-xsmall);
     font-weight: 500;
   }
@@ -34,7 +29,7 @@ const StyledDiamondPromo = styled.div`
     list-style-position: inside;
     flex-direction: column;
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
 
     li {
       padding: 0;

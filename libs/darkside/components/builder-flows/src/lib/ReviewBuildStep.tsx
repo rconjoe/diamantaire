@@ -58,8 +58,7 @@ import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
-import { confirmDiamondsMatchSettingType } from './helpers/confirmDiamondsMatchSettingType';
-import ReviewVariantSelector from './ReviewVariantSelector';
+import { ReviewVariantSelector } from './ReviewVariantSelector';
 
 const ReviewBuildStepStyles = styled(motion.div)`
   padding: 0rem 2rem 14rem;
@@ -613,6 +612,11 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
       const diamondAttributes: ProductAddonDiamond['attributes'] = {
         _productTitle: diamond?.productTitle,
         productAsset: diamondImages[index],
+        _productAssetObject: JSON.stringify({
+          src: diamondImages[index],
+          width: 200,
+          height: 200,
+        }),
         _dateAdded: (Date.now() + 100).toString(),
         caratWeight: diamond.carat.toString(),
         clarity: diamond.clarity,
@@ -736,10 +740,12 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
     return;
   }
 
+  const { _t: shapes_t } = useTranslations(locale, ['DIAMOND_SHAPES']);
+
   const summaryItems = [
     {
       label: _t('diamondType'),
-      value: diamonds.map((diamond) => _t(diamond?.diamondType)).join(' + '),
+      value: diamonds?.map((diamond) => shapes_t(diamond?.diamondType)).join(' + '),
       onClick: () => {
         router.push(router.asPath + (router.asPath.includes('/pair/') ? '/pair' : '') + '/edit-diamond', null, {
           shallow: true,
@@ -788,17 +794,6 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
   const [emblaRef, emblaApi] = useEmblaCarousel();
   const [activeSlide, setActiveSlide] = useState(0);
 
-  // Last sec check to confirm diamond + setting shapes match
-  useEffect(() => {
-    confirmDiamondsMatchSettingType(
-      builderProduct?.diamonds,
-      builderProduct?.product,
-      settingSlugs,
-      updateSettingSlugs,
-      router,
-    );
-  }, [builderProduct.diamonds?.[0]?.diamondType]);
-
   useEffect(() => {
     if (!emblaApi) return;
 
@@ -823,8 +818,6 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
   const totalPriceInCents = product?.price + diamondPrice + (engravingText ? ENGRAVING_PRICE_CENTS : 0);
 
   const diamondHandCaption = builderProduct?.diamonds?.map((diamond) => diamond?.carat?.toString() + 'ct').join(' | ');
-
-  console.log('builderProduct', builderProduct);
 
   const reviewVariantOrder = ['sideStoneShape', 'sideStoneCarat', 'bandAccent', 'hiddenHalo', 'bandWidth', 'metal'];
 
@@ -969,7 +962,7 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
           <div className="product-summary__inner">
             <WishlistLikeButton
               extraClass="bundle"
-              productId={`bundle-${settingSlugs?.productSlug}::${diamonds[0]?.lotId}`}
+              productId={`bundle-${settingSlugs?.productSlug}::${diamonds?.[0]?.lotId}`}
             />
 
             <Heading type="h1" className="secondary no-margin">

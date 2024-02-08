@@ -31,8 +31,6 @@ const BuilderFlow = ({
   const [initDiamond, setInitDiamond] = useState(false);
   const [shopifyProductData, setShopifyProductData] = useState(null);
 
-  const [isFetchingData, setIsFetchingData] = useState(false);
-
   const [settingSlugs, setSettingSlugs] = useState({
     collectionSlug: initialCollectionSlug,
     productSlug: initialProductSlug,
@@ -125,8 +123,6 @@ const BuilderFlow = ({
       slug: settingSlugs?.collectionSlug,
       id: settingSlugs?.productSlug,
     }).toString();
-
-    setIsFetchingData(true);
 
     // Product Data
     const productResponse = await fetch(`/api/pdp/getPdpProduct?${qParams}`, {

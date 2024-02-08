@@ -64,4 +64,4 @@ const ReviewVariantSelector = ({
   );
 };
 
-export default ReviewVariantSelector;
+export { ReviewVariantSelector };

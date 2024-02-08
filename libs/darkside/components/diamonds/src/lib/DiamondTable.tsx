@@ -1,6 +1,6 @@
-import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, HideTopBar, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { useDiamondTableData, useInfiniteDiamondsData } from '@diamantaire/darkside/data/hooks';
+import { useDiamondTableData, useInfiniteDiamondsData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
 import { getDiamondType } from '@diamantaire/shared/helpers';
 import { DiamondDataTypes, DiamondPairDataTypes, isDiamondPairType } from '@diamantaire/shared/types';
@@ -58,9 +58,7 @@ const DiamondTable = (props: DiamondTableProps) => {
     isBuilderFlowOpen,
     isTableView = true,
     isDiamondPairs,
-    settingSlugs,
     settingProductType,
-    updateSettingSlugs,
   } = props;
 
   const { asPath, locale } = useRouter();
@@ -116,6 +114,7 @@ const DiamondTable = (props: DiamondTableProps) => {
         bottomPromoContentCtaCopy,
         bottomPromoContentCtaLink,
         bottomPromoContent,
+        clearFiltersButtonCopy,
       } = {},
     } = {},
   } = useDiamondTableData(locale);
@@ -171,6 +170,8 @@ const DiamondTable = (props: DiamondTableProps) => {
     [locale],
   );
 
+  const { _t: diamond_shape_t } = useTranslations(locale, ['DIAMOND_SHAPES']);
+
   const diamondPairColumns = useMemo(
     () => [
       {
@@ -185,7 +186,7 @@ const DiamondTable = (props: DiamondTableProps) => {
                 accessorKey="diamondType"
                 renderValue={(v: unknown): string => {
                   if (typeof v === 'string') {
-                    return v && getDiamondType(v).title;
+                    return `${diamond_shape_t(v)}`;
                   } else {
                     return 'Invalid Diamond Type';
                   }
@@ -247,7 +248,7 @@ const DiamondTable = (props: DiamondTableProps) => {
         cell: (info: Info) => {
           const amount = info.getValue();
 
-          return getFormattedPrice(Number(amount), locale, false);
+          return getFormattedPrice(Number(amount), locale, true);
         },
         header: () => <UIString>price</UIString>,
       },
@@ -292,15 +293,14 @@ const DiamondTable = (props: DiamondTableProps) => {
   };
 
   const onHeaderClick = (header) => {
+    const newSortBy = header.id;
     const currentSortOrder = options.sortOrder || 'asc';
     const newSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
-    const newSortBy = header.id;
 
     if (!queryDiamond.isFetching) {
-      console.log('setting newnew');
       updateOptions({
         sortBy: newSortBy,
-        sortOrder: newSortOrder,
+        sortOrder: options.sortBy !== header.id ? 'desc' : newSortOrder,
       });
     }
   };
@@ -387,6 +387,7 @@ const DiamondTable = (props: DiamondTableProps) => {
       triggerOffset={triggerOffset}
       tableHeadHeight={tableHeadHeight}
     >
+      <HideTopBar />
       <div className="vo-table-container">
         {/* TABLE HEAD */}
         <div ref={tableHead} className="vo-table-head">
@@ -450,15 +451,9 @@ const DiamondTable = (props: DiamondTableProps) => {
                   {active && (
                     <div className="vo-table-row-body">
                       {isDiamondPairs ? (
-                        <DiamondPairActiveRow isBuilderFlowOpen={isBuilderFlowOpen} diamonds={diamonds} locale={locale} />
+                        <DiamondPairActiveRow isBuilderFlowOpen={isBuilderFlowOpen} diamonds={diamonds} />
                       ) : (
-                        <DiamondTableRow
-                          isBuilderFlowOpen={isBuilderFlowOpen}
-                          product={row?.original}
-                          locale={locale}
-                          settingSlugs={settingSlugs}
-                          updateSettingSlugs={updateSettingSlugs}
-                        />
+                        <DiamondTableRow isBuilderFlowOpen={isBuilderFlowOpen} product={row?.original} />
                       )}
                     </div>
                   )}
@@ -486,7 +481,7 @@ const DiamondTable = (props: DiamondTableProps) => {
                       className="vo-table-clear-button"
                       onClick={clearOptions}
                     >
-                      <UIString>Clear filters</UIString>
+                      {clearFiltersButtonCopy}
                     </DarksideButton>
                   </li>
                   {/* <li>
@@ -499,7 +494,7 @@ const DiamondTable = (props: DiamondTableProps) => {
             <div className="vo-table-no-result">
               <div className="vo-table-no-result-container">
                 <DarksideButton type="underline" colorTheme="teal" className="vo-table-clear-button" onClick={clearOptions}>
-                  <UIString>Clear filters</UIString>
+                  {clearFiltersButtonCopy}
                 </DarksideButton>
               </div>
             </div>

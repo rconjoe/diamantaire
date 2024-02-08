@@ -104,7 +104,6 @@ const SettingBuildStep = ({
   disableVariantType,
   productTitleOverride,
   productIconListType,
-  settingSlugs,
   contentIds,
 }: SettingBuildStepProps) => {
   const { builderProduct } = useContext(BuilderProductContext);
@@ -224,7 +223,6 @@ const SettingBuildStep = ({
                 additionalVariantData={additionalVariantData}
                 isBuilderFlowOpen={true}
                 updateSettingSlugs={updateSettingSlugs}
-                settingSlugs={settingSlugs}
                 disableVariantType={disableVariantType}
                 variantProductTitle={shopifyProductData?.productTitle}
                 requiresCustomDiamond={false}

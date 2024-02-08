@@ -14,6 +14,7 @@ import { getDiamondType } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon, diamondIconsMap } from '@diamantaire/shared/icons';
 import { clsx } from 'clsx';
 import Markdown from 'markdown-to-jsx';
+import { useRouter } from 'next/router';
 import { ReactNode, useContext, useRef, useState } from 'react';
 
 import { StyledDiamondFilter } from './DiamondFilter.style';
@@ -86,6 +87,7 @@ const SliderFilter = (props) => {
 
 const RadioFilter = (props) => {
   const { stringMap, type, ranges, options, handleRadioFilterChange, availableDiamonds } = props;
+
   const { isMobile } = useContext(GlobalContext);
   const [useLeftArrow, setUseLeftArrow] = useState(false);
   const [useRightArrow, setUseRightArrow] = useState(true);
@@ -114,6 +116,8 @@ const RadioFilter = (props) => {
         shapeHandles = shapeHandles.filter((handle) => availableDiamonds.includes(handle));
       }
 
+      console.log('shapeHandles', shapeHandles);
+
       optionsUI = shapeHandles
         .filter((handle) => {
           return rangeTypes?.includes(handle);
@@ -121,6 +125,8 @@ const RadioFilter = (props) => {
         .reduce((a, v) => {
           return [...a, getDiamondType(v).slug];
         }, []);
+
+      console.log('optionsUI', optionsUI);
 
       break;
     case 'clarity':
@@ -286,12 +292,12 @@ export interface DiamondFilterProps {
   loading: boolean;
   options: object;
   ranges: object;
-  locale: string;
   availableDiamonds?: string[];
 }
 
 const DiamondFilter = (props: DiamondFilterProps) => {
-  const { locale, options, ranges, loading, handleRadioFilterChange, handleSliderFilterChange, availableDiamonds } = props;
+  const { locale } = useRouter();
+  const { options, ranges, loading, handleRadioFilterChange, handleSliderFilterChange, availableDiamonds } = props;
   const { data: diamondTableData } = useDiamondTableData(locale);
   const { diamondTable } = diamondTableData || {};
   const { colorFilterBelowCopy, color, cut, clarity, carat } = diamondTable || {};

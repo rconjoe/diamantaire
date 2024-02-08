@@ -1,4 +1,3 @@
-import { mobileOnly, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondCfyAsidePromo = styled.div`
@@ -9,9 +8,9 @@ const StyledDiamondCfyAsidePromo = styled.div`
   margin: 0;
   width: 100%;
 
-  ${tabletAndUp(`
+  @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
     padding: 3rem 3rem 5rem;
-  `)}
+  }
 
   .section-title {
     font-size: var(--font-size-xsmall);
@@ -20,11 +19,11 @@ const StyledDiamondCfyAsidePromo = styled.div`
     text-align: center;
     margin: 0 0 2rem;
 
-    ${tabletAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       font-size: var(--font-size-small);
       font-weight: var(--font-weight-medium);
       margin: 0 0 2.5rem;
-    `)}
+    }
   }
 
   .blocks {
@@ -37,9 +36,9 @@ const StyledDiamondCfyAsidePromo = styled.div`
       margin: 0;
 
       > div {
-        ${mobileOnly(`
+        @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
           margin: 0 !important;
-        `)}
+        }
       }
     }
 
@@ -48,10 +47,10 @@ const StyledDiamondCfyAsidePromo = styled.div`
       margin-top: 0.5rem !important;
       margin-bottom: 2rem !important;
 
-      ${tabletAndUp(`
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         margin-top: 0.5rem !important;
         margin-bottom: 0.5rem !important;
-      `)}
+      }
     }
 
     .video-wrapper {
@@ -72,12 +71,12 @@ const StyledDiamondCfyAsidePromo = styled.div`
       }
 
       > div:not(.media) {
-        ${mobileOnly(`
-          margin: 1.5rem auto !important;
+        @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+          margin: 0 auto !important;
           width: 25rem;
           text-align: left;
           display: block;
-        `)}
+        }
       }
     }
   }

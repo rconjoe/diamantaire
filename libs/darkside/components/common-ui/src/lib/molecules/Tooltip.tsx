@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef, useState } from 'react';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import { Tooltip as ReactToolTip } from 'react-tooltip';
 
 import StyledTooltip from './Tooltip.style';
@@ -17,7 +17,9 @@ const Tooltip: React.FC<TooltipProps> = ({ id, children, className, place }) => 
   const tooltipRef = useRef(null);
 
   const handleClick = (e) => {
-    if (e.relatedTarget !== tooltipRef.current) {
+    if (!tooltipRef.current || !tooltipRef.current.contains(e.target)) {
+      e.stopPropagation();
+
       setIsOpen(false);
 
       window.removeEventListener('click', handleClick);
@@ -25,23 +27,48 @@ const Tooltip: React.FC<TooltipProps> = ({ id, children, className, place }) => 
   };
 
   const handleToggleTooltip = () => {
-    setIsOpen(!isOpen);
+    const _isOpen = !isOpen;
+
+    setIsOpen(_isOpen);
+
+    if (_isOpen) window.addEventListener('click', handleClick);
   };
 
-  const handleOpenTooltip = () => {
+  const handleCloseTooltip = (e) => {
+    e.stopPropagation();
+
+    setIsOpen(false);
+
+    window.removeEventListener('click', handleClick);
+  };
+
+  const handleOpenTooltip = (e) => {
+    e.stopPropagation();
+
     setIsOpen(true);
 
     window.addEventListener('click', handleClick);
   };
 
+  useEffect(() => {
+    return () => {
+      window.removeEventListener('click', handleClick);
+    };
+  }, []);
+
   return (
     <StyledTooltip ref={tooltipRef}>
       <button
         data-tooltip-id={id}
-        className="tooltip-trigger"
+        className="tooltip-trigger tablet-and-up"
         onMouseEnter={handleOpenTooltip}
+        onMouseLeave={handleCloseTooltip}
         onClick={handleToggleTooltip}
       >
+        <span>i</span>
+      </button>
+
+      <button data-tooltip-id={id} className="tooltip-trigger mobile-only" onClick={handleToggleTooltip}>
         <span>i</span>
       </button>
 

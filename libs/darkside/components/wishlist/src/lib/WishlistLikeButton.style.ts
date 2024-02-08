@@ -25,8 +25,18 @@ export const StyledWishlistLikeButton = styled.div`
   }
 
   &.bundle {
-    top: 3rem;
-    right: 4rem;
+    top: 1rem;
+    right: 0;
+
+    @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+      top: 3rem;
+      right: 0;
+    }
+
+    @media (min-width: ${({ theme }) => theme.sizes.xl}) {
+      top: 3rem;
+      right: 5.5rem;
+    }
   }
 
   &.wishlist-page {
@@ -68,7 +78,12 @@ export const StyledWishlistLikeButton = styled.div`
     right: auto;
     top: auto;
     height: 2rem;
-
+    &.with-space {
+      right: 1rem;
+      &.with-space-small {
+        right: 0.5rem;
+      }
+    }
     svg {
       height: 2rem;
     }

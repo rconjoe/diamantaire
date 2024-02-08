@@ -44,7 +44,7 @@ const ModularContentQuadBlock = (props: ModularContentQuadBlock) => {
   }
 
   const block = (
-    <ModularContentQuadBlockContainer>
+    <ModularContentQuadBlockContainer className="container-wrapper">
       <div className="content-block__layout">
         <div className="content-block__title">
           {title && (

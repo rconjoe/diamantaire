@@ -11,10 +11,10 @@ export interface DiamondCtoDataProps {
   diamondCutUpgrade?: DiamondCtoDataTypes;
   diamondClarityUpgrade?: DiamondCtoDataTypes;
   diamondColorUpgrade?: DiamondCtoDataTypes;
+  diamondColorAndClarityUpgrade?: DiamondCtoDataTypes;
   diamondCutAndColorUpgrade?: DiamondCtoDataTypes;
   diamondCutAndClarityUpgrade?: DiamondCtoDataTypes;
-  diamondColorAndClarityUpgrade?: DiamondCtoDataTypes;
-  diamondColorAndCutAndClarityUpgrade?: DiamondCtoDataTypes;
+  diamondCutAndColorAndClarityUpgrade?: DiamondCtoDataTypes;
 }
 
 export function useDiamondCtoData(options: DiamondCtoOptionsDataTypes): UseQueryResult<DiamondCtoDataProps, unknown> {

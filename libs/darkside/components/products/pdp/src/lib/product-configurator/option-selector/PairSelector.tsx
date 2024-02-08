@@ -21,6 +21,7 @@ const PairSelector = ({
 }) => {
   const { locale } = useRouter();
   const { _t } = useTranslations(locale);
+
   const pairSelector = useMemo(() => {
     if (isSoldAsPairOnly) {
       return [

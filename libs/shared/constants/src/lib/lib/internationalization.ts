@@ -514,6 +514,7 @@ export function getFormattedPrice(
   excludeCurrency = false,
   // When we return the item from VRAI server, we need the exchange rate. When shopify returns it in checkout, we don't
   excludeExchangeRate = false,
+  shouldCeilPrice = false,
 ): string {
   const { countryCode } = parseValidLocale(locale);
 
@@ -523,7 +524,9 @@ export function getFormattedPrice(
 
   let finalPrice = getPriceWithAddedTax(convertedPrice, countryCode);
 
-  if (currency !== Currency.USDollars) {
+  if (excludeExchangeRate && !shouldCeilPrice) {
+    finalPrice = Math.floor(finalPrice);
+  } else if (currency !== Currency.USDollars || shouldCeilPrice) {
     finalPrice = Math.ceil(finalPrice);
   }
 

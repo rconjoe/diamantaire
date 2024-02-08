@@ -3,7 +3,6 @@ import { EAST_WEST_SHAPES } from '@diamantaire/shared/constants';
 import { generateIconImageUrl, getTranslatedName, iconLoader } from '@diamantaire/shared/helpers';
 import { getIconsForDiamondType } from '@diamantaire/shared/icons';
 import { OptionItemProps, OptionItemContainerProps } from '@diamantaire/shared/types';
-import { theme } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';

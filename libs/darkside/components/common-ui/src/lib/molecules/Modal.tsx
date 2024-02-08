@@ -17,11 +17,7 @@ const ModalStyles = styled.div`
   align-items: center;
   z-index: 10000;
   font-size: 1.6rem;
-  padding: 0 2rem;
-
-  @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-    padding: 0;
-  }
+  padding: 0;
 
   &.modal--lg {
     .wrapper {

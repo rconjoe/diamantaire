@@ -48,26 +48,10 @@ type FilterQueryValues = {
   subStyle?: string[];
 };
 
-const PlpStyles = styled.div`
-  #breadcrumb {
-    padding-top: 2rem;
-
-    @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
-      padding-top: 1rem;
-    }
-  }
-
-  .container-wrapper {
-    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-      max-width: 90vw;
-    }
-  }
-`;
+const PlpStyles = styled.div``;
 
 function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   const { productListFiltered } = useAnalytics();
-
-  const [pageLoaded, setPageLoaded] = useState(false);
 
   const [prevQuery, setPrevQuery] = useState(null);
 
@@ -194,8 +178,6 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
     return () => {
       setPrevQuery(query);
-
-      setPageLoaded(true);
     };
   }, [query]);
 
@@ -213,7 +195,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
       <PageViewTracker listPageData={listPageData} />
 
-      <Breadcrumb breadcrumb={refinedBreadcrumb} />
+      <Breadcrumb breadcrumb={refinedBreadcrumb} spacingType="containedWidth" />
 
       <PlpHeroBanner showHeroWithBanner={showHeroWithBanner} data={hero} />
 
@@ -243,10 +225,11 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
       />
 
       <div ref={pageEndRef} />
+      <div className="container-wrapper">
+        <PlpPreviouslyViewed />
 
-      <PlpPreviouslyViewed />
-
-      {category && plpSlug && <PlpBlockPicker category={category} plpSlug={plpSlug} />}
+        {category && plpSlug && <PlpBlockPicker category={category} plpSlug={plpSlug} />}
+      </div>
     </PlpStyles>
   );
 }
@@ -292,7 +275,6 @@ const createStaticProps = (category: string) => {
 
     const { plpSlug, ...qParams } = params;
 
-    // Render 404 if no plpSlug
     if (!plpSlug) {
       return {
         notFound: true,
@@ -300,6 +282,14 @@ const createStaticProps = (category: string) => {
     }
 
     const [slug, ...plpParams] = plpSlug;
+
+    const pageSlugs = await getAllPlpSlugs();
+
+    if (!pageSlugs.find((v) => v.slug === slug)) {
+      return {
+        notFound: true,
+      };
+    }
 
     // All ER PLPs use faceted nav
     if (category === 'engagement-rings') {

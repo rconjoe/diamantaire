@@ -38,12 +38,14 @@ import {
 } from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import {
+  capitalizeFirstLetter,
   generateDiamondSpriteImage,
   getCFYResultOptionsFromUrl,
   getDiamondType,
   getShipByDateCopy,
   specGenerator,
 } from '@diamantaire/shared/helpers';
+import { DiamondCtoDataTypes } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import clsx from 'clsx';
@@ -98,11 +100,11 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const defaultProduct = diamondCtoData['diamond'];
 
-  const [checkbox, setCheckbox] = useState([]);
+  const [checkbox, setCheckbox] = useState<('cut' | 'color' | 'clarity')[]>([]);
 
-  const [display, setDisplay] = useState('diamond');
+  const [product, setProduct] = useState<DiamondCtoDataTypes>(defaultProduct);
 
-  const [product, setProduct] = useState(defaultProduct);
+  const [display, setDisplay] = useState<string>('diamond');
 
   const { diamondType, carat, price } = product;
 
@@ -123,30 +125,16 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
   const handleUpgradeClick = (type: string) => {
-    let checkboxArray = [...checkbox];
+    const checkboxArray = updateCheckboxSelection(type, checkbox);
 
-    let selectedDisplay = 'diamond';
+    const checkboxArrayLen = checkboxArray.length;
 
-    const upgradeTypes = ['cut', 'color', 'clarity'];
-
-    upgradeTypes.forEach((upgradeType) => {
-      if (type === `diamond${capitalizeFirstLetter(upgradeType)}Upgrade`) {
-        checkboxArray = updateCheckboxSelection(upgradeType, checkboxArray);
-        selectedDisplay = checkboxArray.includes(upgradeType)
-          ? `diamond${capitalizeFirstLetter(upgradeType)}Upgrade`
-          : 'diamond';
-      }
-    });
-
-    const combinations = ['cut', 'color', 'clarity'];
-
-    combinations.forEach((combo) => {
-      if (combinations.every((item) => checkboxArray.includes(item))) {
-        selectedDisplay = `diamond${combo.replace(/(^|\s)\S/g, (l) => l.toUpperCase())}And${capitalizeFirstLetter(
-          combo,
-        )}Upgrade`;
-      }
-    });
+    const selectedDisplay =
+      checkboxArrayLen > 0
+        ? `${checkboxArray.reduce((a, v, i) => {
+            return a + (i > 0 ? 'And' : '') + capitalizeFirstLetter(v);
+          }, 'diamond')}Upgrade`
+        : 'diamond';
 
     setCheckbox(checkboxArray);
 
@@ -286,10 +274,11 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const continueLink = {
     url: isSettingFirstFlow
-      ? `/customize/setting-to-diamond/summary/${router.query.collectionSlug}/${router.query.productSlug}/${product.lotId}`
+      ? `/customize/setting-to-diamond/${router.query.collectionSlug}/${router.query.productSlug}/${product.lotId}/summary`
       : `/customize/diamond-to-setting/${product.lotId}`,
 
-    text: isSettingFirstFlow ? 'Complete your ring' : 'Select and add a setting',
+    // Translated in jsx
+    text: isSettingFirstFlow ? 'Complete & Review Your Ring' : 'Choose & Add a setting',
   };
 
   return (
@@ -385,7 +374,6 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
               <div className="primary-price">
                 <p>{formattedPrice}</p>
-
                 {getIsUserInEu() && (
                   <small>
                     <UIString>incl. VAT</UIString>
@@ -398,6 +386,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                   handleUpgradeClick={handleUpgradeClick}
                   diamondCtoData={diamondCtoData}
                   defaultProduct={defaultProduct}
+                  checkbox={checkbox}
                   product={product}
                   display={display}
                   locale={locale}
@@ -589,10 +578,24 @@ function getOverrides(href: string, classOverride?: string) {
   return overrides;
 }
 
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 function updateCheckboxSelection(value, checkboxArray) {
-  return checkboxArray.includes(value) ? checkboxArray.filter((v) => v !== value) : checkboxArray.concat(value);
+  const sortOrder = ['cut', 'color', 'clarity'];
+
+  const array = checkboxArray.includes(value) ? checkboxArray.filter((v) => v !== value) : checkboxArray.concat(value);
+
+  const sortedArray = array.sort((a, b) => {
+    const indexA = sortOrder.indexOf(a);
+
+    const indexB = sortOrder.indexOf(b);
+
+    if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+
+    if (indexA !== -1) return -1;
+
+    if (indexB !== -1) return 1;
+
+    return 0;
+  });
+
+  return sortedArray;
 }

@@ -53,7 +53,6 @@ const StyledTooltip = styled.div`
   }
 
   .tooltip-trigger {
-    display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
@@ -65,12 +64,20 @@ const StyledTooltip = styled.div`
     position: relative;
     background: transparent;
 
-    &:after {
-      content: '';
-      background: transparent;
-      width: 3rem;
-      height: 3rem;
-      position: absolute;
+    &.mobile-only {
+      display: flex;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        display: none;
+      }
+    }
+
+    &.desktop-and-up {
+      display: none;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        display: flex;
+      }
     }
 
     * {
@@ -78,6 +85,8 @@ const StyledTooltip = styled.div`
       font-family: var(--font-family-main);
       text-transform: none;
       color: var(--color-grey);
+      display: block;
+      line-height: 1rem;
     }
 
     &:hover {

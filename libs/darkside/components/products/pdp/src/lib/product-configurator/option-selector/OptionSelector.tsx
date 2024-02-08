@@ -76,7 +76,7 @@ const StyledOptionSelector = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: no-wrap;
-    gap: 0.25rem;
+    gap: 0.5rem;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -134,6 +134,8 @@ const StyledOptionSelector = styled.div`
         max-width: 3.8rem;
         max-height: 3.8rem;
         min-width: unset;
+        display: flex;
+        justify-content: center;
       }
     }
 

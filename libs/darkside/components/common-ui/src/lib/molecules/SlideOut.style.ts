@@ -46,6 +46,7 @@ export const SlideOutWrapper = styled(motion.aside)`
 
   .title {
     font-size: var(--font-size-medium);
+    text-transform: capitalize;
   }
 
   &.slideout--shop-the-look .title {

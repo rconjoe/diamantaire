@@ -16,7 +16,15 @@ const ProductTitleStyles = styled.h1`
   }
 `;
 
-export function ProductTitle({ title, productType, diamondType, override }) {
+type ProductTitleProps = {
+  title: string;
+  productType: string;
+  diamondType: string;
+  override?: string;
+  className?: string;
+};
+
+export function ProductTitle({ title, productType, diamondType, override, className }: ProductTitleProps) {
   const { locale } = useRouter();
   const { _t } = useTranslations(locale);
   const { languageCode: selectedLanguageCode } = parseValidLocale(locale);
@@ -29,5 +37,9 @@ export function ProductTitle({ title, productType, diamondType, override }) {
     [capitalizeFirstLetter(_t(productType))],
   ).toString();
 
-  return <ProductTitleStyles>{override && override !== '' ? refinedOverride : refinedTitle}</ProductTitleStyles>;
+  return (
+    <ProductTitleStyles className={className}>
+      {override && override !== '' ? refinedOverride : refinedTitle}
+    </ProductTitleStyles>
+  );
 }

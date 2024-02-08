@@ -10,10 +10,11 @@ const ProductTrioBlocksContainer = styled.div`
   ${contentBlockMargin}
   display: grid;
   gap: 2rem;
+  max-width: var(--max-width-small);
   ${media.medium`
     grid-template-columns: repeat(3, 1fr);
     gap: 2.5rem;
-    `}
+    `};
 `;
 
 const ProductTrioBlocks = ({ trioBlocksId }) => {

@@ -6,6 +6,7 @@ query diamondPdpQuery($locale: SiteLocale) {
     id
     header
     productTitle
+    fullProductTitle
     carat
     cut
     color

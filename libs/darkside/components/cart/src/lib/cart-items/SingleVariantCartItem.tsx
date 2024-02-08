@@ -141,12 +141,10 @@ const SingleVariantCartItem = ({
   }, [attributes]);
 
   const productType = useMemo(() => {
-    let matchingAttribute =
-      locale === 'en-US'
-        ? attributes?.find((attr) => attr.key === '_productType')?.value
-        : attributes?.find((attr) => attr.key === '_productTypeTranslated')?.value;
+    const matchingEnglishProductTypeAttribute = attributes?.find((attr) => attr.key === '_productType')?.value;
+    let matchingProductTypeAttribute = attributes?.find((attr) => attr.key === '_productTypeTranslated')?.value;
 
-    if (matchingAttribute === 'Earrings') {
+    if (matchingEnglishProductTypeAttribute === 'Earrings') {
       // Check if Earrings product has child. If so, it's a pair
       const childProduct = attributes?.find((attr) => attr.key === 'childProduct')?.value;
       const isLeftOrRight = attributes?.find((attr) => attr.key === 'leftOrRight')?.value;
@@ -154,15 +152,15 @@ const SingleVariantCartItem = ({
       if (isLeftOrRight?.toLowerCase() === 'left' || isLeftOrRight?.toLowerCase() === 'right') {
         const capitalizedDirection = isLeftOrRight.charAt(0).toUpperCase() + isLeftOrRight.slice(1);
 
-        matchingAttribute += ' (' + _t(capitalizedDirection) + ')';
+        matchingProductTypeAttribute += ' (' + _t(capitalizedDirection) + ')';
       } else if (childProduct) {
-        matchingAttribute += ' (' + _t('Pair') + ')';
+        matchingProductTypeAttribute += ' (' + _t('Pair') + ')';
       } else {
-        matchingAttribute += ' (' + _t('Single') + ')';
+        matchingProductTypeAttribute += ' (' + _t('Single') + ')';
       }
     }
 
-    return matchingAttribute;
+    return matchingProductTypeAttribute;
   }, [attributes]);
 
   const productTitle = useMemo(() => {
@@ -317,7 +315,14 @@ const SingleVariantCartItem = ({
 
   // The price needs to be combined in the case of two identical earrings
 
-  const totalPrice = getFormattedPrice(parseFloat(price) * 100, locale, true, false, countryCode === 'GB');
+  const totalPrice = getFormattedPrice(
+    parseFloat(price) * (countryCode !== 'US' ? quantity : 1) * 100,
+    locale,
+    true,
+    false,
+    countryCode === 'GB',
+    true,
+  );
 
   return (
     <SingleVariantCartItemStyles>

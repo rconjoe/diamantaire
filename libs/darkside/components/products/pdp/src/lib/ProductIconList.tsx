@@ -4,6 +4,7 @@ import { parseValidLocale } from '@diamantaire/shared/constants';
 import { getFormattedShipByDate } from '@diamantaire/shared/helpers';
 import { DropHintIcon, InfoIcon } from '@diamantaire/shared/icons';
 import { generateProductUrl } from '@diamantaire/shared-product';
+import clsx from 'clsx';
 import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -38,6 +39,10 @@ const ProductIconListContainer = styled.div`
         .text {
           font-size: 1.7rem;
         }
+      }
+
+      &.shippingAlt {
+        margin-top: 0.45rem;
       }
 
       a {
@@ -169,6 +174,7 @@ const ProductIconList = ({
           </li>
         )}
       </ul>
+
       <AnimatePresence>
         {isDiamondSlideoutOpen && (
           <SlideOut title={slideoutContent?.title} onClose={() => setIsDiamondSlideoutOpen(false)}>
@@ -199,7 +205,7 @@ const ShippingListItem = ({ item, isCfy, isCaratLessThanFive }) => {
   } = item || {};
 
   const { locale } = useRouter();
-  const { countryCode } = parseValidLocale(locale);
+  const { countryCode, languageCode } = parseValidLocale(locale);
 
   const businessDays =
     countryCode === 'US'
@@ -220,7 +226,12 @@ const ShippingListItem = ({ item, isCfy, isCaratLessThanFive }) => {
   return (
     <>
       {/* Shipping */}
-      <li className={isCfy ? 'cfy' : ''}>
+      <li
+        className={clsx({
+          cfy: isCfy ? 'cfy' : '',
+          shippingAlt: languageCode === 'es',
+        })}
+      >
         <span className="icon">
           {icon && (
             <DatoImage

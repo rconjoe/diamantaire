@@ -58,10 +58,6 @@ type ProductConfiguratorProps = {
   engravingText?: string;
   setEngravingText?: (value: string) => void;
   productIconListType?: string;
-  settingSlugs?: {
-    collectionSlug: string;
-    productSlug: string;
-  };
   setProductSlug: (_value: string) => void;
   trackInventory?: boolean;
   parentProductAttributes?: Record<string, string>;
@@ -109,7 +105,6 @@ function ProductConfigurator({
   engravingText,
   setEngravingText,
   productIconListType,
-  settingSlugs,
   setProductSlug,
   parentProductAttributes,
   isProductFeedUrl,
@@ -184,9 +179,8 @@ function ProductConfigurator({
         <DarksideButton
           onClick={() =>
             router.push(
-              `/customize/diamond-to-setting/summary/${builderProduct?.diamonds
-                .map((diamond) => diamond?.lotId)
-                .join('/')}/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`,
+              `/customize/diamond-to-setting/${builderProduct?.diamonds.map((diamond) => diamond?.lotId).join('/')}/${router
+                .query?.collectionSlug}/${router.query?.productSlug}/summary`,
             )
           }
         >
@@ -707,8 +701,11 @@ function AddToCartButton({
               select_shape: diamondType,
               diamond_type: diamondType,
             });
+
+            const isToiMoi = router.asPath.includes('toi-moi');
+
             router.push(
-              `/customize/setting-to-diamond/${isSoldAsDouble && selectedPair === 'pair' ? 'pair/' : ''}${
+              `/customize/setting-to-diamond/${(isSoldAsDouble && selectedPair === 'pair') || isToiMoi ? 'pairs/' : ''}${
                 router.query.collectionSlug
               }/${router.query.productSlug}/`,
             );

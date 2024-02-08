@@ -44,7 +44,7 @@ const FooterStyles = styled.footer`
   border-top: 0.1rem solid #ddd;
 
   .footer__column-wrapper {
-    max-width: 118rem;
+    max-width: var(--max-width-small);
     margin: 0 auto;
     display: flex;
 

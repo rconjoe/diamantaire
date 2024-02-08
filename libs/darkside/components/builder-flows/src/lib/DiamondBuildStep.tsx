@@ -1,6 +1,6 @@
 import { DarksideButton, Heading, ShowTabletAndUpOnly, UIString } from '@diamantaire/darkside/components/common-ui';
 import { DiamondFilter, DiamondPromo, DiamondTable } from '@diamantaire/darkside/components/diamonds';
-import { useDiamondsData } from '@diamantaire/darkside/data/hooks';
+import { useDiamondTableData, useDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
 import { getDiamondShallowRoute } from '@diamantaire/shared/helpers';
 import { motion } from 'framer-motion';
@@ -25,7 +25,7 @@ const DiamondBuildStepStyles = styled(motion.div)`
   }
 
   .table-container {
-    padding: 4rem 2rem;
+    padding: 4rem 0rem;
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       display: flex;
     }
@@ -34,8 +34,11 @@ const DiamondBuildStepStyles = styled(motion.div)`
       @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
         flex: 0 0 450px;
         padding-right: 5rem;
-        top: 55px;
         height: 100vh;
+      }
+
+      @media (min-width: ${({ theme }) => theme.sizes.xl}) {
+        top: 55px;
         position: sticky;
       }
     }
@@ -55,7 +58,7 @@ const DiamondBuildStepStyles = styled(motion.div)`
       &.desktop {
         display: none;
         @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-          margin-bottom: 6rem;
+          margin-bottom: 3rem;
           display: block;
         }
       }
@@ -63,7 +66,8 @@ const DiamondBuildStepStyles = styled(motion.div)`
   }
 
   .vo-filter-clear-button {
-    margin: 2rem 0 0;
+    margin: 1rem 0 0;
+
     button {
       font-size: var(--font-size-xxxsmall);
       font-weight: var(--font-weight-normal);
@@ -89,7 +93,7 @@ const DiamondBuildStep = ({
   updateSettingSlugs,
 }: DiamondBuildStepProps) => {
   const router = useRouter();
-  const { asPath, query } = router;
+  const { asPath, query, locale } = router;
 
   const defaultInitialOptions = {
     caratMin: 1,
@@ -147,6 +151,10 @@ const DiamondBuildStep = ({
   const [activeRow, setActiveRow] = useState(null);
 
   const { data: { diamonds, pagination, ranges } = {} } = useDiamondsData({ ...options });
+
+  const { data: diamondTableData } = useDiamondTableData(locale);
+  const { diamondTable } = diamondTableData || {};
+  const { clearFiltersButtonCopy } = diamondTable || {};
 
   const updateLoading = (newState) => {
     setLoading(newState);
@@ -278,12 +286,11 @@ const DiamondBuildStep = ({
                 loading={loading}
                 options={options}
                 ranges={ranges}
-                locale={router?.locale || DEFAULT_LOCALE}
                 availableDiamonds={availableDiamonds}
               />
 
               <DarksideButton type="underline" colorTheme="teal" className="vo-filter-clear-button" onClick={clearOptions}>
-                <UIString>Clear filters</UIString>
+                {clearFiltersButtonCopy}
               </DarksideButton>
 
               <ShowTabletAndUpOnly>{router?.locale && <DiamondPromo locale={router?.locale} />}</ShowTabletAndUpOnly>
@@ -324,5 +331,7 @@ const DiamondBuildStep = ({
     </DiamondBuildStepStyles>
   );
 };
+
+// DiamondBuildStep.getTemplate = getStandardTemplate;
 
 export default DiamondBuildStep;

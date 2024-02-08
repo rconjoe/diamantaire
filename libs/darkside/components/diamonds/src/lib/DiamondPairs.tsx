@@ -16,12 +16,14 @@ type DiamondPairCellProps = {
 };
 
 export const DiamondPairCell = ({ diamonds, accessorKey, renderValue }: DiamondPairCellProps) => {
-  const values = diamonds.map((d) => d[accessorKey]);
+  // Don't show duplicate diamondType values
+  const values =
+    accessorKey === 'diamondType' ? [...new Set(diamonds.map((d) => d[accessorKey]))] : diamonds.map((d) => d[accessorKey]);
 
   return (
     <StyledDiamondPairCell>
       {values.map((v, i) => (
-        <div key={i.toString()}>{renderValue ? renderValue(v) : v}</div>
+        <div key={i.toString()}>{renderValue ? renderValue(v) : <UIString>{v}</UIString>}</div>
       ))}
     </StyledDiamondPairCell>
   );
@@ -29,17 +31,14 @@ export const DiamondPairCell = ({ diamonds, accessorKey, renderValue }: DiamondP
 
 export const DiamondPairActiveRow = ({
   diamonds,
-  locale,
   isBuilderFlowOpen,
 }: {
-  locale: string;
   diamonds: DiamondDataTypes[];
   isBuilderFlowOpen: boolean;
 }) => {
-  console.log('pair active');
-
   const [diamond1, diamond2] = diamonds;
 
+  const { locale } = useRouter();
   const { data: { diamondTable: { specs, origin: originValue } = {} } = {} } = useDiamondTableData(locale);
 
   const originLabel = (specs && Object.values(specs).find((v) => v.key === 'origin').value) || null;
@@ -49,22 +48,39 @@ export const DiamondPairActiveRow = ({
   const { updateFlowData, builderProduct } = useContext(BuilderProductContext);
   const router = useRouter();
 
+  function getToiMoiShapeProductSlug(builderProduct, diamonds) {
+    // Extract the list of available diamond types from the builder product
+    const availableDiamondTypes = builderProduct?.product?.optionConfigs?.diamondType;
+
+    // Check if every diamond's type is included in the available diamond types
+    const final = availableDiamondTypes.find((diamondType) =>
+      diamonds.every((diamond) => diamondType.value.includes(diamond.diamondType)),
+    );
+
+    return final?.id;
+  }
+
   const handleSelectDiamond = () => {
-    // TODO: add handler
-    console.log(`handleSelectDiamond`, diamonds);
-    // updateUrlParameter('lotId', product.lotId);
     updateFlowData('ADD_DIAMOND', diamonds);
 
     // By pair, we mean two diamonds with the same lotId
-    const isPair = router?.asPath.includes('/pair');
-    const lotIdSlug = diamonds?.map((diamond) => diamond?.lotId).join('/');
+    const isPair = router?.asPath.includes('/pairs/');
+    const lotIdSlug = diamonds?.map((diamond) => diamond?.lotId).join(',');
 
-    console.log('lotIdSlug', lotIdSlug);
+    const toiMoiProductSlug = getToiMoiShapeProductSlug(builderProduct, diamonds);
 
-    router.push(
-      `/customize/setting-to-diamond${isPair ? '/pair' : ''}/summary/${builderProduct?.product
-        ?.collectionSlug}/${builderProduct?.product?.productSlug}/${lotIdSlug}`,
-    );
+    const isToiMoi = router.asPath.includes('toi-moi');
+
+    // If the user changes their shape, we want to link back to the respective setting
+    const productShapeId = isToiMoi
+      ? toiMoiProductSlug
+      : builderProduct?.product?.optionConfigs?.diamondType?.find((option) => option.value === diamondType)?.id ||
+        router?.query?.productSlug;
+
+    // This is an anti=pattern but we need it for builder flow actions (or data doesn't propagate properly)
+    window.location.href = `${window.location.origin}/${locale}/customize/setting-to-diamond${
+      isPair ? '/pairs' : ''
+    }/${builderProduct?.product?.collectionSlug}/${productShapeId}/${lotIdSlug}/summary`;
   };
 
   return (

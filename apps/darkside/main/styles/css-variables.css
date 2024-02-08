@@ -1,6 +1,7 @@
 :root {
   --gutter: 5rem;
   --space-gutter: 0.8rem;
+  --margin-gutter: 1rem;
   --toastify-toast-width: 40rem;
   --toastify-color-progress-light: #719093;
 
@@ -43,4 +44,7 @@
   --z-index-nav: 40;
   --z-index-filter: 50;
   --z-index-modal: 60;
+
+  --max-width-small: 118rem;
+  --max-width-medium: 144rem;
 }

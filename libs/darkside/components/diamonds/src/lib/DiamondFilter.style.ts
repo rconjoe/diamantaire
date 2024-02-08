@@ -1,4 +1,3 @@
-import { desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondFilter = styled.aside`
@@ -33,11 +32,11 @@ const StyledDiamondFilter = styled.aside`
 
   .vo-filter-radio .vo-filter-list {
     justify-content: flex-start;
-    gap: 0.5rem;
+    gap: 0.25rem;
 
-    ${desktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       gap: 1rem;
-    `)}
+    }
   }
 
   .vo-filter-radio,
@@ -109,23 +108,23 @@ const StyledDiamondFilter = styled.aside`
     .vo-filter-list-item:nth-child(1) {
       width: 6.6rem;
 
-      ${tabletAndUp(`
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         width: 7rem;
-      `)}
+      }
     }
     .vo-filter-list-item:nth-child(2) {
       width: 8.9rem;
 
-      ${tabletAndUp(`
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         width: 10rem;
-      `)}
+      }
     }
     .vo-filter-list-item:nth-child(3) {
       width: 7.1rem;
 
-      ${tabletAndUp(`
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         width: 8rem;
-      `)}
+      }
     }
   }
 
@@ -153,11 +152,11 @@ const StyledDiamondFilter = styled.aside`
         padding-left: 10px;
       }
 
-      ${tabletAndUp(`
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         display: flex;
         white-space: normal;
         gap: 1.5rem;
-      `)}
+      }
     }
 
     .vo-filter-list-item {
@@ -172,9 +171,9 @@ const StyledDiamondFilter = styled.aside`
         padding: 0 0 0 0.5rem;
       }
 
-      ${tabletAndUp(`
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         display: flex;
-      `)}
+      }
 
       &.active button,
       &.active a,
@@ -183,19 +182,18 @@ const StyledDiamondFilter = styled.aside`
         padding: 0 0.8rem;
         border: 0;
 
-        ${tabletAndUp(`
+        @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
           padding: 0;
-        `)}
+        }
       }
 
       &.active:after {
         content: '';
         border-bottom: 0.2rem solid var(--color-teal);
         position: absolute;
-        margin-left: -1.2rem;
         bottom: -0.8rem;
-        width: 2.4rem;
-        left: 50%;
+        width: 100%;
+        left: 0;
       }
 
       svg {

@@ -17,7 +17,9 @@ export const MarkdownContainer = styled.div`
     p {
       font-weight: var(--font-weight-normal);
       font-size: var(--font-size-xsmall);
-      margin: 2rem 0;
+      p:not(:last-child) {
+        margin-bottom: 2rem;
+      }
     }
 
     h1 {
@@ -86,16 +88,8 @@ export const MarkdownContainer = styled.div`
       ${media.medium`max-width: 714px`}
       &.-vrai-created-diamond {
         margin: 0 auto;
-        p {
-          margin: 10px 0;
-        }
-
-        p:first-child {
-          margin: 20px 0 10px 0;
-        }
-
-        p:last-child {
-          margin: 10px 0 20px;
+        p:not(:last-child) {
+          margin-bottom: 1rem;
         }
       }
       &.-snug-center-copy {

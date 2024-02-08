@@ -4,6 +4,7 @@ import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getLocalStorageWishlist } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';
 import { useEffect, useState, useContext } from 'react';
+import { createPortal } from 'react-dom';
 
 import { WishListNoResultItem } from './WishlistNoResultItem';
 import { WishlistProductItem } from './WishlistProductItem';
@@ -127,26 +128,30 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({
         </UniLink>
       )}
 
-      {openShareWishlistModal && (
-        <WishlistShareModal
-          title={content?.shareWishlistModalTitle}
-          subtitle={content?.shareWishlistModalSubtitle}
-          onClose={handleModalClose}
-          locale={locale}
-          successMessage={content?.sharedWishlistFormSuccessMessage}
-        />
-      )}
+      {openShareWishlistModal &&
+        createPortal(
+          <WishlistShareModal
+            title={content?.shareWishlistModalTitle}
+            subtitle={content?.shareWishlistModalSubtitle}
+            onClose={handleModalClose}
+            locale={locale}
+            successMessage={content?.sharedWishlistFormSuccessMessage}
+          />,
+          document.getElementById('vrai-site'),
+        )}
 
-      {openDropHintModal && (
-        <DropHintModal
-          title={_t('Drop a hint')}
-          subtitle={content?.shareWishlistModalSubtitle}
-          onClose={handleModalClose}
-          locale={locale}
-          productImage={dropHintData?.image || ''}
-          productLink={dropHintData?.link || ''}
-        />
-      )}
+      {openDropHintModal &&
+        createPortal(
+          <DropHintModal
+            title={_t('Drop a hint')}
+            subtitle={content?.shareWishlistModalSubtitle}
+            onClose={handleModalClose}
+            locale={locale}
+            productImage={dropHintData?.image || ''}
+            productLink={dropHintData?.link || ''}
+          />,
+          document.getElementById('vrai-site'),
+        )}
     </>
   );
 

@@ -1,4 +1,3 @@
-import { desktopAndUp, mobileOnly, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondTable = styled.div`
@@ -6,11 +5,11 @@ const StyledDiamondTable = styled.div`
   display: block;
   margin: 3rem -2.5rem 0;
 
-  ${tabletAndUp(`
+  @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
     width: 100%;
     display: flex;
     margin: 0;
-  `)}
+  }
 
   .vo-table-container {
     display: flex;
@@ -48,9 +47,9 @@ const StyledDiamondTable = styled.div`
     position: relative;
     width: 16%;
 
-    ${desktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       padding: 1.5rem 2rem;
-    `)}
+    }
   }
 
   .vo-table-cell:nth-child(1),
@@ -99,10 +98,10 @@ const StyledDiamondTable = styled.div`
     font-size: var(--font-size-xxxxsmall);
     font-weight: var(--font-weight-medium);
 
-    ${tabletAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       background: var(--color-lightest-grey) !important;
       padding: 1rem 2rem;
-    `)}
+    }
   }
 
   .vo-table-head .vo-table-cell:last-child {
@@ -126,16 +125,21 @@ const StyledDiamondTable = styled.div`
     cursor: pointer;
     width: 100%;
 
-    ${mobileOnly(`
+    @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
       min-height: 5.2rem;
-    `)}
+    }
   }
 
-  .vo-table-body .vo-table-row.active,
+  .vo-table-body .vo-table-row.active {
+    color: var(--color-white);
+  }
+
   .vo-table-body .vo-table-row-head:hover,
   .vo-table-body .vo-table-row-head:focus {
-    background-color: var(--color-teal);
-    color: var(--color-white);
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      background-color: var(--color-teal);
+      color: var(--color-white);
+    }
   }
 
   .vo-table-body .vo-table-row.active {
@@ -221,9 +225,9 @@ const StyledDiamondTable = styled.div`
     align-items: center;
     justify-content: center;
 
-    ${tabletAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       margin-left: 1rem;
-    `)}
+    }
 
     .arrow-up {
       opacity: 0;
@@ -274,9 +278,9 @@ const StyledDiamondTable = styled.div`
   .vo-table-no-result-container {
     padding: 0 2.5rem;
 
-    ${tabletAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       padding: 0;
-    `)}
+    }
 
     p {
       font-size: var(--font-size-xxxsmall);
@@ -355,9 +359,9 @@ const StyledDiamondTable = styled.div`
     font-size: var(--font-size-xxsmall);
     width: 100%;
 
-    ${tabletAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       width: 30rem;
-    `)}
+    }
   }
 
   .vo-loader-icon {

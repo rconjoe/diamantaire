@@ -120,7 +120,6 @@ export const PlpProductFilterStyles = styled.div`
   }
 
   .filter-option-set {
-    padding: 1rem 0.4rem 0;
     overflow-x: auto;
     max-width: 100%;
 
@@ -164,9 +163,14 @@ export const PlpProductFilterStyles = styled.div`
       button {
         border-bottom: 0.2rem solid transparent;
 
-        &:hover,
         &.active {
           border-color: var(--color-teal);
+        }
+
+        @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+          &:hover {
+            border-color: var(--color-teal);
+          }
         }
       }
     }

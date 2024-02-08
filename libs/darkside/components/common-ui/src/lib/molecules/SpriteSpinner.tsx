@@ -16,7 +16,10 @@ const SpritSpinnerContainer = styled.div`
   }
 
   .spritespin-instance {
-    min-height: 100%;
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      min-height: 100%;
+      min-width: 100%;
+    }
   }
 
   span {
