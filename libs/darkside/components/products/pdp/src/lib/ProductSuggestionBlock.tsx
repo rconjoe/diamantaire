@@ -38,7 +38,9 @@ const ProductSuggestionBlockStyles = styled.div`
 
 const ProductSuggestionBlock = ({ id }) => {
   const { locale } = useRouter();
+
   const { data: { productSuggestionQuadBlock } = {} } = useProductSuggestions(id, locale);
+
   const content = productSuggestionQuadBlock?.content?.[0];
 
   const { aboveCopy } = content || {};
@@ -54,7 +56,7 @@ const ProductSuggestionBlock = ({ id }) => {
       : configurationNode?.configuration?.shopifyProductHandle;
   });
 
-  const { data } = useBlockProducts(productHandles);
+  const { data } = useBlockProducts(productHandles, locale);
 
   const { products, lowestPricesByCollection } = data || {};
 

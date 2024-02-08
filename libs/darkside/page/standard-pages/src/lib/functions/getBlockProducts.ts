@@ -3,17 +3,20 @@ import { NextApiResponse } from 'next';
 
 type GetBlockProductsOptions = {
   apiUrl: string;
+  locale: string;
 };
 
 export default async function getBlockProducts(options: GetBlockProductsOptions, res: NextApiResponse) {
   setApiRouteCacheHeader(res);
 
-  const { apiUrl } = options;
+  const { apiUrl, locale } = options;
+
+  const endpoint = `${apiUrl}&locale=${locale}`;
 
   let response;
 
   try {
-    response = await vraiApiClient.get(apiUrl);
+    response = await vraiApiClient.get(endpoint);
   } catch (error) {
     console.log({ getBlockProducts: error });
   }

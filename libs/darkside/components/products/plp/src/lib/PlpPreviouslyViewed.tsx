@@ -1,8 +1,8 @@
 import { DatoImage, Heading, UIString } from '@diamantaire/darkside/components/common-ui';
-import { useBlockProducts } from '@diamantaire/darkside/data/hooks';
+import { useBlockProducts, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { ArrowRightIcon } from '@diamantaire/shared/icons';
-import { ProductLink } from '@diamantaire/shared-product';
+import { ProductLink, createPlpTitle } from '@diamantaire/shared-product';
 import { contentBlockMargin } from '@diamantaire/styles/darkside-styles';
 import useEmblaCarousel from 'embla-carousel-react';
 import { useRouter } from 'next/router';
@@ -90,7 +90,10 @@ const PlpPreviouslyViewedStyles = styled.section`
 
 const PlpPreviouslyViewed = () => {
   const [handles, setHandles] = useState([]);
+
   const { locale } = useRouter();
+
+  const { _t } = useTranslations(locale);
 
   // fetch previously viewed products
   function fetchPreviouslyViewed() {
@@ -107,7 +110,7 @@ const PlpPreviouslyViewed = () => {
     setHandles(handlesArray);
   }
 
-  const { data } = useBlockProducts(handles);
+  const { data } = useBlockProducts(handles, locale);
 
   const { products, lowestPricesByCollection } = data || {};
 
@@ -123,6 +126,7 @@ const PlpPreviouslyViewed = () => {
       '(min-width: 76.8rem)': { align: 'start' },
     },
   };
+
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
   // if they haven't seen anything, hide the block
@@ -160,7 +164,24 @@ const PlpPreviouslyViewed = () => {
                 );
 
                 const product = productNode?.product;
+
                 const content = productNode?.content;
+
+                const useProductTitleOnly = true;
+
+                const isMultiShape = product?.configuration?.diamondType?.includes('+') || false;
+
+                const generatedTitle = createPlpTitle(
+                  _t('%%title%% %%shape%% in'),
+                  content.productTitle,
+                  content.plpTitle,
+                  {
+                    diamondType: _t(product.configuration.diamondType),
+                    metal: _t(product.configuration.metal),
+                  },
+                  isMultiShape,
+                  useProductTitleOnly,
+                );
 
                 return (
                   <div className="product__container embla__slide" key={product?._id}>
@@ -173,7 +194,7 @@ const PlpPreviouslyViewed = () => {
                         <div className="product__image">{content?.plpImage && <DatoImage image={content.plpImage} />}</div>
                         <div className="product__content">
                           <Heading type="h3" className="secondary product-suggestion__title">
-                            {product?.collectionTitle}
+                            {generatedTitle}
                           </Heading>
                           <p>|</p>
                           <p>{getFormattedPrice(lowestPricesByCollection[product?.collectionSlug], locale)}+</p>
