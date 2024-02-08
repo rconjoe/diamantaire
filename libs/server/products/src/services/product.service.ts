@@ -1704,8 +1704,8 @@ export class ProductsService {
 
       return [...response.allConfigurations, ...response.allOmegaProducts];
     } catch (err) {
-      this.logger.debug(`Cannot retrieve configurations and products for ${slug}`);
-      throw new InternalServerErrorException(`Cannot retrieve configurations and products for ${slug}`, err);
+      this.logger.debug(`Cannot retrieve configurations and products for ${slug}: ${JSON.stringify(err)}`);
+      throw new InternalServerErrorException(`Cannot retrieve configurations and products for ${slug} : ${JSON.stringify(err)}`);
     }
   }
 
