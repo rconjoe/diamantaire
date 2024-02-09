@@ -651,7 +651,7 @@ const SettingToDiamondSummaryPage = () => {
       ringSize: selectedSize?.value,
       bandAccent: refinedBandAccent,
       totalPrice: (shopifyProductData.price + diamondPrice).toString(),
-      productCategory: settingType === 'engagement-ring' ? 'Setting' : productType ? productType : 'Setting',
+      productCategory: settingType === 'engagement-ring' ? _t('Setting') : productType ? productType : 'Setting',
       _dateAdded: Date.now().toString(),
       shippingBusinessDays: isDiamondCFY ? cfyShippingTime?.toString() : shippingTime?.toString(),
 
