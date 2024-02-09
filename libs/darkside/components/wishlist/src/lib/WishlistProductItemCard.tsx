@@ -322,7 +322,7 @@ const CardBundle: React.FC<CardBundleProps> = ({
                 <Image
                   key={1}
                   alt={diamondType}
-                  src={generateDiamondSpriteImage(diamondType)}
+                  src={generateDiamondSpriteImage({ diamondID: lotId, diamondType })}
                   sizes="100vw"
                   height={0}
                   width={0}
