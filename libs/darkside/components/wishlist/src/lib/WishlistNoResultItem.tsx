@@ -12,7 +12,9 @@ const WishListNoResultItem: React.FC<{
     <div className="item">
       <UniLink route={itemUrl}>
         <div className="media">
-          <Image alt={itemTitle} src={url} width={245} height={245} style={{ aspectRatio: `1/1` }} />
+          <div style={{ display: 'block', aspectRatio: `1/1` }}>
+            <Image alt={itemTitle} src={url} width={245} height={245} style={{ aspectRatio: `1/1` }} />
+          </div>
         </div>
         <div className="text">
           <div className="title">{itemTitle}</div>
