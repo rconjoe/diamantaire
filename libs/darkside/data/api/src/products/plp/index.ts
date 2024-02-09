@@ -93,7 +93,9 @@ export async function getVRAIServerPlpData(
       .then((res) => {
         return res.json();
       })
-      .then((res) => res);
+      .then((res) => {
+        return res;
+      });
 
     return response;
   } catch (err) {

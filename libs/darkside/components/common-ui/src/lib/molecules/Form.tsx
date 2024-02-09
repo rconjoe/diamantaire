@@ -36,13 +36,13 @@ type FormProps = {
   ctaCopy?: string;
   optInCopy?: string;
   extraClass?: string;
-  isValid?: boolean;
   setIsValid?: (state: boolean) => void;
   gridStyle?: 'single' | 'split';
   emailPlaceholderText?: string;
   flexDirection?: 'column' | 'row';
   isSuccessful?: boolean;
   formSubmissionResult?: string;
+  isValid?: boolean;
 };
 
 type FormStateType = {
@@ -153,7 +153,9 @@ const FormContainer = styled.div<{
   .input-opt-in {
     width: 100%;
     position: relative;
+
     input[type='checkbox'] {
+      cursor: pointer;
       width: 1.3rem;
       height: 1.3rem;
       appearance: none;
@@ -173,11 +175,12 @@ const FormContainer = styled.div<{
       transition: 120ms transform ease-in-out;
       box-shadow: inset 1.3rem 1.3rem currentColor;
     }
-    /* Check styling */
+
     input[type='checkbox']:checked {
       &::before {
         transform: scale(1);
       }
+
       &::after {
         content: '';
         display: inline-block;
@@ -188,8 +191,6 @@ const FormContainer = styled.div<{
         border-bottom: 1.75px solid;
         transform: rotate(-45deg);
         border-color: white;
-
-        /* Placement of check */
         left: 1px;
         top: 8px;
       }
@@ -202,6 +203,7 @@ const FormContainer = styled.div<{
       }
     }
   }
+
   ${({ extraClass }) =>
     extraClass === '-modular-block' &&
     `
@@ -223,13 +225,13 @@ const Form = ({
   ctaCopy = 'Submit',
   optInCopy,
   extraClass,
-  isValid,
   setIsValid,
   emailPlaceholderText = 'Enter your email',
   headingType = 'h4',
   flexDirection,
   isSuccessful,
   formSubmissionResult,
+  isValid,
 }: FormProps) => {
   const { locale } = useRouter();
 
@@ -242,6 +244,7 @@ const Form = ({
   const [allRegions, setAllRegions] = useState(initialCountryCode ? getRegions(initialCountryCode) : []);
   const isUserInUs = getIsUserInUs();
   const initialFormState = { isConsent: isUserInUs };
+  const showGdprError = showOptIn && !isValid;
 
   schema?.forEach((field) => {
     if (field.inputType === 'state-dropdown') {
@@ -260,8 +263,6 @@ const Form = ({
 
     setFormState((prevState) => ({ ...prevState, [name]: value }));
   };
-
-  const showGdprError = showOptIn && !isValid;
 
   useEffect(() => {
     const regions = getRegions(formState.country_code);
@@ -396,17 +397,19 @@ const Form = ({
               })}
             >
               <input
+                id="optin"
                 type="checkbox"
                 name="isConsent"
-                id="optin"
                 checked={formState?.isConsent}
                 onChange={(e) => {
                   const { name, checked } = e.target;
 
                   setFormState((prevState) => ({ ...prevState, [name]: checked }));
-                  setIsValid(true);
+
+                  setIsValid(checked);
                 }}
               />
+
               <label htmlFor="optin">
                 <Markdown options={{ forceBlock: false }} extraClass="-opt-in">
                   {optInCopy}
@@ -432,12 +435,14 @@ const Form = ({
               id="optin"
               checked={formState?.isConsent}
               onChange={(e) => {
-                const { name, checked } = e.target;
+                const { checked } = e.target;
 
-                setFormState((prevState) => ({ ...prevState, [name]: checked }));
-                setIsValid(true);
+                setFormState((prevState) => ({ ...prevState, isConsent: checked }));
+
+                setIsValid(checked);
               }}
             />
+
             <label htmlFor="optin">
               <Markdown options={{ forceBlock: false }} extraClass="-opt-in">
                 {optInCopy}
