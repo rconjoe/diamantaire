@@ -2,8 +2,7 @@ import { contentBlockMargin, media, pageMargin } from '@diamantaire/styles/darks
 import styled from 'styled-components';
 
 export const PageContainerStyles = styled.div`
-  ${media.medium`  margin-left: 1.25rem;
-  margin-right: 1.25rem;`}
+  ${media.medium`margin-left: 1.25rem;margin-right: 1.25rem;`}
   .product-container {
     position: relative;
     ${contentBlockMargin}

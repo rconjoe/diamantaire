@@ -59,9 +59,6 @@ const ProductPrice = ({
   const basePrice = lowestPricedDiamond ? lowestPricedDiamond.price + price : price;
   const shouldAddEngravingCost = engravingText && productType !== 'Ring' && !doesProductQualifyForFreeEngraving;
 
-  // console.log('basePrice', basePrice);
-  // console.log('shouldDoublePrice', basePrice + 1);
-
   const finalPrice = calculateFinalPrice(basePrice, productType, shouldDoublePrice, shouldAddEngravingCost);
 
   console.log('finalPrice', finalPrice);
@@ -88,9 +85,6 @@ const ProductPrice = ({
 export { ProductPrice };
 
 export const calculateFinalPrice = (basePrice, productType, shouldDoublePrice, shouldAddEngravingCost) => {
-  console.log('productType', productType);
-  console.log('shouldDoublePrice', shouldDoublePrice);
-
   if (productType === 'Earrings' && shouldDoublePrice) {
     return basePrice * 2;
   }

@@ -37,7 +37,6 @@ import {
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   DIAMOND_VIDEO_BASE_URL,
-  ENGRAVING_PRICE_CENTS,
   PdpTypePlural,
   getCurrency,
   getFormattedPrice,
@@ -63,7 +62,9 @@ import { ReviewVariantSelector } from './ReviewVariantSelector';
 const ReviewBuildStepStyles = styled(motion.div)`
   padding: 0rem 2rem 14rem;
   @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
-    padding: 2rem 2rem 14rem;
+    padding: 2rem 0 0;
+    margin-left: 1.25rem;
+    margin-right: 1.25rem;
   }
 
   .review-wrapper {
@@ -815,7 +816,7 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
 
   const isWindowDefined = typeof window !== 'undefined';
 
-  const totalPriceInCents = product?.price + diamondPrice + (engravingText ? ENGRAVING_PRICE_CENTS : 0);
+  const totalPriceInCents = product?.price + diamondPrice;
 
   const diamondHandCaption = builderProduct?.diamonds?.map((diamond) => diamond?.carat?.toString() + 'ct').join(' | ');
 
