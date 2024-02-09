@@ -600,8 +600,6 @@ const SettingToDiamondSummaryPage = () => {
     const settingType = selectedSize?.id ? 'engagement-ring' : 'jewelry';
     const settingVariantId = selectedSize?.id || shopifySettingVariantId;
 
-    console.log('settingVariantId', product);
-
     // 2. Get the product variant ID for the diamond
     // TODO: Add support for multiple diamonds
     const diamondVariantIds = diamonds.map((diamond) => createShopifyVariantId(diamond?.dangerousInternalShopifyVariantId));
@@ -653,7 +651,7 @@ const SettingToDiamondSummaryPage = () => {
       ringSize: selectedSize?.value,
       bandAccent: refinedBandAccent,
       totalPrice: (shopifyProductData.price + diamondPrice).toString(),
-      productCategory: settingType === 'engagement-ring' ? _t('Setting') : productType ? productType : 'Setting',
+      productCategory: settingType === 'engagement-ring' ? _t('Setting') : productType ? productType : _t('Setting'),
       _dateAdded: Date.now().toString(),
       shippingBusinessDays: isDiamondCFY ? cfyShippingTime?.toString() : shippingTime?.toString(),
 
@@ -966,8 +964,6 @@ const SettingToDiamondSummaryPage = () => {
 
   useEffect(() => {
     if (!diamonds) return;
-
-    console.log('diamonds?.[0]?.carat', diamonds?.[0]?.carat);
 
     if (diamonds?.[0]?.carat) {
       setHandCaratValue(parseFloat(diamonds?.[0]?.carat));
