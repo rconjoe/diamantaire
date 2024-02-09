@@ -317,7 +317,7 @@ export class ProductsService {
         const collectionContent = variantContent?.collection || variantContent?.jewelryProduct;
 
         if (!collectionContent) {
-          this.logger.warn(`No collection content found for variant ${product.productType} : ${product.contentId}`);
+          this.logger.warn(`No collection content found for variant : ${plpSlug} : ${product.productType} : ${product.collectionSlug} : ${product.contentId}`);
         }
 
         return {
@@ -574,7 +574,7 @@ export class ProductsService {
       const collectionContent = variantContent?.collection || variantContent?.jewelryProduct;
 
       if (!collectionContent) {
-        this.logger.warn(`No collection content found for variant ${product.productType} : ${product.contentId}`);
+        this.logger.warn(`getListProductsByIds : No collection content found for variant : ${product.productType} : ${product.collectionSlug} : ${product.contentId}`);
       }
 
       return {

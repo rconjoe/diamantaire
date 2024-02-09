@@ -11,6 +11,7 @@
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { useBlockProducts } from '@diamantaire/darkside/data/hooks';
 import clsx from 'clsx';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import CarouselSlider from './CarouselSlider';
@@ -25,6 +26,8 @@ import StandardSlide from './slides/StandardSlide';
 import VideoHoverSlide from './slides/VideoHoverSlide';
 
 const ModularCarouselBlock = (props) => {
+  const { locale } = useRouter();
+
   const { _modelApiKey, blocks, darksideButtons, showDots, id } = props;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -92,7 +95,7 @@ const ModularCarouselBlock = (props) => {
       blocks?.map((block) => block?.configuration?.shopifyProductHandle)) ||
     [];
 
-  const { data } = useBlockProducts(slugsIfProducts);
+  const { data } = useBlockProducts(slugsIfProducts, locale);
 
   return (
     <ModularCarouselBlockContainer className={_modelApiKey}>

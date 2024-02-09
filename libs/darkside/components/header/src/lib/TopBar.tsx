@@ -91,6 +91,11 @@ const TopBarContainer = styled.div`
     flex: 0 0 100%;
     min-width: 0;
   }
+  .embla__slide p {
+    @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+      transform: translate(0, 0.1rem);
+    }
+  }
 
   .slider-nav {
     button {

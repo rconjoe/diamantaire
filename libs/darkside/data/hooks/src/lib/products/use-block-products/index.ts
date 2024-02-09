@@ -12,8 +12,14 @@ type BlockProductProps = {
       collectionTitle: string;
       contentId: string;
       price: number;
+      configuration?: {
+        diamondType?: string;
+        metal?: string;
+      };
     };
     content: {
+      plpTitle: string;
+      productTitle: string;
       plpImage: DatoImageType;
       shopifyProductHandle: string;
       variantId: string;
@@ -22,6 +28,6 @@ type BlockProductProps = {
   lowestPricesByCollection;
 };
 
-export function useBlockProducts(slugs: string[]): UseQueryResult<BlockProductProps, unknown> {
-  return useQuery({ ...queries['product-blocks'].products(slugs) });
+export function useBlockProducts(slugs: string[], locale: string): UseQueryResult<BlockProductProps, unknown> {
+  return useQuery({ ...queries['product-blocks'].products(slugs, locale) });
 }

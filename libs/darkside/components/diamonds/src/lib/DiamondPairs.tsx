@@ -77,7 +77,7 @@ export const DiamondPairActiveRow = ({
       : builderProduct?.product?.optionConfigs?.diamondType?.find((option) => option.value === diamondType)?.id ||
         router?.query?.productSlug;
 
-    // This is an anti=pattern but we need it for builder flow actions (or data doesn't propagate properly)
+    // This is an anti-pattern but we need it for builder flow actions (or data doesn't propagate properly)
     window.location.href = `${window.location.origin}/${locale}/customize/setting-to-diamond${
       isPair ? '/pairs' : ''
     }/${builderProduct?.product?.collectionSlug}/${productShapeId}/${lotIdSlug}/summary`;
@@ -108,7 +108,9 @@ export const DiamondPairActiveRow = ({
 
           <div className="row-cta">
             {isBuilderFlowOpen ? (
-              <DarksideButton onClick={() => handleSelectDiamond()}>Select</DarksideButton>
+              <DarksideButton onClick={() => handleSelectDiamond()}>
+                <UIString>Select</UIString>
+              </DarksideButton>
             ) : (
               <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
                 <UIString>Select</UIString>

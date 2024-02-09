@@ -26,7 +26,7 @@ type ProductTitleProps = {
 
 export function ProductTitle({ title, productType, diamondType, override, className }: ProductTitleProps) {
   const { locale } = useRouter();
-  const { _t } = useTranslations(locale);
+  const { _t } = useTranslations(locale, ['DIAMOND_SHAPES', 'PRODUCT_TYPES']);
   const { languageCode: selectedLanguageCode } = parseValidLocale(locale);
   const refinedTitle = createLongProductTitle({ title, diamondType, productType, selectedLanguageCode, _t });
   let refinedOverride = replacePlaceholders(override, ['%%diamond_type%%'], [_t(diamondType)]).toString();

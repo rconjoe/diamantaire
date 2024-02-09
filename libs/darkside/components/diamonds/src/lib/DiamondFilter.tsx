@@ -1,6 +1,13 @@
-import { Heading, Slider, Tooltip, UIString } from '@diamantaire/darkside/components/common-ui';
+import {
+  Heading,
+  Slider,
+  Tooltip,
+  UIString,
+  Markdown,
+  MarkdownImageConfig,
+} from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { useDiamondTableData, useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
+import { useDiamondTableData, useHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TABLE_FILTER_CLARITY_OPTIONS,
   DIAMOND_TABLE_FILTER_COLOR_OPTIONS,
@@ -13,7 +20,6 @@ import {
 import { getDiamondType } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon, diamondIconsMap } from '@diamantaire/shared/icons';
 import { clsx } from 'clsx';
-import Markdown from 'markdown-to-jsx';
 import { useRouter } from 'next/router';
 import { ReactNode, useContext, useRef, useState } from 'react';
 
@@ -115,8 +121,6 @@ const RadioFilter = (props) => {
       if (availableDiamonds) {
         shapeHandles = shapeHandles.filter((handle) => availableDiamonds.includes(handle));
       }
-
-      console.log('shapeHandles', shapeHandles);
 
       optionsUI = shapeHandles
         .filter((handle) => {
@@ -303,13 +307,24 @@ const DiamondFilter = (props: DiamondFilterProps) => {
   const { colorFilterBelowCopy, color, cut, clarity, carat } = diamondTable || {};
   const { data: humanNameMapperData } = useHumanNameMapper(locale);
   const { DIAMOND_CUTS } = humanNameMapperData || {};
+  const { _t } = useTranslations(locale);
 
   const name_ = (v: string): ReactNode => {
     return v && <UIString>{v}</UIString>;
   };
 
-  const tooltip_ = (v: string): ReactNode => {
-    return v && <Markdown>{v}</Markdown>;
+  const tooltip_ = (v: string, imageConfig?: MarkdownImageConfig): ReactNode => {
+    if (v) {
+      if (imageConfig) {
+        return (
+          <Markdown withStyles={false} imageConfig={imageConfig}>
+            {v}
+          </Markdown>
+        );
+      } else {
+        return <Markdown withStyles={false}>{v}</Markdown>;
+      }
+    }
   };
 
   const stringMap = {
@@ -332,21 +347,21 @@ const DiamondFilter = (props: DiamondFilterProps) => {
     cut: {
       type: 'radio',
       name: name_('cut'),
-      tooltip: tooltip_(cut),
+      tooltip: tooltip_(cut, { loading: 'eager', w: 70, h: 63, alt: _t('cut') }),
       tooltipDefaultPlace: 'right',
       option: DIAMOND_CUTS,
     },
     clarity: {
       type: 'radio',
       name: name_('clarity'),
-      tooltip: tooltip_(clarity),
+      tooltip: tooltip_(clarity, { loading: 'eager', w: 278, h: 108, alt: _t('clarity') }),
       tooltipDefaultPlace: 'right',
       option: { VVS: { value: 'VVS' }, VS: { value: 'VS' }, SI: { value: 'SI' } },
     },
     color: {
       type: 'radio',
       name: name_('color'),
-      tooltip: tooltip_(color),
+      tooltip: tooltip_(color, { loading: 'eager', w: 220, h: 87, alt: _t('color') }),
       tooltipDefaultPlace: 'right',
       belowCopy: colorFilterBelowCopy,
       option: DIAMOND_CUTS,

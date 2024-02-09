@@ -5,7 +5,7 @@ import { PropsWithChildren } from 'react';
 
 import { MarkdownContainer } from './Markdown.style';
 
-type imageConfig = {
+export type MarkdownImageConfig = {
   alt?: string;
   h?: number;
   w?: number;
@@ -17,7 +17,7 @@ type MarkdownProps = {
   options?: object;
   children: string;
   withStyles?: boolean;
-  imageConfig?: imageConfig;
+  imageConfig?: MarkdownImageConfig;
 };
 
 const Markdown = ({ children, options, extraClass, withStyles = true, imageConfig }: PropsWithChildren<MarkdownProps>) => {
@@ -28,14 +28,21 @@ const Markdown = ({ children, options, extraClass, withStyles = true, imageConfi
 
   const imgOverride = {
     component: (props) => {
+      const loading = imageConfig?.loading || 'lazy';
+      const priority = loading === 'eager' ? true : false;
+
       return imageConfig ? (
-        <Image
-          {...props}
-          alt={imageConfig?.alt}
-          width={imageConfig?.w}
-          height={imageConfig?.h}
-          loading={imageConfig?.loading || 'eager'}
-        />
+        <div style={{ display: 'block', aspectRatio: `${imageConfig?.w}/${imageConfig?.h}` }}>
+          <Image
+            {...props}
+            alt={imageConfig?.alt}
+            width={imageConfig?.w}
+            height={imageConfig?.h}
+            loading={loading}
+            priority={priority}
+            style={{ aspectRatio: `${imageConfig?.w}/${imageConfig?.h}` }}
+          />
+        </div>
       ) : (
         <img {...props} />
       );

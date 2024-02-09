@@ -48,7 +48,6 @@ import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/templa
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   DIAMOND_VIDEO_BASE_URL,
-  ENGRAVING_PRICE_CENTS,
   PdpTypePlural,
   getCurrency,
   getFormattedPrice,
@@ -75,7 +74,9 @@ import { v4 as uuidv4 } from 'uuid';
 const ReviewBuildStepStyles = styled(motion.div)`
   padding: 0rem 2rem 14rem;
   @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
-    padding: 2rem 2rem 14rem;
+    padding: 2rem 0 0;
+    margin-left: 1.25rem;
+    margin-right: 1.25rem;
   }
 
   .review-wrapper {
@@ -102,11 +103,13 @@ const ReviewBuildStepStyles = styled(motion.div)`
 
           @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
             flex-wrap: wrap;
+            margin: 0 -5px;
           }
 
           > div {
             margin-bottom: 1rem;
             @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+              padding: 0 5px;
               flex: 0 0 50%;
             }
           }
@@ -141,6 +144,14 @@ const ReviewBuildStepStyles = styled(motion.div)`
 
       .setting-image {
         position: relative;
+
+        > div {
+          height: 100%;
+
+          .image {
+            height: 100% !important;
+          }
+        }
 
         p {
           position: absolute;
@@ -589,8 +600,6 @@ const SettingToDiamondSummaryPage = () => {
     const settingType = selectedSize?.id ? 'engagement-ring' : 'jewelry';
     const settingVariantId = selectedSize?.id || shopifySettingVariantId;
 
-    console.log('settingVariantId', product);
-
     // 2. Get the product variant ID for the diamond
     // TODO: Add support for multiple diamonds
     const diamondVariantIds = diamonds.map((diamond) => createShopifyVariantId(diamond?.dangerousInternalShopifyVariantId));
@@ -637,12 +646,12 @@ const SettingToDiamondSummaryPage = () => {
       _EngravingBack: engravingText,
       _specs: settingSpecs,
       productGroupKey,
-      diamondShape: diamonds.map((diamond) => DIAMOND_TYPE_HUMAN_NAMES[diamond?.diamondType]).join(' + '),
+      diamondShape: diamonds.map((diamond) => shapes_t(diamond?.diamondType)).join(' + '),
       // centerStone: diamond?.carat + ', ' + diamond?.color + ', ' + diamond?.clarity,
       ringSize: selectedSize?.value,
       bandAccent: refinedBandAccent,
       totalPrice: (shopifyProductData.price + diamondPrice).toString(),
-      productCategory: settingType === 'engagement-ring' ? 'Setting' : productType ? productType : 'Setting',
+      productCategory: settingType === 'engagement-ring' ? _t('Setting') : productType ? productType : _t('Setting'),
       _dateAdded: Date.now().toString(),
       shippingBusinessDays: isDiamondCFY ? cfyShippingTime?.toString() : shippingTime?.toString(),
 
@@ -869,7 +878,7 @@ const SettingToDiamondSummaryPage = () => {
 
   const isWindowDefined = typeof window !== 'undefined';
 
-  const totalPriceInCents = shopifyProductData?.price + diamondPrice + (engravingText ? ENGRAVING_PRICE_CENTS : 0);
+  const totalPriceInCents = shopifyProductData?.price + diamondPrice;
 
   const diamondHandCaption = builderProduct?.diamonds?.map((diamond) => diamond?.carat?.toString() + 'ct').join(' | ');
 

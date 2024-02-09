@@ -108,7 +108,7 @@ const ModularProductSuggestionQuadGrid = (props) => {
   );
 
   // Expects variantIds to be an array of strings
-  const { data } = useBlockProducts(variantIds);
+  const { data } = useBlockProducts(variantIds, locale);
 
   const { products } = data || {};
 
