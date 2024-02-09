@@ -17,10 +17,18 @@ type MarkdownProps = {
   options?: object;
   children: string;
   withStyles?: boolean;
-  imageConfig?: MarkdownImageConfig;
+  imageConfig?: any;
+  target?: string;
 };
 
-const Markdown = ({ children, options, extraClass, withStyles = true, imageConfig }: PropsWithChildren<MarkdownProps>) => {
+const Markdown = ({
+  children,
+  options,
+  extraClass,
+  withStyles = true,
+  imageConfig,
+  target,
+}: PropsWithChildren<MarkdownProps>) => {
   if (typeof children !== 'string') {
     // Handle cases where children is not a string (or undefined)
     return null; // or any other appropriate action
@@ -51,6 +59,23 @@ const Markdown = ({ children, options, extraClass, withStyles = true, imageConfi
 
   const overrides = {
     img: imgOverride,
+    a: {
+      component: (props) => {
+        const { children, ...otherProps } = props;
+
+        if (!children) {
+          return null;
+        }
+
+        return target ? (
+          <a {...otherProps} target={target}>
+            {children}
+          </a>
+        ) : (
+          <a {...otherProps}>{children}</a>
+        );
+      },
+    },
   };
 
   return (
