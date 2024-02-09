@@ -28,6 +28,9 @@ const Markdown = ({ children, options, extraClass, withStyles = true, imageConfi
 
   const imgOverride = {
     component: (props) => {
+      const loading = imageConfig?.loading || 'eager';
+      const priority = loading === 'eager' ? true : false;
+
       return imageConfig ? (
         <div style={{ display: 'block', aspectRatio: `${imageConfig?.w}/${imageConfig?.h}` }}>
           <Image
@@ -35,7 +38,8 @@ const Markdown = ({ children, options, extraClass, withStyles = true, imageConfi
             alt={imageConfig?.alt}
             width={imageConfig?.w}
             height={imageConfig?.h}
-            loading={imageConfig?.loading || 'eager'}
+            loading={loading}
+            priority={priority}
             style={{ aspectRatio: `${imageConfig?.w}/${imageConfig?.h}` }}
           />
         </div>
