@@ -143,7 +143,6 @@ const StyledCFYResultPage = styled.div`
 
     .subtitle,
     .subtitle * {
-      text-transform: capitalize;
       font-size: var(--font-size-xsmall);
 
       ${tabletAndUp(`
