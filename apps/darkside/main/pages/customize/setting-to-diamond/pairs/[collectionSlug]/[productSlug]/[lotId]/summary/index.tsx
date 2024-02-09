@@ -6,6 +6,7 @@ import { BuilderFlowLoader, ReviewVariantSelector } from '@diamantaire/darkside/
 import {
   DarksideButton,
   DatoImage,
+  Heading,
   HideTopBar,
   Loader,
   NeedTimeToThinkForm,
@@ -408,6 +409,7 @@ const SettingToDiamondSummaryPage = () => {
   const [engravingInputText, setEngravingInputText] = useState('');
   const [engravingText, setEngravingText] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [handCaratValue, setHandCaratValue] = useState(null);
 
   const [selectedSize, setSelectedSize] = useState<{
     id: string;
@@ -428,7 +430,7 @@ const SettingToDiamondSummaryPage = () => {
 
   const diamondPrice = Array.isArray(diamonds) && diamonds?.map((diamond) => diamond.price).reduce((a, b) => a + b, 0);
 
-  const { countryCode } = parseValidLocale(locale);
+  const { countryCode, languageCode } = parseValidLocale(locale);
 
   const currencyCode = getCurrency(countryCode);
 
@@ -672,6 +674,11 @@ const SettingToDiamondSummaryPage = () => {
       const diamondAttributes: ProductAddonDiamond['attributes'] = {
         _productTitle: diamond?.productTitle,
         productAsset: diamondImages[index],
+        _productAssetObject: JSON.stringify({
+          src: diamondImages[index],
+          width: 200,
+          height: 200,
+        }),
         _dateAdded: (Date.now() + 100).toString(),
         caratWeight: diamond.carat.toString(),
         clarity: diamond.clarity,
@@ -810,10 +817,34 @@ const SettingToDiamondSummaryPage = () => {
       slug: 'diamondType',
     },
     {
-      label: _t('centerstone'),
-      value: diamonds
-        ?.map((diamond) => diamond?.carat.toString() + 'ct' + ', ' + diamond?.color + ', ' + diamond?.clarity)
-        .join(' + '),
+      label: _t(diamonds?.[0]?.diamondType),
+      value:
+        diamonds?.[0]?.carat.toString() +
+        'ct' +
+        ', ' +
+        diamonds?.[0]?.color +
+        ', ' +
+        diamonds?.[0]?.clarity +
+        ', ' +
+        _t(diamonds?.[0]?.cut),
+      onClick: () => {
+        router.push(
+          `/customize/${flowType}/pairs/${router.query.collectionSlug}/${router.query.productSlug}/${router.query.lotId}/edit-diamond`,
+        );
+      },
+      slug: 'centerstone',
+    },
+    {
+      label: _t(diamonds?.[1]?.diamondType),
+      value:
+        diamonds?.[1]?.carat.toString() +
+        'ct' +
+        ', ' +
+        diamonds?.[1]?.color +
+        ', ' +
+        diamonds?.[1]?.clarity +
+        ', ' +
+        _t(diamonds?.[1]?.cut),
       onClick: () => {
         router.push(
           `/customize/${flowType}/pairs/${router.query.collectionSlug}/${router.query.productSlug}/${router.query.lotId}/edit-diamond`,
@@ -953,6 +984,14 @@ const SettingToDiamondSummaryPage = () => {
     }
   }, [router?.query?.productSlug, router?.query?.collectionSlug]);
 
+  useEffect(() => {
+    if (!diamonds) return;
+
+    if (diamonds?.[0]?.carat) {
+      setHandCaratValue(parseFloat(diamonds?.[0]?.carat));
+    }
+  }, [diamonds]);
+
   if (!shopifyProductData || !shopifyProductData?.productContent?.assetStack[0] || !spriteSpinnerIds)
     return <BuilderFlowLoader />;
 
@@ -1029,7 +1068,7 @@ const SettingToDiamondSummaryPage = () => {
                   <ProductDiamondHand
                     diamondType={selectedConfiguration?.diamondType}
                     range={[0.5, 8]}
-                    initValue={parseFloat(diamonds?.[0]?.carat)}
+                    initValue={handCaratValue}
                     disableControls={true}
                     prefix={diamondHandCaption}
                   />
@@ -1056,16 +1095,23 @@ const SettingToDiamondSummaryPage = () => {
           <div className="product-summary__inner">
             <WishlistLikeButton
               extraClass="bundle"
-              //   productId={`bundle-${settingSlugs?.productSlug}::${diamonds[0]?.lotId}`}
+              productId={`bundle-${router.query?.productSlug}::${diamonds?.map((diamond) => diamond.lotId).join('::')}`}
             />
 
-            <ProductTitle
-              title={productTitle}
-              override={productTitleOverride}
-              diamondType={shopifyProductData?.configuration?.diamondType}
-              productType={shopifyProductData?.productType}
-              className="no-margin"
-            />
+            {productTitle && languageCode === 'en' ? (
+              <Heading type="h1" className="secondary no-margin">
+                {productTitle}
+              </Heading>
+            ) : productTitle ? (
+              <ProductTitle
+                title={productTitle}
+                override={productTitleOverride}
+                diamondType={shopifyProductData?.configuration?.diamondType}
+                productType={shopifyProductData?.productType}
+              />
+            ) : (
+              ''
+            )}
 
             <div className="total-price">
               <ProductPrice

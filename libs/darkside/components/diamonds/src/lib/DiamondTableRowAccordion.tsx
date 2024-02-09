@@ -1,20 +1,20 @@
 import { Accordion, CertificateThumb, Markdown } from '@diamantaire/darkside/components/common-ui';
-import { useDiamondTableData } from '@diamantaire/darkside/data/hooks';
+import { useDiamondTableData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
-// import Markdown from 'markdown-to-jsx';
+import { useRouter } from 'next/router';
 
 import StyledDiamondTableRowAccordion from './DiamondTableRowAccordion.style';
 
 const DiamondDetailRowAccordion = ({
   product,
   productPair,
-  locale = 'en_US',
 }: {
   product?: DiamondDataTypes;
   productPair?: DiamondDataTypes;
-  locale?: string;
 }) => {
+  const { locale } = useRouter();
   const { data: diamondTableData } = useDiamondTableData(locale);
+  const { _t } = useTranslations(locale);
 
   if (!product) return;
 
@@ -81,7 +81,7 @@ const DiamondDetailRowAccordion = ({
             <span>{labelCut?.value}</span>{' '}
             {mappedValues?.map((diamond, index) => (
               <strong key={`cut-${diamond.id}`}>
-                {diamond.cut} {index === mappedValues.length - 1 ? '' : ' - '}
+                {_t(diamond.cut)} {index === mappedValues.length - 1 ? '' : ' - '}
               </strong>
             ))}
           </div>

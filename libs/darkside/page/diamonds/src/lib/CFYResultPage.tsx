@@ -274,10 +274,11 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const continueLink = {
     url: isSettingFirstFlow
-      ? `/customize/setting-to-diamond/summary/${router.query.collectionSlug}/${router.query.productSlug}/${product.lotId}`
+      ? `/customize/setting-to-diamond/${router.query.collectionSlug}/${router.query.productSlug}/${product.lotId}/summary`
       : `/customize/diamond-to-setting/${product.lotId}`,
 
-    text: isSettingFirstFlow ? 'Complete your ring' : 'Select and add a setting',
+    // Translated in jsx
+    text: isSettingFirstFlow ? 'Complete & Review Your Ring' : 'Choose & Add a setting',
   };
 
   return (
@@ -373,7 +374,6 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
               <div className="primary-price">
                 <p>{formattedPrice}</p>
-
                 {getIsUserInEu() && (
                   <small>
                     <UIString>incl. VAT</UIString>
