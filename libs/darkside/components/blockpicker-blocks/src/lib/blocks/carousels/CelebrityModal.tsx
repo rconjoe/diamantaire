@@ -2,6 +2,7 @@ import { DatoImage, Heading, Modal } from '@diamantaire/darkside/components/comm
 import { useBlockProducts } from '@diamantaire/darkside/data/hooks';
 import { ProductLink } from '@diamantaire/shared-product';
 import { media } from '@diamantaire/styles/darkside-styles';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 const CelebrityModalStyles = styled.div`
@@ -99,9 +100,12 @@ const CelebrityModalStyles = styled.div`
 `;
 
 const CelebrityModal = ({ modalContent, toggleModal }) => {
+  const { locale } = useRouter();
+
   const ids = modalContent?.darksideCelebrityJewelryConfigurations.map((config) => config.variantId);
 
-  const { data } = useBlockProducts(ids);
+  const { data } = useBlockProducts(ids, locale);
+
   const { products } = data || {};
 
   return (

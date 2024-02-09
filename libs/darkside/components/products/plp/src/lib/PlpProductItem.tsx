@@ -2,14 +2,13 @@ import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { humanNamesMapperType, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
-import { replacePlaceholders } from '@diamantaire/shared/helpers';
-import { ListPageItemWithConfigurationVariants } from '@diamantaire/shared-product';
+import { ListPageItemWithConfigurationVariants, createPlpTitle } from '@diamantaire/shared-product';
+import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
 
 import { PlpProductVariant } from './PlpProductVariant';
-import clsx from 'clsx';
 
 const PlpProductItemStyles = styled.div`
   position: relative;
@@ -43,11 +42,13 @@ const PlpProductItem = (props: PlpProductItemProps) => {
 
   const selectedVariant = variants[selectedId];
 
+  console.log(`selectedVariant`, selectedVariant);
+
   const { productTitle, plpTitle: variantTitle, price } = selectedVariant || {};
 
   const isMultiShape = selectedVariant?.configuration?.diamondType?.includes('+') || false;
 
-  const generatedTitle = generatePlpTitle(
+  const generatedTitle = createPlpTitle(
     _t('%%title%% %%shape%% in'),
     productTitle,
     variantTitle,
@@ -58,6 +59,7 @@ const PlpProductItem = (props: PlpProductItemProps) => {
     isMultiShape,
     useProductTitleOnly,
   );
+
   const isAboveTitleSpaceThreshold = metal?.length > 5;
 
   return (
@@ -111,53 +113,3 @@ const PlpProductItem = (props: PlpProductItemProps) => {
 };
 
 export { PlpProductItem };
-
-type ProductConfiguration = {
-  metal: string;
-  diamondType: string;
-} & Record<string, string>;
-
-// https://diamondfoundry.atlassian.net/wiki/spaces/DGT/pages/971407413/Product+Titles+on+PLPs
-
-function isMixedDiamondType(diamondType: string): boolean {
-  const regex = /\w+(\+\w+)/;
-
-  return regex.test(diamondType);
-}
-
-function generatePlpTitle(
-  placeholderString: string,
-  productTitle: string,
-  plpTitle: string,
-  { metal, diamondType }: ProductConfiguration,
-  isMultiShape: boolean,
-  useProductTitleOnly: boolean,
-): string {
-  let genTitle = productTitle;
-
-  if (useProductTitleOnly) return plpTitle || productTitle;
-
-  let placeholderResult: string | string[];
-
-  if (plpTitle) {
-    placeholderResult = replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [plpTitle, '']);
-  } else if (diamondType && !isMixedDiamondType(diamondType) && !isMultiShape) {
-    placeholderResult = replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [productTitle, diamondType]);
-  } else if (isMultiShape) {
-    placeholderResult = replacePlaceholders(placeholderString, ['%%title%%'], [productTitle]);
-    placeholderResult =
-      typeof placeholderResult === 'string'
-        ? placeholderResult.replace('%%shape%%', '')
-        : placeholderResult.join('').replace('%%shape%%', '');
-  } else {
-    placeholderResult = replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [productTitle, '']);
-  }
-
-  genTitle = typeof placeholderResult === 'string' ? placeholderResult : placeholderResult.join('');
-  genTitle += ` ${metal}`;
-
-  // Clean up the resulting string to remove extra spaces or commas
-  genTitle = genTitle.replace(/,+/g, ',').replace(/ ,/g, ' ').trim();
-
-  return genTitle;
-}
