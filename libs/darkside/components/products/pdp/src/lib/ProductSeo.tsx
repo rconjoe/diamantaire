@@ -37,13 +37,20 @@ const ProductSeo = ({ seoFields, legacySeoFields, productType, productTitle, met
   metaDescription = replacePlaceholders(metaDescription, ['%%product_type%%'], [productType]).toString();
   metaDescription = replacePlaceholders(metaDescription, ['%%diamond_type%%'], [diamondType]).toString();
 
+  const seoParam = {
+    en: '',
+    es: '/en-ES/',
+    fr: '/fr-FR/',
+    de: '/de-DE/',
+  };
+
   return (
     <NextSeo
       title={metaTitle}
       description={metaDescription}
       canonical={
         (process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') +
-        `/${locale}` +
+        seoParam[selectedLanguageCode] +
         generateProductUrl(productType, collectionSlug, productSlug)
       }
     />

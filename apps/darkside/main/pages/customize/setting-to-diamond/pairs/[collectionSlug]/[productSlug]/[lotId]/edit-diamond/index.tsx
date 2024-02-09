@@ -12,6 +12,7 @@ import { useBuilderFlowSeo, useDiamondTableData, useDiamondsData } from '@diaman
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
+import { getDiamondShallowRoute } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
@@ -255,13 +256,7 @@ const DiamondBuildStep = () => {
   };
 
   useEffect(() => {
-    if (diamondTypeToShow) updateOptions({ ...initialOptions, diamondType: diamondTypeToShow });
-  }, [builderProduct.diamonds, builderProduct?.product]);
-
-  // This interferes with the builder flow routing....
-  useEffect(() => {
-    // router.replace(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {});
-    console.log('options changed', options);
+    router.replace(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {});
   }, [options]);
 
   if (!diamonds || !tableOptions?.initialOptions?.diamondType) return <BuilderFlowLoader />;

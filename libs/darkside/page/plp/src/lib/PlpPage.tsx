@@ -18,6 +18,7 @@ import {
   RING_STYLES_MAP,
   SUBSTYLE_SLUGS,
   STYLE_SLUGS,
+  parseValidLocale,
 } from '@diamantaire/shared/constants';
 import { isEmptyObject, getSwrRevalidateConfig } from '@diamantaire/shared/helpers';
 import { FilterValueProps } from '@diamantaire/shared-product';
@@ -181,6 +182,15 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
     };
   }, [query]);
 
+  const { languageCode } = parseValidLocale(router.locale);
+
+  const seoParam = {
+    en: '',
+    es: '/en-ES/',
+    fr: '/fr-FR/',
+    de: '/de-DE/',
+  };
+
   return (
     <PlpStyles>
       <NextSeo
@@ -188,7 +198,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
         description={seoDescription}
         canonical={
           (process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') +
-          `/${router.locale}` +
+          seoParam[languageCode] +
           router.asPath
         }
       />

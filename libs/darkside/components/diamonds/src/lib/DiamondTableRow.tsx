@@ -93,10 +93,14 @@ const DiamondTableRow = ({
 
     const flowType = router.asPath.includes('setting-to-diamond') ? 'setting-to-diamond' : 'diamond-to-setting';
 
+    // Note: using window.location.href is an antipattern but we need it for builder flow actions (or data doesn't propagate properly)
     // starting from diamond table page
     if (flowType === 'diamond-to-setting' && !router.query.collectionSlug && !router.query.productSlug) {
       console.log('case 001');
-      router.push(`/customize/diamond-to-setting/${product.lotId}`);
+
+      const nextUrl = `${locale === 'en-US' ? '' : `/${locale}`}/customize/diamond-to-setting/${product.lotId}`;
+
+      return (window.location.href = nextUrl);
     } else if (flowType === 'setting-to-diamond') {
       // mid-way through setting to diamond flow
       console.log('case 002');
@@ -106,7 +110,8 @@ const DiamondTableRow = ({
         (option) => option.value === diamondType,
       )?.id;
 
-      const nextUrl = `/${locale}/customize/setting-to-diamond/${router?.query?.collectionSlug}/${productShapeId}/${product.lotId}/summary`;
+      const nextUrl = `${locale === 'en-US' ? '' : `/${locale}`}/customize/setting-to-diamond/${router?.query
+        ?.collectionSlug}/${productShapeId}/${product.lotId}/summary`;
 
       return (window.location.href = nextUrl);
     } else {
@@ -117,7 +122,9 @@ const DiamondTableRow = ({
         (option) => option.value === diamondType,
       )?.id;
 
-      const nextUrl = `/${locale}/customize/diamond-to-setting/${product.lotId}/${router.query.collectionSlug}/${productShapeId}/summary`;
+      const nextUrl = `${locale === 'en-US' ? '' : `/${locale}`}/customize/diamond-to-setting/${product.lotId}/${
+        router.query.collectionSlug
+      }/${productShapeId}/summary`;
 
       return (window.location.href = nextUrl);
     }
