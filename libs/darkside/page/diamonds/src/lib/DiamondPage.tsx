@@ -44,6 +44,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
   const router = useRouter();
 
   const { isMobile } = useContext(GlobalContext);
+
   const { locale } = router;
 
   const { currencyCode } = props;
@@ -201,7 +202,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
             <DiamondFilter
               handleRadioFilterChange={handleRadioFilterChange}
               handleSliderFilterChange={handleSliderFilterChange}
-              loading={loading}
+              loading={false}
               options={options}
               ranges={ranges}
             />
