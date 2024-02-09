@@ -147,7 +147,7 @@ export class ProductsService {
     const plpSlug = `${category}/${slug}`; // "jewelry/best-selling-gifts"
     const skip = (page - 1) * limit;
     const { metals, styles, diamondTypes, subStyles, priceMin, priceMax } = filters;
-    const cacheKey = `plp-data:${plpSlug}:limit=${limit}-page=${page}:${this.generateQueryCacheKey(filters)}`;
+    const cacheKey = `plp-data:${plpSlug}:limit=${limit}-page=${page}:${this.generateQueryCacheKey(filters)}:${getDatoRequestLocale(locale)}`;
     const [isFresh, cachedData] = await this.getSWRCache(cacheKey);
 
     const fetchPlpData = async () => {
@@ -742,7 +742,7 @@ export class ProductsService {
   async findProductBySlug(input: ProductSlugInput) {
     const setLocal = input?.locale ? input?.locale : 'en_US'; // get locale from input or default to en_US
     // create unique cacheKey for each product variant
-    const cachedKey = `pdp:${input?.slug}:${input?.id}:${setLocal}`;
+    const cachedKey = `pdp:${input?.slug}:${input?.id}:${getDatoRequestLocale(setLocal)}`;
     const [isFresh, cachedData] = await this.getSWRCache(cachedKey);
 
     const fetchPdpData = async () => {
@@ -951,6 +951,15 @@ export class ProductsService {
     const altConfigs = {};
     const allOptions = {};
     const productOptionsToMatch = productToMatch.configuration;
+
+    // All ER products have the ability to use a custom diamond which is indicated
+    // by the carat weight being set to "other" or undefined (legacy).  However, it will
+    // not look to match caratWeight if its nor a property.
+    if (productToMatch.productType === ProductType.EngagementRing) {
+      if (!productOptionsToMatch['caratWeight']){
+        productOptionsToMatch['caratWeight'] = 'other';
+      }
+    }
 
     /* Helper function to sort options */
     function sortOptions(optionsArr, comparator) {
@@ -1685,28 +1694,34 @@ export class ProductsService {
     this.logger.verbose(`Getting Dato configurations & products for ${slug}`);
     const cachedKey = `plp-configurations-${slug}:${locale}:${ids.join('-')}-${first}-${skip}`;
     const cachedData = await this.utils.memGet<any>(cachedKey); // return the cached result if there's a key
-    let response;
 
-    const queryVars = {
-      productHandles,
-      variantIds,
-      first,
-      skip,
-      locale: getDatoRequestLocale(locale),
-    };
+    if (!cachedData) {
+      let response;
 
-    try {
-      if (!cachedData) {
+      const queryVars = {
+        productHandles,
+        variantIds,
+        first,
+        skip,
+        locale: getDatoRequestLocale(locale),
+      };
+
+      try {
         response = await this.utils.createDataGateway().request(CONFIGURATIONS_LIST, queryVars);
-        this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
-        this.utils.memSet(cachedKey, response, PRODUCT_DATA_TTL); //set the response in memory
-      }
+        const result = [...response.allConfigurations, ...response.allOmegaProducts];
 
-      return [...response.allConfigurations, ...response.allOmegaProducts];
-    } catch (err) {
-      this.logger.debug(`Cannot retrieve configurations and products for ${slug}`);
-      throw new InternalServerErrorException(`Cannot retrieve configurations and products for ${slug}`, err);
+        this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
+        this.utils.memSet(cachedKey, result, PRODUCT_DATA_TTL);
+
+        return result;
+      } catch (err) {
+        this.logger.error(`Cannot retrieve configurations and products for ${slug}: ${JSON.stringify(err)}`);
+
+        return [];
+      }
     }
+
+    return cachedData
   }
 
   async getDatoContent<TData, TVars extends Variables>({

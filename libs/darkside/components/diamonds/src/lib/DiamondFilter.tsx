@@ -20,6 +20,7 @@ import {
 import { getDiamondType } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon, diamondIconsMap } from '@diamantaire/shared/icons';
 import { clsx } from 'clsx';
+import { useRouter } from 'next/router';
 import { ReactNode, useContext, useRef, useState } from 'react';
 
 import { StyledDiamondFilter } from './DiamondFilter.style';
@@ -120,8 +121,6 @@ const RadioFilter = (props) => {
       if (availableDiamonds) {
         shapeHandles = shapeHandles.filter((handle) => availableDiamonds.includes(handle));
       }
-
-      console.log('shapeHandles', shapeHandles);
 
       optionsUI = shapeHandles
         .filter((handle) => {
@@ -297,12 +296,12 @@ export interface DiamondFilterProps {
   loading: boolean;
   options: object;
   ranges: object;
-  locale: string;
   availableDiamonds?: string[];
 }
 
 const DiamondFilter = (props: DiamondFilterProps) => {
-  const { locale, options, ranges, loading, handleRadioFilterChange, handleSliderFilterChange, availableDiamonds } = props;
+  const { locale } = useRouter();
+  const { options, ranges, loading, handleRadioFilterChange, handleSliderFilterChange, availableDiamonds } = props;
   const { data: diamondTableData } = useDiamondTableData(locale);
   const { diamondTable } = diamondTableData || {};
   const { colorFilterBelowCopy, color, cut, clarity, carat } = diamondTable || {};

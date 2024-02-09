@@ -27,7 +27,7 @@ import { fetchDatoVariant } from '@diamantaire/darkside/data/api';
 import { useBuilderFlowSeo, useProductDato, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
-import { ENGAGEMENT_RING_PRODUCT_TYPE, PdpTypePlural } from '@diamantaire/shared/constants';
+import { ENGAGEMENT_RING_PRODUCT_TYPE, PdpTypePlural, parseValidLocale } from '@diamantaire/shared/constants';
 import { generatePdpAssetAltTag, isEmptyObject } from '@diamantaire/shared/helpers';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
@@ -74,6 +74,7 @@ const SettingBuildStep = () => {
   const { locale } = useRouter();
   const { data: seoData } = useBuilderFlowSeo(locale);
   const { seoTitle, seoDescription, addNoindexNofollow } = seoData?.builderFlow?.seoFields || {};
+  const { languageCode } = parseValidLocale(locale);
 
   const router = useRouter();
 
@@ -275,13 +276,19 @@ const SettingBuildStep = () => {
 
         <div className="info-container">
           <div className="info__inner">
-            {productTitle && (
+            {productTitle && languageCode === 'en' ? (
+              <Heading type="h1" className="secondary no-margin">
+                {productTitle}
+              </Heading>
+            ) : productTitle ? (
               <ProductTitle
                 title={productTitle}
-                diamondType={selectedConfiguration?.diamondType}
-                productType={shopifyProductData?.productType}
                 override={productTitleOverride}
+                diamondType={shopifyProductData?.configuration?.diamondType}
+                productType={shopifyProductData?.productType}
               />
+            ) : (
+              ''
             )}
 
             <ProductPrice isBuilderProduct={false} price={parseFloat(totalPrice)} engravingText={null} />

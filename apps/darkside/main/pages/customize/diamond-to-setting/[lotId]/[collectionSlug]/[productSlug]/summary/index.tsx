@@ -6,6 +6,7 @@ import { BuilderFlowLoader, ReviewVariantSelector } from '@diamantaire/darkside/
 import {
   DarksideButton,
   DatoImage,
+  Heading,
   HideTopBar,
   NeedTimeToThinkForm,
   ProductAppointmentCTA,
@@ -425,7 +426,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
 
   const diamondPrice = Array.isArray(diamonds) && diamonds?.map((diamond) => diamond.price).reduce((a, b) => a + b, 0);
 
-  const { countryCode } = parseValidLocale(locale);
+  const { countryCode, languageCode } = parseValidLocale(locale);
 
   const currencyCode = getCurrency(countryCode);
 
@@ -441,8 +442,6 @@ const ReviewBuildStep = ({ settingSlugs }) => {
     isER ? 'engagement_ring_summary_page' : 'jewelry_summary_page',
     router.locale,
   );
-
-  console.log('blockpickerData', blockpickerData);
 
   const diamondImages = useMemo(() => {
     return isDiamondCFY
@@ -672,6 +671,11 @@ const ReviewBuildStep = ({ settingSlugs }) => {
       const diamondAttributes: ProductAddonDiamond['attributes'] = {
         _productTitle: diamond?.productTitle,
         productAsset: diamondImages[index],
+        _productAssetObject: JSON.stringify({
+          src: diamondImages[index],
+          width: 200,
+          height: 200,
+        }),
         _dateAdded: (Date.now() + 100).toString(),
         caratWeight: diamond.carat.toString(),
         clarity: diamond.clarity,
@@ -811,7 +815,10 @@ const ReviewBuildStep = ({ settingSlugs }) => {
     {
       label: _t('centerstone'),
       value: diamonds
-        ?.map((diamond) => diamond?.carat.toString() + 'ct' + ', ' + diamond?.color + ', ' + diamond?.clarity)
+        ?.map(
+          (diamond) =>
+            diamond?.carat.toString() + 'ct' + ', ' + diamond?.color + ', ' + diamond?.clarity + ', ' + _t(diamond?.cut),
+        )
         .join(' + '),
       onClick: () => {
         router.push(
@@ -1068,13 +1075,19 @@ const ReviewBuildStep = ({ settingSlugs }) => {
               productId={`bundle-${router.query?.productSlug}::${diamonds?.[0]?.lotId}`}
             />
 
-            {productTitle && (
+            {productTitle && languageCode === 'en' ? (
+              <Heading type="h1" className="secondary no-margin">
+                {productTitle}
+              </Heading>
+            ) : productTitle ? (
               <ProductTitle
                 title={productTitle}
                 override={productTitleOverride}
                 diamondType={shopifyProductData?.configuration?.diamondType}
                 productType={shopifyProductData?.productType}
               />
+            ) : (
+              ''
             )}
 
             <div className="total-price">
@@ -1086,7 +1099,6 @@ const ReviewBuildStep = ({ settingSlugs }) => {
                 engravingText={engravingText}
               />
             </div>
-
             <div className="builder-summary__content">
               <div className="builder-summary__content__inner">
                 <ul className="list-unstyled">
@@ -1122,7 +1134,6 @@ const ReviewBuildStep = ({ settingSlugs }) => {
                 </ul>
               </div>
             </div>
-
             {selectedSize && (
               <div className="ring-size-container">
                 <OptionSelector
@@ -1141,7 +1152,6 @@ const ReviewBuildStep = ({ settingSlugs }) => {
                 </div>
               </div>
             )}
-
             <div className="engraving-container">
               {isER && (
                 <div className="engraving">

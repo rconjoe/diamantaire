@@ -69,6 +69,7 @@ export type ProductAddonDiamond = {
   variantId: string;
   attributes?: {
     productAsset: string;
+    _productAssetObject: string;
     _productTitle: string;
     _productType: string;
     _productTypeTranslated: string;

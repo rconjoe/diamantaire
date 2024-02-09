@@ -1,12 +1,6 @@
 import { ParsedUrlQuery } from 'querystring';
 
-import {
-  DarksideButton,
-  Heading,
-  ShowMobileOnly,
-  ShowTabletAndUpOnly,
-  UIString,
-} from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Heading, ShowMobileOnly, ShowTabletAndUpOnly } from '@diamantaire/darkside/components/common-ui';
 import { DiamondFilter, DiamondPromo, DiamondTable } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
@@ -41,7 +35,6 @@ interface DiamondPageQueryParams extends ParsedUrlQuery {
 }
 
 interface DiamondPageProps {
-  locale: string;
   options: OptionsDataTypes;
   currencyCode: string;
   dehydratedState: DehydratedState;
@@ -51,8 +44,9 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
   const router = useRouter();
 
   const { isMobile } = useContext(GlobalContext);
+  const { locale } = router;
 
-  const { locale, currencyCode } = props;
+  const { currencyCode } = props;
 
   const [options, setOptions] = useState(props.options);
 
@@ -66,7 +60,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
   const DiamondTableContent = useDiamondTableData(locale);
 
-  const { title: pageTitle, dynamicTitle } = DiamondTableContent.data.diamondTable || {};
+  const { title: pageTitle, dynamicTitle, clearFiltersButtonCopy } = DiamondTableContent.data.diamondTable || {};
 
   const seo = DiamondTableContent.data.diamondTable.seo;
 
@@ -210,12 +204,11 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
               loading={loading}
               options={options}
               ranges={ranges}
-              locale={locale}
             />
           )}
 
           <DarksideButton type="underline" colorTheme="teal" className="vo-filter-clear-button" onClick={clearOptions}>
-            <UIString>Clear filters</UIString>
+            {clearFiltersButtonCopy}
           </DarksideButton>
 
           <ShowTabletAndUpOnly>
@@ -264,7 +257,6 @@ async function getServerSideProps(
 
   return {
     props: {
-      locale,
       options,
       currencyCode,
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
