@@ -35,6 +35,7 @@ const Markdown = ({ children, options, extraClass, withStyles = true, imageConfi
           width={imageConfig?.w}
           height={imageConfig?.h}
           loading={imageConfig?.loading || 'eager'}
+          style={{ aspectRatio: `${imageConfig?.w}/${imageConfig?.h}` }}
         />
       ) : (
         <img {...props} />
