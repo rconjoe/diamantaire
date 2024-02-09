@@ -28,7 +28,7 @@ const Markdown = ({ children, options, extraClass, withStyles = true, imageConfi
 
   const imgOverride = {
     component: (props) => {
-      const loading = imageConfig?.loading || 'eager';
+      const loading = imageConfig?.loading || 'lazy';
       const priority = loading === 'eager' ? true : false;
 
       return imageConfig ? (
