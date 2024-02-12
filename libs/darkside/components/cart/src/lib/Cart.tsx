@@ -70,7 +70,7 @@ const Cart = ({ closeCart }) => {
   function getCartTotal() {
     if (countryCode === 'GB') {
       // GB is the only country that has VAT included in the base price
-      return getFormattedPrice(parseFloat(checkout?.cost?.totalAmount?.amount) * 100, locale, true, false, true);
+      return getFormattedPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale, true, false, true);
     } else if (getVat(countryCode)) {
       // Shopify includes vat pricing for all EU countries, but we need to add the symbol and handle formatting
       return simpleFormatPrice(Math.ceil(parseFloat(checkout?.cost?.totalAmount?.amount)) * 100, locale, true);

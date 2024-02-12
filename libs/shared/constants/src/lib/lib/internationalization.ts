@@ -586,7 +586,7 @@ export function combinePricesOfMultipleProducts(prices, locale) {
     const finalPrice = getPriceWithAddedTax(convertedPrice, countryCode);
 
     // Add the transformed price to the accumulator
-    return acc + finalPrice;
+    return acc + (locale === 'en-GB' ? Math.ceil(finalPrice) : finalPrice);
   }, 0); // Initial value of the accumulator is 0
 
   return totalPrice * 100; // Now holds the sum of all transformed prices
