@@ -69,7 +69,10 @@ const ProductPrice = ({
 
   const translatedText = _t('Starting at %%price%%');
 
-  const tempFinalPrice = pricesArray && combinePricesOfMultipleProducts([...pricesArray], locale);
+  // This is only for custom products (multiple products bundled together)
+  const tempFinalPrice =
+    pricesArray &&
+    combinePricesOfMultipleProducts([...pricesArray, shouldAddEngravingCost && ENGRAVING_PRICE_CENTS], locale);
 
   return (
     <ProductPriceStyles className="price">

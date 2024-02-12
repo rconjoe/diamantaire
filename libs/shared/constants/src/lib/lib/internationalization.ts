@@ -585,11 +585,36 @@ export function combinePricesOfMultipleProducts(prices, locale) {
     // 2. Add VAT
     const finalPrice = getPriceWithAddedTax(convertedPrice, countryCode);
 
+    // Don't round up if the tenth is less than .5
+    const isTenthLessThanHalf = checkTenthsLessThanHalf([finalPrice]);
+
+    console.log('finalPricexzz', finalPrice);
+
     // Add the transformed price to the accumulator
-    return acc + (locale === 'en-GB' ? Math.ceil(finalPrice) : finalPrice);
+    return (
+      acc +
+      (locale === 'en-GB' && !isTenthLessThanHalf
+        ? Math.ceil(finalPrice)
+        : locale !== 'en-US' && locale !== 'en-GB'
+        ? Math.ceil(finalPrice)
+        : finalPrice)
+    );
   }, 0); // Initial value of the accumulator is 0
 
   return totalPrice * 100; // Now holds the sum of all transformed prices
+}
+
+function checkTenthsLessThanHalf(numbers) {
+  return numbers.map((number) => {
+    // Calculate the decimal part of the number
+    const decimalPart = number - Math.floor(number);
+
+    // Extract the tenths place by multiplying the decimal part by 10 and taking the floor
+    const tenths = Math.floor(decimalPart * 10);
+
+    // Check if the tenths place is less than 5 (since 0.5 * 10 = 5)
+    return tenths < 5;
+  });
 }
 
 // This is just for adding a symbol + decimals to the price. This does not add VAT or conversion rate!!!
