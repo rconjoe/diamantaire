@@ -5,6 +5,8 @@ import {
   ENGRAVEABLE_JEWELRY_SLUGS,
   ENGRAVING_PRICE_CENTS,
   getFormattedPrice,
+  combinePricesOfMultipleProducts,
+  simpleFormatPrice,
 } from '@diamantaire/shared/constants';
 import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';
@@ -34,6 +36,7 @@ type ProductPriceProps = {
   productType?: string;
   lowestPricedDiamond?: DiamondLowestPriceDataProps;
   quantity: number;
+  pricesArray?: number[];
 };
 
 const ProductPrice = ({
@@ -44,11 +47,10 @@ const ProductPrice = ({
   engravingText,
   lowestPricedDiamond,
   quantity,
+  // We use this when we have multiple products that need to be priced together
+  pricesArray,
 }: ProductPriceProps) => {
   const { locale, query } = useRouter();
-  // const { countryCode } = parseValidLocale(locale);
-
-  console.log('init price', price);
 
   const { _t } = useTranslations(locale);
 
@@ -67,11 +69,17 @@ const ProductPrice = ({
 
   const translatedText = _t('Starting at %%price%%');
 
+  const tempFinalPrice = pricesArray && combinePricesOfMultipleProducts([...pricesArray], locale);
+
   return (
     <ProductPriceStyles className="price">
-      <p className="price-text">
-        {isBuilderProduct ? <>{replacePlaceholders(translatedText, ['%%price%%'], [refinedPrice])}</> : refinedPrice}
-      </p>
+      {pricesArray ? (
+        <p className="price-text">{simpleFormatPrice(tempFinalPrice, locale)}</p>
+      ) : (
+        <p className="price-text">
+          {isBuilderProduct ? <>{replacePlaceholders(translatedText, ['%%price%%'], [refinedPrice])}</> : refinedPrice}
+        </p>
+      )}
 
       {!isInUS && (
         <p className="small">

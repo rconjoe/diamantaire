@@ -571,70 +571,25 @@ export function getFormattedPrice(
   return formattedPrice;
 }
 
-export function getFormattedPriceForMultiQuantity(
-  priceInCents: number,
-  locale: string = DEFAULT_LOCALE,
-  hideZeroCents = true,
-  excludeCurrency = false,
-  // When we return the item from VRAI server, we need the exchange rate. When shopify returns it in checkout, we don't
-  excludeExchangeRate = false,
-  quantity = 1,
-): string {
+// We use this to format the price for multiple products that are combined, ex: a custom ER
+// Best practice: get the base value with this, then use simpleFormatPrice to add the symbol
+export function combinePricesOfMultipleProducts(prices, locale) {
+  console.log('prices', prices);
   const { countryCode } = parseValidLocale(locale);
-
   const currency = getCurrency(countryCode);
 
-  const convertedPrice = applyExchangeRate(Math.ceil(priceInCents) / 100, currency, excludeExchangeRate);
+  const totalPrice = prices.reduce((acc, price) => {
+    // 1. Convert price
+    const convertedPrice = applyExchangeRate(price / 100, currency, false);
 
-  let finalPrice = getPriceWithAddedTax(Math.ceil(convertedPrice), countryCode);
+    // 2. Add VAT
+    const finalPrice = getPriceWithAddedTax(convertedPrice, countryCode);
 
-  console.log('cartxx 1', finalPrice);
+    // Add the transformed price to the accumulator
+    return acc + finalPrice;
+  }, 0); // Initial value of the accumulator is 0
 
-  finalPrice = Math.ceil(finalPrice);
-
-  if (excludeCurrency) {
-    return Number(finalPrice).toFixed(2);
-  }
-
-  console.log('cartxx 2', finalPrice);
-
-  // this is a hack to see proper CAD formatting
-  // https://github.com/nodejs/node/issues/15265#issuecomment-776942859
-  const customLocale = countryCode === 'ES' ? 'de-DE' : locale === 'en-CA' ? 'en-US' : locale;
-
-  const numberFormat = new Intl.NumberFormat(customLocale, {
-    currency,
-    style: 'currency',
-    currencyDisplay: 'narrowSymbol',
-    minimumFractionDigits: hideZeroCents ? 0 : 2,
-    maximumFractionDigits: hideZeroCents ? 0 : 2,
-  });
-
-  // Intl.NumberFormat has no way to return the currency symbol in the right position, so we gotta do it
-  let formattedPrice = numberFormat.format(finalPrice * quantity);
-
-  let currencySymbol = formattedPrice.replace(/[0-9.,\s]/g, '');
-
-  formattedPrice = formattedPrice.replace(currencySymbol, '');
-
-  // Manually adding period to first gap in price if currency is EUR
-  if (currency === 'EUR') {
-    formattedPrice = formattedPrice.replace(' ', '.');
-  }
-
-  // Canada symbol
-  if (countryCode === 'CA') {
-    currencySymbol = 'CA' + currencySymbol;
-  }
-
-  // Australia symbol
-  if (countryCode === 'AU') {
-    currencySymbol = 'A' + currencySymbol;
-  }
-
-  formattedPrice = `${currencySymbol}${formattedPrice}`;
-
-  return formattedPrice;
+  return totalPrice * 100; // Now holds the sum of all transformed prices
 }
 
 // This is just for adding a symbol + decimals to the price. This does not add VAT or conversion rate!!!
@@ -654,7 +609,7 @@ export function simpleFormatPrice(
     maximumFractionDigits: hideZeroCents ? 0 : 2,
   });
 
-  if (currency !== Currency.USDollars) {
+  if (currency !== Currency.USDollars && currency !== Currency.BritishPounds) {
     priceInCents = Math.ceil(priceInCents);
   }
 
