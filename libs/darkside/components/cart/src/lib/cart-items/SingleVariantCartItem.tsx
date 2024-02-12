@@ -314,14 +314,16 @@ const SingleVariantCartItem = ({
   const { countryCode } = parseValidLocale(locale);
 
   // The price needs to be combined in the case of two identical earrings
+  const tempPrice = (Math.ceil(parseFloat(price)) / quantity) * quantity;
 
   const totalPrice = getFormattedPrice(
-    parseFloat(price) * (countryCode !== 'US' ? quantity : 1) * 100,
+    tempPrice * 100,
     locale,
     true,
     false,
+    // GB requires special handling due to how shopify applys VAT/exchnage to it here
     countryCode === 'GB',
-    true,
+    countryCode === 'GB' || countryCode === 'US' ? 1 : quantity,
   );
 
   return (

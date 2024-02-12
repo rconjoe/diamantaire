@@ -514,7 +514,7 @@ export function getFormattedPrice(
   excludeCurrency = false,
   // When we return the item from VRAI server, we need the exchange rate. When shopify returns it in checkout, we don't
   excludeExchangeRate = false,
-  shouldCeilPrice = false,
+  quantity = 1,
 ): string {
   const { countryCode } = parseValidLocale(locale);
 
@@ -524,9 +524,7 @@ export function getFormattedPrice(
 
   let finalPrice = getPriceWithAddedTax(convertedPrice, countryCode);
 
-  if (excludeExchangeRate && !shouldCeilPrice) {
-    finalPrice = Math.floor(finalPrice);
-  } else if (currency !== Currency.USDollars || shouldCeilPrice) {
+  if (currency !== Currency.USDollars) {
     finalPrice = Math.ceil(finalPrice);
   }
 
@@ -547,7 +545,73 @@ export function getFormattedPrice(
   });
 
   // Intl.NumberFormat has no way to return the currency symbol in the right position, so we gotta do it
-  let formattedPrice = numberFormat.format(finalPrice);
+  let formattedPrice = numberFormat.format(finalPrice * quantity);
+
+  let currencySymbol = formattedPrice.replace(/[0-9.,\s]/g, '');
+
+  formattedPrice = formattedPrice.replace(currencySymbol, '');
+
+  // Manually adding period to first gap in price if currency is EUR
+  if (currency === 'EUR') {
+    formattedPrice = formattedPrice.replace(' ', '.');
+  }
+
+  // Canada symbol
+  if (countryCode === 'CA') {
+    currencySymbol = 'CA' + currencySymbol;
+  }
+
+  // Australia symbol
+  if (countryCode === 'AU') {
+    currencySymbol = 'A' + currencySymbol;
+  }
+
+  formattedPrice = `${currencySymbol}${formattedPrice}`;
+
+  return formattedPrice;
+}
+
+export function getFormattedPriceForMultiQuantity(
+  priceInCents: number,
+  locale: string = DEFAULT_LOCALE,
+  hideZeroCents = true,
+  excludeCurrency = false,
+  // When we return the item from VRAI server, we need the exchange rate. When shopify returns it in checkout, we don't
+  excludeExchangeRate = false,
+  quantity = 1,
+): string {
+  const { countryCode } = parseValidLocale(locale);
+
+  const currency = getCurrency(countryCode);
+
+  const convertedPrice = applyExchangeRate(Math.ceil(priceInCents) / 100, currency, excludeExchangeRate);
+
+  let finalPrice = getPriceWithAddedTax(Math.ceil(convertedPrice), countryCode);
+
+  console.log('cartxx 1', finalPrice);
+
+  finalPrice = Math.ceil(finalPrice);
+
+  if (excludeCurrency) {
+    return Number(finalPrice).toFixed(2);
+  }
+
+  console.log('cartxx 2', finalPrice);
+
+  // this is a hack to see proper CAD formatting
+  // https://github.com/nodejs/node/issues/15265#issuecomment-776942859
+  const customLocale = countryCode === 'ES' ? 'de-DE' : locale === 'en-CA' ? 'en-US' : locale;
+
+  const numberFormat = new Intl.NumberFormat(customLocale, {
+    currency,
+    style: 'currency',
+    currencyDisplay: 'narrowSymbol',
+    minimumFractionDigits: hideZeroCents ? 0 : 2,
+    maximumFractionDigits: hideZeroCents ? 0 : 2,
+  });
+
+  // Intl.NumberFormat has no way to return the currency symbol in the right position, so we gotta do it
+  let formattedPrice = numberFormat.format(finalPrice * quantity);
 
   let currencySymbol = formattedPrice.replace(/[0-9.,\s]/g, '');
 

@@ -1129,6 +1129,7 @@ const SettingToDiamondSummaryPage = () => {
                 shouldDoublePrice={false}
                 productType={shopifyProductData?.productType}
                 engravingText={engravingText}
+                quantity={shopifyProductData?.isSoldAsDouble ? 2 : 1}
               />
             </div>
 

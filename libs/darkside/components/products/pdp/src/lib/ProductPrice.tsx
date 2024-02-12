@@ -33,6 +33,7 @@ type ProductPriceProps = {
   engravingText: string;
   productType?: string;
   lowestPricedDiamond?: DiamondLowestPriceDataProps;
+  quantity: number;
 };
 
 const ProductPrice = ({
@@ -42,6 +43,7 @@ const ProductPrice = ({
   productType,
   engravingText,
   lowestPricedDiamond,
+  quantity,
 }: ProductPriceProps) => {
   const { locale, query } = useRouter();
   // const { countryCode } = parseValidLocale(locale);
@@ -59,9 +61,9 @@ const ProductPrice = ({
   const basePrice = lowestPricedDiamond ? lowestPricedDiamond.price + price : price;
   const shouldAddEngravingCost = engravingText && productType !== 'Ring' && !doesProductQualifyForFreeEngraving;
 
-  const finalPrice = calculateFinalPrice(basePrice, productType, shouldDoublePrice, shouldAddEngravingCost);
+  const finalPrice = calculateFinalPrice(basePrice / quantity, productType, shouldDoublePrice, shouldAddEngravingCost);
 
-  const refinedPrice = getFormattedPrice(finalPrice, locale, true, false, false);
+  const refinedPrice = getFormattedPrice(finalPrice, locale, true, false, false, quantity);
 
   const translatedText = _t('Starting at %%price%%');
 

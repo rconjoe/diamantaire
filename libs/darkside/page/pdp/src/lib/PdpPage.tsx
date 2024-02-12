@@ -407,6 +407,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               <ProductPrice
                 isBuilderProduct={isBuilderProduct}
                 price={totalPrice}
+                quantity={shouldDoublePrice ? 2 : 1}
                 shouldDoublePrice={shouldDoublePrice}
                 productType={shopifyProductData?.productType}
                 engravingText={engravingText}
