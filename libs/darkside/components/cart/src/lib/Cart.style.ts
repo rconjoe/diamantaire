@@ -7,7 +7,8 @@ export const CartStyles = styled(motion.aside)`
   top: 0;
   right: 0;
   width: 100%;
-  height: 100vh;
+  /* Considers Safari nav bar */
+  height: 100svh;
   overflow-y: auto;
   z-index: 10000;
   background-color: #fff;
