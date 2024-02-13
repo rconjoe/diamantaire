@@ -8,6 +8,8 @@ import 'dotenv/config';
 
 const BASE_URL = 'https://www.vrai.com';
 
+const alternateLocales = ['de-DE', 'es-ES']; // Removed 'fr-FR' for now
+
 /** Types */
 
 type SeoFields = {
@@ -231,7 +233,11 @@ async function getAllPlpPageSlugs(){
 
 /** GENERATE URLS */
 
-function generateStandardPageSitemapUrls(standardPages: StandardPageBrief[], locale: string): string[]{
+function generateStandardPageSitemapUrls(standardPages: StandardPageBrief[]): string[]{
+
+  const getStandardPageUrl = (slug: string, locale?: string) => {
+    return `${BASE_URL}/${locale ? locale + '/' : ''}${slug}`;
+  }
   // only pages w/o no index, no follow
   const indexablePages = standardPages.reduce((acc: string[], page) => {
     if(!page.seo?.addNoindexNofollow){
@@ -241,29 +247,54 @@ function generateStandardPageSitemapUrls(standardPages: StandardPageBrief[], loc
     return acc;
   },[]);
 
-  return indexablePages.map(slug => {
-    const url = `${BASE_URL}/${locale ? locale + '/' : ''}${slug}`;
+  const urls = indexablePages.map(slug => {
+    const alternateLinks = alternateLocales.map(locale => {
+      const lang = locale.split('-')[0];
+      
+      return `<xhtml:link rel="alternate" hreflang="${lang}" href="${getStandardPageUrl(slug, locale)}/" />`
+    }).join('');
 
-    return `<url><loc>${url}</loc></url>`;
-  })
+    return `<url><loc>${getStandardPageUrl(slug)}</loc>${alternateLinks}</url>`;
+  });
+
+  return ['<!-- Content Pages -->', ...urls];
 }
 
-function generateJournalPageSitemapUrls(journalPages: JournalPageBrief[], locale: string): string[]{
+function generateJournalPageSitemapUrls(journalPages: JournalPageBrief[]): string[]{
+
+  const getJournalPageUrl = (slug: string, locale?: string) => {
+    return `${BASE_URL}/${locale ? locale + '/' : ''}journal/post/${slug}`;
+  }
+
   const urls = journalPages.map(page => {
-    const url = `${BASE_URL}/${locale ? locale + '/' : ''}journal/post/${page.slug}`;
+    const url = getJournalPageUrl(page.slug);
+    // const alternateLinks = alternateLocales.map(locale => {
+    //   const lang = locale.split('-')[0];
+      
+    //   return `<xhtml:link rel="alternate" hreflang="${lang}" href="${getJournalPageUrl(page.slug, locale)}/" />`
+    // }).join('');
 
     return `<url><loc>${url}</loc></url>`;
   });
 
   console.log("Journal URLs", urls);
 
-  return urls;
+  return ['<!-- Journal Posts -->', ...urls];
 }
 
-function generateJournalCategorySitemapUrls(journalCategories: JournalCategoryBrief[], locale: string): string[]{
+function generateJournalCategorySitemapUrls(journalCategories: JournalCategoryBrief[]): string[]{
+  const getJournalCategoryUrl = (category: string, locale?: string) => {
+    return `${BASE_URL}/${locale ? locale + '/' : ''}journal/${category}`;
+  };
   const urls = journalCategories.reduce((acc, category) => {
     const path = `journal/${category.key}`;
-    const url = `${BASE_URL}/${locale ? locale + '/' : ''}${path}`;
+    const url = getJournalCategoryUrl(path);
+
+    // const alternateLinks = alternateLocales.map(locale => {
+    //   const lang = locale.split('-')[0];
+      
+    //   return `<xhtml:link rel="alternate" hreflang="${lang}" href="${getJournalCategoryUrl(path, locale)}/" />`
+    // }).join('');
 
     // add all category urls
     acc.push(`<url><loc>${url}</loc></url>`);
@@ -271,20 +302,30 @@ function generateJournalCategorySitemapUrls(journalCategories: JournalCategoryBr
     // add all subcategory urls
     category.subcategories.forEach(subcategory => {
       const subcategoryPath = `journal/${category.key}/${subcategory.key}`;
-      const subcategoryUrl = `${BASE_URL}/${locale ? locale + '/' : ''}${subcategoryPath}`;
+      const subcategoryUrl = getJournalCategoryUrl(subcategoryPath);
 
-      acc.push(`<url><loc>${subcategoryUrl}</loc></url>`);
-    })
+      const alternateSubcategoryLinks = alternateLocales.map(locale => {
+        const lang = locale.split('-')[0];
+        
+        return `<xhtml:link rel="alternate" hreflang="${lang}" href="${getJournalCategoryUrl(path, locale)}/" />`
+      }).join('');
+
+      acc.push(`<url><loc>${subcategoryUrl}</loc>${alternateSubcategoryLinks}</url>`);
+    });
 
     return acc;
   },[])
 
   console.log("Journal Category URLs", urls);
 
-  return urls;
+  return ['<!-- Journal Categories -->', ...urls];
 }
 
-function generatePlpPageSitemapUrls(standardPages: PlpPageBrief[], locale: string): string[]{
+function generatePlpPageSitemapUrls(standardPages: PlpPageBrief[]): string[]{
+
+  const getPlpPageUrl = (slug: string, locale?: string) => {
+    return `${BASE_URL}/${locale ? locale + '/' : ''}${slug}`;
+  }
   // only pages w/o no index, no follow
   const indexablePages = standardPages.reduce((acc: string[], page) => {
     if(!page.seo?.addNoindexNofollow && page.category && page.slugNew){
@@ -294,14 +335,50 @@ function generatePlpPageSitemapUrls(standardPages: PlpPageBrief[], locale: strin
     return acc;
   },[]);
 
-  return indexablePages.map(slug => {
-    const url = `${BASE_URL}/${locale ? locale + '/' : ''}${slug}`;
+  const urls = indexablePages.map(slug => {
+    const url = getPlpPageUrl(slug);
 
-    return `<url><loc>${url}</loc></url>`;
-  })
+    const alternateLinks = alternateLocales.map(locale => {
+      const lang = locale.split('-')[0];
+      
+      return `<xhtml:link rel="alternate" hreflang="${lang}" href="${getPlpPageUrl(slug, locale)}/" />`
+    }).join('');
+
+    return `<url><loc>${url}</loc>${alternateLinks}</url>`;
+  });
+
+  return ['<!-- Product List Pages -->', ...urls];
 }
 
-function generatePdpSitemapUrls(allProducts: Product[], locale?: string){
+function generatePdpSitemapUrls(allProducts: Product[]){
+  const getPdpUrl = (collectionSlug: string, productSlug: string, productType: string, locale?: string) => {
+    let type;
+
+    switch(productType){
+      case 'Engagement Ring':
+        type = 'engagement-ring';
+        break;
+      case 'Wedding Band':
+        type = 'wedding-bands';
+        break;
+      case 'Earrings':
+        type = 'jewelry/earrings';
+        break;
+      case 'Necklace':
+        type = 'jewelry/necklaces';
+        break;
+      case 'Bracelet':
+        type = 'jewelry/bracelets';
+        break;
+      case 'Ring':
+        type = 'jewelry/rings';
+        break;
+      default:
+        type = productType;
+    }
+
+    return `${BASE_URL}/${locale ? locale + '/' : ''}${type}/${collectionSlug}/${productSlug}`;
+  }
   const collections = allProducts.reduce((acc: Record<string, Product[]>, product) => {
     if (!acc[product.collectionSlug]){
       acc[product.collectionSlug] = [product];
@@ -327,9 +404,15 @@ function generatePdpSitemapUrls(allProducts: Product[], locale?: string){
 
         if (canonicalProduct){
           // console.log("Canonical Product", collectionSlug, canonicalProduct.configuration);
-          const url = `${BASE_URL}/${locale ? locale + '/' : ''}${collectionSlug}/${canonicalProduct.productSlug}`;
+          const url = getPdpUrl(collectionSlug, canonicalProduct.productSlug, canonicalProduct.productType);
 
-          acc.push(`<url><loc>${url}</loc></url>`);
+          const alternateLinks = alternateLocales.map(locale => {
+            const lang = locale.split('-')[0];
+            
+            return `<xhtml:link rel="alternate" hreflang="${lang}" href="${getPdpUrl(collectionSlug, canonicalProduct.productSlug, canonicalProduct.productType, locale)}/" />`
+          }).join('');
+
+          acc.push(`<url><loc>${url}</loc>${alternateLinks}</url>`);
         }
       });
     });
@@ -339,32 +422,32 @@ function generatePdpSitemapUrls(allProducts: Product[], locale?: string){
 
   console.log("PDP URLs", urls.length);
 
-  return urls;
+  return ['<!-- Product Detail Pages -->', ...urls];
 }
 
-async function getAllData(locale?: string){
+async function getAllData(){
   // Standard Page slugs
   const standardPagesResponse = await getAllStandardPageSlugs();
-  const standardPageUrls = generateStandardPageSitemapUrls(standardPagesResponse, locale);
+  const standardPageUrls = generateStandardPageSitemapUrls(standardPagesResponse);
 
   // Journal categories and subcategories
   const journalCategoryKeys = await getAllJournalCategorySlugs();
-  const journalCategoryUrls = generateJournalCategorySitemapUrls(journalCategoryKeys, locale);
+  const journalCategoryUrls = generateJournalCategorySitemapUrls(journalCategoryKeys);
   
   // Journal Pages
   const journalPagesSlugs = await getAllJournalPageSlugs();
-  const journalPageUrls = generateJournalPageSitemapUrls(journalPagesSlugs, locale);
+  const journalPageUrls = generateJournalPageSitemapUrls(journalPagesSlugs);
 
   // PLP Pages
   const plpPagesSlugs = await getAllPlpPageSlugs();
-  const plpPageUrls = generatePlpPageSitemapUrls(plpPagesSlugs, locale);
+  const plpPageUrls = generatePlpPageSitemapUrls(plpPagesSlugs);
 
   // PDP Pages
   const allProducts = await getAllProducts();
-  const pdpUrls = generatePdpSitemapUrls(allProducts, locale);
+  const pdpUrls = generatePdpSitemapUrls(allProducts);
 
-  const pages = [standardPageUrls.join(''), journalCategoryUrls.join(''), journalPageUrls.join(''), plpPageUrls.join(''), pdpUrls.join('')].join('');
-  const siteMapData = `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${pages}</urlset>`;
+  const pages = [standardPageUrls.join('\n'), journalCategoryUrls.join('\n'), journalPageUrls.join('\n'), plpPageUrls.join('\n'), pdpUrls.join('\n')].join('\n\n');
+  const siteMapData = `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n\n${pages}</urlset>`;
 
   generateXML(siteMapData, './files/sitemap.xml');
 }
