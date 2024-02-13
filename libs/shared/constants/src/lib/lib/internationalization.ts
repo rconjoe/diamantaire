@@ -524,8 +524,6 @@ export function getFormattedPrice(
 
   let finalPrice = getPriceWithAddedTax(convertedPrice, countryCode);
 
-  console.log('finalPricezzz', finalPrice);
-
   if (currency !== Currency.USDollars) {
     finalPrice = Math.ceil(finalPrice);
   }
@@ -548,8 +546,6 @@ export function getFormattedPrice(
 
   // Intl.NumberFormat has no way to return the currency symbol in the right position, so we gotta do it
   let formattedPrice = numberFormat.format(finalPrice * quantity);
-
-  console.log('formattedPrice', formattedPrice);
 
   let currencySymbol = formattedPrice.replace(/[0-9.,\s]/g, '');
 
@@ -578,9 +574,10 @@ export function getFormattedPrice(
 // We use this to format the price for multiple products that are combined, ex: a custom ER
 // Best practice: get the base value with this, then use simpleFormatPrice to add the symbol
 export function combinePricesOfMultipleProducts(prices, locale) {
-  console.log('prices', prices);
   const { countryCode } = parseValidLocale(locale);
   const currency = getCurrency(countryCode);
+
+  console.log(prices, 'prices');
 
   const totalPrice = prices.reduce((acc, price) => {
     // 1. Convert price
@@ -592,8 +589,6 @@ export function combinePricesOfMultipleProducts(prices, locale) {
     // Don't round up if the tenth is less than .5
     const isTenthLessThanHalf = checkTenthsLessThanHalf([finalPrice]);
 
-    console.log('finalPricexzz', ceilToHalf(finalPrice));
-
     // Add the transformed price to the accumulator
     return (
       acc +
@@ -601,7 +596,7 @@ export function combinePricesOfMultipleProducts(prices, locale) {
         ? Math.ceil(finalPrice)
         : !isTenthLessThanHalf
         ? Math.ceil(finalPrice)
-        : prices.length > 1
+        : prices.length > 1 && locale === 'es-ES'
         ? ceilToHalf(finalPrice)
         : finalPrice)
     );

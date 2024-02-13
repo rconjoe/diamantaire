@@ -33,6 +33,7 @@ const PriceDebugger = ({ price, locale }) => {
       <p>Base Price: {price}</p>
 
       <p>Exchange rate applied to base: {exchangeRatePrice} </p>
+      <p>Just formatting base val: {simpleFormatPrice(price)} </p>
 
       <p>getFormattedPrice: {getFormattedPrice(price, locale, true, false, false)}</p>
       <p>combinePricesOfMultipleProducts: {simpleFormatPrice(combinePricesOfMultipleProducts([price], locale), locale)}</p>

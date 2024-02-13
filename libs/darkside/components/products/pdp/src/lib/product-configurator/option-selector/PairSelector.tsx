@@ -1,5 +1,5 @@
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
-import { getFormattedPrice } from '@diamantaire/shared/constants';
+import { combinePricesOfMultipleProducts, getFormattedPrice, simpleFormatPrice } from '@diamantaire/shared/constants';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo } from 'react';
@@ -29,7 +29,8 @@ const PairSelector = ({
           id: 'pair',
           value:
             `${_t('Pair')} ${selectedConfiguration.caratWeight !== 'other' && '<span class="em-dash"></span>'}` +
-            getFormattedPrice(variantPrice, locale, true, false, false, 2),
+            simpleFormatPrice(combinePricesOfMultipleProducts([variantPrice, variantPrice], locale), locale),
+
           valueLabel: 'Pair',
           isSelected: selectedPair === 'pair',
         },
@@ -49,7 +50,8 @@ const PairSelector = ({
           id: 'pair',
           value: `${_t('Pair')} ${
             selectedConfiguration.caratWeight !== 'other'
-              ? '<span class="em-dash"></span> ' + getFormattedPrice(variantPrice, locale, true, false, false, 2)
+              ? '<span class="em-dash"></span> ' +
+                simpleFormatPrice(combinePricesOfMultipleProducts([variantPrice, variantPrice], locale), locale)
               : ''
           } `,
           valueLabel: 'Pair',

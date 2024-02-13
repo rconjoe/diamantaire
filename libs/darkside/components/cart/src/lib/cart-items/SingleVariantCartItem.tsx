@@ -2,7 +2,7 @@
 import { useAnalytics } from '@diamantaire/analytics';
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { CartCertProps, useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
-import { combinePricesOfMultipleProducts, getFormattedPrice } from '@diamantaire/shared/constants';
+import { combinePricesOfMultipleProducts, getFormattedPrice, simpleFormatPrice } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -322,8 +322,10 @@ const SingleVariantCartItem = ({
   console.log('dynamicPricexxx', dynamicPrice);
   console.log('initPrice', initPrice);
 
-  const totalPriceCombined = combinePricesOfMultipleProducts([...dynamicPrice], locale);
-  const totalPrice = getFormattedPrice(initPrice, locale, true, false, true, 1);
+  const totalPrice =
+    quantity === 1
+      ? getFormattedPrice(initPrice, locale, true, false, true, 1)
+      : simpleFormatPrice(combinePricesOfMultipleProducts([...dynamicPrice], locale), locale);
 
   return (
     <SingleVariantCartItemStyles>
