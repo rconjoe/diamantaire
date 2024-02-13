@@ -51,6 +51,7 @@ import {
   getSWRPageCacheHeader,
   generatePdpAssetAltTag,
 } from '@diamantaire/shared/helpers';
+import { PriceDebugger } from '@diamantaire/shared-product';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
@@ -412,7 +413,10 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 productType={shopifyProductData?.productType}
                 engravingText={engravingText}
                 lowestPricedDiamond={lowestPricedDiamond}
+                pricesArray={(shouldDoublePrice && Array.from(Array(2)).map(() => totalPrice)) || null}
               />
+
+              <PriceDebugger price={price} locale={locale} />
 
               <ProductConfigurator
                 configurations={configurations}

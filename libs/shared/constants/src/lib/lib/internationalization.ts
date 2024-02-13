@@ -524,6 +524,8 @@ export function getFormattedPrice(
 
   let finalPrice = getPriceWithAddedTax(convertedPrice, countryCode);
 
+  console.log('finalPricezzz', finalPrice);
+
   if (currency !== Currency.USDollars) {
     finalPrice = Math.ceil(finalPrice);
   }
@@ -546,6 +548,8 @@ export function getFormattedPrice(
 
   // Intl.NumberFormat has no way to return the currency symbol in the right position, so we gotta do it
   let formattedPrice = numberFormat.format(finalPrice * quantity);
+
+  console.log('formattedPrice', formattedPrice);
 
   let currencySymbol = formattedPrice.replace(/[0-9.,\s]/g, '');
 
@@ -588,20 +592,28 @@ export function combinePricesOfMultipleProducts(prices, locale) {
     // Don't round up if the tenth is less than .5
     const isTenthLessThanHalf = checkTenthsLessThanHalf([finalPrice]);
 
-    console.log('finalPricexzz', finalPrice);
+    console.log('finalPricexzz', ceilToHalf(finalPrice));
 
     // Add the transformed price to the accumulator
     return (
       acc +
-      (locale === 'en-GB' && !isTenthLessThanHalf
+      ((locale === 'en-GB' && !isTenthLessThanHalf) || (locale !== 'en-US' && !isTenthLessThanHalf)
         ? Math.ceil(finalPrice)
-        : locale !== 'en-US' && locale !== 'en-GB'
+        : !isTenthLessThanHalf
         ? Math.ceil(finalPrice)
+        : prices.length > 1
+        ? ceilToHalf(finalPrice)
         : finalPrice)
     );
   }, 0); // Initial value of the accumulator is 0
 
   return totalPrice * 100; // Now holds the sum of all transformed prices
+}
+
+function ceilToHalf(number) {
+  const rounded = Math.ceil(number * 2) / 2;
+
+  return rounded;
 }
 
 function checkTenthsLessThanHalf(numbers) {
@@ -626,7 +638,9 @@ export function simpleFormatPrice(
 ) {
   const { countryCode } = parseValidLocale(locale);
   const currency = cur || getCurrency(countryCode);
-  const numberFormat = new Intl.NumberFormat(locale, {
+
+  const customLocale = countryCode === 'ES' ? 'de-DE' : locale === 'en-CA' ? 'en-US' : locale;
+  const numberFormat = new Intl.NumberFormat(customLocale, {
     currency,
     style: 'currency',
     currencyDisplay: 'narrowSymbol',

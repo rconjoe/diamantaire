@@ -65,7 +65,7 @@ const ProductPrice = ({
 
   const finalPrice = calculateFinalPrice(basePrice / quantity, productType, shouldDoublePrice, shouldAddEngravingCost);
 
-  const refinedPrice = getFormattedPrice(finalPrice, locale, true, false, false, quantity);
+  const refinedPrice = getFormattedPrice(basePrice, locale, true, false, false, quantity);
 
   const translatedText = _t('Starting at %%price%%');
 
@@ -96,6 +96,7 @@ const ProductPrice = ({
 export { ProductPrice };
 
 export const calculateFinalPrice = (basePrice, productType, shouldDoublePrice, shouldAddEngravingCost) => {
+  console.log('basePrice', basePrice);
   if (productType === 'Earrings' && shouldDoublePrice) {
     return basePrice * 2;
   }

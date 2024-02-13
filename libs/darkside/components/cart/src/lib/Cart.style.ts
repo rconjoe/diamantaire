@@ -37,7 +37,7 @@ export const CartStyles = styled(motion.aside)`
   }
   .cart__items {
     .cart__items-inner {
-      max-height: calc(100vh - 240px);
+      max-height: calc(100dvh - 240px);
       overflow-y: auto;
       margin: 0;
       padding: 0 2.5rem 5rem;

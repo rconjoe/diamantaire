@@ -129,6 +129,8 @@ const CountrySelector = ({ toggleCountrySelector }: { toggleCountrySelector: () 
                         className={clsx(selectedCountryCode === country.code ? 'active' : '')}
                         onClick={() => {
                           toggleCountrySelector();
+                          // we prob need an absolute url here
+
                           window.scrollTo(0, 0);
                         }}
                       >

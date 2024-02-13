@@ -2,7 +2,7 @@
 import { useAnalytics } from '@diamantaire/analytics';
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { CartCertProps, useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
-import { getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
+import { combinePricesOfMultipleProducts, getFormattedPrice } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -311,20 +311,19 @@ const SingleVariantCartItem = ({
     }).then(() => refetch());
   }
 
-  const { countryCode } = parseValidLocale(locale);
+  // Merchandise price always comes back in USD. Cost returns the price in the user's currency
+  // const priceToUse = locale === 'en-US' ? merchandise?.price?.amount : cost?.totalAmount?.amount;
+  const priceToUse = merchandise?.price?.amount;
+  const initPrice = parseFloat(priceToUse) * 100;
 
   // The price needs to be combined in the case of two identical earrings
-  const tempPrice = (Math.ceil(parseFloat(price)) / quantity) * quantity;
+  const dynamicPrice = Array.from(Array(quantity).keys()).map(() => initPrice);
 
-  const totalPrice = getFormattedPrice(
-    tempPrice * 100,
-    locale,
-    true,
-    false,
-    // GB requires special handling due to how shopify applys VAT/exchnage to it here
-    countryCode === 'GB',
-    countryCode === 'GB' || countryCode === 'US' ? 1 : quantity,
-  );
+  console.log('dynamicPricexxx', dynamicPrice);
+  console.log('initPrice', initPrice);
+
+  const totalPriceCombined = combinePricesOfMultipleProducts([...dynamicPrice], locale);
+  const totalPrice = getFormattedPrice(initPrice, locale, true, false, true, 1);
 
   return (
     <SingleVariantCartItemStyles>
