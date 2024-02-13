@@ -596,7 +596,8 @@ export function combinePricesOfMultipleProducts(prices, locale) {
         ? Math.ceil(finalPrice)
         : !isTenthLessThanHalf
         ? Math.ceil(finalPrice)
-        : prices.length > 1 && locale === 'es-ES'
+        : // Round up to the nearest half if there are multiple prices and the locale is ES or DE
+        prices.length > 1 && locale !== 'en-US'
         ? ceilToHalf(finalPrice)
         : finalPrice)
     );
