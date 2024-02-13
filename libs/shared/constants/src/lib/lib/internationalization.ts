@@ -577,8 +577,6 @@ export function combinePricesOfMultipleProducts(prices, locale) {
   const { countryCode } = parseValidLocale(locale);
   const currency = getCurrency(countryCode);
 
-  console.log(prices, 'prices');
-
   const totalPrice = prices.reduce((acc, price) => {
     // 1. Convert price
     const convertedPrice = applyExchangeRate(price / 100, currency, false);
