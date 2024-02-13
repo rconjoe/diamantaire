@@ -587,10 +587,14 @@ export function combinePricesOfMultipleProducts(prices, locale) {
     // Don't round up if the tenth is less than .5
     const isTenthLessThanHalf = checkTenthsLessThanHalf([finalPrice]);
 
+    console.log('prices', prices);
+
     // Add the transformed price to the accumulator
     return (
       acc +
-      ((locale === 'en-GB' && !isTenthLessThanHalf) || (locale !== 'en-US' && !isTenthLessThanHalf)
+      (locale !== 'en-US' && hasThreeZeros
+        ? finalPrice
+        : (locale === 'en-GB' && !isTenthLessThanHalf) || (locale !== 'en-US' && !isTenthLessThanHalf)
         ? Math.ceil(finalPrice)
         : !isTenthLessThanHalf
         ? Math.ceil(finalPrice)
@@ -608,6 +612,15 @@ function ceilToHalf(number) {
   const rounded = Math.ceil(number * 2) / 2;
 
   return rounded;
+}
+
+// Edge case where number is already whole Dedicated to G Money
+function hasThreeZeros(num) {
+  // Convert the number to a string
+  const numStr = num.toString();
+
+  // Check if the last three characters are '000'
+  return numStr.endsWith('000');
 }
 
 function checkTenthsLessThanHalf(numbers) {

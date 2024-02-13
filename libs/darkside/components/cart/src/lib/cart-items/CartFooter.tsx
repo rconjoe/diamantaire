@@ -46,6 +46,10 @@ const CartFooterStyles = styled.div`
           opacity: 0.5;
           pointer-events: none;
         }
+
+        button {
+          min-height: 4.8rem;
+        }
       }
       .consent-container {
         background-color: transparent;
