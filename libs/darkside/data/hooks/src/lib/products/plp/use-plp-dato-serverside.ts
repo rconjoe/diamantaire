@@ -74,6 +74,7 @@ export function usePlpDatoServerside(
   return useQuery({
     ...queries.plp.serverSideDato(locale, slug, category),
     keepPreviousData: true,
+    refetchOnWindowFocus: false,
   });
 }
 

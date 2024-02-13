@@ -14,6 +14,7 @@ export function useHumanNameMapper(locale: string): UseQueryResult<HumanNameMapp
   return useQuery({
     ...queries['human-name-mappers'].content(locale),
     keepPreviousData: true,
+    refetchOnWindowFocus: false,
   });
 }
 
