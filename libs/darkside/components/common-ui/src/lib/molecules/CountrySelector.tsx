@@ -133,11 +133,7 @@ const CountrySelector = ({ toggleCountrySelector }: { toggleCountrySelector: () 
                           // we prob need an absolute url here
                           const newLocale = generateLocale(getPrimaryLanguage(country.code), country.code);
 
-                          console.log('router.asPath', router.asPath);
-
                           window.location.href = `/${newLocale}/${router.asPath}`;
-
-                          // window.location.href =`/${generateLocale(getPrimaryLanguage(country.code), country.code)}${router.asPath}`;
                         }}
                       >
                         <Link
