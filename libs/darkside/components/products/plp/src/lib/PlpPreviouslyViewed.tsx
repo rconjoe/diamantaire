@@ -163,6 +163,10 @@ const PlpPreviouslyViewed = () => {
                   (p) => p?.content?.variantId === handle || p?.content?.shopifyProductHandle === handle,
                 );
 
+                if(!productNode){
+                  return null;
+                }
+
                 const product = productNode?.product;
 
                 const content = productNode?.content;
