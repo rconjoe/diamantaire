@@ -1124,7 +1124,7 @@ const SettingToDiamondSummaryPage = () => {
             )}
 
             <div className="total-price">
-              <ProductPrice
+              {diamondPrice && <ProductPrice
                 isBuilderProduct={false}
                 price={totalPriceInCents}
                 shouldDoublePrice={false}
@@ -1132,7 +1132,7 @@ const SettingToDiamondSummaryPage = () => {
                 engravingText={engravingText}
                 quantity={shopifyProductData?.isSoldAsDouble ? 2 : 1}
                 pricesArray={[shopifyProductData?.price, ...diamondPrice]}
-              />
+              />}
             </div>
 
             <div className="builder-summary__content">
