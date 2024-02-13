@@ -7,7 +7,8 @@ export const CartStyles = styled(motion.aside)`
   top: 0;
   right: 0;
   width: 100%;
-  height: 100vh;
+  /* Considers Safari nav bar */
+  height: 100dvh;
   overflow-y: auto;
   z-index: 10000;
   background-color: #fff;
@@ -36,10 +37,10 @@ export const CartStyles = styled(motion.aside)`
   }
   .cart__items {
     .cart__items-inner {
-      max-height: calc(100vh - 240px);
+      max-height: calc(100dvh - 240px);
       overflow-y: auto;
       margin: 0;
-      padding: 0 2.5rem 5rem;
+      padding: 0 2.5rem 10rem;
       ${media.medium`margin: 0 3rem 0 2rem;`}
 
       &::-webkit-scrollbar {

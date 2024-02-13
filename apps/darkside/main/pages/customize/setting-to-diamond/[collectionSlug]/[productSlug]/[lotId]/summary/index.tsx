@@ -436,7 +436,10 @@ const SettingToDiamondSummaryPage = () => {
 
   const { product, diamonds } = builderProduct;
 
-  const diamondPrice = Array.isArray(diamonds) && diamonds?.map((diamond) => diamond.price).reduce((a, b) => a + b, 0);
+  const diamondPrice = Array.isArray(diamonds) && diamonds?.map((diamond) => Math.ceil(diamond.price));
+
+  console.log('diamondPrice', diamondPrice);
+  const diamondPricesCombined = diamondPrice && diamondPrice.reduce((acc, price) => acc + price, 0);
 
   const { countryCode, languageCode } = parseValidLocale(locale);
 
@@ -721,9 +724,9 @@ const SettingToDiamondSummaryPage = () => {
 
     const { productTitle: settingProductTitle, image: { src } = { src: '' }, price: settingPrice } = product || {};
     const formattedSettingPrice = getFormattedPrice(settingPrice, locale, true, true);
-    const formattedDiamondPrice = getFormattedPrice(diamondPrice, locale, true, true);
+    const formattedDiamondPrice = getFormattedPrice(diamondPricesCombined, locale, true, true);
     const id = settingVariantId.split('/').pop();
-    const totalAmount = getFormattedPrice(settingPrice + diamondPrice, locale, true, true);
+    const totalAmount = getFormattedPrice(settingPrice + diamondPricesCombined, locale, true, true);
 
     Array.isArray(diamonds) &&
       diamonds?.map((diamond) => {
@@ -1087,13 +1090,17 @@ const SettingToDiamondSummaryPage = () => {
             )}
 
             <div className="total-price">
-              <ProductPrice
-                isBuilderProduct={false}
-                price={totalPriceInCents}
-                shouldDoublePrice={false}
-                productType={shopifyProductData?.productType}
-                engravingText={engravingText}
-              />
+              {diamondPrice && (
+                <ProductPrice
+                  isBuilderProduct={false}
+                  price={totalPriceInCents}
+                  shouldDoublePrice={false}
+                  productType={shopifyProductData?.productType}
+                  engravingText={engravingText}
+                  quantity={shopifyProductData?.isSoldAsDouble ? 2 : 1}
+                  pricesArray={[shopifyProductData?.price, ...diamondPrice]}
+                />
+              )}
             </div>
 
             <div className="builder-summary__content">

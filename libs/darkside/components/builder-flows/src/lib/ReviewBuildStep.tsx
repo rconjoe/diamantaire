@@ -977,6 +977,7 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
                 shouldDoublePrice={false}
                 productType={product?.productType}
                 engravingText={engravingText}
+                quantity={shopifyProductData?.isSoldAsDouble ? 2 : 1}
               />
             </div>
 

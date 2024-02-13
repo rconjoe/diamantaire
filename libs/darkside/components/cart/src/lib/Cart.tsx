@@ -2,7 +2,7 @@ import { FreezeBody, UIString } from '@diamantaire/darkside/components/common-ui
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { updateItemQuantity } from '@diamantaire/darkside/data/api';
 import { useCartData, useCartInfo } from '@diamantaire/darkside/data/hooks';
-import { getFormattedPrice, getVat, parseValidLocale, simpleFormatPrice } from '@diamantaire/shared/constants';
+import { getFormattedPrice, getVat, parseValidLocale } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -68,16 +68,8 @@ const Cart = ({ closeCart }) => {
   const { countryCode } = parseValidLocale(locale);
 
   function getCartTotal() {
-    if (countryCode === 'GB') {
-      // GB is the only country that has VAT included in the base price
-      return getFormattedPrice(parseFloat(checkout?.cost?.totalAmount?.amount) * 100, locale, true, false, true);
-    } else if (getVat(countryCode)) {
-      // Shopify includes vat pricing for all EU countries, but we need to add the symbol and handle formatting
-      return simpleFormatPrice(Math.ceil(parseFloat(checkout?.cost?.totalAmount?.amount)) * 100, locale, true);
-    } else {
-      // US, CA, AUD do not have VAT pricing
-      return getFormattedPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale, true, false, true);
-    }
+    // US, CA, AUD do not have VAT pricing
+    return getFormattedPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale, true, false, true);
   }
 
   const cartTotal = getCartTotal();

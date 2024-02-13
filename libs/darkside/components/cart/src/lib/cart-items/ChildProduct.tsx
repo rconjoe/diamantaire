@@ -1,5 +1,5 @@
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
-import { getFormattedPrice } from '@diamantaire/shared/constants';
+import { getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
@@ -57,7 +57,7 @@ const ChildProductStyles = styled.div`
 `;
 
 const ChildProduct = ({ lineItem }) => {
-  const { attributes, cost, id } = lineItem || {};
+  const { attributes, cost, id, merchandise, quantity } = lineItem || {};
 
   const { locale } = useRouter();
   const { _t } = useTranslations(locale);
@@ -99,6 +99,22 @@ const ChildProduct = ({ lineItem }) => {
     return matchingAttribute;
   }, []);
 
+  const { countryCode } = parseValidLocale(locale);
+  const isUSorGB = locale === 'en-US' || locale === 'en-GB';
+
+  const price = isUSorGB ? cost?.totalAmount?.amount : merchandise?.price.amount;
+  const tempPrice = (Math.ceil(parseFloat(price)) / quantity) * quantity;
+
+  const totalPrice = getFormattedPrice(
+    tempPrice * 100,
+    locale,
+    true,
+    false,
+    // GB requires special handling due to how shopify applys VAT/exchnage to it here
+    countryCode === 'GB',
+    countryCode === 'GB' || countryCode === 'US' ? 1 : quantity,
+  );
+
   return (
     <ChildProductStyles>
       <div className="child-product__inner">
@@ -107,9 +123,7 @@ const ChildProduct = ({ lineItem }) => {
         <div className="cart-item__content">
           <p>
             <strong>{_t(productType)}</strong>
-            {isProductDiamond && (
-              <span>{getFormattedPrice(parseFloat(cost?.totalAmount?.amount) * 100, locale, true, false, true)}</span>
-            )}
+            {isProductDiamond && <span>{totalPrice}</span>}
           </p>
 
           {specs?.split(';').map((val) => <p key={id + `-${val}`}>{val}</p>)}

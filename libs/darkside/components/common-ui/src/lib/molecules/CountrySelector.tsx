@@ -128,8 +128,12 @@ const CountrySelector = ({ toggleCountrySelector }: { toggleCountrySelector: () 
                       <button
                         className={clsx(selectedCountryCode === country.code ? 'active' : '')}
                         onClick={() => {
+                          window.localStorage.removeItem('cartId');
                           toggleCountrySelector();
-                          window.scrollTo(0, 0);
+                          // we prob need an absolute url here
+                          const newLocale = generateLocale(getPrimaryLanguage(country.code), country.code);
+
+                          window.location.href = `/${newLocale}/${router.asPath}`;
                         }}
                       >
                         <Link

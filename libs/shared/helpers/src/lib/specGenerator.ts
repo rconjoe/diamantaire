@@ -50,12 +50,17 @@ export function specGenerator({ configuration, productType, _t, alt_t, hasChildD
   }
 
   // Need to duplicate next 2 to catch all cases
-  if (diamondShape && !sideStoneCarat) {
+  if (diamondShape && !sideStoneCarat && diamondShape?.split('').filter((c) => c === '+').length < 2) {
     specArray.push(`${_t('shape')}: ${_t(diamondShape)}`);
   }
 
-  if (diamondType && !sideStoneCarat) {
-    specArray.push(`${_t('shape')}: ${_t(diamondType)}`);
+  if (diamondType && !sideStoneCarat && diamondType?.split('').filter((c) => c === '+').length < 2) {
+    specArray.push(
+      `${_t('shape')}:  ${diamondType
+        ?.split('+')
+        .map((diamondType) => _t(diamondType))
+        .join(' + ')}`,
+    );
   }
 
   // ER specific

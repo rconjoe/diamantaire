@@ -160,7 +160,9 @@ const DiamondBuildStep = () => {
   const [loading, setLoading] = useState(true);
   // const [isTableView, setIsTableView] = useState(true);
   const isTableView = true;
-  const [options, setOptions] = useState(initialOptions);
+  const [options, setOptions] = useState<{
+    [key: string]: any;
+  }>(initialOptions);
   const [activeRow, setActiveRow] = useState(null);
 
   const { data: { diamonds, pagination, ranges } = {} } = useDiamondsData({ ...options });
@@ -257,7 +259,9 @@ const DiamondBuildStep = () => {
   };
 
   useEffect(() => {
-    updateOptions({ ...defaultInitialOptions, diamondType: diamondTypeToShow });
+    if (diamondTypeToShow !== options.diamondType) {
+      updateOptions({ ...defaultInitialOptions, diamondType: diamondTypeToShow });
+    }
   }, [diamondTypeToShow]);
 
   useEffect(() => {
