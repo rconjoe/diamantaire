@@ -312,8 +312,9 @@ const SingleVariantCartItem = ({
   }
 
   // Merchandise price always comes back in USD. Cost returns the price in the user's currency
-  // const priceToUse = locale === 'en-US' ? merchandise?.price?.amount : cost?.totalAmount?.amount;
-  const priceToUse = merchandise?.price?.amount;
+  // Earrings need the merchandise price
+  const priceToUse = locale === 'en-US' || quantity !== 1 ? merchandise?.price?.amount : cost?.totalAmount?.amount;
+  // const priceToUse = merchandise?.price?.amount;
   const initPrice = parseFloat(priceToUse) * 100;
 
   // The price needs to be combined in the case of two identical earrings
