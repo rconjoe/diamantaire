@@ -73,6 +73,7 @@ export function usePlpDatoServerside(
 ): UseQueryResult<PlpDatoServersideProps, unknown> {
   return useQuery({
     ...queries.plp.serverSideDato(locale, slug, category),
+    keepPreviousData: true,
   });
 }
 
