@@ -40,7 +40,7 @@ export const CartStyles = styled(motion.aside)`
       max-height: calc(100dvh - 240px);
       overflow-y: auto;
       margin: 0;
-      padding: 0 2.5rem 5rem;
+      padding: 0 2.5rem 10rem;
       ${media.medium`margin: 0 3rem 0 2rem;`}
 
       &::-webkit-scrollbar {
