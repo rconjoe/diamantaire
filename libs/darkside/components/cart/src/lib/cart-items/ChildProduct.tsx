@@ -8,6 +8,7 @@ import styled from 'styled-components';
 const ChildProductStyles = styled.div`
   background-color: #fff;
   border-top: 0.1rem solid #e0e0e0;
+  padding-top: 1rem;
   margin-top: 1rem;
   position: relative;
 
@@ -72,6 +73,8 @@ const ChildProduct = ({ lineItem }) => {
       : JSON.parse(attributes?.find((item) => item.key === 'productAsset')?.value);
   }, [lineItem]);
 
+  console.log('child prod image', image);
+
   const productType = useMemo(() => {
     let matchingAttribute = attributes?.find((attr) => attr.key === '_productType')?.value;
 
@@ -118,12 +121,14 @@ const ChildProduct = ({ lineItem }) => {
   return (
     <ChildProductStyles>
       <div className="child-product__inner">
-        <div className="child-product__image">{isProductDiamond ? <img src={image} alt="" /> : <Image {...image} />}</div>
+        <div className="child-product__image">
+          {isProductDiamond || image.includes('https') ? <img src={image} alt="" /> : <Image {...image} />}
+        </div>
 
         <div className="cart-item__content">
           <p>
             <strong>{_t(productType)}</strong>
-            {isProductDiamond && <span>{totalPrice}</span>}
+            {isProductDiamond || (image.includes('https') && <span>{totalPrice}</span>)}
           </p>
 
           {specs?.split(';').map((val) => <p key={id + `-${val}`}>{val}</p>)}
