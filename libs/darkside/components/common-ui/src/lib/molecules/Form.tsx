@@ -154,13 +154,17 @@ const FormContainer = styled.div<{
     width: 100%;
     position: relative;
 
+    label {
+      display: inline-block;
+      transform: translate(2px, -2px);
+    }
+
     input[type='checkbox'] {
       cursor: pointer;
       width: 1.3rem;
       height: 1.3rem;
       appearance: none;
       background-color: #fff;
-      margin: 0;
       font: inherit;
       color: currentColor;
       border: 0.1rem solid currentColor;
@@ -237,14 +241,15 @@ const Form = ({
 
   const { _t } = useTranslations(locale);
 
+  const [error, setError] = useState(false);
+
   const initialCountryCode = schema?.find((v) => v.inputType === 'country-dropdown')?.defaultValue || null;
 
   const initialRegionCode = schema?.find((v) => v.inputType === 'state-dropdown')?.defaultValue || null;
 
   const [allRegions, setAllRegions] = useState(initialCountryCode ? getRegions(initialCountryCode) : []);
-  const isUserInUs = getIsUserInUs();
-  const initialFormState = { isConsent: isUserInUs };
-  const showGdprError = showOptIn && !isValid;
+
+  const initialFormState = { isConsent: getIsUserInUs() };
 
   schema?.forEach((field) => {
     if (field.inputType === 'state-dropdown') {
@@ -276,6 +281,18 @@ const Form = ({
     }));
   }, [formState?.country_code]);
 
+  const handleSubmit = (e, formState) => {
+    e.preventDefault();
+
+    if (showOptIn && !isValid) {
+      setError(true);
+
+      return;
+    } else {
+      onSubmit(e, formState);
+    }
+  };
+
   return (
     <FormContainer
       gridStyle={formGridStyle}
@@ -290,7 +307,7 @@ const Form = ({
         </Heading>
       )}
       {caption && <p className="small">{caption}</p>}
-      <form onSubmit={(e) => onSubmit(e, formState)}>
+      <form onSubmit={(e) => handleSubmit(e, formState)}>
         <div className="form">
           {!schema ? (
             <div className="input-container">
@@ -393,7 +410,7 @@ const Form = ({
           {showOptIn && stackedSubmit && (
             <div
               className={clsx('input-opt-in', {
-                '-error': showGdprError,
+                '-error': error,
               })}
             >
               <input
@@ -407,11 +424,13 @@ const Form = ({
                   setFormState((prevState) => ({ ...prevState, [name]: checked }));
 
                   setIsValid(checked);
+
+                  setError(false);
                 }}
               />
 
               <label htmlFor="optin">
-                <Markdown options={{ forceBlock: false }} extraClass="-opt-in">
+                <Markdown options={{ forceBlock: false }} extraClass="-opt-in" target="_blank">
                   {optInCopy}
                 </Markdown>
               </label>
@@ -426,7 +445,7 @@ const Form = ({
         {showOptIn && !stackedSubmit && (
           <div
             className={clsx('input-opt-in', {
-              '-error': showGdprError,
+              '-error': error,
             })}
           >
             <input
@@ -440,6 +459,8 @@ const Form = ({
                 setFormState((prevState) => ({ ...prevState, isConsent: checked }));
 
                 setIsValid(checked);
+
+                setError(false);
               }}
             />
 
