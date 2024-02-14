@@ -1297,8 +1297,9 @@ const SettingToDiamondSummaryPage = () => {
 SettingToDiamondSummaryPage.getTemplate = getStandardTemplate;
 export default SettingToDiamondSummaryPage;
 
-const SpriteSpinnerBlock = ({ id }) => {
+const SpriteSpinnerBlock = ({ id, diamondType }) => {
   const [videoData, setVideoData] = useState(null);
+  const [thumbnail, setThumbnail] = useState(null);
 
   const fetchVideoType = useCallback(
     async (diamondID) => {
@@ -1327,6 +1328,12 @@ const SpriteSpinnerBlock = ({ id }) => {
   );
 
   useEffect(() => {
+    function getThumbnail() {
+      const spriteImageUrl = generateDiamondSpriteImage({ diamondID: id, diamondType });
+
+      setThumbnail(spriteImageUrl);
+    }
+
     async function getVideo() {
       if (id) {
         // webp or jpg
@@ -1337,17 +1344,22 @@ const SpriteSpinnerBlock = ({ id }) => {
     }
 
     getVideo();
+    getThumbnail();
   }, [id]);
 
   return (
-    videoData && (
-      <SpriteSpinner
-        disableCaption={true}
-        shouldStartSpinner={true}
-        spriteImage={videoData?.spriteImage}
-        bunnyBaseURL={videoData?.spriteImage}
-      />
-    )
+    <>
+      {thumbnail && <Image src={thumbnail} height={'100%'} width={'100%'}></Image>}
+
+      {videoData && (
+        <SpriteSpinner
+          disableCaption={true}
+          shouldStartSpinner={true}
+          spriteImage={videoData?.spriteImage}
+          bunnyBaseURL={videoData?.spriteImage}
+        />
+      )}
+    </>
   );
 };
 
