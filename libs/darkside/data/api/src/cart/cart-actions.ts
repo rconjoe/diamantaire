@@ -90,6 +90,8 @@ async function createCart({ locale = '', lineItems = [] }): Promise<Cart> {
     ...(lineItems?.length > 0 && { lineItems }),
   };
 
+  window.localStorage.setItem('locale', locale);
+
   const res = await shopifyFetch<ShopifyCreateCartOperation>({
     query: createCartMutation,
     variables,

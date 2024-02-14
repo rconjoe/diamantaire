@@ -64,6 +64,7 @@ import clsx from 'clsx';
 import useEmblaCarousel from 'embla-carousel-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
 import { NextSeo } from 'next-seo';
@@ -439,7 +440,8 @@ const SettingToDiamondSummaryPage = () => {
 
   const { product, diamonds } = builderProduct;
 
-  const diamondPrice = Array.isArray(diamonds) && diamonds?.map((diamond) => diamond.price).reduce((a, b) => a + b, 0);
+  const diamondPrice = Array.isArray(diamonds) && diamonds?.map((diamond) => diamond.price);
+  const diamondPricesCombined = diamondPrice && diamondPrice.reduce((acc, price) => acc + price, 0);
 
   const { countryCode, languageCode } = parseValidLocale(locale);
 
@@ -730,9 +732,9 @@ const SettingToDiamondSummaryPage = () => {
 
     const { productTitle: settingProductTitle, image: { src } = { src: '' }, price: settingPrice } = product || {};
     const formattedSettingPrice = getFormattedPrice(settingPrice, locale, true, true);
-    const formattedDiamondPrice = getFormattedPrice(diamondPrice, locale, true, true);
+    const formattedDiamondPrice = getFormattedPrice(diamondPricesCombined, locale, true, true);
     const id = settingVariantId.split('/').pop();
-    const totalAmount = getFormattedPrice(settingPrice + diamondPrice, locale, true, true);
+    const totalAmount = getFormattedPrice(settingPrice + diamondPricesCombined, locale, true, true);
 
     Array.isArray(diamonds) &&
       diamonds?.map((diamond) => {
@@ -909,7 +911,7 @@ const SettingToDiamondSummaryPage = () => {
 
   const isWindowDefined = typeof window !== 'undefined';
 
-  const totalPriceInCents = shopifyProductData?.price + diamondPrice;
+  const totalPriceInCents = Math.ceil(shopifyProductData?.price) + Math.ceil(diamondPricesCombined);
 
   const diamondHandCaption = builderProduct?.diamonds?.map((diamond) => diamond?.carat?.toString() + 'ct').join(' | ');
 
@@ -1056,7 +1058,7 @@ const SettingToDiamondSummaryPage = () => {
               {!isDiamondCFY &&
                 spriteSpinnerIds?.map((id) => (
                   <div className="spritespinner embla__slide" key={id}>
-                    <SpriteSpinnerBlock id={id} />
+                    <SpriteSpinnerBlock id={id} diamondType={shopifyProductData?.configuration?.diamondType} />
                   </div>
                 ))}
 
@@ -1123,13 +1125,17 @@ const SettingToDiamondSummaryPage = () => {
             )}
 
             <div className="total-price">
-              <ProductPrice
-                isBuilderProduct={false}
-                price={totalPriceInCents}
-                shouldDoublePrice={false}
-                productType={shopifyProductData?.productType}
-                engravingText={engravingText}
-              />
+              {diamondPrice && (
+                <ProductPrice
+                  isBuilderProduct={false}
+                  price={totalPriceInCents}
+                  shouldDoublePrice={false}
+                  productType={shopifyProductData?.productType}
+                  engravingText={engravingText}
+                  quantity={shopifyProductData?.isSoldAsDouble ? 2 : 1}
+                  pricesArray={[shopifyProductData?.price, ...diamondPrice]}
+                />
+              )}
             </div>
 
             <div className="builder-summary__content">
@@ -1326,8 +1332,9 @@ const SettingToDiamondSummaryPage = () => {
 SettingToDiamondSummaryPage.getTemplate = getStandardTemplate;
 export default SettingToDiamondSummaryPage;
 
-const SpriteSpinnerBlock = ({ id }) => {
+const SpriteSpinnerBlock = ({ id, diamondType }) => {
   const [videoData, setVideoData] = useState(null);
+  const [thumbnail, setThumbnail] = useState(null);
 
   const fetchVideoType = useCallback(
     async (diamondID) => {
@@ -1356,6 +1363,12 @@ const SpriteSpinnerBlock = ({ id }) => {
   );
 
   useEffect(() => {
+    function getThumbnail() {
+      const spriteImageUrl = generateDiamondSpriteImage({ diamondID: id, diamondType });
+
+      setThumbnail(spriteImageUrl);
+    }
+
     async function getVideo() {
       if (id) {
         // webp or jpg
@@ -1366,17 +1379,22 @@ const SpriteSpinnerBlock = ({ id }) => {
     }
 
     getVideo();
+    getThumbnail();
   }, [id]);
 
   return (
-    videoData && (
-      <SpriteSpinner
-        disableCaption={true}
-        shouldStartSpinner={true}
-        spriteImage={videoData?.spriteImage}
-        bunnyBaseURL={videoData?.spriteImage}
-      />
-    )
+    <>
+      {thumbnail && !videoData && <Image alt="" src={thumbnail} height={600} width={600}></Image>}
+
+      {videoData && (
+        <SpriteSpinner
+          disableCaption={true}
+          shouldStartSpinner={true}
+          spriteImage={videoData?.spriteImage}
+          bunnyBaseURL={videoData?.spriteImage}
+        />
+      )}
+    </>
   );
 };
 

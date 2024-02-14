@@ -121,7 +121,7 @@ export const countries: Record<string, CountryDetails> = {
     name: 'France',
     region: countryRegions.Europe,
     currency: Currency.Euros,
-    languages: [Language.French, Language.English],
+    languages: [Language.English],
     vat: 0.2,
   },
   DE: {
@@ -321,7 +321,7 @@ export const countries: Record<string, CountryDetails> = {
     region: countryRegions.Europe,
     currency: Currency.Euros,
     languages: [Language.English],
-    vat: 0.16,
+    vat: 0.17,
   },
   LV: {
     code: 'LV',
@@ -514,7 +514,7 @@ export function getFormattedPrice(
   excludeCurrency = false,
   // When we return the item from VRAI server, we need the exchange rate. When shopify returns it in checkout, we don't
   excludeExchangeRate = false,
-  shouldCeilPrice = false,
+  quantity = 1,
 ): string {
   const { countryCode } = parseValidLocale(locale);
 
@@ -524,9 +524,7 @@ export function getFormattedPrice(
 
   let finalPrice = getPriceWithAddedTax(convertedPrice, countryCode);
 
-  if (excludeExchangeRate && !shouldCeilPrice) {
-    finalPrice = Math.floor(finalPrice);
-  } else if (currency !== Currency.USDollars || shouldCeilPrice) {
+  if (currency !== Currency.USDollars) {
     finalPrice = Math.ceil(finalPrice);
   }
 
@@ -547,7 +545,7 @@ export function getFormattedPrice(
   });
 
   // Intl.NumberFormat has no way to return the currency symbol in the right position, so we gotta do it
-  let formattedPrice = numberFormat.format(finalPrice);
+  let formattedPrice = numberFormat.format(finalPrice * quantity);
 
   let currencySymbol = formattedPrice.replace(/[0-9.,\s]/g, '');
 
@@ -573,6 +571,72 @@ export function getFormattedPrice(
   return formattedPrice;
 }
 
+// We use this to format the price for multiple products that are combined, ex: a custom ER
+// Best practice: get the base value with this, then use simpleFormatPrice to add the symbol
+export function combinePricesOfMultipleProducts(prices, locale) {
+  const { countryCode } = parseValidLocale(locale);
+  const currency = getCurrency(countryCode);
+
+  const totalPrice = prices.reduce((acc, price) => {
+    // 1. Convert price
+    const convertedPrice = applyExchangeRate(price / 100, currency, false);
+
+    // 2. Add VAT
+    const finalPrice = getPriceWithAddedTax(convertedPrice, countryCode);
+
+    // Don't round up if the tenth is less than .5
+    const isTenthLessThanHalf = checkTenthsLessThanHalf([finalPrice]);
+
+    // Edge case: earrings pair
+    const arePricesTheSame = prices.filter((p) => p === price).length > 1;
+
+    // Add the transformed price to the accumulator
+    return (
+      acc +
+      (locale !== 'en-US' && hasThreeZeros && !arePricesTheSame
+        ? finalPrice
+        : (locale === 'en-GB' && !isTenthLessThanHalf) || (locale !== 'en-US' && !isTenthLessThanHalf)
+        ? Math.ceil(finalPrice)
+        : !isTenthLessThanHalf
+        ? Math.ceil(finalPrice)
+        : // Round up to the nearest half if there are multiple prices and the locale is ES or DE
+        prices.length > 1 && locale !== 'en-US'
+        ? ceilToHalf(finalPrice)
+        : finalPrice)
+    );
+  }, 0); // Initial value of the accumulator is 0
+
+  return totalPrice * 100; // Now holds the sum of all transformed prices
+}
+
+function ceilToHalf(number) {
+  const rounded = Math.ceil(number * 2) / 2;
+
+  return rounded;
+}
+
+// Edge case where number is already whole number - Dedicated to G Money
+function hasThreeZeros(num) {
+  // Convert the number to a string
+  const numStr = num.toString();
+
+  // Check if the last three characters are '000'
+  return numStr.endsWith('000');
+}
+
+function checkTenthsLessThanHalf(numbers) {
+  return numbers.map((number) => {
+    // Calculate the decimal part of the number
+    const decimalPart = number - Math.floor(number);
+
+    // Extract the tenths place by multiplying the decimal part by 10 and taking the floor
+    const tenths = Math.floor(decimalPart * 10);
+
+    // Check if the tenths place is less than 5 (since 0.5 * 10 = 5)
+    return tenths < 5;
+  });
+}
+
 // This is just for adding a symbol + decimals to the price. This does not add VAT or conversion rate!!!
 export function simpleFormatPrice(
   priceInCents: number,
@@ -582,7 +646,9 @@ export function simpleFormatPrice(
 ) {
   const { countryCode } = parseValidLocale(locale);
   const currency = cur || getCurrency(countryCode);
-  const numberFormat = new Intl.NumberFormat(locale, {
+
+  const customLocale = countryCode === 'ES' ? 'de-DE' : locale === 'en-CA' ? 'en-US' : locale;
+  const numberFormat = new Intl.NumberFormat(customLocale, {
     currency,
     style: 'currency',
     currencyDisplay: 'narrowSymbol',
@@ -590,7 +656,7 @@ export function simpleFormatPrice(
     maximumFractionDigits: hideZeroCents ? 0 : 2,
   });
 
-  if (currency !== Currency.USDollars) {
+  if (currency !== Currency.USDollars && currency !== Currency.BritishPounds) {
     priceInCents = Math.ceil(priceInCents);
   }
 

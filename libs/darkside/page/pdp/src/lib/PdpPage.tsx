@@ -300,7 +300,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   // Doubles price if product is earrings pair
   const [shouldDoublePrice, setShouldDoublePrice] = useState<boolean>(
-    additionalVariantData?.productType.toLowerCase() === 'earrings' || null,
+    shopifyProductData?.productType.toLowerCase() === 'earrings' || null,
   );
 
   // Engraving
@@ -407,10 +407,12 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               <ProductPrice
                 isBuilderProduct={isBuilderProduct}
                 price={totalPrice}
+                quantity={shouldDoublePrice ? 2 : 1}
                 shouldDoublePrice={shouldDoublePrice}
                 productType={shopifyProductData?.productType}
                 engravingText={engravingText}
                 lowestPricedDiamond={lowestPricedDiamond}
+                pricesArray={(shouldDoublePrice && Array.from(Array(2)).map(() => totalPrice)) || null}
               />
 
               <ProductConfigurator

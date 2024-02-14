@@ -31,11 +31,7 @@ export function queryDatoGQL({
     headers['X-Exclude-Invalid'] = 'true';
   }
 
-  // Production
-  // const client = new GraphQLClient('https://graphql.datocms.com', { headers });
-
-  // Dev (includes drafts)
-  const client = new GraphQLClient('https://graphql.datocms.com/preview', {
+  const client = new GraphQLClient(`https://graphql.datocms.com/${process.env.NODE_ENV === 'production' ? '' : 'preview'}`, {
     headers,
   });
 

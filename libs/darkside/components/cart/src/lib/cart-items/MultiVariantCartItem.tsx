@@ -3,7 +3,12 @@ import { useAnalytics } from '@diamantaire/analytics';
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { updateMultipleItemsQuantity } from '@diamantaire/darkside/data/api';
 import { CartCertProps, useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
-import { getFormattedPrice } from '@diamantaire/shared/constants';
+import {
+  combinePricesOfMultipleProducts,
+  getFormattedPrice,
+  parseValidLocale,
+  simpleFormatPrice,
+} from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -361,17 +366,24 @@ const MultiVariantCartItem = ({
     }
   }
 
-  const totalPrice =
-    (engraving && childProducts
-      ? parseFloat(engravingProduct?.cost?.totalAmount?.amount) +
-        childProducts?.reduce((acc, curr) => acc + parseFloat(curr?.cost?.totalAmount?.amount), 0) +
-        parseFloat(merchandise?.price?.amount)
-      : engraving
-      ? parseFloat(merchandise?.price?.amount) + parseFloat(engravingProduct?.cost?.totalAmount?.amount)
+  // Use this for calculating total, not the single line item price
+  const initPrice = parseFloat(merchandise?.price?.amount) * 100;
+
+  const { countryCode } = parseValidLocale(locale);
+
+  // console.log('totes', totalPrice);
+
+  const diamondPrices = childProducts?.map((childProduct) => parseFloat(childProduct?.merchandise?.price?.amount) * 100);
+
+  const tempTotalPrice =
+    engraving && childProducts
+      ? combinePricesOfMultipleProducts(
+          [...diamondPrices, initPrice, parseFloat(engravingProduct?.merchandise?.price?.amount) * 100],
+          locale,
+        )
       : childProducts.length > 0
-      ? parseFloat(cost?.totalAmount?.amount) +
-        childProducts?.reduce((acc, curr) => acc + parseFloat(curr?.cost?.totalAmount?.amount), 0)
-      : parseFloat(cost?.totalAmount?.amount)) * 100;
+      ? combinePricesOfMultipleProducts([...diamondPrices, initPrice], locale)
+      : combinePricesOfMultipleProducts([initPrice], locale);
 
   return (
     <MultiVariantCartItemStyles>
@@ -392,9 +404,18 @@ const MultiVariantCartItem = ({
         </div>
         <div className="cart-item__price">
           {hasChildProduct || engravingProduct ? (
-            <p>{getFormattedPrice(totalPrice, locale, true, false, true)}</p>
+            <p>{simpleFormatPrice(tempTotalPrice, locale)}</p>
           ) : (
-            <p>{getFormattedPrice(parseFloat(cost?.totalAmount?.amount) * 100, locale)}</p>
+            <p>
+              {getFormattedPrice(
+                parseFloat(cost?.totalAmount?.amount) * 100,
+                locale,
+                true,
+                false,
+                countryCode === 'GB',
+                countryCode === 'GB' || countryCode === 'US' ? 1 : quantity,
+              )}
+            </p>
           )}
         </div>
       </div>
@@ -408,7 +429,7 @@ const MultiVariantCartItem = ({
               <span>
                 {getFormattedPrice(
                   ((engraving ? parseFloat(engravingProduct?.cost?.totalAmount?.amount) : 0) +
-                    parseFloat(cost?.totalAmount?.amount)) *
+                    parseFloat(cost?.totalAmount?.amount) * quantity) *
                     100,
                   locale,
                   true,

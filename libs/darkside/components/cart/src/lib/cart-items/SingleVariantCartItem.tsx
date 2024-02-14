@@ -2,7 +2,7 @@
 import { useAnalytics } from '@diamantaire/analytics';
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { CartCertProps, useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
-import { getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
+import { combinePricesOfMultipleProducts, getFormattedPrice, simpleFormatPrice } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -311,18 +311,22 @@ const SingleVariantCartItem = ({
     }).then(() => refetch());
   }
 
-  const { countryCode } = parseValidLocale(locale);
+  // Merchandise price always comes back in USD. Cost returns the price in the user's currency
+  // Earrings need the merchandise price
+  const priceToUse = locale === 'en-US' || quantity !== 1 ? merchandise?.price?.amount : cost?.totalAmount?.amount;
+  // const priceToUse = merchandise?.price?.amount;
+  const initPrice = parseFloat(priceToUse) * 100;
 
   // The price needs to be combined in the case of two identical earrings
+  const dynamicPrice = Array.from(Array(quantity).keys()).map(() => initPrice);
 
-  const totalPrice = getFormattedPrice(
-    parseFloat(price) * (countryCode !== 'US' ? quantity : 1) * 100,
-    locale,
-    true,
-    false,
-    countryCode === 'GB',
-    true,
-  );
+  console.log('dynamicPricexxx', dynamicPrice);
+  console.log('initPrice', initPrice);
+
+  const totalPrice =
+    quantity === 1
+      ? getFormattedPrice(initPrice, locale, true, false, true, 1)
+      : simpleFormatPrice(combinePricesOfMultipleProducts([...dynamicPrice], locale), locale);
 
   return (
     <SingleVariantCartItemStyles>

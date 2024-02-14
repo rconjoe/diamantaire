@@ -214,7 +214,12 @@ const SettingBuildStep = ({
               override={productTitleOverride}
             />
 
-            <ProductPrice isBuilderProduct={false} price={parseFloat(totalPrice)} engravingText={null} />
+            <ProductPrice
+              isBuilderProduct={false}
+              price={parseFloat(totalPrice)}
+              engravingText={null}
+              quantity={shopifyProductData?.isSoldAsDouble ? 2 : 1}
+            />
             {shopifyProductData?.variantDetails && (
               <ProductConfigurator
                 configurations={configurations}

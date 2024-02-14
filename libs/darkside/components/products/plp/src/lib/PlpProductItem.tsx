@@ -42,8 +42,6 @@ const PlpProductItem = (props: PlpProductItemProps) => {
 
   const selectedVariant = variants[selectedId];
 
-  console.log(`selectedVariant`, selectedVariant);
-
   const { productTitle, plpTitle: variantTitle, price } = selectedVariant || {};
 
   const isMultiShape = selectedVariant?.configuration?.diamondType?.includes('+') || false;

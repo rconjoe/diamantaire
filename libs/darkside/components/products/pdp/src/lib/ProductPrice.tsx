@@ -5,6 +5,8 @@ import {
   ENGRAVEABLE_JEWELRY_SLUGS,
   ENGRAVING_PRICE_CENTS,
   getFormattedPrice,
+  combinePricesOfMultipleProducts,
+  simpleFormatPrice,
 } from '@diamantaire/shared/constants';
 import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';
@@ -33,6 +35,8 @@ type ProductPriceProps = {
   engravingText: string;
   productType?: string;
   lowestPricedDiamond?: DiamondLowestPriceDataProps;
+  quantity: number;
+  pricesArray?: number[];
 };
 
 const ProductPrice = ({
@@ -42,11 +46,11 @@ const ProductPrice = ({
   productType,
   engravingText,
   lowestPricedDiamond,
+  quantity,
+  // We use this when we have multiple products that need to be priced together
+  pricesArray,
 }: ProductPriceProps) => {
   const { locale, query } = useRouter();
-  // const { countryCode } = parseValidLocale(locale);
-
-  console.log('init price', price);
 
   const { _t } = useTranslations(locale);
 
@@ -59,17 +63,26 @@ const ProductPrice = ({
   const basePrice = lowestPricedDiamond ? lowestPricedDiamond.price + price : price;
   const shouldAddEngravingCost = engravingText && productType !== 'Ring' && !doesProductQualifyForFreeEngraving;
 
-  const finalPrice = calculateFinalPrice(basePrice, productType, shouldDoublePrice, shouldAddEngravingCost);
+  const finalPrice = calculateFinalPrice(basePrice / quantity, productType, shouldDoublePrice, shouldAddEngravingCost);
 
-  const refinedPrice = getFormattedPrice(finalPrice, locale, true, false, false);
+  const refinedPrice = getFormattedPrice(finalPrice, locale, true, false, false, quantity);
 
   const translatedText = _t('Starting at %%price%%');
 
+  // This is only for custom products (multiple products bundled together)
+  const tempFinalPrice =
+    pricesArray &&
+    combinePricesOfMultipleProducts([...pricesArray, shouldAddEngravingCost && ENGRAVING_PRICE_CENTS], locale);
+
   return (
     <ProductPriceStyles className="price">
-      <p className="price-text">
-        {isBuilderProduct ? <>{replacePlaceholders(translatedText, ['%%price%%'], [refinedPrice])}</> : refinedPrice}
-      </p>
+      {pricesArray ? (
+        <p className="price-text">{simpleFormatPrice(tempFinalPrice, locale)}</p>
+      ) : (
+        <p className="price-text">
+          {isBuilderProduct ? <>{replacePlaceholders(translatedText, ['%%price%%'], [refinedPrice])}</> : refinedPrice}
+        </p>
+      )}
 
       {!isInUS && (
         <p className="small">
