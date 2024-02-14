@@ -1024,7 +1024,7 @@ const SettingToDiamondSummaryPage = () => {
               {!isDiamondCFY &&
                 spriteSpinnerIds?.map((id) => (
                   <div className="spritespinner embla__slide" key={id}>
-                    <SpriteSpinnerBlock id={id} />
+                    <SpriteSpinnerBlock id={id} diamondType={shopifyProductData?.configuration?.diamondType} />
                   </div>
                 ))}
 
@@ -1350,7 +1350,7 @@ const SpriteSpinnerBlock = ({ id, diamondType }) => {
 
   return (
     <>
-      {thumbnail && !videoData && <Image src={thumbnail} height={600} width={600}></Image>}
+      {thumbnail && !videoData && <Image alt="" src={thumbnail} height={600} width={600}></Image>}
 
       {videoData && (
         <SpriteSpinner
