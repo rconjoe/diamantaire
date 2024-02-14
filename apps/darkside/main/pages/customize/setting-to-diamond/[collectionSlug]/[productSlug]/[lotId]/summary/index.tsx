@@ -63,6 +63,7 @@ import clsx from 'clsx';
 import useEmblaCarousel from 'embla-carousel-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
 import { NextSeo } from 'next-seo';
@@ -1349,7 +1350,7 @@ const SpriteSpinnerBlock = ({ id, diamondType }) => {
 
   return (
     <>
-      {thumbnail && <Image src={thumbnail} height={'100%'} width={'100%'}></Image>}
+      {thumbnail && !videoData && <Image src={thumbnail} height={600} width={600}></Image>}
 
       {videoData && (
         <SpriteSpinner
