@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 export function useProductDato(slug: string, locale: string, productType: PdpTypePlural) {
   return useQuery({
     ...queries.products.serverSideDatoProductInfo(slug, locale, productType),
+    refetchOnWindowFocus: false,
   });
 }
 

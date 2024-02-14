@@ -20,11 +20,7 @@ const CartFooterStyles = styled.div`
   background-color: #fdfbf8;
   text-align: center;
   padding: 4rem 0 2rem;
-  min-height: 200px;
-
-  @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-    min-height: 150px;
-  }
+  min-height: 150px;
 
   ul {
     margin: 0;
@@ -49,6 +45,10 @@ const CartFooterStyles = styled.div`
         &.disabled {
           opacity: 0.5;
           pointer-events: none;
+        }
+
+        button {
+          min-height: 4.8rem;
         }
       }
       .consent-container {

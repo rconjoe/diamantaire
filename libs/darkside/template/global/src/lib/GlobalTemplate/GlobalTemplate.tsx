@@ -53,6 +53,7 @@ export type GlobalTemplateProps = {
 
 export const GlobalTemplate = ({ children }) => {
   const router = useRouter();
+  const { locale } = router;
   const globalTemplateData = useGlobalData(router.locale);
   const headerData = globalTemplateData.data?.headerNavigationDynamic;
   const footerData = globalTemplateData.data?.footerNavigation;
@@ -61,6 +62,15 @@ export const GlobalTemplate = ({ children }) => {
 
   const { pathname } = useRouter();
   const isHome = pathname === '/';
+
+  const storedLocale = typeof window !== 'undefined' && window.localStorage.getItem('locale');
+
+  // If a user comes to the site with a different locale, we want to clear the cart, and reset the locale
+  if (locale && storedLocale && storedLocale !== locale) {
+    console.log('clearing cart', locale, storedLocale);
+    window.localStorage.removeItem('cartId');
+    window.localStorage.setItem('locale', locale);
+  }
 
   return (
     <div

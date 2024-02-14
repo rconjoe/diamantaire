@@ -42,6 +42,7 @@ export function useDiamondLowestPriceByDiamondType(
     ...queries.lowestPriceDiamond.content(options.diamondType),
     ...queryOptions,
     keepPreviousData: true,
+    refetchOnWindowFocus: false,
     staleTime: 300000,
   });
 }

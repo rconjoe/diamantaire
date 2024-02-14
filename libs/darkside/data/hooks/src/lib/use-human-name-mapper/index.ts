@@ -13,6 +13,8 @@ type HumanNameMapperProps = {
 export function useHumanNameMapper(locale: string): UseQueryResult<HumanNameMapperProps, unknown> {
   return useQuery({
     ...queries['human-name-mappers'].content(locale),
+    keepPreviousData: true,
+    refetchOnWindowFocus: false,
   });
 }
 

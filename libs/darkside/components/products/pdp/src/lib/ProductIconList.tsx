@@ -229,7 +229,7 @@ const ShippingListItem = ({ item, isCfy, isCaratLessThanFive }) => {
       <li
         className={clsx({
           cfy: isCfy ? 'cfy' : '',
-          shippingAlt: languageCode === 'es',
+          shippingAlt: languageCode === 'es' || languageCode === 'fr',
         })}
       >
         <span className="icon">
