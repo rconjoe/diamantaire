@@ -969,8 +969,6 @@ const SettingToDiamondSummaryPage = () => {
   useEffect(() => {
     if (!diamonds) return;
 
-    console.log('parseFloat(diamonds?.[0]?.carat)', parseFloat(diamonds?.[0]?.carat));
-
     if (diamonds?.[0]?.carat) {
       setHandCaratValue(parseFloat(diamonds?.[0]?.carat));
     }
