@@ -22,7 +22,6 @@ const AVAILABLE_LOCALES = [
   'fr-BE',
   'en-DK',
   'en-FI',
-  'fr-FR',
   'en-FR',
   'de-DE',
   'en-DE',

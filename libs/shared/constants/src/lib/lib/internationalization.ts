@@ -121,7 +121,7 @@ export const countries: Record<string, CountryDetails> = {
     name: 'France',
     region: countryRegions.Europe,
     currency: Currency.Euros,
-    languages: [Language.French, Language.English],
+    languages: [Language.English],
     vat: 0.2,
   },
   DE: {
@@ -321,7 +321,7 @@ export const countries: Record<string, CountryDetails> = {
     region: countryRegions.Europe,
     currency: Currency.Euros,
     languages: [Language.English],
-    vat: 0.16,
+    vat: 0.17,
   },
   LV: {
     code: 'LV',
