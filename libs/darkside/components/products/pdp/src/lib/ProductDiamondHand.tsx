@@ -4,7 +4,7 @@ import { IMAGE_BASE_URL } from '@diamantaire/shared/constants';
 import { formatNumber } from '@diamantaire/shared/helpers';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactSlider from 'react-slider';
 import styled from 'styled-components';
 
@@ -132,9 +132,8 @@ type ProductDiamondHandProps = {
 
 const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = false, prefix }: ProductDiamondHandProps) => {
   const [sliderValue, setSliderValue] = useState(Number(initValue));
+  const [diamondImageWidth, setDiamondImageWidth] = useState(0);
   const { locale } = useRouter();
-
-  if (!initValue) return null;
 
   const pickDiamondWidth = (carat) => {
     const powerFn = powerFnPicker();
@@ -275,6 +274,22 @@ const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = f
     }
   };
 
+  // Maintains the diamond width
+  useEffect(() => {
+    const res = pickDiamondWidth(sliderValue);
+
+    setDiamondImageWidth(res);
+  }, [sliderValue]);
+
+  // For preset value
+  useEffect(() => {
+    const res = pickDiamondWidth(initValue);
+
+    setDiamondImageWidth(res);
+  }, [initValue]);
+
+  if (!initValue) return null;
+
   return (
     <ProductDiamondHandStyles>
       <div className="hand-image-container">
@@ -292,7 +307,7 @@ const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = f
         </div>
 
         <div className="image-diamond">
-          <div style={{ width: pickDiamondWidth(sliderValue) + '%' }}>
+          <div style={{ width: diamondImageWidth + '%' }}>
             <DiamondImage diamondType={diamondType} />
           </div>
         </div>
