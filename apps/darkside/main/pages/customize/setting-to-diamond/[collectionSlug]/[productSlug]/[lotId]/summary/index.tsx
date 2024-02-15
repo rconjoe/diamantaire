@@ -226,6 +226,12 @@ const ReviewBuildStepStyles = styled(motion.div)`
         .total-price {
           margin-bottom: 2rem;
         }
+        .heading-container {
+          position: relative;
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+        }
       }
 
       .builder-summary__content {
@@ -1071,26 +1077,27 @@ const SettingToDiamondSummaryPage = () => {
         </div>
         <div className="product-summary">
           <div className="product-summary__inner">
-            <WishlistLikeButton
-              extraClass="bundle"
-              productId={`bundle-${router?.query?.productSlug}::${diamonds?.[0]?.lotId}`}
-            />
+            <div className="heading-container">
+              {productTitle && languageCode === 'en' ? (
+                <Heading type="h1" className="secondary no-margin">
+                  {productTitle}
+                </Heading>
+              ) : productTitle ? (
+                <ProductTitle
+                  title={productTitle}
+                  override={productTitleOverride}
+                  diamondType={shopifyProductData?.configuration?.diamondType}
+                  productType={shopifyProductData?.productType}
+                />
+              ) : (
+                ''
+              )}
 
-            {productTitle && languageCode === 'en' ? (
-              <Heading type="h1" className="secondary no-margin">
-                {productTitle}
-              </Heading>
-            ) : productTitle ? (
-              <ProductTitle
-                title={productTitle}
-                override={productTitleOverride}
-                diamondType={shopifyProductData?.configuration?.diamondType}
-                productType={shopifyProductData?.productType}
+              <WishlistLikeButton
+                extraClass="with-title"
+                productId={`bundle-${router?.query?.productSlug}::${diamonds?.[0]?.lotId}`}
               />
-            ) : (
-              ''
-            )}
-
+            </div>
             <div className="total-price">
               {diamondPrice && (
                 <ProductPrice
