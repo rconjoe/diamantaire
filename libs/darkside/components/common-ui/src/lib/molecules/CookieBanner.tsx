@@ -97,7 +97,7 @@ const CookieBanner = () => {
   });
 
   const [showBanner, setShowBanner] = useState(false);
-
+  const [isUserInEu, setIsUserInEu] = useState(null);
   const handleAcceptPrivacy = () => {
     Cookies.set('didAcceptPrivacy', 'true');
     setShowBanner(false);
@@ -127,26 +127,24 @@ const CookieBanner = () => {
 
   useEffect(() => {
     const evaluateBannerAndConsent = async () => {
-      const isUserInEu = await getIsUserInEu(); // Adapt this for client-side usage
+      const userInEu = await getIsUserInEu();
 
+      setIsUserInEu(userInEu);
       const didAcceptPrivacy = Cookies.get('didAcceptPrivacy') === 'true';
-      const shouldShowBanner = isUserInEu && !didAcceptPrivacy;
+      const shouldShowBanner = userInEu && !didAcceptPrivacy;
 
       if (shouldShowBanner) {
-        // Update state based on existing consent, if any
         setCookieConsentOptions({
           statistics: consent.statistics || false,
           marketing: consent.marketing || false,
           preferences: consent.preferences || false,
         });
         setShowBanner(true);
-      } else {
-        setShowBanner(false);
       }
     };
 
     evaluateBannerAndConsent();
-  }, [router.asPath, consent]);
+  }, [router.asPath, consent, isUserInEu]);
 
   if (!showBanner) {
     return null;
