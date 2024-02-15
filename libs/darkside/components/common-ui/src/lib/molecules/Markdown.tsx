@@ -40,7 +40,7 @@ const Markdown = ({
       const priority = loading === 'eager' ? true : false;
 
       return imageConfig ? (
-        <div style={{ display: 'block', aspectRatio: `${imageConfig?.w}/${imageConfig?.h}` }}>
+        <div style={{ display: 'block' }}>
           <Image
             {...props}
             alt={imageConfig?.alt}
@@ -48,7 +48,7 @@ const Markdown = ({
             height={imageConfig?.h}
             loading={loading}
             priority={priority}
-            style={{ aspectRatio: `${imageConfig?.w}/${imageConfig?.h}` }}
+            // style={{ aspectRatio: `${imageConfig?.w}/${imageConfig?.h}` }}
           />
         </div>
       ) : (

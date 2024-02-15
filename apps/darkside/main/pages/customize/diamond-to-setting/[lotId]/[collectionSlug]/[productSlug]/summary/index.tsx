@@ -133,7 +133,17 @@ const ReviewBuildStepStyles = styled(motion.div)`
             }
 
             &.spritespinner {
+              position: relative;
               display: block;
+
+              .spritespinner-outer-container {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 100;
+              }
               > div {
                 display: block;
                 overflow: hidden;
@@ -676,7 +686,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
 
     const diamondsToAdd = diamonds.map((diamond, index) => {
       const diamondSpecs = specGenerator({
-        configuration: { ...diamond },
+        configuration: { ...diamond, caratWeight: diamond?.carat },
         productType: 'Diamond',
         _t,
       });
@@ -1356,15 +1366,17 @@ const SpriteSpinnerBlock = ({ id, diamondType }) => {
 
   return (
     <>
-      {thumbnail && !videoData && <Image alt="" src={thumbnail} height={600} width={600}></Image>}
+      {thumbnail && <Image alt="" src={thumbnail} height={600} width={600}></Image>}
 
       {videoData && (
-        <SpriteSpinner
-          disableCaption={true}
-          shouldStartSpinner={true}
-          spriteImage={videoData?.spriteImage}
-          bunnyBaseURL={videoData?.spriteImage}
-        />
+        <div className="spritespinner-outer-container">
+          <SpriteSpinner
+            disableCaption={true}
+            shouldStartSpinner={true}
+            spriteImage={videoData?.spriteImage}
+            bunnyBaseURL={videoData?.spriteImage}
+          />
+        </div>
       )}
     </>
   );

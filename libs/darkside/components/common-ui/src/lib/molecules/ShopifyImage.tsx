@@ -49,7 +49,7 @@ const ShopifyImage = ({ image, className, overrideAlt, defaultAlt = '', shouldLa
       <Image
         alt={overrideAlt ? overrideAlt : alt ? alt : defaultAlt}
         src={url}
-        placeholder="blur"
+        placeholder={responsiveImage?.base64 ? 'blur' : 'empty'}
         blurDataURL={responsiveImage?.base64}
         loader={loader}
         className={clsx('image', className)}

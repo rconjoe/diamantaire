@@ -1,8 +1,8 @@
 import { BuilderFlowLoader } from '@diamantaire/darkside/components/builder-flows';
 import {
-  Form,
   Heading,
   HideTopBar,
+  NeedTimeToThinkForm,
   ProductAppointmentCTA,
   ShowDesktopAndUpOnly,
   ShowMobileOnly,
@@ -223,6 +223,22 @@ const SettingBuildStep = () => {
 
   if (!shopifyProductData) return <BuilderFlowLoader />;
 
+  const productData = {
+    ...shopifyProductData,
+    cms: {
+      ...shopifyProductData?.variantDetails,
+      image: {
+        src: assetStack[0].url,
+        width: assetStack[0].width,
+        height: assetStack[0].width,
+        responsiveImage: {
+          src: assetStack[0].url,
+          ...assetStack[0].responsiveImage,
+        },
+      },
+    },
+  };
+
   return (
     <SettingBuildStepStyles
       key="setting-step-container"
@@ -328,13 +344,7 @@ const SettingBuildStep = () => {
               />
             )}
 
-            <Form
-              title={_t('Need more time to think?')}
-              caption={_t('Email this customized ring to yourself or drop a hint.')}
-              onSubmit={(e) => e.preventDefault()}
-              stackedSubmit={false}
-              headingType={'h2'}
-            />
+            {productData && <NeedTimeToThinkForm productData={productData} />}
 
             <ProductDescription
               description={productDescription}

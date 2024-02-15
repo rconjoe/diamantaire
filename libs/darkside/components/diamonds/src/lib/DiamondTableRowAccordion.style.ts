@@ -26,15 +26,15 @@ const StyledDiamondTableRowAccordion = styled.div`
 
     &.color {
       img {
-        margin-bottom: 1rem;
-        object-fit: cover;
-        height: 11rem;
         display: block;
         width: 100%;
+        height: auto;
+        object-fit: contain;
 
         @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-          height: 10rem;
-          width: 43.1rem;
+          max-width: 48rem;
+          margin: 1rem 0;
+          /* object-fit: cover; */
         }
       }
     }
