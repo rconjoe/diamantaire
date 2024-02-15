@@ -65,7 +65,7 @@ const DiamondCfyAccordion = ({
     if (product && upgrade) {
       upgradeLabel = DIAMOND_COLOR_GROUPS[upgrade.color]?.value || '';
       upgradeLabel += ` (${DIAMOND_COLOR_GROUP_TYPES[upgrade.color]?.value})`;
-      upgradePrice = getDiff(upgrade.price, downgrade.price);
+      upgradePrice = getDiff(upgrade.price, downgrade.price, locale);
       upgradePriceSymbol = upgrade.price > downgrade.price ? '+' : '-';
 
       upgradePriceHuman = (
@@ -144,7 +144,8 @@ const DiamondCfyAccordion = ({
       upgradeLabel = clarityLabelMap[upgrade.clarity]
         ? clarityLabelMap[upgrade.clarity]
         : getInfo(specs, upgrade.clarity)?.value;
-      upgradePrice = getDiff(upgrade.price, downgrade.price);
+      upgradePrice = getDiff(upgrade.price, downgrade.price, locale);
+      console.log({ upgradePrice });
       upgradePriceSymbol = upgrade.price > downgrade.price ? '+' : '-';
       upgradePriceHuman = (
         <>
@@ -209,7 +210,7 @@ const DiamondCfyAccordion = ({
 
     if (product && upgrade) {
       upgradeLabel = upgrade.cut || '';
-      upgradePrice = getDiff(upgrade.price, downgrade.price);
+      upgradePrice = getDiff(upgrade.price, downgrade.price, locale);
       upgradePriceSymbol = upgrade.price > downgrade.price ? '+' : '-';
       upgradePriceHuman = (
         <>
@@ -324,8 +325,8 @@ const DiamondCfyAccordion = ({
   );
 };
 
-function getDiff(upgrade, downgrade) {
-  return getFormattedPrice(Math.abs(upgrade - downgrade));
+function getDiff(upgrade, downgrade, locale) {
+  return getFormattedPrice(Math.abs(upgrade - downgrade), locale);
 }
 
 export { DiamondCfyAccordion };
