@@ -2,15 +2,17 @@ let TTL = 1800;
 let MAX_AGE = 180;
 let REVALIDATE = 60 * 60;
 
-if (process.env.NODE_ENV.includes('preview')) {
+const environment = process.env.NODE_ENV || process.env['VERCEL_ENV'] || 'development';
+
+if (environment.includes('preview')) {
   TTL = 30;
   MAX_AGE = 5;
   REVALIDATE = 60;
-} else if (process.env.NODE_ENV === 'development') {
+} else if (environment === 'development') {
   TTL = 60;
   MAX_AGE = 10;
   REVALIDATE = 60;
-} else if (process.env.NODE_ENV === 'production') {
+} else if (environment === 'production') {
   TTL = 3600;
   MAX_AGE = 180;
   REVALIDATE = 60 * 60;
