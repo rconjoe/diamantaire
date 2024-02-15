@@ -23,7 +23,7 @@ const PlpMobileFilterStyles = styled.div`
   height: calc(100vh - ${({ headerHeight }) => headerHeight / 10}rem);
   background-color: var(--color-lightest-grey);
   z-index: 5000;
-  padding: 2rem 1.5rem ${({ mobileActiveFiltersHeight }) => mobileActiveFiltersHeight / 10}rem;
+  padding: 2rem 1.5rem 20rem;
   overflow-y: scroll;
 
   @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
