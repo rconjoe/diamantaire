@@ -230,9 +230,10 @@ const CatalogPage = ({ title, data }: CatalogPageProps) => {
 
 export const getServerSideProps = async () => {
   const data = await getCollectionSlugsByProductType();
+  const environment = process.env.NODE_ENV || process.env['VERCEL_ENV'] || 'development';
 
   // Catalog internal tool should not be available on production
-  if (process.env.NODE_ENV === 'production'){
+  if (environment === 'production'){
     return {
       notFound: true
     }
