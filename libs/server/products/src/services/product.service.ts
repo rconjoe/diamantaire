@@ -739,6 +739,11 @@ export class ProductsService {
     }
   }
 
+  /**
+   * PDP request
+   * @param input 
+   * @returns 
+   */
   async findProductBySlug(input: ProductSlugInput) {
     const setLocal = input?.locale ? input?.locale : 'en_US'; // get locale from input or default to en_US
     // create unique cacheKey for each product variant
@@ -759,8 +764,8 @@ export class ProductsService {
           ...getDraftQuery(),
         };
 
-        const bigRedisKey: string = `products::` + setLocal + (includeDraftProducts() ? `:draft` : ``);
-        const redisKey: string = `products:` + query.collectionSlug + `:` + setLocal + (includeDraftProducts() ? `:draft` : ``);
+        const productCatalogCacheKey: string = `products::` + setLocal + (includeDraftProducts() ? `:draft` : ``);
+        const productsCollectionCacheKey: string = `products:` + query.collectionSlug + `:` + setLocal + (includeDraftProducts() ? `:draft` : ``);
         
         // check for cached data
         const cachedData = await this.cacheManager.get(cachedKey);
@@ -773,31 +778,45 @@ export class ProductsService {
 
         let collection: VraiProduct[];
 
-        const productsCollectionCacheValue = await this.cacheManager.get(redisKey);
+        const productsCollectionCacheValue = await this.cacheManager.get(productsCollectionCacheKey);
 
         const preProductsReq: number = performance.now();
 
+        // Attempt to get collection data from cache
         if (productsCollectionCacheValue) {
           this.logger.verbose(`findProductBySlug :: Collection data :: From Cache 1`);
           collection = productsCollectionCacheValue as VraiProduct[];
         } else {
           this.logger.verbose(`findProductBySlug :: all product data :: From DB 1`);
-          const bigProductsCollectionCacheValue = await this.cacheManager.get(bigRedisKey);
+          const bigProductsCollectionCacheValue = await this.cacheManager.get(productCatalogCacheKey);
 
           if (bigProductsCollectionCacheValue) {
             this.logger.verbose(`findProductBySlug :: From Cache 2`);
-            collection = (bigProductsCollectionCacheValue as VraiProduct[]).filter((item) => {
+            const collectionLookup = (bigProductsCollectionCacheValue as VraiProduct[]).filter((item) => {
               return (item.collectionSlug === input.slug);
             });
-            this.cacheManager.set(redisKey, collection);
-          } else {
+
+            // If found in catalog cache, set the collection and the collection cache
+            if (collectionLookup.length > 0) {
+              this.logger.verbose(`Found collection in catalog cache: ${input.slug}`);
+              collection = collectionLookup;
+              this.cacheManager.set(productsCollectionCacheKey, collection);
+            } else {
+              // If not found, delete the catalog cahe since it is not up to date
+              this.logger.verbose(`Collection not found in catalog cache: ${input.slug}.`);
+              // this.cacheManager.del(productCatalogCacheKey);
+            }
+          } 
+          
+          // Fetch collection if not found in cache
+          if(!collection){
             this.logger.verbose(`findProductBySlug :: From DB 2`);
             collection = await this.productRepository.find(bigQuery);
-            this.cacheManager.set(bigRedisKey, collection, PERSISTANT_CACHE_TTL);
+            this.cacheManager.set(productCatalogCacheKey, collection, PERSISTANT_CACHE_TTL);
             collection = collection.filter((item) => {
               return (item.collectionSlug === input.slug);
             });
-            this.cacheManager.set(redisKey, collection, PERSISTANT_CACHE_TTL);
+            this.cacheManager.set(productsCollectionCacheKey, collection, PERSISTANT_CACHE_TTL);
           }
         }
 

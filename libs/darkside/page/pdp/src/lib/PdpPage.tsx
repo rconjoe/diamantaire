@@ -219,15 +219,19 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     additionalVariantData.productTitle = datoParentProductData?.productTitle;
 
     additionalVariantData.price = price;
-    additionalVariantData.image = {
-      src: assetStack[0].url,
-      width: assetStack[0].width,
-      height: assetStack[0].width,
-      responsiveImage: {
+
+    if (assetStack[0]){
+      additionalVariantData.image = {
         src: assetStack[0].url,
-        ...assetStack[0].responsiveImage,
-      },
-    };
+        width: assetStack[0].width,
+        height: assetStack[0].width,
+        responsiveImage: {
+          src: assetStack[0].url,
+          ...assetStack[0].responsiveImage,
+        },
+      };
+    }
+    
   }
   const diamondFeedPrice = Array.isArray(selectedDiamond)
     ? selectedDiamond.reduce((total, diamond) => total + (diamond?.price || 0), 0)
