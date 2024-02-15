@@ -798,8 +798,13 @@ export class ProductsService {
 
             // If found in catalog cache, set the collection and the collection cache
             if (collectionLookup.length > 0) {
+              this.logger.verbose(`Found collection in catalog cache: ${input.slug}`);
               collection = collectionLookup;
               this.cacheManager.set(productsCollectionCacheKey, collection);
+            } else {
+              // If not found, delete the catalog cahe since it is not up to date
+              this.logger.verbose(`Collection not found in catalog cache: ${input.slug}.  Delete catalog cache`);
+              this.cacheManager.del(prductCatalogCacheKey);
             }
           } 
           
