@@ -7,10 +7,8 @@ import { configurationOptionValues, sortConfiguration } from '../utils/configura
 import 'dotenv/config';
 
 const BASE_URL = 'https://www.vrai.com';
-
 const alternateLocales = ['de-DE', 'es-ES']; // Removed 'fr-FR' for now
-
-/** Types */
+const STANDARD_PAGE_BLACKLIST = ['darkside-home'];
 
 type SeoFields = {
   addNoindexNofollow: boolean
@@ -50,7 +48,7 @@ type Product = {
 
 async function datoRequest(query, variables){
 
-  console.log("Making dato request", variables)
+  // console.log("Making dato request", variables)
 
   try {
     const response = await axios({
@@ -220,7 +218,7 @@ async function getAllPlpPageSlugs(){
 
   do{
     response = await datoRequest(query, { first, skip });
-    console.log("list page response", response)
+    // console.log("list page response", response)
     if (response){
       data = [...data, ...response['allListPages']];
     }
@@ -240,18 +238,18 @@ function generateStandardPageSitemapUrls(standardPages: StandardPageBrief[]): st
   }
   // only pages w/o no index, no follow
   const indexablePages = standardPages.reduce((acc: string[], page) => {
-    if(!page.seo?.addNoindexNofollow){
+    if(page.seo?.addNoindexNofollow !== true && !STANDARD_PAGE_BLACKLIST.includes(page.slug)){
       acc.push(page.slug);
     }
 
     return acc;
-  },[]);
+  },['']);
 
   const urls = indexablePages.map(slug => {
     const alternateLinks = alternateLocales.map(locale => {
       const lang = locale.split('-')[0];
       
-      return `<xhtml:link rel="alternate" hreflang="${lang}" href="${getStandardPageUrl(slug, locale)}/" />`
+      return `<xhtml:link rel="alternate" hreflang="${lang}" href="${getStandardPageUrl(slug, locale)}" />`
     }).join('');
 
     return `<url><loc>${getStandardPageUrl(slug)}</loc>${alternateLinks}</url>`;
@@ -277,7 +275,7 @@ function generateJournalPageSitemapUrls(journalPages: JournalPageBrief[]): strin
     return `<url><loc>${url}</loc></url>`;
   });
 
-  console.log("Journal URLs", urls);
+  // console.log("Journal URLs", urls);
 
   return ['<!-- Journal Posts -->', ...urls];
 }
@@ -316,7 +314,7 @@ function generateJournalCategorySitemapUrls(journalCategories: JournalCategoryBr
     return acc;
   },[])
 
-  console.log("Journal Category URLs", urls);
+  // console.log("Journal Category URLs", urls);
 
   return ['<!-- Journal Categories -->', ...urls];
 }
@@ -420,7 +418,7 @@ function generatePdpSitemapUrls(allProducts: Product[]){
     return acc;
   }, []);
 
-  console.log("PDP URLs", urls.length);
+  // console.log("PDP URLs", urls.length);
 
   return ['<!-- Product Detail Pages -->', ...urls];
 }
