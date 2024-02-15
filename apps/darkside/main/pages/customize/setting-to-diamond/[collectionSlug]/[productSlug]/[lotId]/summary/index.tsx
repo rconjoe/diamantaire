@@ -128,8 +128,9 @@ const ReviewBuildStepStyles = styled(motion.div)`
                 max-height: 608px;
               }
             }
-            .hand {
-              display: block;
+            .hand-image-container {
+              max-width: 84%;
+              margin: auto;
             }
 
             &.spritespinner {
