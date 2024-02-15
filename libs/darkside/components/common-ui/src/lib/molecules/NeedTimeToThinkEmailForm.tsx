@@ -43,11 +43,7 @@ const NeedTimeToThinkForm = ({ productData }) => {
   const { _t } = useTranslations(locale);
   const [isSuccessful, setIsSuccessful] = useState(false);
   const [formSubmissionResult, setFormSubmissionResult] = useState('');
-  const {
-    cms: {
-      image: { src: productImage },
-    },
-  } = productData || { cms: { image: { src: '' } } };
+  const productImage = productData?.cms?.image?.src || '';
 
   const getCurrentUrl = () => {
     const localeSubdir = locale !== DEFAULT_LOCALE ? `/${locale}` : '';

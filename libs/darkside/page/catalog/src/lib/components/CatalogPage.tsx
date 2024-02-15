@@ -231,7 +231,8 @@ const CatalogPage = ({ title, data }: CatalogPageProps) => {
 export const getServerSideProps = async () => {
   const data = await getCollectionSlugsByProductType();
 
-  if (process.env.NODE_ENV !== 'development'){
+  // Catalog internal tool should not be available on production
+  if (process.env.NODE_ENV === 'production'){
     return {
       notFound: true
     }
