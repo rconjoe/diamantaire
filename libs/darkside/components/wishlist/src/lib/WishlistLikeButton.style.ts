@@ -23,7 +23,13 @@ export const StyledWishlistLikeButton = styled.div`
   svg {
     width: 100%;
   }
-
+  &.with-title {
+    position: relative;
+    top: 2px;
+    @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+      position: absolute;
+    }
+  }
   &.bundle {
     top: 1rem;
     right: 0;
