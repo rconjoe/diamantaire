@@ -11,7 +11,7 @@ import { BuilderProductContext } from '@diamantaire/darkside/context/product-bui
 import { useBuilderFlowSeo, useDiamondTableData, useDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
-import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
+import { DEFAULT_LOCALE, DIAMOND_TABLE_DEFAULT_OPTIONS } from '@diamantaire/shared/constants';
 import { getDiamondShallowRoute } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
@@ -184,6 +184,8 @@ const DiamondBuildStep = () => {
     setOptions((prevOptions) => {
       let updatedOptions: { [key: string]: string } = { ...prevOptions };
 
+      console.log('updatedOptions', updatedOptions);
+
       const key = Object.keys(newOptions).pop();
 
       if (key === 'diamondType') {
@@ -236,6 +238,8 @@ const DiamondBuildStep = () => {
           .join();
       }
 
+      console.log('updatedOptions', updatedOptions);
+
       return updatedOptions;
     });
   };
@@ -255,7 +259,7 @@ const DiamondBuildStep = () => {
   };
 
   const clearOptions = () => {
-    updateOptions({ ...defaultInitialOptions, diamondType: diamondTypeToShow });
+    setOptions({ ...DIAMOND_TABLE_DEFAULT_OPTIONS, diamondType: diamondTypeToShow });
   };
 
   useEffect(() => {

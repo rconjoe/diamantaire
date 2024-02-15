@@ -80,6 +80,9 @@ const nextConfig = {
   // api: {
   //   externalResolver: true,
   // },
+  experimental: {
+    scrollRestoration: true,
+  },
   images: {
     remotePatterns: [
       {

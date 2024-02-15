@@ -111,7 +111,7 @@ export const BannerWrapper = styled.div`
         a,
         button {
           display: inline-block;
-          width: auto;
+          width: 100%;
           min-width: 30rem;
         }
       }

@@ -91,7 +91,7 @@ export const CarouselSliderContainer = styled.div`
     position: absolute;
     z-index: 1;
     right: 0;
-    top: -25px;
+    top: -3px;
 
     button {
       padding: 0;

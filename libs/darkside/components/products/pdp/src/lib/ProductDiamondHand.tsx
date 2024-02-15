@@ -2,6 +2,7 @@ import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { DiamondImage } from '@diamantaire/darkside/components/diamonds';
 import { IMAGE_BASE_URL } from '@diamantaire/shared/constants';
 import { formatNumber } from '@diamantaire/shared/helpers';
+import clsx from 'clsx';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -48,6 +49,14 @@ const ProductDiamondHandStyles = styled.div`
       top: 50%;
       left: 50%;
       transform: translate(-118%, 20%);
+
+      &.multi {
+        transform: translate(-119%, 20%);
+        img {
+          margin: 0 -2.5%;
+          object-fit: contain;
+        }
+      }
     }
   }
 
@@ -285,6 +294,8 @@ const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = f
   useEffect(() => {
     const res = pickDiamondWidth(initValue);
 
+    console.log('resresres', res);
+
     setDiamondImageWidth(res);
   }, [initValue]);
 
@@ -306,10 +317,23 @@ const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = f
           </p>
         </div>
 
-        <div className="image-diamond">
-          <div style={{ width: diamondImageWidth + '%' }}>
-            <DiamondImage diamondType={diamondType} />
-          </div>
+        <div
+          className={clsx('image-diamond', {
+            multi: diamondType.split('+').length > 1,
+          })}
+        >
+          {diamondType.split('+').map((type) => {
+            return (
+              <DiamondImage
+                key={type}
+                diamondType={type}
+                style={{
+                  width: `${diamondImageWidth}%`,
+                  height: `${diamondImageWidth}%`,
+                }}
+              />
+            );
+          })}
         </div>
       </div>
       {!disableControls && (

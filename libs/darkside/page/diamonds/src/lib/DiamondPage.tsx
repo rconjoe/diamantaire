@@ -73,8 +73,10 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
   const pageDynamicTitle = dynamicTitle.replace(/%%(.*?)%%/g, diamondTypeTitle);
 
+  // Do we need this (Charles)?
   const updateLoading = (newState) => {
     setLoading(newState);
+    console.log('loading', loading);
   };
 
   const updateOptions = (newOptions) => {
@@ -160,6 +162,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
   }, [pagination?.pageCount, options.sortBy, options.sortOrder]);
 
   useEffect(() => {
+    console.log('options changed', options);
     router.replace(getDiamondShallowRoute(options), undefined, { shallow: true });
   }, [options]);
 
