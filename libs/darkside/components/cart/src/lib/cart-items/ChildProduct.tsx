@@ -96,8 +96,6 @@ const ChildProduct = ({ lineItem }) => {
     return productType === 'Diamond';
   }, [productType]);
 
-  console.log('child product', isProductDiamond);
-
   const specs = useMemo(() => {
     const matchingAttribute = attributes?.find((attr) => attr.key === '_specs')?.value;
 

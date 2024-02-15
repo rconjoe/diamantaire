@@ -162,7 +162,6 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
   }, [pagination?.pageCount, options.sortBy, options.sortOrder]);
 
   useEffect(() => {
-    console.log('options changed', options);
     router.replace(getDiamondShallowRoute(options), undefined, { shallow: true });
   }, [options]);
 

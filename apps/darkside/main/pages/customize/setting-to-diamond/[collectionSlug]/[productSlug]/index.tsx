@@ -184,8 +184,6 @@ const DiamondBuildStep = () => {
     setOptions((prevOptions) => {
       let updatedOptions: { [key: string]: string } = { ...prevOptions };
 
-      console.log('updatedOptions', updatedOptions);
-
       const key = Object.keys(newOptions).pop();
 
       if (key === 'diamondType') {
@@ -237,8 +235,6 @@ const DiamondBuildStep = () => {
           .filter((v) => v === 'Excellent')
           .join();
       }
-
-      console.log('updatedOptions', updatedOptions);
 
       return updatedOptions;
     });

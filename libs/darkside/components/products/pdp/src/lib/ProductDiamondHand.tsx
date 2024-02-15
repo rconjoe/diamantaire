@@ -294,8 +294,6 @@ const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = f
   useEffect(() => {
     const res = pickDiamondWidth(initValue);
 
-    console.log('resresres', res);
-
     setDiamondImageWidth(res);
   }, [initValue]);
 
