@@ -128,6 +128,11 @@ const ReviewBuildStepStyles = styled(motion.div)`
                 object-fit: cover;
                 max-height: 608px;
               }
+              .image-diamond {
+                img {
+                  object-fit: contain;
+                }
+              }
             }
             .hand {
               display: block;

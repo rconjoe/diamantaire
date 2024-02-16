@@ -73,6 +73,7 @@ export type ProductAddonDiamond = {
     _productTitle: string;
     _productType: string;
     _productTypeTranslated: string;
+    diamondType: string;
     productIconListShippingCopy: string;
     shippingBusinessDays: string;
     // This is the setting variant id

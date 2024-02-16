@@ -58,6 +58,7 @@ import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
 import { ReviewVariantSelector } from './ReviewVariantSelector';
+import { Diamond360 } from '@diamantaire/darkside/components/diamonds';
 
 const ReviewBuildStepStyles = styled(motion.div)`
   padding: 0rem 2rem 14rem;
@@ -111,6 +112,11 @@ const ReviewBuildStepStyles = styled(motion.div)`
                 flex: 1;
                 object-fit: cover;
                 max-height: 608px;
+              }
+              .image-diamond {
+                img {
+                  object-fit: contain;
+                }
               }
             }
             .hand {
@@ -915,7 +921,7 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
               {!isDiamondCFY &&
                 spriteSpinnerIds?.map((id) => (
                   <div className="spritespinner embla__slide" key={id}>
-                    <SpriteSpinnerBlock id={id} />
+                    <Diamond360 lotId={id} diamondType={selectedConfiguration?.diamondType} />
                   </div>
                 ))}
 
@@ -1180,57 +1186,3 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
 // };
 
 export default ReviewBuildStep;
-
-const SpriteSpinnerBlock = ({ id }) => {
-  const [videoData, setVideoData] = useState(null);
-
-  const fetchVideoType = useCallback(
-    async (diamondID) => {
-      const webpSprite = generateDiamondSpriteUrl(diamondID, 'webp');
-
-      const webp = await fetch(webpSprite, { method: 'HEAD' });
-
-      const jpgSprite = generateDiamondSpriteUrl(diamondID, 'jpg');
-      const jpg = await fetch(jpgSprite, { method: 'HEAD' });
-
-      if (webp.ok) {
-        return {
-          type: 'webp',
-          spriteImage: webpSprite,
-        };
-      } else {
-        if (jpg.ok) {
-          return {
-            type: 'jpg',
-            spriteImage: jpgSprite,
-          };
-        }
-      }
-    },
-    [id],
-  );
-
-  useEffect(() => {
-    async function getVideo() {
-      if (id) {
-        // webp or jpg
-        const videoDataTemp = await fetchVideoType(id);
-
-        setVideoData(videoDataTemp);
-      }
-    }
-
-    getVideo();
-  }, [id]);
-
-  return (
-    videoData && (
-      <SpriteSpinner
-        disableCaption={true}
-        shouldStartSpinner={true}
-        spriteImage={videoData?.spriteImage}
-        bunnyBaseURL={videoData?.spriteImage}
-      />
-    )
-  );
-};
