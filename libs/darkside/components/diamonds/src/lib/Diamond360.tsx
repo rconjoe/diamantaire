@@ -1,13 +1,13 @@
 import { SpriteSpinner, UIString } from '@diamantaire/darkside/components/common-ui';
 import { generateDiamondSpriteImage, generateDiamondSpriteUrl } from '@diamantaire/shared/helpers';
 import { DiamondCtoDataTypes, DiamondDataTypes } from '@diamantaire/shared/types';
+import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 
 import StyledDiamond360 from './Diamond360.style';
 import DiamondImage from './DiamondImage';
-import clsx from 'clsx';
 
 interface Diamond360Props {
   diamond?: DiamondDataTypes | DiamondCtoDataTypes;

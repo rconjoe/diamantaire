@@ -11,9 +11,9 @@ import {
   ProductAppointmentCTA,
   RingSizeGuide,
   SlideOut,
-  SpriteSpinner,
   UIString,
 } from '@diamantaire/darkside/components/common-ui';
+import { Diamond360 } from '@diamantaire/darkside/components/diamonds';
 import {
   OptionSelector,
   ProductDiamondHand,
@@ -43,7 +43,7 @@ import {
   parseValidLocale,
   pdpTypeSingleToPluralAsConst,
 } from '@diamantaire/shared/constants';
-import { generateDiamondSpriteImage, generateDiamondSpriteUrl, specGenerator } from '@diamantaire/shared/helpers';
+import { generateDiamondSpriteImage, specGenerator } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
@@ -58,7 +58,6 @@ import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
 import { ReviewVariantSelector } from './ReviewVariantSelector';
-import { Diamond360 } from '@diamantaire/darkside/components/diamonds';
 
 const ReviewBuildStepStyles = styled(motion.div)`
   padding: 0rem 2rem 14rem;
@@ -627,6 +626,7 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
         _dateAdded: (Date.now() + 100).toString(),
         caratWeight: diamond.carat.toString(),
         clarity: diamond.clarity,
+        diamondType: diamond.diamondType,
         cut: diamond.cut,
         color: diamond.color,
         feedId: settingVariantId,
