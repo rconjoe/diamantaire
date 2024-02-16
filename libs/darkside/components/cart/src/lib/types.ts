@@ -144,6 +144,7 @@ export type ShopifyCartOperation = {
 
 export type ShopifyCreateCartOperation = {
   data: { cartCreate: { cart: ShopifyCart } };
+  variables: { attributes: { key: string; value: string }[] };
 };
 
 export type ExtractVariables<T> = T extends { variables: object } ? T['variables'] : never;

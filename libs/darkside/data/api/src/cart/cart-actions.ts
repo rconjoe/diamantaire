@@ -19,6 +19,7 @@ import {
   ShopifyCreateCartOperation,
   ShopifyUpdateCartOperation,
   CartBuyerIdentityUpdateResponse,
+  CartAttributesUpdateResponse,
   ShopifyRemoveFromCartOperation,
 } from './cart-types';
 import {
@@ -28,6 +29,7 @@ import {
   updateGiftNoteMutation,
   cartBuyerIdentityUpdateMutation,
   removeFromCartMutation,
+  cartLinesUpdateMutation,
 } from './mutations/cart';
 import { getCartQuery } from './queries/cart';
 import { getEmailFromCookies } from '../clients';
@@ -813,6 +815,25 @@ export async function updateCartBuyerIdentity({ locale }) {
   });
 
   return res.body.data.cartBuyerIdentityUpdate.cart;
+}
+
+export async function updateCartAttributes({ locale }) {
+  const cartId = localStorage.getItem('cartId');
+  const attributes = [{ key: 'locale', value: getLanguage(locale) }];
+
+  const variables = {
+    cartId,
+    attributes,
+  };
+
+  const res = await shopifyFetch<CartAttributesUpdateResponse>({
+    query: cartLinesUpdateMutation,
+    variables,
+    cache: 'no-store',
+  });
+
+  // Return the updated cart data
+  return res.body.data.cartAttributesUpdate.cart;
 }
 
 // Run this when the user goes to checkout to update the line item shipping text attribute

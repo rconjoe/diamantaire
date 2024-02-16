@@ -85,3 +85,14 @@ export const cartBuyerIdentityUpdateMutation = /* GraphQL */ `
   }
   ${cartFragment}
 `;
+
+export const cartLinesUpdateMutation = /* GraphQL */ `
+  mutation cartAttributesUpdate($cartId: ID!, $attributes: [AttributeInput!]!) {
+    cartAttributesUpdate(cartId: $cartId, attributes: $attributes) {
+      cart {
+        ...cart
+      }
+    }
+  }
+  ${cartFragment}
+`;

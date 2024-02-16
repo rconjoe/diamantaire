@@ -1,6 +1,6 @@
 import { getCountry, getLanguage } from '@diamantaire/shared/helpers';
 
-import { getCart, updateCartBuyerIdentity } from './cart-actions';
+import { getCart, updateCartAttributes, updateCartBuyerIdentity } from './cart-actions';
 import { Cart, ExtractVariables, Connection, ShopifyCart, ShopifyCreateCartOperation } from './cart-types';
 import { createCartMutation } from './mutations/cart';
 import { queryDatoGQL } from '../clients';
@@ -178,7 +178,7 @@ export async function fetchCartShopifyData(locale) {
 
   if (cartData && cartData?.buyerIdentity && cartData.buyerIdentity?.countryCode !== countryCode) {
     await updateCartBuyerIdentity({ locale });
-
+    await updateCartAttributes({ locale });
     cartData = await getCart(cartId, locale);
 
     return cartData;
