@@ -1,4 +1,4 @@
-import { getCountry } from '@diamantaire/shared/helpers';
+import { getCountry, getLanguage } from '@diamantaire/shared/helpers';
 
 import { getCart, updateCartBuyerIdentity } from './cart-actions';
 import { Cart, ExtractVariables, Connection, ShopifyCart, ShopifyCreateCartOperation } from './cart-types';
@@ -101,9 +101,21 @@ async function shopifyFetch<T>({
 
 // React Query
 
-async function createCart(): Promise<Cart> {
+async function createCart({ locale }): Promise<Cart> {
+  const lang = getLanguage(locale);
+
+  const attributes = [
+    {
+      key: 'locale',
+      value: lang,
+    },
+  ];
+
   const res = await shopifyFetch<ShopifyCreateCartOperation>({
     query: createCartMutation,
+    variables: {
+      attributes,
+    },
     cache: 'no-store',
   });
 
@@ -155,7 +167,7 @@ export async function fetchCartShopifyData(locale) {
   let cartId = localStorage.getItem('cartId');
 
   if (!cartId) {
-    const newCart = await createCart();
+    const newCart = await createCart({ locale });
 
     localStorage.setItem('cartId', newCart.id);
     cartId = newCart.id;

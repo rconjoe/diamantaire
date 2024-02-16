@@ -1,4 +1,4 @@
-import { getCountry, getFormattedShipByDate } from '@diamantaire/shared/helpers';
+import { getCountry, getFormattedShipByDate, getLanguage } from '@diamantaire/shared/helpers';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
 import { AttributeInput } from 'shopify-buy';
 
@@ -51,6 +51,7 @@ async function shopifyFetch<T>({
   variables?: Record<string, any>;
 }): Promise<{ status: number; body: T } | never> {
   try {
+    console.log('trying with', { variables });
     const result = await fetch(endpoint, {
       method: 'POST',
       headers: {
@@ -80,14 +81,17 @@ async function shopifyFetch<T>({
     console.log('shopifyFetch error', e);
   }
 }
-
+//note: this fn usually doesn't get called
 async function createCart({ locale = '', lineItems = [] }): Promise<Cart> {
   const email = getEmailFromCookies();
   const countryCode = locale ? getCountry(locale) : null;
+  const lang = locale ? getLanguage(locale) : null;
+  const customAttributes = [{ key: 'locale', value: lang ?? '' }];
   const variables: CreateCartVariables = {
     ...(email && { email }),
     ...(countryCode && { countryCode }),
     ...(lineItems?.length > 0 && { lineItems }),
+    attributes: customAttributes,
   };
 
   window.localStorage.setItem('locale', locale);

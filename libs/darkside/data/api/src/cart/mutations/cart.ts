@@ -16,8 +16,15 @@ export const addToCartMutation = /* GraphQL */ `
 `;
 
 export const createCartMutation = /* GraphQL */ `
-  mutation createCart($lineItems: [CartLineInput!], $email: String, $countryCode: CountryCode) {
-    cartCreate(input: { lines: $lineItems, buyerIdentity: { email: $email, countryCode: $countryCode } }) {
+  mutation createCart(
+    $lineItems: [CartLineInput!]
+    $email: String
+    $countryCode: CountryCode
+    $attributes: [AttributeInput!]
+  ) {
+    cartCreate(
+      input: { lines: $lineItems, buyerIdentity: { email: $email, countryCode: $countryCode }, attributes: $attributes }
+    ) {
       cart {
         ...cart
       }
