@@ -2,7 +2,7 @@ let TTL = 1800;
 let MAX_AGE = 180;
 let REVALIDATE = 60 * 60;
 
-const environment = process.env.NODE_ENV || process.env['VERCEL_ENV'] || 'development';
+const environment = process.env['VERCEL_ENV'] || 'development';
 
 if (environment.includes('preview')) {
   TTL = 30;

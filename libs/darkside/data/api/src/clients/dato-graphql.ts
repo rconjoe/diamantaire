@@ -19,6 +19,8 @@ export function queryDatoGQL({
     variables['locale'] = getDatoRequestLocale(refinedLocale);
   }
 
+  const environment = process.env['VERCEL_ENV'] || 'development';
+
   const headers: { [key: string]: string } = {
     authorization: `Bearer ` + process.env['NEXT_PUBLIC_DATOCMS_API_TOKEN'],
   };
@@ -31,7 +33,7 @@ export function queryDatoGQL({
     headers['X-Exclude-Invalid'] = 'true';
   }
 
-  const client = new GraphQLClient(`https://graphql.datocms.com/${process.env.NODE_ENV === 'production' ? '' : 'preview'}`, {
+  const client = new GraphQLClient(`https://graphql.datocms.com/${environment === 'production' ? '' : 'preview'}`, {
     headers,
   });
 
