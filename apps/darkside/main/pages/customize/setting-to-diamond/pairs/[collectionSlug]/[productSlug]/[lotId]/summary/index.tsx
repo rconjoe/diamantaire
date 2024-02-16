@@ -709,6 +709,7 @@ const SettingToDiamondSummaryPage = () => {
         caratWeight: diamond.carat.toString(),
         clarity: diamond.clarity,
         cut: diamond.cut,
+        diamondType: diamond.diamondType,
         color: diamond.color,
         feedId: settingVariantId,
         lotId: diamond.lotId,
