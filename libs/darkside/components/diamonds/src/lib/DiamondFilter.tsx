@@ -130,8 +130,6 @@ const RadioFilter = (props) => {
           return [...a, getDiamondType(v).slug];
         }, []);
 
-      console.log('optionsUI', optionsUI);
-
       break;
     case 'clarity':
       optionsUI = clarityOptions;

@@ -819,19 +819,19 @@ export async function updateShippingTimes(locale) {
   const updatedItems = cart?.lines?.map((cartItem) => {
     const updatedAttributes = [...cartItem.attributes];
 
+    // Extract shippingBusinessDays as an integer.
     const shippingDaysInt =
       cartItem.attributes && parseFloat(cartItem.attributes.find((item) => item.key === 'shippingBusinessDays')?.value);
 
-    const shippingText =
-      cartItem.attributes && parseFloat(cartItem.attributes.find((item) => item.key === 'shippingText')?.value);
+    // Correctly retrieve shippingText without parsing it as a float.
+    const shippingText = cartItem.attributes && cartItem.attributes.find((item) => item.key === 'shippingText')?.value;
 
-    if (!shippingText) {
-      updatedAttributes.map((attr) => {
+    // Check if shippingDaysInt is valid to avoid NaN results.
+    if (!isNaN(shippingDaysInt) && shippingText) {
+      updatedAttributes.forEach((attr) => {
         if (attr.key === 'productIconListShippingCopy') {
-          attr.value = shippingText + ' ' + getFormattedShipByDate(shippingDaysInt, locale);
+          attr.value = `${shippingText} ${getFormattedShipByDate(shippingDaysInt, locale)}`;
         }
-
-        return attr;
       });
     }
 

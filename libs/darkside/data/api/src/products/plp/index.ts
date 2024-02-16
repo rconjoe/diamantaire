@@ -182,6 +182,7 @@ export const LIST_PAGE_DATO_SERVER_QUERY = gql`
         id
         seoTitle
         seoDescription
+        canonicalOverride
         _seoMetaTags {
           attributes
           content

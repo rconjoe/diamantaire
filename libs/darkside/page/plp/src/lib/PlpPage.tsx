@@ -82,7 +82,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
     filterOptions: filterOptionsOverride,
   } = plpData || {};
 
-  const { seoTitle, seoDescription } = seo || {};
+  const { seoTitle, seoDescription, canonicalOverride } = seo || {};
 
   const { data, fetchNextPage, isFetching, hasNextPage } = usePlpVRAIProducts(
     category,
@@ -197,9 +197,11 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
         title={seoTitle}
         description={seoDescription}
         canonical={
-          (process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') +
-          seoParam[languageCode] +
-          router.asPath
+          canonicalOverride
+            ? canonicalOverride
+            : (process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') +
+              seoParam[languageCode] +
+              router.asPath
         }
       />
 

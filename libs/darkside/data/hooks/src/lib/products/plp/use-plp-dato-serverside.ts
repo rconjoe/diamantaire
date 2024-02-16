@@ -23,6 +23,7 @@ type PlpDatoServersideProps = {
         attributes: string;
         content: string;
       };
+      canonicalOverride: string;
     };
 
     breadcrumb: {

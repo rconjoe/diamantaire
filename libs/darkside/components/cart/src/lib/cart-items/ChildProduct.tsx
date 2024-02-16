@@ -118,6 +118,8 @@ const ChildProduct = ({ lineItem }) => {
     countryCode === 'GB' || countryCode === 'US' ? 1 : quantity,
   );
 
+  console.log('child prod price', totalPrice);
+
   return (
     <ChildProductStyles>
       <div className="child-product__inner">
@@ -128,7 +130,7 @@ const ChildProduct = ({ lineItem }) => {
         <div className="cart-item__content">
           <p>
             <strong>{_t(productType)}</strong>
-            {isProductDiamond || (image.includes('https') && <span>{totalPrice}</span>)}
+            {(isProductDiamond || image.includes('https')) && <span>{totalPrice}</span>}
           </p>
 
           {specs?.split(';').map((val) => <p key={id + `-${val}`}>{val}</p>)}

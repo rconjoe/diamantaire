@@ -128,11 +128,22 @@ const ReviewBuildStepStyles = styled(motion.div)`
                 max-height: 608px;
               }
             }
-            .hand {
-              display: block;
+            .hand-image-container {
+              max-width: 84%;
+              margin: auto;
             }
 
             &.spritespinner {
+              position: relative;
+
+              .spritespinner-outer-container {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 100;
+              }
               display: block;
               > div {
                 display: block;
@@ -224,6 +235,12 @@ const ReviewBuildStepStyles = styled(motion.div)`
 
         .total-price {
           margin-bottom: 2rem;
+        }
+        .heading-container {
+          position: relative;
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
         }
       }
 
@@ -671,10 +688,11 @@ const SettingToDiamondSummaryPage = () => {
 
     const diamondsToAdd = diamonds.map((diamond, index) => {
       const diamondSpecs = specGenerator({
-        configuration: { ...diamond },
+        configuration: { ...diamond, caratWeight: diamond?.carat },
         productType: 'Diamond',
         _t,
       });
+
       const diamondAttributes: ProductAddonDiamond['attributes'] = {
         _productTitle: diamond?.productTitle,
         productAsset: diamondImages[index],
@@ -1070,26 +1088,27 @@ const SettingToDiamondSummaryPage = () => {
         </div>
         <div className="product-summary">
           <div className="product-summary__inner">
-            <WishlistLikeButton
-              extraClass="bundle"
-              productId={`bundle-${router?.query?.productSlug}::${diamonds?.[0]?.lotId}`}
-            />
+            <div className="heading-container">
+              {productTitle && languageCode === 'en' ? (
+                <Heading type="h1" className="secondary no-margin">
+                  {productTitle}
+                </Heading>
+              ) : productTitle ? (
+                <ProductTitle
+                  title={productTitle}
+                  override={productTitleOverride}
+                  diamondType={shopifyProductData?.configuration?.diamondType}
+                  productType={shopifyProductData?.productType}
+                />
+              ) : (
+                ''
+              )}
 
-            {productTitle && languageCode === 'en' ? (
-              <Heading type="h1" className="secondary no-margin">
-                {productTitle}
-              </Heading>
-            ) : productTitle ? (
-              <ProductTitle
-                title={productTitle}
-                override={productTitleOverride}
-                diamondType={shopifyProductData?.configuration?.diamondType}
-                productType={shopifyProductData?.productType}
+              <WishlistLikeButton
+                extraClass="with-title"
+                productId={`bundle-${router?.query?.productSlug}::${diamonds?.[0]?.lotId}`}
               />
-            ) : (
-              ''
-            )}
-
+            </div>
             <div className="total-price">
               {diamondPrice && (
                 <ProductPrice
@@ -1350,15 +1369,17 @@ const SpriteSpinnerBlock = ({ id, diamondType }) => {
 
   return (
     <>
-      {thumbnail && !videoData && <Image alt="" src={thumbnail} height={600} width={600}></Image>}
+      {thumbnail && <Image alt="" src={thumbnail} height={600} width={600}></Image>}
 
       {videoData && (
-        <SpriteSpinner
-          disableCaption={true}
-          shouldStartSpinner={true}
-          spriteImage={videoData?.spriteImage}
-          bunnyBaseURL={videoData?.spriteImage}
-        />
+        <div className="spritespinner-outer-container">
+          <SpriteSpinner
+            disableCaption={true}
+            shouldStartSpinner={true}
+            spriteImage={videoData?.spriteImage}
+            bunnyBaseURL={videoData?.spriteImage}
+          />
+        </div>
       )}
     </>
   );

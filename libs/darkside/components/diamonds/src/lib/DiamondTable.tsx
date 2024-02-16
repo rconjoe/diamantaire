@@ -285,7 +285,7 @@ const DiamondTable = (props: DiamondTableProps) => {
       pageIndex: 1,
     }));
 
-    table.setPageIndex(1);
+    table.resetPageIndex();
 
     setActiveRow(null);
 

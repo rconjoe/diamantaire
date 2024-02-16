@@ -23,8 +23,21 @@ export const ModularTextOnlyBlockContainer = styled.div`
         text-align: center !important;
       }
       ${media.medium`margin:0.5rem auto;${contentBlockMargin};`}
+      .text-block__container {
+        flex: 1;
+      }
       .text-block__button-wrapper {
         margin: 2rem auto 0;
+        max-width: 32rem;
+        width: 100%;
+        flex: 1;
+
+        a {
+          width: 100%;
+          button {
+            width: 100%;
+          }
+        }
       }
     }
 

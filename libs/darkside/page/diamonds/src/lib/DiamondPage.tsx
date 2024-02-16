@@ -73,8 +73,10 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
   const pageDynamicTitle = dynamicTitle.replace(/%%(.*?)%%/g, diamondTypeTitle);
 
+  // Do we need this (Charles)?
   const updateLoading = (newState) => {
     setLoading(newState);
+    console.log('loading', loading);
   };
 
   const updateOptions = (newOptions) => {

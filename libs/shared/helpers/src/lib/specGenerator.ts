@@ -101,7 +101,7 @@ export function specGenerator({ configuration, productType, _t, alt_t, hasChildD
 
   if (bandAccent) {
     specArray.push(
-      `${_t(hasChildDiamond || bandAccent.includes('pave-twisted') ? 'Hidden Halo' : 'bandAccent')}: ${_t(
+      `${_t(bandAccent.includes('pave-twisted') ? 'Hidden Halo' : 'bandAccent')}: ${_t(
         bandAccent.replace('pave-twisted', 'double-pave'),
       )}`,
     );
