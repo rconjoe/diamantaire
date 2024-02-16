@@ -232,6 +232,8 @@ export const getServerSideProps = async () => {
   const data = await getCollectionSlugsByProductType();
   const environment = process.env.NODE_ENV || process.env['VERCEL_ENV'] || 'development';
 
+  console.log("env", { vercel: process.env['VERCEL_ENV'], node: process.env.NODE_ENV, environment });
+
   // Catalog internal tool should not be available on production
   if (environment === 'production'){
     return {
