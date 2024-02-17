@@ -7,9 +7,8 @@ const StyledDiamondTableRowAccordion = styled.div`
     &.cut {
       .accordion-content {
         p {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
+          display: block;
+
           gap: 1.5rem;
         }
 

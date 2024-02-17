@@ -30,18 +30,19 @@ const Accordion: React.FC<AccordionProps> = ({ rows, activeDefault = null, isDia
 
     elements.forEach((v) => v.removeAttribute(`style`));
 
-    if (typeof newIndex === `number`) {
-      const header = `.accordion-row .accordion-header`;
-      const headerElement = accordion.current?.querySelector(header);
-      const headerElementHeight = `${headerElement.clientHeight}px`;
-      const content = `.accordion-row:nth-child(${newIndex + 1}) .accordion-content`;
-      const contentElement = accordion.current?.querySelector(content);
-      const contentElementHeight = `${contentElement.clientHeight}px`;
-      const row = `.accordion-row:nth-child(${newIndex + 1})`;
-      const rowElement = accordion.current?.querySelector(row);
+    // Do we need this???
+    // if (typeof newIndex === `number`) {
+    //   const header = `.accordion-row .accordion-header`;
+    //   const headerElement = accordion.current?.querySelector(header);
+    //   const headerElementHeight = `${headerElement.clientHeight}px`;
+    //   const content = `.accordion-row:nth-child(${newIndex + 1}) .accordion-content`;
+    //   const contentElement = accordion.current?.querySelector(content);
+    //   const contentElementHeight = `${contentElement.clientHeight}px`;
+    //   const row = `.accordion-row:nth-child(${newIndex + 1})`;
+    //   const rowElement = accordion.current?.querySelector(row);
 
-      rowElement.style.maxHeight = `calc(${headerElementHeight} + ${contentElementHeight} + 5rem)`;
-    }
+    //   rowElement.style.maxHeight = `calc(${headerElementHeight} + ${contentElementHeight} + 5rem)`;
+    // }
   };
 
   useEffect(() => {
