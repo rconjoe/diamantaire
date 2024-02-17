@@ -220,7 +220,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
     additionalVariantData.price = price;
 
-    if (assetStack[0]){
+    if (assetStack[0]) {
       additionalVariantData.image = {
         src: assetStack[0].url,
         width: assetStack[0].width,
@@ -231,7 +231,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
         },
       };
     }
-    
   }
   const diamondFeedPrice = Array.isArray(selectedDiamond)
     ? selectedDiamond.reduce((total, diamond) => total + (diamond?.price || 0), 0)
