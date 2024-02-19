@@ -175,8 +175,6 @@ function ConfigurationSelector({
           return null;
         }
 
-        console.log('xxxxx', isBuilderFlowOpen);
-
         return (
           <OptionSelector
             key={configurationType}
