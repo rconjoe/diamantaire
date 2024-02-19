@@ -1,5 +1,5 @@
 import { useCookieBanner } from '@diamantaire/darkside/data/hooks';
-import { getIsUserInEu } from '@diamantaire/shared/geolocation';
+import { getIsUserInEu, getUserGeo } from '@diamantaire/shared/geolocation';
 import { useCookieConsentContext } from '@use-cookie-consent/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Cookies from 'js-cookie';
@@ -126,19 +126,44 @@ const CookieBanner = () => {
   };
 
   useEffect(() => {
-    const isUserInEu = getIsUserInEu();
-    const didAcceptPrivacy = Cookies.get('didAcceptPrivacy') === 'true';
-    const shouldShowBanner = isUserInEu && !didAcceptPrivacy;
+    const checkGeoAndDecideOnBanner = () => {
+      const geo = getUserGeo();
 
-    if (shouldShowBanner) {
-      setCookieConsentOptions({
-        statistics: consent.statistics || false,
-        marketing: consent.marketing || false,
-        preferences: consent.preferences || false,
-      });
+      if (!geo) {
+        setTimeout(() => {
+          const retryGeo = getUserGeo();
 
-      setShowBanner(true);
-    }
+          if (!retryGeo) {
+            return;
+          }
+
+          decideOnShowingBanner();
+        }, 1000);
+
+        return;
+      }
+
+      decideOnShowingBanner();
+    };
+
+    const decideOnShowingBanner = () => {
+      const isUserInEu = getIsUserInEu();
+      const didAcceptPrivacy = Cookies.get('didAcceptPrivacy') === 'true';
+      const shouldShowBanner = isUserInEu && !didAcceptPrivacy;
+
+      if (shouldShowBanner) {
+        setCookieConsentOptions({
+          statistics: consent.statistics || false,
+          marketing: consent.marketing || false,
+          preferences: consent.preferences || false,
+        });
+        setShowBanner(true);
+      } else {
+        setShowBanner(false);
+      }
+    };
+
+    checkGeoAndDecideOnBanner();
   }, [consent]);
 
   if (!showBanner) {
