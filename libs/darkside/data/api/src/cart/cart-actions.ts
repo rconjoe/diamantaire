@@ -53,7 +53,6 @@ async function shopifyFetch<T>({
   variables?: Record<string, any>;
 }): Promise<{ status: number; body: T } | never> {
   try {
-    console.log('trying with', { variables });
     const result = await fetch(endpoint, {
       method: 'POST',
       headers: {
