@@ -99,6 +99,8 @@ const DiamondBuildStep = () => {
   const diamondTypeToShow = builderProduct?.product?.configuration?.diamondType || 'round-brilliant';
   const availableDiamonds = builderProduct?.product?.optionConfigs?.diamondType.map((d) => d.value) || [];
 
+  console.log('availableDiamonds', availableDiamonds);
+
   const { locale } = useRouter();
   const { data: seoData } = useBuilderFlowSeo(locale);
   const { seoTitle, seoDescription, addNoindexNofollow } = seoData?.builderFlow?.seoFields || {};
@@ -255,7 +257,7 @@ const DiamondBuildStep = () => {
   };
 
   const clearOptions = () => {
-    updateOptions({ ...initialOptions, diamondType: diamondTypeToShow });
+    setOptions({ ...defaultInitialOptions, diamondType: diamondTypeToShow, view: initialOptions['view'] });
   };
 
   useEffect(() => {
@@ -265,6 +267,7 @@ const DiamondBuildStep = () => {
   }, [diamondTypeToShow]);
 
   useEffect(() => {
+    console.log('optionsxxx', options);
     router.replace(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {});
   }, [options]);
 

@@ -112,6 +112,8 @@ export const getFormattedShipByDate = (shippingBusinessDays, _locale = 'en-us', 
     day: 'numeric',
   });
 
+  console.log('formattedShipByDate', formattedShipByDate);
+
   return formattedShipByDate;
 };
 
