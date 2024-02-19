@@ -65,7 +65,7 @@ const PlpPreviouslyViewedStyles = styled.section`
   .products__container {
     .product__container {
       padding: 0 1rem;
-      flex: 0 0 80%;
+      flex: 0 0 52%;
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         flex: 0 0 25%;
       }
