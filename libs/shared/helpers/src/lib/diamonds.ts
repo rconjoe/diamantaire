@@ -254,8 +254,6 @@ export const getCFYOptionsFromUrl = (query) => {
 };
 
 export const getCFYShallowRoute = (options, page, router) => {
-  console.log('pagexxx', page);
-  console.log('optionsxxx', options);
   const segments = DIAMOND_CFY_FACETED_NAV.reduce((arr: string[], value: string) => {
     if (options[value]) {
       if (value === 'diamondType') {

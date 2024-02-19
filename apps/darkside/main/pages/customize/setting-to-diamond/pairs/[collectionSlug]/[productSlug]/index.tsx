@@ -267,7 +267,6 @@ const DiamondBuildStep = () => {
   }, [diamondTypeToShow]);
 
   useEffect(() => {
-    console.log('optionsxxx', options);
     router.replace(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {});
   }, [options]);
 

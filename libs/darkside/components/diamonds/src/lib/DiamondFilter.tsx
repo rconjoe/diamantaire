@@ -94,8 +94,6 @@ const SliderFilter = (props) => {
 const RadioFilter = (props) => {
   const { stringMap, type, ranges, options, handleRadioFilterChange, availableDiamonds } = props;
 
-  console.log('rangesxx', ranges);
-
   const { isMobile } = useContext(GlobalContext);
   const [useLeftArrow, setUseLeftArrow] = useState(false);
   const [useRightArrow, setUseRightArrow] = useState(true);
@@ -124,8 +122,6 @@ const RadioFilter = (props) => {
         shapeHandles = shapeHandles.filter((handle) => availableDiamonds.includes(handle));
       }
 
-      console.log('shapeHandlesxx', shapeHandles);
-
       optionsUI = shapeHandles
         .filter((handle) => {
           return rangeTypes?.includes(handle);
@@ -133,8 +129,6 @@ const RadioFilter = (props) => {
         .reduce((a, v) => {
           return [...a, getDiamondType(v).slug];
         }, []);
-
-      console.log('optionsUI', optionsUI);
 
       break;
     case 'clarity':
