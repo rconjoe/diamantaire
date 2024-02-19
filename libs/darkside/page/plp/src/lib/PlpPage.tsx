@@ -237,7 +237,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
       />
 
       <div ref={pageEndRef} />
-      <div className="container-wrapper">
+      <div className="below-banner-container-wrapper">
         <PlpPreviouslyViewed />
 
         {category && plpSlug && <PlpBlockPicker category={category} plpSlug={plpSlug} />}
