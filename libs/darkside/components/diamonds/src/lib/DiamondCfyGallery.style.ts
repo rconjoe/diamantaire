@@ -3,11 +3,10 @@ import styled from 'styled-components';
 const StyledDiamondCfyGallery = styled.div`
   display: flex;
   width: 100%;
-  background: #ccc;
   margin: 3rem 0 0;
 
   @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
-    margin: 6rem 0 -2rem;
+    margin: 6rem 0 2rem;
   }
 
   .circularImage {
@@ -37,24 +36,6 @@ const StyledDiamondCfyGallery = styled.div`
     background: #f3efeb;
     margin: auto;
     position: relative;
-
-    &:after,
-    &:before {
-      content: '';
-      top: 0;
-      height: 100%;
-      width: 100%;
-      position: absolute;
-      background: #f3efeb;
-    }
-
-    &:after {
-      left: 100%;
-    }
-
-    &:before {
-      right: 100%;
-    }
 
     .section-title {
       font-size: 1.8rem;
