@@ -7,6 +7,7 @@ interface AccordionProps {
   activeDefault?: number;
   isDiamondDetail?: boolean;
   enableScroll?: boolean;
+  id?: string;
   rows: {
     title: React.ReactNode;
     children: React.ReactNode;
@@ -15,7 +16,7 @@ interface AccordionProps {
   }[];
 }
 
-const Accordion: React.FC<AccordionProps> = ({ rows, activeDefault = null, isDiamondDetail, enableScroll }) => {
+const Accordion = ({ rows, activeDefault = null, isDiamondDetail, enableScroll, id }: AccordionProps) => {
   const [activeIndex, setActiveIndex] = useState(activeDefault);
   const isInitialMount = useRef(true);
   const accordion = useRef(null);
@@ -73,7 +74,7 @@ const Accordion: React.FC<AccordionProps> = ({ rows, activeDefault = null, isDia
         const { withHeading = true } = row;
 
         return (
-          <div key={index} className={`accordion-row${activeClass} ${row.className}`}>
+          <div key={`${id}-${index}`} className={`accordion-row${activeClass} ${row.className}`}>
             <div className="accordion-header" onClick={() => toggleAccordion(index)}>
               {isDiamondDetail ? (
                 withHeading ? (
