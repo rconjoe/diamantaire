@@ -99,8 +99,6 @@ const DiamondBuildStep = () => {
   const diamondTypeToShow = builderProduct?.product?.configuration?.diamondType || 'round-brilliant';
   const availableDiamonds = builderProduct?.product?.optionConfigs?.diamondType.map((d) => d.value) || [];
 
-  console.log('availableDiamonds', availableDiamonds);
-
   const { locale } = useRouter();
   const { data: seoData } = useBuilderFlowSeo(locale);
   const { seoTitle, seoDescription, addNoindexNofollow } = seoData?.builderFlow?.seoFields || {};
