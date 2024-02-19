@@ -82,8 +82,8 @@ async function shopifyFetch<T>({
     console.log('shopifyFetch error', e);
   }
 }
-//note: this fn usually doesn't get called
-async function createCart({ locale = '', lineItems = [] }): Promise<Cart> {
+
+export async function createCart({ locale = '', lineItems = [] }): Promise<Cart> {
   const email = getEmailFromCookies();
   const countryCode = locale ? getCountry(locale) : null;
   const lang = locale ? getLanguage(locale) : null;
