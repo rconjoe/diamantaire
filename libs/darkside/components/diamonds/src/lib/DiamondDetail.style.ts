@@ -40,7 +40,7 @@ const StyledDiamondDetail = styled.div`
   > .body > .main {
     width: 100%;
     padding: 0 0 ${gap};
-    top: ${(props) => props.headerHeight}px;
+    top: 5.6rem;
 
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       width: 70%;
