@@ -52,6 +52,8 @@ const ProductDiamondHandStyles = styled.div`
 
       &.multi {
         transform: translate(-119%, 20%);
+        gap: 0.25rem;
+
         img {
           margin: 0 -2.5%;
           object-fit: contain;
@@ -134,14 +136,22 @@ const ProductDiamondHandStyles = styled.div`
 type ProductDiamondHandProps = {
   range: number[];
   diamondType: string;
-  initValue: number;
+  initValue: number | number[];
   disableControls?: boolean;
   prefix?: string;
 };
 
 const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = false, prefix }: ProductDiamondHandProps) => {
-  const [sliderValue, setSliderValue] = useState(Number(initValue));
-  const [diamondImageWidth, setDiamondImageWidth] = useState(0);
+  const isPair = Array.isArray(initValue);
+
+  const initialSliderValue = isPair ? [Number(initValue[0]), Number(initValue[1])] : Number(initValue);
+
+  const initialDiamondImageWidth = isPair ? [0, 0] : 0;
+
+  const [sliderValue, setSliderValue] = useState<number | number[]>(initialSliderValue);
+
+  const [diamondImageWidth, setDiamondImageWidth] = useState<number | number[]>(initialDiamondImageWidth);
+
   const { locale } = useRouter();
 
   const pickDiamondWidth = (carat) => {
@@ -285,14 +295,14 @@ const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = f
 
   // Maintains the diamond width
   useEffect(() => {
-    const res = pickDiamondWidth(sliderValue);
+    const res = isPair ? (sliderValue as number[]).map((v) => pickDiamondWidth(v)) : pickDiamondWidth(sliderValue);
 
     setDiamondImageWidth(res);
   }, [sliderValue]);
 
   // For preset value
   useEffect(() => {
-    const res = pickDiamondWidth(initValue);
+    const res = isPair ? (initValue as number[]).map((v) => pickDiamondWidth(v)) : pickDiamondWidth(initValue);
 
     setDiamondImageWidth(res);
   }, [initValue]);
@@ -320,20 +330,16 @@ const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = f
             multi: diamondType.split('+').length > 1,
           })}
         >
-          {diamondType.split('+').map((type) => {
+          {diamondType.split('+').map((type, index) => {
             return (
-              <DiamondImage
-                key={type}
-                diamondType={type}
-                style={{
-                  width: `${diamondImageWidth}%`,
-                  height: `${diamondImageWidth}%`,
-                }}
-              />
+              <div key={type} style={{ width: `${isPair ? diamondImageWidth[index] : diamondImageWidth}%` }}>
+                <DiamondImage diamondType={type} />
+              </div>
             );
           })}
         </div>
       </div>
+
       {!disableControls && (
         <div className="slider-outer-container">
           <div className="slider no-swiping">
