@@ -133,6 +133,10 @@ function ConfigurationSelector({
 
     router.replace(
       `/customize/diamond-to-setting/${builderProduct?.diamonds?.[0]?.lotId}/${router?.query?.collectionSlug}/${option?.id}`,
+      null,
+      {
+        shallow: true,
+      },
     );
   }
 
@@ -170,6 +174,8 @@ function ConfigurationSelector({
         if (!options || (options.length <= 1 && !allowedSingleOptionTypes.includes(configurationType))) {
           return null;
         }
+
+        console.log('xxxxx', isBuilderFlowOpen);
 
         return (
           <OptionSelector
