@@ -65,7 +65,7 @@ button:hover {
 @media (min-width: 992px) {
   .container-wrapper,
   .below-banner-container-wrapper {
-    max-width: 90vw;
+    max-width: 95vw;
   }
   .below-banner-container-wrapper {
     .container-wrapper {
@@ -74,6 +74,7 @@ button:hover {
     }
   }
 }
+
 .container-wrapper .container-wrapper:not(:first-child) {
   padding-left: calc(var(--space-gutter) * 3);
   padding-right: calc(var(--space-gutter) * 3);
