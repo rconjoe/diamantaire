@@ -35,7 +35,7 @@ const NeedTimeToThinkForm = ({ productData }) => {
   const { locale, asPath } = router || {};
   const globalTemplateData = useGlobalData(locale);
   const footerData = globalTemplateData.data?.footerNavigation;
-  const { optInCopy = '' } = footerData.emailSignUpCopy[0] as { optInCopy?: string };
+  const { optInCopy = '' } = footerData?.emailSignUpCopy?.[0] as { optInCopy?: string };
   const [pageTitle, setPageTitle] = useState('VRAI: Engagement Rings & Jewelry | Sustainable Diamonds');
   const countryCode = getCountry(locale);
   const { data: { emailPopup: emailPopUpContent } = {} } = useEmailPopup(locale);

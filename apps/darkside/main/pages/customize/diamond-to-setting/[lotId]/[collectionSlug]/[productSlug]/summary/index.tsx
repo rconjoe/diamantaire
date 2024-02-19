@@ -12,9 +12,9 @@ import {
   ProductAppointmentCTA,
   RingSizeGuide,
   SlideOut,
-  SpriteSpinner,
   UIString,
 } from '@diamantaire/darkside/components/common-ui';
+import { Diamond360 } from '@diamantaire/darkside/components/diamonds';
 import {
   OptionSelector,
   ProductDescription,
@@ -54,7 +54,7 @@ import {
   parseValidLocale,
   pdpTypeSingleToPluralAsConst,
 } from '@diamantaire/shared/constants';
-import { generateDiamondSpriteImage, generateDiamondSpriteUrl, specGenerator } from '@diamantaire/shared/helpers';
+import { generateDiamondSpriteImage, specGenerator } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
@@ -63,7 +63,6 @@ import clsx from 'clsx';
 import useEmblaCarousel from 'embla-carousel-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
 import { NextSeo } from 'next-seo';
@@ -126,6 +125,11 @@ const ReviewBuildStepStyles = styled(motion.div)`
                 flex: 1;
                 object-fit: cover;
                 max-height: 608px;
+              }
+              .image-diamond {
+                img {
+                  object-fit: contain;
+                }
               }
             }
             .hand {
@@ -705,6 +709,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
         color: diamond.color,
         feedId: settingVariantId,
         lotId: diamond.lotId,
+        diamondType: diamond.diamondType,
         isChildProduct: 'true',
         productGroupKey,
         _specs: diamondSpecs,
@@ -1046,7 +1051,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
               {!isDiamondCFY &&
                 spriteSpinnerIds?.map((id) => (
                   <div className="spritespinner embla__slide" key={id}>
-                    <SpriteSpinnerBlock id={id} diamondType={shopifyProductData?.configuration?.diamondType} />
+                    <Diamond360 lotId={id} diamondType={shopifyProductData?.configuration?.diamondType} />
                   </div>
                 ))}
 
@@ -1313,74 +1318,6 @@ const ReviewBuildStep = ({ settingSlugs }) => {
 
 ReviewBuildStep.getTemplate = getStandardTemplate;
 export default ReviewBuildStep;
-
-const SpriteSpinnerBlock = ({ id, diamondType }) => {
-  const [videoData, setVideoData] = useState(null);
-  const [thumbnail, setThumbnail] = useState(null);
-
-  const fetchVideoType = useCallback(
-    async (diamondID) => {
-      const webpSprite = generateDiamondSpriteUrl(diamondID, 'webp');
-
-      const webp = await fetch(webpSprite, { method: 'HEAD' });
-
-      const jpgSprite = generateDiamondSpriteUrl(diamondID, 'jpg');
-      const jpg = await fetch(jpgSprite, { method: 'HEAD' });
-
-      if (webp.ok) {
-        return {
-          type: 'webp',
-          spriteImage: webpSprite,
-        };
-      } else {
-        if (jpg.ok) {
-          return {
-            type: 'jpg',
-            spriteImage: jpgSprite,
-          };
-        }
-      }
-    },
-    [id],
-  );
-
-  useEffect(() => {
-    function getThumbnail() {
-      const spriteImageUrl = generateDiamondSpriteImage({ diamondID: id, diamondType });
-
-      setThumbnail(spriteImageUrl);
-    }
-
-    async function getVideo() {
-      if (id) {
-        // webp or jpg
-        const videoDataTemp = await fetchVideoType(id);
-
-        setVideoData(videoDataTemp);
-      }
-    }
-
-    getVideo();
-    getThumbnail();
-  }, [id]);
-
-  return (
-    <>
-      {thumbnail && <Image alt="" src={thumbnail} height={600} width={600}></Image>}
-
-      {videoData && (
-        <div className="spritespinner-outer-container">
-          <SpriteSpinner
-            disableCaption={true}
-            shouldStartSpinner={true}
-            spriteImage={videoData?.spriteImage}
-            bunnyBaseURL={videoData?.spriteImage}
-          />
-        </div>
-      )}
-    </>
-  );
-};
 
 type BuilderStepSeoProps = {
   dehydratedState: DehydratedState;

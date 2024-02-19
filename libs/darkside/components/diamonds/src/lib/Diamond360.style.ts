@@ -23,7 +23,15 @@ const StyledDiamond360 = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-
+    &.-fallback {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      img {
+        object-fit: contain;
+        max-width: 200px;
+      }
+    }
     > div > div,
     > div {
       position: absolute;

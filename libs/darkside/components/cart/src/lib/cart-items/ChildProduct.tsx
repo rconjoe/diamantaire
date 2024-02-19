@@ -1,5 +1,7 @@
+import { DiamondImage } from '@diamantaire/darkside/components/diamonds';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
+import clsx from 'clsx';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
@@ -25,6 +27,15 @@ const ChildProductStyles = styled.div`
       img {
         height: 100%;
         object-fit: cover;
+      }
+      &.-fallback {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          object-fit: contain;
+          max-width: 75px;
+        }
       }
     }
 
@@ -118,13 +129,24 @@ const ChildProduct = ({ lineItem }) => {
     countryCode === 'GB' || countryCode === 'US' ? 1 : quantity,
   );
 
-  console.log('child prod price', totalPrice);
+  const diamondTypeAttribute = attributes.find((attr) => attr.key === 'diamondType');
+  const diamondType = diamondTypeAttribute ? diamondTypeAttribute.value : null;
+  const isFallBackDiamond = isProductDiamond && !image;
 
   return (
     <ChildProductStyles>
       <div className="child-product__inner">
-        <div className="child-product__image">
-          {isProductDiamond || image.includes('https') ? <img src={image} alt="" /> : <Image {...image} />}
+        <div className={clsx('child-product__image', { '-fallback': isFallBackDiamond })}>
+          {isFallBackDiamond ? (
+            // If it's a diamond product and the image is null, show the DiamondImage fallback
+            <DiamondImage diamondType={diamondType} />
+          ) : image && image.includes('https') ? (
+            // If there's an image URL (assumed to be a string containing 'https'), render an <img> tag
+            <img src={image} alt="" />
+          ) : (
+            // Otherwise, use the <Image> component with the image object
+            <Image {...image} />
+          )}
         </div>
 
         <div className="cart-item__content">
