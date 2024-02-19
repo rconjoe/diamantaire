@@ -130,11 +130,15 @@ const SettingBuildStep = () => {
   } = datoParentProductData || {};
 
   const productSpecId = datoParentProductData?.specLabels?.id;
-  const productIconListType = datoParentProductData?.productIconList?.productType;
   const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
   const instagramReelId = datoParentProductData?.instagramReelBlock?.id;
   const productSuggestionBlockId = shopifyProductData?.variantDetails?.productSuggestionQuadBlock?.id;
   const shopifyCollectionId = shopifyProductData?.shopifyCollectionId;
+  const productIconListType = datoParentProductData?.productIconList?.productType;
+
+  const productIconListTypeOverride =
+    shopifyProductData?.variantDetails?.productIconList?.productType ||
+    shopifyProductData?.variantDetails?.configuration?.productIconList?.productType;
 
   const parentProductAttributes = {
     bandWidth,
@@ -337,10 +341,11 @@ const SettingBuildStep = () => {
 
             {productIconListType && (
               <ProductIconList
-                productIconListType={productIconListType}
+                productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
                 locale={router?.locale}
                 isCfy={isDiamondCFY}
                 isCaratLessThanFive={parseFloat(builderProduct?.diamonds?.[0]?.carat) < CFY_RETURN_THRESHOLD}
+                productType={shopifyProductData?.productType}
               />
             )}
 
