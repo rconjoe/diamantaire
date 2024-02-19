@@ -12,9 +12,9 @@ import {
   ProductAppointmentCTA,
   RingSizeGuide,
   SlideOut,
-  SpriteSpinner,
   UIString,
 } from '@diamantaire/darkside/components/common-ui';
+import { Diamond360 } from '@diamantaire/darkside/components/diamonds';
 import {
   OptionSelector,
   ProductDescription,
@@ -54,7 +54,7 @@ import {
   parseValidLocale,
   pdpTypeSingleToPluralAsConst,
 } from '@diamantaire/shared/constants';
-import { generateDiamondSpriteImage, generateDiamondSpriteUrl, specGenerator } from '@diamantaire/shared/helpers';
+import { generateDiamondSpriteImage, specGenerator } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
@@ -63,7 +63,6 @@ import clsx from 'clsx';
 import useEmblaCarousel from 'embla-carousel-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
 import { NextSeo } from 'next-seo';
@@ -71,7 +70,6 @@ import { useCallback, useContext, useEffect, useMemo, useReducer, useState } fro
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
-import { Diamond360 } from '@diamantaire/darkside/components/diamonds';
 
 const ReviewBuildStepStyles = styled(motion.div)`
   padding: 0rem 2rem 14rem;
@@ -720,7 +718,7 @@ const SettingToDiamondSummaryPage = () => {
         _specs: diamondSpecs,
         _productType: 'Diamond',
         _productTypeTranslated: _t('Diamond'),
-        shippingText: isDiamondCFY ? cutForYouShippingText : _t('Made-to-order. Ships by'),
+        shippingText: isDiamondCFY ? cutForYouShippingText : _t(shippingText),
         productIconListShippingCopy: 'temp',
         pdpUrl: window.location.href,
         shippingBusinessDays: isDiamondCFY ? cfyShippingTime?.toString() : shippingTime?.toString(),
