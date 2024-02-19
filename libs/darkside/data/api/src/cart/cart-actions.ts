@@ -854,10 +854,6 @@ export async function updateShippingTimes(locale) {
     if (!isNaN(shippingDaysInt) && shippingText) {
       updatedAttributes.forEach((attr) => {
         if (attr.key === 'productIconListShippingCopy') {
-          console.log(
-            '`${shippingText} ${getFormattedShipByDate(shippingDaysInt, locale)}`',
-            `${shippingText} ${getFormattedShipByDate(shippingDaysInt, locale)}`,
-          );
           attr.value = `${shippingText} ${getFormattedShipByDate(shippingDaysInt, locale)}`;
         }
       });

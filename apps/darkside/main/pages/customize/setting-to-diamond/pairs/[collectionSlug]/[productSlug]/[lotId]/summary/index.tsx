@@ -425,7 +425,7 @@ const SettingToDiamondSummaryPage = () => {
   const { locale } = router;
 
   const { data: seoData } = useBuilderFlowSeo(locale);
-  const { seoTitle, seoDescription, addNoindexNofollow } = seoData?.builderFlow?.seoFields || {};
+  const { seoTitle, seoDescription } = seoData?.builderFlow?.seoFields || {};
   const { data: checkout, refetch } = useCartData(locale);
   const { builderProduct } = useContext(BuilderProductContext);
   const updateGlobalContext = useContext(GlobalUpdateContext);
@@ -718,7 +718,7 @@ const SettingToDiamondSummaryPage = () => {
         _specs: diamondSpecs,
         _productType: 'Diamond',
         _productTypeTranslated: _t('Diamond'),
-        shippingText: isDiamondCFY ? cutForYouShippingText : _t('Made-to-order. Ships by'),
+        shippingText: isDiamondCFY ? cutForYouShippingText : _t(shippingText),
         productIconListShippingCopy: 'temp',
         pdpUrl: window.location.href,
         shippingBusinessDays: isDiamondCFY ? cfyShippingTime?.toString() : shippingTime?.toString(),
@@ -1049,7 +1049,7 @@ const SettingToDiamondSummaryPage = () => {
         src="https://js.klarna.com/web-sdk/v1/klarna.js"
         data-client-id="4b79b0e8-c6d3-59da-a96b-2eca27025e8e"
       ></Script>
-      <NextSeo title={seoTitle} description={seoDescription} nofollow={addNoindexNofollow} noindex={addNoindexNofollow} />
+      <NextSeo title={seoTitle} description={seoDescription} nofollow={true} noindex={true} />
       <HideTopBar />
       <div className="review-wrapper">
         <div className="product-images">

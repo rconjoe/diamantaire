@@ -50,9 +50,6 @@ const DiamondBuildStepStyles = styled(motion.div)`
         flex: 0 0 450px;
         padding-right: 5rem;
         height: 100vh;
-      }
-
-      @media (min-width: ${({ theme }) => theme.sizes.xl}) {
         top: 55px;
         position: sticky;
       }
@@ -98,7 +95,7 @@ const DiamondBuildStep = () => {
 
   const { locale } = useRouter();
   const { data: seoData } = useBuilderFlowSeo(locale);
-  const { seoTitle, seoDescription, addNoindexNofollow } = seoData?.builderFlow?.seoFields || {};
+  const { seoTitle, seoDescription } = seoData?.builderFlow?.seoFields || {};
 
   const diamondTypeToShow = builderProduct?.product?.configuration?.diamondType || 'round-brilliant';
   const availableDiamonds = builderProduct?.product?.optionConfigs?.diamondType.map((d) => d.value) || [];
@@ -284,7 +281,7 @@ const DiamondBuildStep = () => {
         duration: 0.75,
       }}
     >
-      <NextSeo title={seoTitle} description={seoDescription} nofollow={addNoindexNofollow} noindex={addNoindexNofollow} />
+      <NextSeo title={seoTitle} description={seoDescription} nofollow={true} noindex={true} />
       <HideTopBar />
       <div>
         {diamonds && (

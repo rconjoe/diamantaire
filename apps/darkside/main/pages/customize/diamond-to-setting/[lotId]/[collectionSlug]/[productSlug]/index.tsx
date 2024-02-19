@@ -73,7 +73,7 @@ const SettingBuildStep = () => {
 
   const { locale } = useRouter();
   const { data: seoData } = useBuilderFlowSeo(locale);
-  const { seoTitle, seoDescription, addNoindexNofollow } = seoData?.builderFlow?.seoFields || {};
+  const { seoTitle, seoDescription } = seoData?.builderFlow?.seoFields || {};
   const { languageCode } = parseValidLocale(locale);
 
   const router = useRouter();
@@ -253,7 +253,7 @@ const SettingBuildStep = () => {
         duration: 0.75,
       }}
     >
-      <NextSeo title={seoTitle} description={seoDescription} nofollow={addNoindexNofollow} noindex={addNoindexNofollow} />
+      <NextSeo title={seoTitle} description={seoDescription} nofollow={true} noindex={true} />
       <HideTopBar />
       <div className="nav-title container-wrapper">
         <Heading type="h1" className="primary h2 text-center">
