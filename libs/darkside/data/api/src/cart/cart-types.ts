@@ -149,6 +149,7 @@ export type ShopifyCartOperation = {
 
 export type ShopifyCreateCartOperation = {
   data: { cartCreate: { cart: ShopifyCart } };
+  variables: { attributes: { key: string; value: string }[] };
 };
 
 export type ExtractVariables<T> = T extends { variables: object } ? T['variables'] : never;
@@ -286,6 +287,14 @@ export type ShopifyCartUpdateGiftNoteOperation = {
 export type CartBuyerIdentityUpdateResponse = {
   data: {
     cartBuyerIdentityUpdate: {
+      cart: Cart;
+    };
+  };
+};
+
+export type CartAttributesUpdateResponse = {
+  data: {
+    cartAttributesUpdate: {
       cart: Cart;
     };
   };

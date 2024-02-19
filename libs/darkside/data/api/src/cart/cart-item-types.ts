@@ -147,7 +147,13 @@ export type LooseDiamondCartItemProps = {
   locale?: string;
 };
 
+interface AttributeInput {
+  key: string;
+  value: string;
+}
 export type CreateCartVariables = {
-  email: string;
-  countryCode: string;
+  lineItems?: Array<{ merchandiseId: string; quantity: number; customAttributes?: AttributeInput[] }>;
+  email?: string;
+  countryCode?: string;
+  attributes?: AttributeInput[];
 };

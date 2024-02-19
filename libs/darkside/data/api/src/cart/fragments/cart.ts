@@ -61,6 +61,10 @@ const cartFragment = gql`
         }
       }
     }
+    attributes {
+      key
+      value
+    }
     totalQuantity
   }
   ${productFragment}
