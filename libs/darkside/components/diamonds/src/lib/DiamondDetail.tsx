@@ -1,7 +1,7 @@
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 import { DarksideButton, Form, Heading, UIString, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
-import { GlobalContext, GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
+import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { LooseDiamondAttributeProps, addLooseDiamondToCart } from '@diamantaire/darkside/data/api';
 import {
   humanNamesMapperType,
@@ -35,7 +35,6 @@ interface DiamondDetailDataTypes {
 }
 
 const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode }: DiamondDetailDataTypes) => {
-  const { headerHeight } = useContext(GlobalContext);
   const { refetch } = useCartData(locale);
   const { _t } = useTranslations(locale);
   const { _t: getDiamondTitle } = useTranslations(locale, [humanNamesMapperType.DIAMOND_SHAPES]);
@@ -143,7 +142,7 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
   const isBuilderFlowInProgress = query?.collectionSlug && query.productSlug;
 
   return (
-    <StyledDiamondDetail headerHeight={headerHeight}>
+    <StyledDiamondDetail>
       <div className="body">
         <div className="main">
           {product?.lotId && (

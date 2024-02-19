@@ -1,5 +1,4 @@
 import { DarksideButton, HideTopBar, UIString } from '@diamantaire/darkside/components/common-ui';
-import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useDiamondTableData, useInfiniteDiamondsData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
 import { getDiamondType } from '@diamantaire/shared/helpers';
@@ -7,7 +6,7 @@ import { DiamondDataTypes, DiamondPairDataTypes, isDiamondPairType } from '@diam
 import { PaginationState, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
-import { Fragment, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 
 import { DiamondPairActiveRow, DiamondPairCell } from './DiamondPairs';
 import { StyledDiamondTable } from './DiamondTable.style';
@@ -360,7 +359,6 @@ const DiamondTable = (props: DiamondTableProps) => {
     (settingProductType === 'Engagement Ring' && !asPath.includes('toi-moi') && !asPath.includes('pairs'));
 
   // ELEMENTS HEIGHT (used for sticky and scroll)
-  const { headerHeight } = useContext(GlobalContext);
   const tableHeadHeight = tableHead?.current?.offsetHeight || 0;
   const triggerOffset = tableBody?.current?.offsetHeight / queryDiamond.data?.pages?.length;
 
@@ -383,7 +381,6 @@ const DiamondTable = (props: DiamondTableProps) => {
       className={clsx('vo-table', {
         'flow-page': isBuilderFlowOpen,
       })}
-      headerHeight={headerHeight - 1}
       triggerOffset={triggerOffset}
       tableHeadHeight={tableHeadHeight}
     >
