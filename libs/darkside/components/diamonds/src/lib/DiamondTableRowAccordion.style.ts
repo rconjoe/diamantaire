@@ -7,9 +7,8 @@ const StyledDiamondTableRowAccordion = styled.div`
     &.cut {
       .accordion-content {
         p {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
+          display: block;
+
           gap: 1.5rem;
         }
 
@@ -45,8 +44,7 @@ const StyledDiamondTableRowAccordion = styled.div`
         display: block;
 
         @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-          height: 16.7rem;
-          width: 43.1rem;
+          max-width: 43.1rem;
         }
       }
     }

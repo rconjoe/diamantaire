@@ -45,7 +45,7 @@ export default async function middleware(request: NextRequest, _event: NextFetch
       region: 'North America',
     };
     const DE_GEO = { city: 'Frankfurt am Main', country: 'DE', latitude: '50.1049', longitude: '8.6295', region: 'Europe' };
-    const UK_GEO = { city: 'London', country: 'UK', latitude: '51.5074', longitude: '-0.1278', region: 'Europe' };
+    const UK_GEO = { city: 'London', country: 'GB', latitude: '51.5074', longitude: '-0.1278', region: 'Europe' };
     const ES_GEO = { city: 'Madrid', country: 'ES', latitude: '40.4168', longitude: '-3.7038', region: 'Europe' };
 
     // const VIRTUAL_GEO = {

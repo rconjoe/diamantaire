@@ -3,7 +3,7 @@ import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import Cookies from 'js-cookie';
 import { default as URI } from 'jsuri';
 
-import { toBCP47LocaleTag } from './currency';
+import { getLanguage } from './getLanguage';
 
 interface Consent {
   marketing?: boolean;
@@ -33,7 +33,7 @@ const goToCheckoutUrl = ({ checkoutUrl, locale, consent, email }: CheckoutUrlPar
     url.addQueryParam('country', countryCode);
   }
   if (locale) {
-    url.addQueryParam('locale', toBCP47LocaleTag(locale));
+    url.addQueryParam('locale', getLanguage(locale));
   }
   if (shouldAddEmailParam) {
     url.addQueryParam('checkout[email]', email);

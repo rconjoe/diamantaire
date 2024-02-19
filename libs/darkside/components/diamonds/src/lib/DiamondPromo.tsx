@@ -1,6 +1,5 @@
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { useDiamondTableData } from '@diamantaire/darkside/data/hooks';
-import Image from 'next/image';
 
 import StyledDiamondPromo from './DiamondPromo.style';
 
@@ -17,7 +16,7 @@ export function DiamondPromo(props: DiamondPromoProps) {
 
   if (!diamondTableContent?.data) return null;
   const { sidebarTitle: diamondPromoTitle, sidebar: diamondPromoContent, blockquote: quotes } = diamonTableData || {};
-  const leoQuote = quotes.find((v) => v.title === 'LEONARDO DICAPRIO');
+  // const leoQuote = quotes.find((v) => v.title === 'LEONARDO DICAPRIO');
 
   return (
     <StyledDiamondPromo className={className}>
@@ -37,7 +36,7 @@ export function DiamondPromo(props: DiamondPromoProps) {
           })}
         </ul>
       </div>
-      {leoQuote && (
+      {/* {leoQuote && (
         <div className="banner leo">
           <Heading type="h2" className="title">
             {leoQuote.title}
@@ -49,7 +48,7 @@ export function DiamondPromo(props: DiamondPromoProps) {
             <Image alt={leoQuote.title} src={leoQuote.image?.url} width={750} height={546} />
           </div>
         </div>
-      )}
+      )} */}
     </StyledDiamondPromo>
   );
 }

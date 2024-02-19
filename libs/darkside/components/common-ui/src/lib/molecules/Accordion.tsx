@@ -7,6 +7,7 @@ interface AccordionProps {
   activeDefault?: number;
   isDiamondDetail?: boolean;
   enableScroll?: boolean;
+  id?: string;
   rows: {
     title: React.ReactNode;
     children: React.ReactNode;
@@ -15,7 +16,7 @@ interface AccordionProps {
   }[];
 }
 
-const Accordion: React.FC<AccordionProps> = ({ rows, activeDefault = null, isDiamondDetail, enableScroll }) => {
+const Accordion = ({ rows, activeDefault = null, isDiamondDetail, enableScroll, id }: AccordionProps) => {
   const [activeIndex, setActiveIndex] = useState(activeDefault);
   const isInitialMount = useRef(true);
   const accordion = useRef(null);
@@ -30,18 +31,19 @@ const Accordion: React.FC<AccordionProps> = ({ rows, activeDefault = null, isDia
 
     elements.forEach((v) => v.removeAttribute(`style`));
 
-    if (typeof newIndex === `number`) {
-      const header = `.accordion-row .accordion-header`;
-      const headerElement = accordion.current?.querySelector(header);
-      const headerElementHeight = `${headerElement.clientHeight}px`;
-      const content = `.accordion-row:nth-child(${newIndex + 1}) .accordion-content`;
-      const contentElement = accordion.current?.querySelector(content);
-      const contentElementHeight = `${contentElement.clientHeight}px`;
-      const row = `.accordion-row:nth-child(${newIndex + 1})`;
-      const rowElement = accordion.current?.querySelector(row);
+    // Do we need this???
+    // if (typeof newIndex === `number`) {
+    //   const header = `.accordion-row .accordion-header`;
+    //   const headerElement = accordion.current?.querySelector(header);
+    //   const headerElementHeight = `${headerElement.clientHeight}px`;
+    //   const content = `.accordion-row:nth-child(${newIndex + 1}) .accordion-content`;
+    //   const contentElement = accordion.current?.querySelector(content);
+    //   const contentElementHeight = `${contentElement.clientHeight}px`;
+    //   const row = `.accordion-row:nth-child(${newIndex + 1})`;
+    //   const rowElement = accordion.current?.querySelector(row);
 
-      rowElement.style.maxHeight = `calc(${headerElementHeight} + ${contentElementHeight} + 5rem)`;
-    }
+    //   rowElement.style.maxHeight = `calc(${headerElementHeight} + ${contentElementHeight} + 5rem)`;
+    // }
   };
 
   useEffect(() => {
@@ -72,7 +74,7 @@ const Accordion: React.FC<AccordionProps> = ({ rows, activeDefault = null, isDia
         const { withHeading = true } = row;
 
         return (
-          <div key={index} className={`accordion-row${activeClass} ${row.className}`}>
+          <div key={`${id}-${index}`} className={`accordion-row${activeClass} ${row.className}`}>
             <div className="accordion-header" onClick={() => toggleAccordion(index)}>
               {isDiamondDetail ? (
                 withHeading ? (

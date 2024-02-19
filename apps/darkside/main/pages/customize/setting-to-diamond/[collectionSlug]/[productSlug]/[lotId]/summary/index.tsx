@@ -71,6 +71,7 @@ import { useCallback, useContext, useEffect, useMemo, useReducer, useState } fro
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
+import { Diamond360 } from '@diamantaire/darkside/components/diamonds';
 
 const ReviewBuildStepStyles = styled(motion.div)`
   padding: 0rem 2rem 14rem;
@@ -126,6 +127,11 @@ const ReviewBuildStepStyles = styled(motion.div)`
                 flex: 1;
                 object-fit: cover;
                 max-height: 608px;
+              }
+              .image-diamond {
+                img {
+                  object-fit: contain;
+                }
               }
             }
             .hand-image-container {
@@ -707,6 +713,7 @@ const SettingToDiamondSummaryPage = () => {
         cut: diamond.cut,
         color: diamond.color,
         feedId: settingVariantId,
+        diamondType: diamond.diamondType,
         lotId: diamond.lotId,
         isChildProduct: 'true',
         productGroupKey,
@@ -1042,7 +1049,7 @@ const SettingToDiamondSummaryPage = () => {
               {!isDiamondCFY &&
                 spriteSpinnerIds?.map((id) => (
                   <div className="spritespinner embla__slide" key={id}>
-                    <SpriteSpinnerBlock id={id} diamondType={shopifyProductData?.configuration?.diamondType} />
+                    <Diamond360 lotId={id} diamondType={shopifyProductData?.configuration?.diamondType} />
                   </div>
                 ))}
 
@@ -1316,74 +1323,6 @@ const SettingToDiamondSummaryPage = () => {
 
 SettingToDiamondSummaryPage.getTemplate = getStandardTemplate;
 export default SettingToDiamondSummaryPage;
-
-const SpriteSpinnerBlock = ({ id, diamondType }) => {
-  const [videoData, setVideoData] = useState(null);
-  const [thumbnail, setThumbnail] = useState(null);
-
-  const fetchVideoType = useCallback(
-    async (diamondID) => {
-      const webpSprite = generateDiamondSpriteUrl(diamondID, 'webp');
-
-      const webp = await fetch(webpSprite, { method: 'HEAD' });
-
-      const jpgSprite = generateDiamondSpriteUrl(diamondID, 'jpg');
-      const jpg = await fetch(jpgSprite, { method: 'HEAD' });
-
-      if (webp.ok) {
-        return {
-          type: 'webp',
-          spriteImage: webpSprite,
-        };
-      } else {
-        if (jpg.ok) {
-          return {
-            type: 'jpg',
-            spriteImage: jpgSprite,
-          };
-        }
-      }
-    },
-    [id],
-  );
-
-  useEffect(() => {
-    function getThumbnail() {
-      const spriteImageUrl = generateDiamondSpriteImage({ diamondID: id, diamondType });
-
-      setThumbnail(spriteImageUrl);
-    }
-
-    async function getVideo() {
-      if (id) {
-        // webp or jpg
-        const videoDataTemp = await fetchVideoType(id);
-
-        setVideoData(videoDataTemp);
-      }
-    }
-
-    getVideo();
-    getThumbnail();
-  }, [id]);
-
-  return (
-    <>
-      {thumbnail && <Image alt="" src={thumbnail} height={600} width={600}></Image>}
-
-      {videoData && (
-        <div className="spritespinner-outer-container">
-          <SpriteSpinner
-            disableCaption={true}
-            shouldStartSpinner={true}
-            spriteImage={videoData?.spriteImage}
-            bunnyBaseURL={videoData?.spriteImage}
-          />
-        </div>
-      )}
-    </>
-  );
-};
 
 type BuilderStepSeoProps = {
   dehydratedState: DehydratedState;

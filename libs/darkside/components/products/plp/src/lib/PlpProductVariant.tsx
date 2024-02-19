@@ -25,6 +25,9 @@ const PlpProductVariantStyles = styled.div`
       display: block;
       border: none;
     }
+    img {
+      background: #fff;
+    }
 
     .plp-variant__label {
       position: absolute;

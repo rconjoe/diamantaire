@@ -6,6 +6,7 @@ import {
 import { BuilderProductContextProvider } from '@diamantaire/darkside/context/product-builder';
 import { PageLoadProgressBar } from '@diamantaire/darkside/core';
 import { getTemplate as getGlobalTemplate } from '@diamantaire/darkside/template/global';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { ReactElement, ReactNode } from 'react';
 import { ToastContainer } from 'react-toastify';
 
@@ -23,6 +24,7 @@ export function StandardTemplate({ children }: StandardTemplateProps) {
 export const getTemplate = (page: ReactElement) =>
   getGlobalTemplate(
     <StandardTemplate>
+      <SpeedInsights />
       <BuilderProductContextProvider>
         <GoogleTagManagerContainer />
         <PageLoadProgressBar />

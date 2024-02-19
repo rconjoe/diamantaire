@@ -37,6 +37,7 @@ const ModularProductSuggestionQuadGridStyles = styled.div`
         flex-wrap: wrap;
         justify-content: start;
         gap: 1.5rem 2rem;
+        grid-template-columns: repeat(2, 1fr);
         ${media.medium`justify-content: center;`}
 
         > .product-container {
@@ -50,7 +51,7 @@ const ModularProductSuggestionQuadGridStyles = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
-    ${media.medium`gap: 1.6rem;`}
+    ${media.medium`gap: 1.6rem; grid-template-columns: repeat(4, 1fr);`}
 
     .product-container {
       display: flex;

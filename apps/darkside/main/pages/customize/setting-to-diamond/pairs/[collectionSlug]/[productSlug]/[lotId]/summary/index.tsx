@@ -128,6 +128,11 @@ const ReviewBuildStepStyles = styled(motion.div)`
                 object-fit: cover;
                 max-height: 608px;
               }
+              .image-diamond {
+                img {
+                  object-fit: contain;
+                }
+              }
             }
             .hand {
               display: block;
@@ -704,6 +709,7 @@ const SettingToDiamondSummaryPage = () => {
         caratWeight: diamond.carat.toString(),
         clarity: diamond.clarity,
         cut: diamond.cut,
+        diamondType: diamond.diamondType,
         color: diamond.color,
         feedId: settingVariantId,
         lotId: diamond.lotId,
@@ -1008,8 +1014,16 @@ const SettingToDiamondSummaryPage = () => {
   useEffect(() => {
     if (!diamonds) return;
 
-    if (diamonds?.[0]?.carat) {
-      setHandCaratValue(parseFloat(diamonds?.[0]?.carat));
+    if (diamonds.length === 1) {
+      if (diamonds?.[0]?.carat) {
+        setHandCaratValue(parseFloat(diamonds?.[0]?.carat));
+      }
+    } else if (diamonds.length === 2) {
+      const diamondCarats = diamonds.map((diamond) => parseFloat(diamond?.carat));
+
+      if (diamondCarats) {
+        setHandCaratValue(diamondCarats);
+      }
     }
   }, [diamonds]);
 

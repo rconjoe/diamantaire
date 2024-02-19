@@ -1,4 +1,4 @@
-import { getCountry, getFormattedShipByDate } from '@diamantaire/shared/helpers';
+import { getCountry, getFormattedShipByDate, getLanguage } from '@diamantaire/shared/helpers';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
 import { AttributeInput } from 'shopify-buy';
 
@@ -19,6 +19,7 @@ import {
   ShopifyCreateCartOperation,
   ShopifyUpdateCartOperation,
   CartBuyerIdentityUpdateResponse,
+  CartAttributesUpdateResponse,
   ShopifyRemoveFromCartOperation,
 } from './cart-types';
 import {
@@ -28,6 +29,7 @@ import {
   updateGiftNoteMutation,
   cartBuyerIdentityUpdateMutation,
   removeFromCartMutation,
+  cartLinesUpdateMutation,
 } from './mutations/cart';
 import { getCartQuery } from './queries/cart';
 import { getEmailFromCookies } from '../clients';
@@ -81,13 +83,16 @@ async function shopifyFetch<T>({
   }
 }
 
-async function createCart({ locale = '', lineItems = [] }): Promise<Cart> {
+export async function createCart({ locale = '', lineItems = [] }): Promise<Cart> {
   const email = getEmailFromCookies();
   const countryCode = locale ? getCountry(locale) : null;
+  const lang = locale ? getLanguage(locale) : null;
+  const customAttributes = [{ key: 'locale', value: lang ?? '' }];
   const variables: CreateCartVariables = {
     ...(email && { email }),
     ...(countryCode && { countryCode }),
     ...(lineItems?.length > 0 && { lineItems }),
+    attributes: customAttributes,
   };
 
   window.localStorage.setItem('locale', locale);
@@ -811,6 +816,25 @@ export async function updateCartBuyerIdentity({ locale }) {
   return res.body.data.cartBuyerIdentityUpdate.cart;
 }
 
+export async function updateCartAttributes({ locale }) {
+  const cartId = localStorage.getItem('cartId');
+  const attributes = [{ key: 'locale', value: getLanguage(locale) }];
+
+  const variables = {
+    cartId,
+    attributes,
+  };
+
+  const res = await shopifyFetch<CartAttributesUpdateResponse>({
+    query: cartLinesUpdateMutation,
+    variables,
+    cache: 'no-store',
+  });
+
+  // Return the updated cart data
+  return res.body.data.cartAttributesUpdate.cart;
+}
+
 // Run this when the user goes to checkout to update the line item shipping text attribute
 export async function updateShippingTimes(locale) {
   const cartId = localStorage.getItem('cartId');
@@ -830,6 +854,10 @@ export async function updateShippingTimes(locale) {
     if (!isNaN(shippingDaysInt) && shippingText) {
       updatedAttributes.forEach((attr) => {
         if (attr.key === 'productIconListShippingCopy') {
+          console.log(
+            '`${shippingText} ${getFormattedShipByDate(shippingDaysInt, locale)}`',
+            `${shippingText} ${getFormattedShipByDate(shippingDaysInt, locale)}`,
+          );
           attr.value = `${shippingText} ${getFormattedShipByDate(shippingDaysInt, locale)}`;
         }
       });

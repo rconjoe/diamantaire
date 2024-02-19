@@ -73,6 +73,7 @@ export type ProductAddonDiamond = {
     _productTitle: string;
     _productType: string;
     _productTypeTranslated: string;
+    diamondType: string;
     productIconListShippingCopy: string;
     shippingBusinessDays: string;
     // This is the setting variant id
@@ -147,7 +148,13 @@ export type LooseDiamondCartItemProps = {
   locale?: string;
 };
 
+interface AttributeInput {
+  key: string;
+  value: string;
+}
 export type CreateCartVariables = {
-  email: string;
-  countryCode: string;
+  lineItems?: Array<{ merchandiseId: string; quantity: number; customAttributes?: AttributeInput[] }>;
+  email?: string;
+  countryCode?: string;
+  attributes?: AttributeInput[];
 };
