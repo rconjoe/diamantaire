@@ -15,7 +15,7 @@ export function DiamondPromo(props: DiamondPromoProps) {
   const diamonTableData = diamondTableContent?.data?.diamondTable;
 
   if (!diamondTableContent?.data) return null;
-  const { sidebarTitle: diamondPromoTitle, sidebar: diamondPromoContent, blockquote: quotes } = diamonTableData || {};
+  const { sidebarTitle: diamondPromoTitle, sidebar: diamondPromoContent } = diamonTableData || {};
   // const leoQuote = quotes.find((v) => v.title === 'LEONARDO DICAPRIO');
 
   return (

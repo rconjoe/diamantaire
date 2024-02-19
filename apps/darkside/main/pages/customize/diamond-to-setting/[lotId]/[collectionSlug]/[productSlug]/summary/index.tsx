@@ -420,7 +420,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
   const { locale } = router;
 
   const { data: seoData } = useBuilderFlowSeo(locale);
-  const { seoTitle, seoDescription, addNoindexNofollow } = seoData?.builderFlow?.seoFields || {};
+  const { seoTitle, seoDescription } = seoData?.builderFlow?.seoFields || {};
 
   const { data: checkout, refetch } = useCartData(locale);
   const { builderProduct } = useContext(BuilderProductContext);
@@ -1021,7 +1021,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
         src="https://js.klarna.com/web-sdk/v1/klarna.js"
         data-client-id="4b79b0e8-c6d3-59da-a96b-2eca27025e8e"
       ></Script>
-      <NextSeo title={seoTitle} description={seoDescription} nofollow={addNoindexNofollow} noindex={addNoindexNofollow} />
+      <NextSeo title={seoTitle} description={seoDescription} nofollow={true} noindex={true} />
 
       <HideTopBar />
       <div className="review-wrapper">

@@ -98,7 +98,7 @@ const DiamondBuildStep = () => {
 
   const { locale } = useRouter();
   const { data: seoData } = useBuilderFlowSeo(locale);
-  const { seoTitle, seoDescription, addNoindexNofollow } = seoData?.builderFlow?.seoFields || {};
+  const { seoTitle, seoDescription } = seoData?.builderFlow?.seoFields || {};
   const { data: diamondTableData } = useDiamondTableData(locale);
   const { diamondTable } = diamondTableData || {};
   const { clearFiltersButtonCopy } = diamondTable || {};
@@ -273,7 +273,7 @@ const DiamondBuildStep = () => {
         duration: 0.75,
       }}
     >
-      <NextSeo title={seoTitle} description={seoDescription} nofollow={addNoindexNofollow} noindex={addNoindexNofollow} />
+      <NextSeo title={seoTitle} description={seoDescription} nofollow={true} noindex={true} />
       <HideTopBar />
       <div>
         {diamonds && (
