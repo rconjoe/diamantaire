@@ -7,7 +7,7 @@ const StyledDiamondCfyGallery = styled.div`
   margin: 3rem 0 0;
 
   @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
-    margin: 4rem 0 2rem;
+    margin: 6rem 0 -2rem;
   }
 
   .circularImage {
@@ -36,6 +36,25 @@ const StyledDiamondCfyGallery = styled.div`
     max-width: 150rem;
     background: #f3efeb;
     margin: auto;
+    position: relative;
+
+    &:after,
+    &:before {
+      content: '';
+      top: 0;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      background: #f3efeb;
+    }
+
+    &:after {
+      left: 100%;
+    }
+
+    &:before {
+      right: 100%;
+    }
 
     .section-title {
       font-size: 1.8rem;
@@ -56,7 +75,7 @@ const StyledDiamondCfyGallery = styled.div`
 
     @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       grid-template-columns: repeat(5, 1fr);
-      padding: 0 4rem 4rem;
+      padding: 0 6rem 4rem;
     }
   }
 
