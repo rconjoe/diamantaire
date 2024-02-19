@@ -44,7 +44,7 @@ const SettingSelectStepStyles = styled.div`
 const SettingSelectStep = () => {
   const { locale } = useRouter();
   const { data: seoData } = useBuilderFlowSeo(locale);
-  const { seoTitle, seoDescription, addNoindexNofollow } = seoData?.builderFlow?.seoFields || {};
+  const { seoTitle, seoDescription } = seoData?.builderFlow?.seoFields || {};
 
   const { updateFlowData, builderProduct } = useContext(BuilderProductContext);
 
@@ -97,7 +97,7 @@ const SettingSelectStep = () => {
 
   return (
     <SettingSelectStepStyles>
-      <NextSeo title={seoTitle} description={seoDescription} nofollow={addNoindexNofollow} noindex={addNoindexNofollow} />
+      <NextSeo title={seoTitle} description={seoDescription} nofollow={true} noindex={true} />
       <HideTopBar />
       <PlpHeroBanner showHeroWithBanner={true} data={hero} />
       <div className="wrapper" ref={containerRef}>
