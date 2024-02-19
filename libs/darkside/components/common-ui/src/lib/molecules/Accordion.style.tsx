@@ -55,7 +55,7 @@ const StyledAccordion = styled.div`
 
   .accordion-row-active {
     .accordion-body {
-      max-height: inherit;
+      max-height: 100%;
     }
   }
 
