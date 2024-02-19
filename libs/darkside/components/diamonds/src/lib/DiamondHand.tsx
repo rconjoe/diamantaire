@@ -206,6 +206,7 @@ const DiamondHand = ({
             <DiamondImage diamondType={diamondType} />
           </div>
         </div>
+
         {!isThumb && (
           <div className="image-caption">
             {isCto ? (
