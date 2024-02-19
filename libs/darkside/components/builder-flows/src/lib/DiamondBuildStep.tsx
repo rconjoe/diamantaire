@@ -35,9 +35,6 @@ const DiamondBuildStepStyles = styled(motion.div)`
         flex: 0 0 450px;
         padding-right: 5rem;
         height: 100vh;
-      }
-
-      @media (min-width: ${({ theme }) => theme.sizes.xl}) {
         top: 55px;
         position: sticky;
       }
