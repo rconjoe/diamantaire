@@ -718,7 +718,7 @@ const SettingToDiamondSummaryPage = () => {
         _specs: diamondSpecs,
         _productType: 'Diamond',
         _productTypeTranslated: _t('Diamond'),
-        shippingText: isDiamondCFY ? cutForYouShippingText : _t('Made-to-order. Ships by'),
+        shippingText: isDiamondCFY ? cutForYouShippingText : _t(shippingText),
         productIconListShippingCopy: 'temp',
         pdpUrl: window.location.href,
         shippingBusinessDays: isDiamondCFY ? cfyShippingTime?.toString() : shippingTime?.toString(),
