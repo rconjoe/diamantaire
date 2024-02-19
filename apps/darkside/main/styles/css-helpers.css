@@ -39,7 +39,15 @@ button:hover {
 .font-medium {
   font-weight: var(--font-weight-medium);
 }
-
+.below-banner-container-wrapper {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  .container-wrapper {
+    padding-left: calc(var(--space-gutter) * 3);
+    padding-right: calc(var(--space-gutter) * 3);
+  }
+}
 .container-wrapper {
   width: 100%;
   padding-left: calc(var(--space-gutter) * 3);
@@ -55,8 +63,15 @@ button:hover {
   }
 }
 @media (min-width: 992px) {
-  .container-wrapper {
+  .container-wrapper,
+  .below-banner-container-wrapper {
     max-width: 90vw;
+  }
+  .below-banner-container-wrapper {
+    .container-wrapper {
+      padding-left: initial;
+      padding-right: initial;
+    }
   }
 }
 .container-wrapper .container-wrapper:not(:first-child) {
