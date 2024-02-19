@@ -71,6 +71,7 @@
     "@upstash/redis": "^1.23.4",
     "@use-cookie-consent/react": "^0.3.7",
     "@vercel/kv": "0.2.3",
+    "@vercel/speed-insights": "1.0.10",
     "apollo-server-express": "^3.11.1",
     "artillery": "2.0.3",
     "axios": "^1.2.4",
