@@ -45,7 +45,7 @@ const StyledDiamondCfyAccordion = styled.div`
     }
 
     img {
-      aspect-ratio: 25/9;
+      /* aspect-ratio: 25/9; */
       margin-bottom: 1rem;
     }
   }

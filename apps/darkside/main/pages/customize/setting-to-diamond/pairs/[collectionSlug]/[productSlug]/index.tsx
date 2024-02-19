@@ -255,7 +255,7 @@ const DiamondBuildStep = () => {
   };
 
   const clearOptions = () => {
-    updateOptions({ ...initialOptions, diamondType: diamondTypeToShow });
+    setOptions({ ...defaultInitialOptions, diamondType: diamondTypeToShow, view: initialOptions['view'] });
   };
 
   useEffect(() => {

@@ -5,6 +5,7 @@ const StyledDiamondPromo = styled.div`
   flex-direction: column;
   margin: 0 0 3rem;
   gap: 3rem;
+  padding-bottom: 4rem;
 
   @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
     margin: 2rem 0 0;

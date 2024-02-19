@@ -155,7 +155,7 @@ const DiamondDetailRowAccordion = ({
 
   return (
     <StyledDiamondTableRowAccordion>
-      <Accordion rows={accordionContent} />
+      <Accordion rows={accordionContent} id={product.id} />
     </StyledDiamondTableRowAccordion>
   );
 };
