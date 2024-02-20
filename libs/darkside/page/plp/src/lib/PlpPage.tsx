@@ -192,7 +192,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   };
 
   const baseUrl =
-    process.env.VERCEL_ENV === 'production' || process.env.VERCEL_ENV === 'preview'
+    process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' || process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview'
       ? 'https://www.vrai.com'
       : 'http://localhost:4200';
 

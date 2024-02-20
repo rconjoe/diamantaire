@@ -19,7 +19,7 @@ export function queryDatoGQL({
     variables['locale'] = getDatoRequestLocale(refinedLocale);
   }
 
-  const environment = process.env['VERCEL_ENV'] || 'development';
+  const environment = process.env['NEXT_PUBLIC_VERCEL_ENV	'] || 'development';
 
   const headers: { [key: string]: string } = {
     authorization: `Bearer ` + process.env['NEXT_PUBLIC_DATOCMS_API_TOKEN'],
