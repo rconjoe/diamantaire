@@ -35,7 +35,7 @@ const MegaMenu: FC<MegaMenuProps> = (props) => {
                 })}
                 key={`mm-${menuIndex}`}
                 style={{
-                  display: megaMenuIndex === menuIndex ? 'flex' : 'none',
+                  display: megaMenuIndex === menuIndex ? (key === 'VRAIcreatedDiamond' ? 'inline-flex' : 'flex') : 'none',
                 }}
               >
                 {columns?.map((column, index) => {

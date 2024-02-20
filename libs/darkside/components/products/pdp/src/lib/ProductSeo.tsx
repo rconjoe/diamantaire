@@ -49,7 +49,7 @@ const ProductSeo = ({ seoFields, legacySeoFields, productType, productTitle, met
       title={metaTitle}
       description={metaDescription}
       canonical={
-        (process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') +
+        (process.env.VERCEL_ENV === 'production' ? 'https://www.vrai.com' : 'http:localhost:4200') +
         seoParam[selectedLanguageCode] +
         generateProductUrl(productType, collectionSlug, productSlug)
       }
