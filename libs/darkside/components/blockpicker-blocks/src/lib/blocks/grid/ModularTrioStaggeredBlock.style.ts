@@ -1,7 +1,8 @@
-import { desktopAndUp, setSpace, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { contentBlockMargin, desktopAndUp, setSpace, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularTrioStaggeredBlockContainer = styled.div`
+  ${contentBlockMargin}
   .trio-block__above-copy {
     padding: ${setSpace(4)} 0;
     text-align: center;
@@ -35,6 +36,7 @@ export const ModularTrioStaggeredBlockContainer = styled.div`
     flex-direction: column;
     padding: 0 ${setSpace(3)};
     margin-top: ${setSpace(3)};
+    gap: ${setSpace(3)};
 
     ${tabletAndUp(`
       display: grid;
