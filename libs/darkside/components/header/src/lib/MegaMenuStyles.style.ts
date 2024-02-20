@@ -41,6 +41,10 @@ export const MegaMenuStylesContainer = styled.div<Props>`
     &.test4 {
       max-width: 100rem;
       margin: 0 auto;
+
+      .shop_by_shape {
+        padding: 0 90px;
+      }
     }
 
     // &.four-col {
@@ -170,7 +174,6 @@ export const MegaMenuStylesContainer = styled.div<Props>`
         }
       }
       &.shop_by_shape {
-        padding: 0 90px;
         ul li {
           margin: 0 0 0.8rem;
         }

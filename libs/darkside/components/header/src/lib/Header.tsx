@@ -69,7 +69,7 @@ const Header: FC<HeaderProps> = ({ headerData, isTopbarShowing, setIsTopbarShowi
   const mobileMenuRef = useRef(null);
   const topBarRef = useRef(null);
   const stackedHeaderRef = useRef(null);
-  const [megaMenuIndex, setMegaMenuIndex] = useState(1);
+  const [megaMenuIndex, setMegaMenuIndex] = useState(-1);
   const [isLoaded, setIsLoaded] = useState(false);
   const isHome = router.pathname === '/';
   const [showroomLocation, setShowroomLocation] = useState(null);
