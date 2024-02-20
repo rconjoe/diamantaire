@@ -7,18 +7,13 @@ const StyledDiamondTableRowAccordion = styled.div`
     &.cut {
       .accordion-content {
         p {
-          display: block;
+          display: flex;
 
           gap: 1.5rem;
         }
 
         img {
-          max-width: 20%;
-
-          @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-            height: 7.7rem;
-            width: 8.6rem;
-          }
+          width: 8.6rem;
         }
       }
     }
