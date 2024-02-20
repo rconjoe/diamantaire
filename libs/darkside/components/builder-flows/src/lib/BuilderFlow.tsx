@@ -329,10 +329,7 @@ const BuilderFlow = ({
 
       {/* Diamond to Setting */}
       {builderProduct?.step === 'select-setting' && (
-        <SettingSelectStep
-          updateSettingSlugs={updateSettingSlugs}
-          settingTypeToShow={builderProduct?.diamonds?.[0]?.diamondType}
-        />
+        <SettingSelectStep settingTypeToShow={builderProduct?.diamonds?.[0]?.diamondType} />
       )}
 
       {builderProduct?.step === 'customize-setting' && (
