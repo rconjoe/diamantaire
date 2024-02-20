@@ -48,8 +48,8 @@ const SummaryRedirectPage = ({ collectionSlug, lotId, configuration }) => {
   }
 
   return (<SummaryRedirectStyles>
-    { loading ? <span>loading...</span> : null }
-    { product && !loading ? (<p> Redirecting to <a href='fullPathUrl'>{fullPathUrl}</a></p>) : <p>Cannot find proper link</p> }
+    { loading ? <p>Looking for new url...</p> : <p>Cannot find matching product</p> }
+    { product && !loading ? (<p> Redirecting to <a href='fullPathUrl'>{fullPathUrl}</a></p>) : null }
   </SummaryRedirectStyles>)
 }
 
