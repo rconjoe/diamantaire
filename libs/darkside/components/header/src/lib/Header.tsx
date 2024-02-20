@@ -210,7 +210,7 @@ const Header: FC<HeaderProps> = ({ headerData, isTopbarShowing, setIsTopbarShowi
         onMouseLeave={() => setMegaMenuIndex(-1)}
       >
         <FullHeaderStyles id="primary-navigation--stacked" $isHome={isHome}>
-          {isTopbarShowing && (
+          {isTopbarShowing && !router.asPath.includes('/customize/') && (
             <div className="top-bar__outer-container" ref={topBarRef}>
               <TopBar setIsTopbarShowing={setIsTopbarShowing} />
             </div>

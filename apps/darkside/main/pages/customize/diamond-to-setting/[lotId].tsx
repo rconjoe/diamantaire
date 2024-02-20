@@ -46,7 +46,7 @@ const SettingSelectStep = () => {
   const { data: seoData } = useBuilderFlowSeo(locale);
   const { seoTitle, seoDescription } = seoData?.builderFlow?.seoFields || {};
 
-  const { updateFlowData, builderProduct } = useContext(BuilderProductContext);
+  const { builderProduct } = useContext(BuilderProductContext);
 
   const settingTypeToShow = builderProduct?.diamonds?.[0]?.diamondType;
 
@@ -83,11 +83,6 @@ const SettingSelectStep = () => {
     }
   }, [inView, fetchNextPage, hasNextPage, isFetching]);
 
-  function selectSetting({ collectionSlug, productSlug }) {
-    // updateSettingSlugs({ collectionSlug, productSlug });
-    updateFlowData('UPDATE_TEMP_SETTING_SLUGS', { collectionSlug, productSlug });
-  }
-
   const handleSortChange = ({ sortBy, sortOrder }: { id: string; sortBy: string; sortOrder: 'asc' | 'desc' }) => {
     setActiveSortOptions({
       sortBy,
@@ -116,7 +111,6 @@ const SettingSelectStep = () => {
             creativeBlockIds={creativeBlockIds}
             setFilterValues={setFilterValues}
             filterValue={filterValue}
-            selectSetting={selectSetting}
             plpSlug={plpSlug}
             urlFilterMethod={'none'}
             onSortChange={handleSortChange}

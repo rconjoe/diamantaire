@@ -83,7 +83,7 @@ const PlpCreativeBlockStyles = styled.div`
   }
 `;
 
-const PlpCreativeBlock = ({ block, plpTitle, selectSetting }) => {
+const PlpCreativeBlock = ({ block, plpTitle }) => {
   const {
     configurationsInOrder,
     desktopImage,
@@ -226,7 +226,6 @@ const PlpCreativeBlock = ({ block, plpTitle, selectSetting }) => {
                         configurationsInOrder={configurationsInOrder}
                         locale={locale}
                         plpTitle={plpTitle}
-                        selectSetting={selectSetting}
                       />
                     </SlideOut>,
                     document.getElementById('vrai-site'),
