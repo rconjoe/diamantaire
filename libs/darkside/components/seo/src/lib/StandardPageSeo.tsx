@@ -30,19 +30,18 @@ const StandardPageSeo = ({ title, description, noIndex = false, noFollow = false
     de: '/de-DE/',
   };
 
+  const baseUrl =
+    process.env.VERCEL_ENV === 'production' || process.env.VERCEL_ENV === 'preview'
+      ? 'https://www.vrai.com'
+      : 'http://localhost:4200';
+
   return (
     <NextSeo
       title={title}
       description={description}
       noindex={noIndex}
       nofollow={noFollow}
-      canonical={
-        (process.env.VERCEL_ENV === 'production' || process.env.VERCEL_ENV === 'preview'
-          ? 'https://www.vrai.com'
-          : 'http//:localhost:4200') +
-        seoParam[languageCode] +
-        router.asPath
-      }
+      canonical={baseUrl + seoParam[languageCode] + router.asPath}
     />
   );
 };
