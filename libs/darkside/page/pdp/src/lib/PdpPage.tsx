@@ -452,7 +452,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 productTitle={productTitle}
                 trackInventory={trackInventory}
               />
-              {!isProductFeedUrl ? (
+              {!isProductFeedUrl && !shopifyProductData?.requiresCustomDiamond ? (
                 <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
               ) : null}
               <ProductAppointmentCTA

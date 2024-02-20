@@ -37,7 +37,9 @@ const StandardPageSeo = ({ title, description, noIndex = false, noFollow = false
       noindex={noIndex}
       nofollow={noFollow}
       canonical={
-        (process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') +
+        (process.env.VERCEL_ENV === 'production' || process.env.VERCEL_ENV === 'preview'
+          ? 'https://www.vrai.com'
+          : 'http//:localhost:4200') +
         seoParam[languageCode] +
         router.asPath
       }

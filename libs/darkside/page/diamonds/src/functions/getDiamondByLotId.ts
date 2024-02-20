@@ -6,8 +6,6 @@ export async function getDiamondByLotId(options) {
   const API_URL = `${BASE_URL}/v1/diamonds/list/`;
   const reqUrl = `${API_URL}${qParams.toString().replace('lotIds=', '')}`;
 
-  console.log('doggg', reqUrl);
-
   try {
     response = await fetch(reqUrl, {
       headers: {
