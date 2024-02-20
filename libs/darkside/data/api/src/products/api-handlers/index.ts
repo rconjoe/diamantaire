@@ -99,7 +99,6 @@ async function fetchVraiServerData(
     const response = await vraiApiClient.get(reqUrl);
 
     if (response.status === 200) {
-      console.log("Response from server", response.data);
       res.status(200).json(response.data);
     } else {
       throw new Error(`Error fetching data: ${reqUrl}`);
