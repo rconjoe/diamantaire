@@ -7,7 +7,6 @@ import {
   DarksideButton,
   DatoImage,
   Heading,
-  HideTopBar,
   NeedTimeToThinkForm,
   ProductAppointmentCTA,
   RingSizeGuide,
@@ -1014,7 +1013,6 @@ const SettingToDiamondSummaryPage = () => {
       }}
     >
       <NextSeo title={seoTitle} description={seoDescription} nofollow={true} noindex={true} />
-      <HideTopBar />
       <Script
         id="klara-script"
         src="https://js.klarna.com/web-sdk/v1/klarna.js"

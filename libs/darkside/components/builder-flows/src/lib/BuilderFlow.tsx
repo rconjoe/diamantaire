@@ -12,7 +12,7 @@ import { useCookieConsentContext } from '@use-cookie-consent/react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 
 import DiamondBuildStep from './DiamondBuildStep';
 import ReviewBuildStep from './ReviewBuildStep';
@@ -307,15 +307,8 @@ const BuilderFlow = ({
 
   const matchingDiamondType = getMatchingDiamondTypesInAllDiamonds(builderProduct?.diamonds, allDiamonds);
 
-  const HideTopBar = createGlobalStyle`
-  #top-bar {
-    display: none;
-  }
-`;
-
   return (
     <BuilderFlowStyles>
-      <HideTopBar />
       {/* Setting to Diamond */}
       {builderProduct?.step === 'select-diamond' && (
         <DiamondBuildStep

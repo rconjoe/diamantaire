@@ -7,7 +7,6 @@ import {
   DarksideButton,
   DatoImage,
   Heading,
-  HideTopBar,
   NeedTimeToThinkForm,
   ProductAppointmentCTA,
   RingSizeGuide,
@@ -1022,7 +1021,6 @@ const ReviewBuildStep = ({ settingSlugs }) => {
       ></Script>
       <NextSeo title={seoTitle} description={seoDescription} nofollow={true} noindex={true} />
 
-      <HideTopBar />
       <div className="review-wrapper">
         <div className="product-images">
           <div className="embla" ref={isWindowDefined && window.innerWidth < 767 ? emblaRef : null}>

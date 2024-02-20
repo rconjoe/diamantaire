@@ -1,11 +1,5 @@
 import { BuilderFlowLoader } from '@diamantaire/darkside/components/builder-flows';
-import {
-  DarksideButton,
-  Heading,
-  HideTopBar,
-  ShowTabletAndUpOnly,
-  UIString,
-} from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Heading, ShowTabletAndUpOnly, UIString } from '@diamantaire/darkside/components/common-ui';
 import { DiamondFilter, DiamondPromo, DiamondTable } from '@diamantaire/darkside/components/diamonds';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { useBuilderFlowSeo, useDiamondTableData, useDiamondsData } from '@diamantaire/darkside/data/hooks';
@@ -273,7 +267,6 @@ const DiamondBuildStep = () => {
         duration: 0.75,
       }}
     >
-      <HideTopBar />
       <NextSeo title={seoTitle} description={seoDescription} nofollow={true} noindex={true} />
       <div className="">
         {diamonds && (

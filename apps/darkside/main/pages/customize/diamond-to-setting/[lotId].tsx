@@ -1,4 +1,4 @@
-import { HideTopBar, Loader } from '@diamantaire/darkside/components/common-ui';
+import { Loader } from '@diamantaire/darkside/components/common-ui';
 import { PlpHeroBanner, PlpProductGrid } from '@diamantaire/darkside/components/products/plp';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
@@ -93,7 +93,6 @@ const SettingSelectStep = () => {
   return (
     <SettingSelectStepStyles>
       <NextSeo title={seoTitle} description={seoDescription} nofollow={true} noindex={true} />
-      <HideTopBar />
       <PlpHeroBanner showHeroWithBanner={true} data={hero} />
       <div className="wrapper" ref={containerRef}>
         {(data?.pages?.length === 0 || data?.pages?.[0].message) && (
