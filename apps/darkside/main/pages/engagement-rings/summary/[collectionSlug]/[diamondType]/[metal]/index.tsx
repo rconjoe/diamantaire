@@ -39,7 +39,7 @@ const SummaryRedirectPage = ({ collectionSlug, lotId, configuration }) => {
 
   const fixedLotId = 'F'+lotId;
   const redirectLink = `/customize/setting-to-diamond/${collectionSlug}/${product?.productSlug}/${fixedLotId}/summary`;
-  const fullPathUrl = `${window.location.protocol}//${window.location.host}${redirectLink}`;
+  const fullPathUrl = typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.host}${redirectLink}` : '';
 
   if (!loading && product){
     if(typeof window !== 'undefined'){
