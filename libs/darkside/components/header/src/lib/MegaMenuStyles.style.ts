@@ -21,6 +21,7 @@ export const MegaMenuStylesContainer = styled.div<Props>`
 
   .mega-menu__wrapper {
     margin: 0 auto;
+    text-align: center;
     @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       max-width: 90vw;
     }
@@ -40,6 +41,10 @@ export const MegaMenuStylesContainer = styled.div<Props>`
     &.test4 {
       max-width: 100rem;
       margin: 0 auto;
+
+      .shop_by_shape {
+        padding: 0 90px;
+      }
     }
 
     // &.four-col {
@@ -70,6 +75,7 @@ export const MegaMenuStylesContainer = styled.div<Props>`
           line-height: 2rem;
           margin: 0 0 1rem;
           text-transform: uppercase;
+          text-align: left;
         }
 
         ul {

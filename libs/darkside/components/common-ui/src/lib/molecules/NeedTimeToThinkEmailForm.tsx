@@ -35,10 +35,18 @@ const NeedTimeToThinkForm = ({ productData }) => {
   const { locale, asPath } = router || {};
   const globalTemplateData = useGlobalData(locale);
   const footerData = globalTemplateData.data?.footerNavigation;
-  const { optInCopy = '' } = footerData?.emailSignUpCopy?.[0] as { optInCopy?: string };
+  let optInCopy = '';
+
+  if (footerData && Array.isArray(footerData.emailSignUpCopy) && footerData.emailSignUpCopy.length > 0) {
+    const firstItem = footerData.emailSignUpCopy[0];
+
+    if (firstItem && typeof firstItem === 'object' && 'optInCopy' in firstItem) {
+      optInCopy = firstItem.optInCopy as string;
+    }
+  }
   const [pageTitle, setPageTitle] = useState('VRAI: Engagement Rings & Jewelry | Sustainable Diamonds');
   const countryCode = getCountry(locale);
-  const { data: { emailPopup: emailPopUpContent } = {} } = useEmailPopup(locale);
+  const { data: { emailPopup: emailPopUpContent = '' } = {} } = useEmailPopup(locale) || {};
   const { errorCopy, successCopy } = emailPopUpContent || {};
   const { _t } = useTranslations(locale);
   const [isSuccessful, setIsSuccessful] = useState(false);

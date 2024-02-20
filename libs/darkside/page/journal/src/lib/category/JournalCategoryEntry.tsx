@@ -4,6 +4,7 @@ import { DarksideButton, Heading, ImageTile, UniLink, UIString } from '@diamanta
 import { useJournalConfig } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
+import { parseValidLocale } from '@diamantaire/shared/constants';
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
@@ -116,14 +117,24 @@ const JournalCategoryEntry = (props: JournalCategoryEntryProps) => {
 
   const { asPath } = useRouter();
 
+  const seoParam = {
+    en: '',
+    es: '/en-ES/',
+    fr: '/fr-FR/',
+    de: '/de-DE/',
+  };
+
+  const { languageCode } = parseValidLocale(locale);
+
+  const baseUrl =
+    process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' || process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview'
+      ? 'https://www.vrai.com'
+      : 'http://localhost:4200';
+
   return (
     <JournalCategoryEntryContainer>
       {seoTitle && seoDescription && (
-        <NextSeo
-          title={seoTitle}
-          description={seoDescription}
-          canonical={(process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') + `/${locale}` + asPath}
-        />
+        <NextSeo title={seoTitle} description={seoDescription} canonical={baseUrl + seoParam[languageCode] + asPath} />
       )}
 
       <JournalHeader showTitle={false} showNavLogo={true} categoriesToDisplay={blogConfiguration?.categoriesToDisplay} />

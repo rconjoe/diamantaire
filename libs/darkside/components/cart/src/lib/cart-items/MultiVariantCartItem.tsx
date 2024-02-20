@@ -95,9 +95,17 @@ const MultiVariantCartItemStyles = styled.div`
           text-transform: capitalize;
         }
         &.engraving {
+          flex-wrap: wrap;
           span {
             font-weight: bold;
             font-style: italic;
+            margin: 0;
+
+            &.engraving-label {
+              margin-right: 0.5rem;
+              font-weight: 400;
+              font-style: normal;
+            }
           }
         }
 
@@ -442,7 +450,8 @@ const MultiVariantCartItem = ({
           {specs?.split(';').map((val) => <p key={id + `-${val}`}>{val}</p>)}
           {engraving && (
             <p className="engraving">
-              {_t('Engraving')}: <span>{engraving}</span>
+              <span className="engraving-label">{_t('Engraving')}:</span>
+              <span>{engraving}</span>
             </p>
           )}
         </div>

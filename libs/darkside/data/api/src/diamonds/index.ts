@@ -155,7 +155,7 @@ export const fetchDiamondCtoData = async (options) => {
   const getDefaultCtoDiamond = (diamonds, type, ct) => {
     const conditions = [
       (v) => (ct <= 4 ? v.color === 'Colorless' : v.color === 'NearColorless'),
-      (v) => (ct <= 4 && type === 'round-brilliant' ? v.cut === 'Ideal+Hearts' : v.cut === 'Excellent'),
+      (v) => (type === 'round-brilliant' ? v.cut === 'Ideal+Hearts' : v.cut === 'Excellent'),
       (v) => (ct <= 4 ? v.clarity === 'VVS+' : v.clarity === 'VS+'),
     ];
 
