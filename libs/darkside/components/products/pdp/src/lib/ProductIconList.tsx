@@ -6,7 +6,6 @@ import { DropHintIcon, InfoIcon } from '@diamantaire/shared/icons';
 import { generateProductUrl } from '@diamantaire/shared-product';
 import clsx from 'clsx';
 import { AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
@@ -16,6 +15,12 @@ const ProductIconListContainer = styled.div`
     margin: calc(var(--gutter) / 3) 0 calc(var(--gutter) / 2);
     padding: 0;
     list-style: none;
+
+    &.noVraiDiamond {
+      li:first-child {
+        margin-bottom: 0px;
+      }
+    }
 
     li {
       display: flex;
@@ -139,9 +144,15 @@ const ProductIconList = ({
 
   const link = generateProductUrl(productType, collectionSlug, productSlug);
 
+  const hasVraiCreatedDiamond = items?.some((item) => item.additionalInfo?.id === '142787003');
+
   return (
     <ProductIconListContainer>
-      <ul>
+      <ul
+        className={clsx({
+          noVraiDiamond: !hasVraiCreatedDiamond,
+        })}
+      >
         {items?.map((item, index) => {
           if (item._modelApiKey === 'modular_shipping_product_icon_list_item') {
             return (
@@ -271,7 +282,13 @@ const IconListItem = ({ item, setIsDiamondSlideoutOpen }) => {
   return (
     <li>
       <span className="icon">{icon && <DatoImage image={icon} isSVG={true} overrideAlt={ctaCopy || copy} />}</span>{' '}
-      {newRoute || ctaRoute ? <Link href={newRoute || ctaRoute}>{ctaCopy || copy} </Link> : copy}
+      {newRoute || ctaRoute ? (
+        <a target="_blank" href={newRoute || ctaRoute}>
+          {ctaCopy || copy}{' '}
+        </a>
+      ) : (
+        copy
+      )}
       {additionalInfo ? (
         <button className="diamond-info-toggle" onClick={() => setIsDiamondSlideoutOpen(true)}>
           <InfoIcon />
