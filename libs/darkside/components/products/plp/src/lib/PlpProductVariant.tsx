@@ -245,8 +245,6 @@ const PlpProductVariant = ({
             href={`${locale === 'en-US' ? '' : `/${locale}`}/customize/diamond-to-setting/${
               router.query.lotId
             }/${collectionSlug}/${productSlug}`}
-            // onClick={() => {
-            // }}
           >
             <div className="plp-variant__image">
               <button
