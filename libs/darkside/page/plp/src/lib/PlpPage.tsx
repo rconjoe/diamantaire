@@ -199,9 +199,9 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
         canonical={
           canonicalOverride
             ? canonicalOverride
-            : (process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') +
-              seoParam[languageCode] +
-              router.asPath
+            : process.env.VERCEL_ENV === 'production' || process.env.VERCEL_ENV === 'preview'
+            ? 'https://www.vrai.com'
+            : 'http//:localhost:4200' + seoParam[languageCode] + router.asPath
         }
       />
 
