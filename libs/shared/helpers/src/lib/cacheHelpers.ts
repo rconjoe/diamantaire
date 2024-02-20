@@ -2,7 +2,7 @@ let TTL = 1800;
 let MAX_AGE = 180;
 let REVALIDATE = 60 * 60;
 
-const environment = process.env['VERCEL_ENV'] || 'development';
+const environment = process.env['NEXT_PUBLIC_VERCEL_ENV'] || 'development';
 
 if (environment.includes('preview')) {
   TTL = 30;
@@ -18,13 +18,13 @@ if (environment.includes('preview')) {
   REVALIDATE = 60 * 60;
 }
 
-export function getSWRPageCacheHeader(ttl = TTL, maxAge = MAX_AGE): string{
+export function getSWRPageCacheHeader(ttl = TTL, maxAge = MAX_AGE): string {
   const maxAgeSeconds = parseInt(process.env.NEXT_PUBLIC_SWR_MAX_AGE, 10) || maxAge;
   const ttlSeconds = parseInt(process.env.NEXT_PUBLIC_SWR_TTL, 10) || ttl;
 
   return `s-maxage=${maxAgeSeconds}, stale-while-revalidate=${ttlSeconds}`;
 }
 
-export function getSwrRevalidateConfig(){
+export function getSwrRevalidateConfig() {
   return parseInt(process.env.NEXT_PUBLIC_REVALIDATE_SECONDS, 10) || REVALIDATE;
 }
