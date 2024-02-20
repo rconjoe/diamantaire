@@ -63,11 +63,11 @@ button:hover {
   }
 }
 @media (min-width: 992px) {
-  .container-wrapper,
-  .below-banner-container-wrapper {
+  .container-wrapper {
     max-width: 95vw;
   }
   .below-banner-container-wrapper {
+    max-width: var(--max-width-small);
     .container-wrapper {
       padding-left: initial;
       padding-right: initial;
