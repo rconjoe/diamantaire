@@ -29,6 +29,11 @@ export const productsHandler = async (req: NextApiRequest, res: NextApiResponse)
 
       return;
     }
+    case 'filter': {
+      filterProductHandler(req, res);
+
+      return;
+    }
     default: {
       const errorMsg = `No handler available for API endpoint: ${endpoint}`;
 
@@ -76,6 +81,13 @@ export const productVariantInventoryHandler = async (req: NextApiRequest, res: N
   }
 };
 
+export const filterProductHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  const { endpoint, ...query } = req.query;
+
+  await fetchVraiServerData('/v1/products/catalog', query as any, res);
+}
+
 async function fetchVraiServerData(
   url: string,
   query: Record<string, string | string[] | number> = {},
@@ -87,9 +99,10 @@ async function fetchVraiServerData(
     const response = await vraiApiClient.get(reqUrl);
 
     if (response.status === 200) {
+      console.log("Response from server", response.data);
       res.status(200).json(response.data);
     } else {
-      throw new Error(`Error fetching data for the product catalog: ${reqUrl}`);
+      throw new Error(`Error fetching data: ${reqUrl}`);
     }
   } catch (error) {
     // logger.exception(error);
