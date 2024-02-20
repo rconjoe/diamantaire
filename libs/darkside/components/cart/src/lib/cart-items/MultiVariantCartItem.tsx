@@ -10,7 +10,6 @@ import {
   simpleFormatPrice,
 } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
-import clsx from 'clsx';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
@@ -96,13 +95,17 @@ const MultiVariantCartItemStyles = styled.div`
           text-transform: capitalize;
         }
         &.engraving {
+          flex-wrap: wrap;
           span {
             font-weight: bold;
             font-style: italic;
-          }
+            margin: 0;
 
-          &.reduceFont {
-            font-size: var(--font-size-xxsmall);
+            &.engraving-label {
+              margin-right: 0.5rem;
+              font-weight: 400;
+              font-style: normal;
+            }
           }
         }
 
@@ -446,12 +449,9 @@ const MultiVariantCartItem = ({
           </p>
           {specs?.split(';').map((val) => <p key={id + `-${val}`}>{val}</p>)}
           {engraving && (
-            <p
-              className={clsx('engraving', {
-                reduceFont: engraving.length > 12,
-              })}
-            >
-              {_t('Engraving')}: <span>{engraving}</span>
+            <p className="engraving">
+              <span className="engraving-label">{_t('Engraving')}:</span>
+              <span>{engraving}</span>
             </p>
           )}
         </div>

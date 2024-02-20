@@ -146,6 +146,8 @@ const ProductIconList = ({
 
   const hasVraiCreatedDiamond = items?.some((item) => item.additionalInfo?.id === '142787003');
 
+  console.log('items', items);
+
   return (
     <ProductIconListContainer>
       <ul
