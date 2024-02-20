@@ -25,6 +25,8 @@ const HomePage = (props: HomePageProps) => {
   const { seo } = page || {};
   const { seoTitle, seoDescription } = seo || {};
 
+  console.log('process.env.VERCEL_ENV', process.env.VERCEL_ENV);
+
   return (
     <>
       <StandardPageSeo title={seoTitle} description={seoDescription} />
