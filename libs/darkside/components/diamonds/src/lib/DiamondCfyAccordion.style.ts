@@ -29,7 +29,7 @@ const StyledDiamondCfyAccordion = styled.div`
     }
 
     img {
-      max-width: 35rem;
+      max-width: 100%;
     }
   }
 

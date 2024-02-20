@@ -11,7 +11,7 @@ import styled from 'styled-components';
 
 const PlpPreviouslyViewedStyles = styled.section`
   ${contentBlockMargin}
-
+  max-width: var(--max-width-small);
   &.container-wrapper {
     padding-left: 0;
     padding-right: 0;
@@ -33,7 +33,12 @@ const PlpPreviouslyViewedStyles = styled.section`
   .slider {
     position: relative;
   }
-
+  .embla {
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      margin-left: -1rem;
+      margin-right: -1rem;
+    }
+  }
   .arrow {
     top: 40%;
     position: absolute;
@@ -59,8 +64,8 @@ const PlpPreviouslyViewedStyles = styled.section`
 
   .products__container {
     .product__container {
-      padding: 0 2rem;
-      flex: 0 0 80%;
+      padding: 0 1rem;
+      flex: 0 0 52%;
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         flex: 0 0 25%;
       }
@@ -163,7 +168,7 @@ const PlpPreviouslyViewed = () => {
                   (p) => p?.content?.variantId === handle || p?.content?.shopifyProductHandle === handle,
                 );
 
-                if(!productNode){
+                if (!productNode) {
                   return null;
                 }
 

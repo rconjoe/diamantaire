@@ -133,6 +133,10 @@ function ConfigurationSelector({
 
     router.replace(
       `/customize/diamond-to-setting/${builderProduct?.diamonds?.[0]?.lotId}/${router?.query?.collectionSlug}/${option?.id}`,
+      null,
+      {
+        shallow: true,
+      },
     );
   }
 
