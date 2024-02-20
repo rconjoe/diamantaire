@@ -906,7 +906,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
 
   const isWindowDefined = typeof window !== 'undefined';
 
-  const totalPriceInCents = shopifyProductData?.price + diamondPrice;
+  const totalPriceInCents = parseFloat(shopifyProductData?.price) + parseFloat(diamondPrice.toString());
 
   const diamondHandCaption = builderProduct?.diamonds?.map((diamond) => diamond?.carat?.toString() + 'ct').join(' | ');
 

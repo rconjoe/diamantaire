@@ -927,7 +927,7 @@ const SettingToDiamondSummaryPage = () => {
 
   const isWindowDefined = typeof window !== 'undefined';
 
-  const totalPriceInCents = Math.ceil(shopifyProductData?.price) + Math.ceil(diamondPricesCombined);
+  const totalPriceInCents = Math.ceil(parseFloat(shopifyProductData?.price)) + Math.ceil(diamondPricesCombined);
 
   const diamondHandCaption = builderProduct?.diamonds?.map((diamond) => diamond?.carat?.toString() + 'ct').join(' | ');
 

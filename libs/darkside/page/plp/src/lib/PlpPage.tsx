@@ -191,18 +191,17 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
     de: '/de-DE/',
   };
 
+  const baseUrl =
+    process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' || process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview'
+      ? 'https://www.vrai.com'
+      : 'http://localhost:4200';
+
   return (
     <PlpStyles>
       <NextSeo
         title={seoTitle}
         description={seoDescription}
-        canonical={
-          canonicalOverride
-            ? canonicalOverride
-            : process.env.VERCEL_ENV === 'production' || process.env.VERCEL_ENV === 'preview'
-            ? 'https://www.vrai.com'
-            : 'http//:localhost:4200' + seoParam[languageCode] + router.asPath
-        }
+        canonical={canonicalOverride ? canonicalOverride : baseUrl + seoParam[languageCode] + router.asPath}
       />
 
       <PageViewTracker listPageData={listPageData} />

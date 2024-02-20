@@ -46,13 +46,27 @@ const SingleJournalEntry = () => {
     [singleJournal, slug, router.asPath],
   );
 
+  const seoParam = {
+    en: '',
+    es: '/en-ES/',
+    fr: '/fr-FR/',
+    de: '/de-DE/',
+  };
+
+  const { languageCode } = parseValidLocale(locale);
+
+  const baseUrl =
+    process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' || process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview'
+      ? 'https://www.vrai.com'
+      : 'http://localhost:4200';
+
   return (
     <SingleJournalEntryStyles>
       {seoTitle && seoDescription && (
         <NextSeo
           title={seoTitle}
           description={seoDescription}
-          canonical={(process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') + router?.asPath}
+          canonical={baseUrl + seoParam[languageCode] + router?.asPath}
         />
       )}
 

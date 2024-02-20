@@ -1,4 +1,5 @@
 import { ImageTile, Heading, DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
+import { parseValidLocale } from '@diamantaire/shared/constants';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 
@@ -51,14 +52,26 @@ const JournalHomeEntry = ({
 
   const { asPath, locale } = useRouter();
 
+  const seoParam = {
+    en: '',
+    es: '/en-ES/',
+    fr: '/fr-FR/',
+    de: '/de-DE/',
+  };
+
+  const { languageCode } = parseValidLocale(locale);
+
+  const baseUrl =
+    process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' || process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview'
+      ? 'https://www.vrai.com'
+      : 'http://localhost:4200';
+
   return (
     <JournalHomeEntryStyles>
       <NextSeo
         title={blogHomeSeo?.seoTitle}
         description={blogHomeSeo?.seoDescription}
-        canonical={
-          (process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') + `/${locale}` + asPath
-        }
+        canonical={baseUrl + seoParam[languageCode] + asPath}
       />
       <JournalHeader showTitle={true} showNavLogo={false} categoriesToDisplay={blogConfiguration?.categoriesToDisplay} />
       <div>

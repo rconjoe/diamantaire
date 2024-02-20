@@ -44,17 +44,16 @@ const ProductSeo = ({ seoFields, legacySeoFields, productType, productTitle, met
     de: '/de-DE/',
   };
 
+  const baseUrl =
+    process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' || process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview'
+      ? 'https://www.vrai.com'
+      : 'http://localhost:4200';
+
   return (
     <NextSeo
       title={metaTitle}
       description={metaDescription}
-      canonical={
-        process.env.VERCEL_ENV === 'production' || process.env.VERCEL_ENV === 'preview'
-          ? 'https://www.vrai.com'
-          : 'http//:localhost:4200' +
-            seoParam[selectedLanguageCode] +
-            generateProductUrl(productType, collectionSlug, productSlug)
-      }
+      canonical={baseUrl + seoParam[selectedLanguageCode] + generateProductUrl(productType, collectionSlug, productSlug)}
     />
   );
 };
