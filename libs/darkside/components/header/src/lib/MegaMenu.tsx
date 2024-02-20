@@ -28,8 +28,6 @@ const MegaMenu: FC<MegaMenuProps> = (props) => {
           navItems?.map((menu, menuIndex) => {
             const { key, columns }: Partial<MenuLink> = menu;
 
-            console.log('key', key);
-
             return (
               <div
                 className={clsx(`menu-container ${key}`, {
