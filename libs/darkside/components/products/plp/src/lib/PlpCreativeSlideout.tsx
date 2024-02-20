@@ -18,7 +18,7 @@ const ShopTheLookSlideOutStyles = styled.div`
   }
 `;
 
-const PlpCreativeSlideOut = ({ configurationsInOrder, locale, plpTitle, selectSetting }) => {
+const PlpCreativeSlideOut = ({ configurationsInOrder, locale, plpTitle }) => {
   const ids = useMemo(
     () => configurationsInOrder.reduce((a, v) => [...a, v.variantId || v.shopifyProductHandle], []),
     [configurationsInOrder],
@@ -41,12 +41,6 @@ const PlpCreativeSlideOut = ({ configurationsInOrder, locale, plpTitle, selectSe
                 product={product}
                 plpTitle={plpTitle}
                 position={gridItemIndex}
-                selectSettingForBuilderFlow={() => {
-                  return selectSetting({
-                    collectionSlug: product.variants[product.defaultId]?.collectionSlug,
-                    productSlug: product.variants[product.defaultId]?.productSlug,
-                  });
-                }}
                 useProductTitleOnly={true}
               />
             );

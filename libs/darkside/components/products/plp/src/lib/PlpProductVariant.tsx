@@ -140,7 +140,6 @@ const PlpProductVariant = ({
   plpTitle,
   label,
   builderFlow = false,
-  selectSettingForBuilderFlow,
   children,
 }: {
   variant: ListPageItemConfiguration;
@@ -150,12 +149,12 @@ const PlpProductVariant = ({
   useLowestPrice: boolean;
   label: string | null;
   builderFlow?: boolean;
-  selectSettingForBuilderFlow?: () => void;
   children: ReactNode;
 }) => {
   const { productClicked } = useAnalytics();
 
   const router = useRouter();
+  const { locale } = router;
 
   const { countryCode } = parseValidLocale(router?.locale);
 
@@ -242,12 +241,12 @@ const PlpProductVariant = ({
     <PlpProductVariantStyles>
       {builderFlow ? (
         <div className="plp-variant__inner">
-          <button
-            onClick={() => {
-              selectSettingForBuilderFlow();
-
-              router.push(`/customize/diamond-to-setting/${router.query.lotId}/${collectionSlug}/${productSlug}`);
-            }}
+          <a
+            href={`${locale === 'en-US' ? '' : `/${locale}`}/customize/diamond-to-setting/${
+              router.query.lotId
+            }/${collectionSlug}/${productSlug}`}
+            // onClick={() => {
+            // }}
           >
             <div className="plp-variant__image">
               <button
@@ -286,7 +285,7 @@ const PlpProductVariant = ({
 
               {label && <span className="plp-variant__label">{label}</span>}
             </div>
-          </button>
+          </a>
           <div className="plp-variant__footer">{children}</div>
         </div>
       ) : (

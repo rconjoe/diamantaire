@@ -7,6 +7,7 @@ import {
   getFormattedPrice,
   combinePricesOfMultipleProducts,
   simpleFormatPrice,
+  parseValidLocale,
 } from '@diamantaire/shared/constants';
 import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';
@@ -54,7 +55,9 @@ const ProductPrice = ({
 
   const { _t } = useTranslations(locale);
 
-  const isInUS = locale === DEFAULT_LOCALE;
+  const { countryCode } = parseValidLocale(locale);
+
+  const isInUSOrCA = locale === DEFAULT_LOCALE || countryCode === 'CA';
 
   const doesProductQualifyForFreeEngraving =
     ENGRAVEABLE_JEWELRY_SLUGS.filter((slug) => slug === query.collectionSlug).length > 0;
@@ -84,7 +87,7 @@ const ProductPrice = ({
         </p>
       )}
 
-      {!isInUS && (
+      {!isInUSOrCA && (
         <p className="small">
           <UIString>incl. VAT</UIString>
         </p>

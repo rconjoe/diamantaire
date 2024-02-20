@@ -263,12 +263,6 @@ const PlpProductGrid = ({
                         product={product}
                         plpTitle={plpTitle}
                         position={gridItemIndex}
-                        selectSettingForBuilderFlow={() => {
-                          return selectSetting({
-                            collectionSlug: product.variants[product.defaultId]?.collectionSlug,
-                            productSlug: product.variants[product.defaultId]?.productSlug,
-                          });
-                        }}
                         builderFlowOverride={builderFlowOverride}
                         useProductTitleOnly={useProductTitleOnly}
                       />

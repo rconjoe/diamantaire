@@ -545,7 +545,7 @@ const SettingToDiamondSummaryPage = () => {
     productType: shopifyProductData?.productType,
   };
 
-  console.log('shopifyProductData', shopifyProductData);
+
   const productIconListType = datoParentProductData?.productIconList?.productType;
 
   const isEngravingInputEmpty = useMemo(() => {

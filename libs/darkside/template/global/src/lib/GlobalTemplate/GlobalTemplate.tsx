@@ -67,8 +67,8 @@ export const GlobalTemplate = ({ children }) => {
 
   // If a user comes to the site with a different locale, we want to clear the cart, and reset the locale
   if (locale && storedLocale && storedLocale !== locale) {
-    console.log('clearing cart', locale, storedLocale);
     window.localStorage.removeItem('cartId');
+    window.localStorage.removeItem('hasTermsConsent');
     window.localStorage.setItem('locale', locale);
   }
 
