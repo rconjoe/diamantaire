@@ -1,9 +1,10 @@
+import { Loader } from '@diamantaire/darkside/components/common-ui';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { GetServerSidePropsContext } from 'next';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-const validConfigurations = ['metal', 'diamondType', 'bandAccent', 'caratWeight'];
+const validConfigurations = ['metal', 'diamondType', 'bandAccent', 'caratWeight', 'bandAccent', ''];
 
 const SummaryRedirectStyles = styled.div`
   display: flex;
@@ -39,17 +40,20 @@ const SummaryRedirectPage = ({ collectionSlug, lotId, configuration }) => {
 
   const fixedLotId = 'F'+lotId;
   const redirectLink = `/customize/setting-to-diamond/${collectionSlug}/${product?.productSlug}/${fixedLotId}/summary`;
-  const fullPathUrl = typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.host}${redirectLink}` : '';
+  
 
-  if (!loading && product){
-    if(typeof window !== 'undefined'){
+  if (!loading && typeof window !== 'undefined'){
+    const fullPathUrl = `${window.location.protocol}//${window.location.host}${redirectLink}`;
+
+    if (product){
       window.location.href=fullPathUrl;
+    } else {
+      window.location.href='https://www.vrai.com';
     }
   }
 
   return (<SummaryRedirectStyles>
-    { loading ? <p>Looking for new url...</p> : <p>Cannot find matching product</p> }
-    { product && !loading ? (<p> Redirecting to <a href='fullPathUrl'>{fullPathUrl}</a></p>) : null }
+     <Loader color="#000" />
   </SummaryRedirectStyles>)
 }
 
