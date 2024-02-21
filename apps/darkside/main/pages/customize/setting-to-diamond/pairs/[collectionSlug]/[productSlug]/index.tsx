@@ -148,12 +148,12 @@ const DiamondBuildStep = () => {
     isToiMoiOrPair = true;
   }
 
-  const [loading, setLoading] = useState(true);
-  // const [isTableView, setIsTableView] = useState(true);
   const isTableView = true;
+
   const [options, setOptions] = useState<{
     [key: string]: any;
   }>(initialOptions);
+
   const [activeRow, setActiveRow] = useState(null);
 
   const { data: { diamonds, pagination, ranges } = {} } = useDiamondsData({ ...options });
