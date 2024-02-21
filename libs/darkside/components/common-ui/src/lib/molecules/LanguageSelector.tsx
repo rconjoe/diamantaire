@@ -1,6 +1,5 @@
 import { countries, generateLocale, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
 import clsx from 'clsx';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -83,13 +82,17 @@ const LanguageSelector = ({ toggleLanguageSelector }: LanguageSelectorProps) => 
               <button
                 className="language-selector-sub"
                 onClick={() => {
+                  const newLocale = generateLocale(languageCode, selectedCountryCode).toString();
+
+                  window.localStorage.removeItem('cartId');
+                  window.localStorage.setItem('locale', newLocale);
                   toggleLanguageSelector();
-                  window.scrollTo(0, 0);
+
+                  // Need to reset stored locale value for cart stuff
+                  window.location.href = `/${newLocale}/${router.asPath}`;
                 }}
               >
-                <Link href={router.asPath} locale={locale} scroll={false}>
-                  {name !== 'English' ? <UIString>{name && name.toLowerCase()}</UIString> : name}
-                </Link>
+                {name !== 'English' ? <UIString>{name && name.toLowerCase()}</UIString> : name}
               </button>
             </li>
           );

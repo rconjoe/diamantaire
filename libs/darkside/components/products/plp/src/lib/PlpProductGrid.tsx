@@ -95,7 +95,6 @@ type PlpProductGridProps = {
   plpSlug: string;
   // This is a temporary override to allow the builder to ignore rules we use to handle the server-side stuff
   builderFlowOverride?: boolean;
-  selectSetting?: (_obj: { collectionSlug: string; productSlug: string }) => void;
   filterValue?: FilterValueProps;
   setFilterValues?;
   initialFilterValues?: {
@@ -124,7 +123,6 @@ const PlpProductGrid = ({
   setFilterValues,
   plpTitle,
   builderFlowOverride = false,
-  selectSetting,
   isFetching,
   plpSlug,
   urlFilterMethod,
@@ -248,11 +246,7 @@ const PlpProductGrid = ({
                   )}
 
                   {creativeBlockObject[gridItemIndex] !== undefined && products.length > 8 && (
-                    <PlpCreativeBlock
-                      block={creativeBlockObject[gridItemIndex]}
-                      plpTitle={plpTitle}
-                      selectSetting={selectSetting}
-                    />
+                    <PlpCreativeBlock block={creativeBlockObject[gridItemIndex]} plpTitle={plpTitle} />
                   )}
 
                   {product?.productType === 'diamonds' ? (
@@ -263,12 +257,6 @@ const PlpProductGrid = ({
                         product={product}
                         plpTitle={plpTitle}
                         position={gridItemIndex}
-                        selectSettingForBuilderFlow={() => {
-                          return selectSetting({
-                            collectionSlug: product.variants[product.defaultId]?.collectionSlug,
-                            productSlug: product.variants[product.defaultId]?.productSlug,
-                          });
-                        }}
                         builderFlowOverride={builderFlowOverride}
                         useProductTitleOnly={useProductTitleOnly}
                       />

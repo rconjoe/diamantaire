@@ -54,6 +54,6 @@ button:hover {
 a.disabled {
   pointer-events: none;
 }
-div[data-lastpass-icon-root='true'] {
+div[data-lastpass-icon-root] {
   display: none !important;
 }

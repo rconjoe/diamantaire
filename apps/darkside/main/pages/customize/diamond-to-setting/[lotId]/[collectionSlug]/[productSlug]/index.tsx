@@ -1,7 +1,6 @@
 import { BuilderFlowLoader } from '@diamantaire/darkside/components/builder-flows';
 import {
   Heading,
-  HideTopBar,
   NeedTimeToThinkForm,
   ProductAppointmentCTA,
   ShowDesktopAndUpOnly,
@@ -258,7 +257,7 @@ const SettingBuildStep = () => {
       }}
     >
       <NextSeo title={seoTitle} description={seoDescription} nofollow={true} noindex={true} />
-      <HideTopBar />
+
       <div className="nav-title container-wrapper">
         <Heading type="h1" className="primary h2 text-center">
           <UIString>Complete your ring</UIString>

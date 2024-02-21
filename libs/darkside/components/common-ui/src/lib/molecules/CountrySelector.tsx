@@ -8,7 +8,6 @@ import {
 } from '@diamantaire/shared/constants';
 import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, useMemo, useEffect } from 'react';
 import styled from 'styled-components';
@@ -61,21 +60,16 @@ const CountrySelectorStyles = styled.div`
             padding: 0;
             background-color: transparent;
             border: none;
-
-            a {
-              color: #777;
-              transition: 0.25s;
-              font-size: var(--font-size-xxxsmall);
-              &:hover {
-                color: #000;
-              }
+            color: #777;
+            transition: 0.25s;
+            font-size: var(--font-size-xxxsmall);
+            &:hover {
+              color: #000;
             }
 
             &.active {
-              a {
-                font-weight: bold;
-                color: #000;
-              }
+              font-weight: bold;
+              color: #000;
             }
           }
         }
@@ -135,17 +129,10 @@ const CountrySelector = ({ toggleCountrySelector }: { toggleCountrySelector: () 
                           toggleCountrySelector();
 
                           // Need to reset stored locale value for cart stuff
-
                           window.location.href = `/${newLocale}/${router.asPath}`;
                         }}
                       >
-                        <Link
-                          href={router.asPath}
-                          locale={generateLocale(getPrimaryLanguage(country.code), country.code)}
-                          scroll={false}
-                        >
-                          {country.name}
-                        </Link>
+                        {country.name}
                       </button>
                     </li>
                   );

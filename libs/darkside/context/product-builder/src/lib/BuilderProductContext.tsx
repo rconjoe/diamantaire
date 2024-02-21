@@ -100,8 +100,6 @@ type BuilderAction =
 const builderReducer = (state: BuilderProductState, action: BuilderAction): BuilderProductState => {
   switch (action.type) {
     case 'ADD_DIAMOND': {
-      console.log('ADDING DIAMOND', action, state.product);
-
       const newState = {
         ...state,
         diamonds: action.payload,
@@ -231,8 +229,6 @@ const BuilderProductContextProvider = ({ children }: BuilderProductContextProvid
         .then((res) => res.json())
         .then((res) => res);
 
-      console.log('diamondResponse', diamondResponse);
-
       updateFlowData('ADD_DIAMOND', diamondResponse);
     }
 
@@ -280,10 +276,6 @@ const BuilderProductContextProvider = ({ children }: BuilderProductContextProvid
       getSettingProduct();
     }
   }, [router.query.collectionSlug, router.query.productSlug]);
-
-  useEffect(() => {
-    console.log('state changed', state);
-  }, [state]);
 
   return (
     <BuilderProductContext.Provider value={{ builderProduct: state, dispatch, updateFlowData, updateStep }}>
