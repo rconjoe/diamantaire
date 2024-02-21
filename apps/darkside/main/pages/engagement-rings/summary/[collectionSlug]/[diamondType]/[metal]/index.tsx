@@ -4,7 +4,21 @@ import { GetServerSidePropsContext } from 'next';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-const validConfigurations = ['metal', 'diamondType', 'bandAccent', 'caratWeight', 'bandAccent', ''];
+const validConfigurations = [
+ 'metal',
+ 'diamondType',
+ 'bandAccent',
+ 'caratWeight',
+ 'bandAccent',
+ 'bandWidth',
+ 'hiddenHalo',
+ 'prongStyle',
+ 'sideStoneShape',
+ 'sideStoneCarat',
+ 'haloSize',
+ 'bandStoneStyle',
+ 'bandStoneShape',
+];
 
 const SummaryRedirectStyles = styled.div`
   display: flex;

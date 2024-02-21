@@ -161,10 +161,12 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink, cartTotal }
   const [hasTermsConsent, setHasTermsConsent] = useState(
     localStorage.getItem('hasTermsConsent') === 'true'
       ? true
-      : countryCode !== 'US'
-      ? false
       : countryCode === 'US'
       ? true
+      : countryCode === 'CA'
+      ? true
+      : countryCode !== 'US'
+      ? false
       : false,
   );
   const { checkoutStarted } = useAnalytics();

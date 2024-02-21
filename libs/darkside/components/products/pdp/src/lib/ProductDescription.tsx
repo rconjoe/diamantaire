@@ -116,7 +116,12 @@ const ProductDescription = ({
 
   const jewelryProductSpecs = createSpecList(PRODUCT_SPEC_NAMES);
   const diamondSpecs = createSpecList(DIAMOND_SPEC_NAMES);
+
+  // These are included at the variant level
+  const specItemsToFilterOut = ['origin', 'shape', 'color', 'clarity', 'cut'];
+
   const weddingSpecs = labels
+    .filter((label) => !specItemsToFilterOut.includes(label.specName))
     .map((label) => {
       let value = combinedAttributes[label.specName];
 
@@ -160,6 +165,11 @@ const ProductDescription = ({
         return (
           <ul>
             {renderSpecs(weddingSpecs)}
+            {shownWithCtw && (
+              <li>
+                {_t(shownWithCtwLabel)}: {shownWithCtw}
+              </li>
+            )}
             {(productType === 'Engagement Ring' || hasDiamondSpec) && (
               <li>
                 <span className="small">
@@ -167,11 +177,6 @@ const ProductDescription = ({
                     <UIString>For precise weight please see tolerance specs.</UIString>
                   </Link>
                 </span>
-              </li>
-            )}
-            {shownWithCtw && (
-              <li>
-                {_t(shownWithCtwLabel)}: {shownWithCtw}
               </li>
             )}
           </ul>

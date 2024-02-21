@@ -7,7 +7,6 @@ import {
   DarksideButton,
   DatoImage,
   Heading,
-  HideTopBar,
   Loader,
   NeedTimeToThinkForm,
   ProductAppointmentCTA,
@@ -545,7 +544,6 @@ const SettingToDiamondSummaryPage = () => {
     productType: shopifyProductData?.productType,
   };
 
-  console.log('shopifyProductData', shopifyProductData);
   const productIconListType = datoParentProductData?.productIconList?.productType;
 
   const isEngravingInputEmpty = useMemo(() => {
@@ -1050,7 +1048,6 @@ const SettingToDiamondSummaryPage = () => {
         data-client-id="4b79b0e8-c6d3-59da-a96b-2eca27025e8e"
       ></Script>
       <NextSeo title={seoTitle} description={seoDescription} nofollow={true} noindex={true} />
-      <HideTopBar />
       <div className="review-wrapper">
         <div className="product-images">
           <div className="embla" ref={isWindowDefined && window.innerWidth < 767 ? emblaRef : null}>

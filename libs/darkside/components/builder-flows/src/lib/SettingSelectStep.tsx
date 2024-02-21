@@ -35,7 +35,7 @@ const SettingSelectStepStyles = styled.div`
   }
 `;
 
-const SettingSelectStep = ({ updateSettingSlugs, settingTypeToShow }) => {
+const SettingSelectStep = ({ settingTypeToShow }) => {
   const { locale } = useRouter();
 
   const containerRef = useRef(null);
@@ -71,10 +71,6 @@ const SettingSelectStep = ({ updateSettingSlugs, settingTypeToShow }) => {
     }
   }, [inView, fetchNextPage, hasNextPage, isFetching]);
 
-  function selectSetting({ collectionSlug, productSlug }) {
-    updateSettingSlugs({ collectionSlug, productSlug });
-  }
-
   const handleSortChange = ({ sortBy, sortOrder }: { id: string; sortBy: string; sortOrder: 'asc' | 'desc' }) => {
     setActiveSortOptions({
       sortBy,
@@ -105,7 +101,6 @@ const SettingSelectStep = ({ updateSettingSlugs, settingTypeToShow }) => {
             creativeBlockIds={creativeBlockIds}
             setFilterValues={setFilterValues}
             filterValue={filterValue}
-            selectSetting={selectSetting}
             plpSlug={plpSlug}
             urlFilterMethod={'none'}
             onSortChange={handleSortChange}

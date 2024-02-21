@@ -1,4 +1,4 @@
-import { HideTopBar, Loader } from '@diamantaire/darkside/components/common-ui';
+import { Loader } from '@diamantaire/darkside/components/common-ui';
 import { PlpHeroBanner, PlpProductGrid } from '@diamantaire/darkside/components/products/plp';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
@@ -46,7 +46,7 @@ const SettingSelectStep = () => {
   const { data: seoData } = useBuilderFlowSeo(locale);
   const { seoTitle, seoDescription } = seoData?.builderFlow?.seoFields || {};
 
-  const { updateFlowData, builderProduct } = useContext(BuilderProductContext);
+  const { builderProduct } = useContext(BuilderProductContext);
 
   const settingTypeToShow = builderProduct?.diamonds?.[0]?.diamondType;
 
@@ -83,11 +83,6 @@ const SettingSelectStep = () => {
     }
   }, [inView, fetchNextPage, hasNextPage, isFetching]);
 
-  function selectSetting({ collectionSlug, productSlug }) {
-    // updateSettingSlugs({ collectionSlug, productSlug });
-    updateFlowData('UPDATE_TEMP_SETTING_SLUGS', { collectionSlug, productSlug });
-  }
-
   const handleSortChange = ({ sortBy, sortOrder }: { id: string; sortBy: string; sortOrder: 'asc' | 'desc' }) => {
     setActiveSortOptions({
       sortBy,
@@ -98,7 +93,6 @@ const SettingSelectStep = () => {
   return (
     <SettingSelectStepStyles>
       <NextSeo title={seoTitle} description={seoDescription} nofollow={true} noindex={true} />
-      <HideTopBar />
       <PlpHeroBanner showHeroWithBanner={true} data={hero} />
       <div className="wrapper" ref={containerRef}>
         {(data?.pages?.length === 0 || data?.pages?.[0].message) && (
@@ -116,7 +110,6 @@ const SettingSelectStep = () => {
             creativeBlockIds={creativeBlockIds}
             setFilterValues={setFilterValues}
             filterValue={filterValue}
-            selectSetting={selectSetting}
             plpSlug={plpSlug}
             urlFilterMethod={'none'}
             onSortChange={handleSortChange}

@@ -19,12 +19,11 @@ type PlpProductItemProps = {
   position: number;
   plpTitle: string;
   builderFlowOverride?: boolean;
-  selectSettingForBuilderFlow: () => void;
   useProductTitleOnly: boolean;
 };
 
 const PlpProductItem = (props: PlpProductItemProps) => {
-  const { product, position, plpTitle, selectSettingForBuilderFlow, builderFlowOverride, useProductTitleOnly } = props;
+  const { product, position, plpTitle, builderFlowOverride, useProductTitleOnly } = props;
 
   const router = useRouter();
 
@@ -69,7 +68,6 @@ const PlpProductItem = (props: PlpProductItemProps) => {
         useLowestPrice={useLowestPrice}
         lowestPrice={lowestPrice}
         label={product?.productLabel?.title || null}
-        selectSettingForBuilderFlow={selectSettingForBuilderFlow}
         builderFlow={builderFlowOverride}
       >
         <div className={`row nav${useProductTitleOnly ? ' with-hidden-swatches' : ''}`}>
