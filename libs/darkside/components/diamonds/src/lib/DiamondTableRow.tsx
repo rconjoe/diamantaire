@@ -66,10 +66,11 @@ const DiamondTableRow = ({
     );
   };
 
-  const handleSelectDiamond = async (newTab = false) => {
+  const handleSelectDiamond = async (e) => {
     const { carat, color, clarity, cut, price } = product;
 
-    console.log('newTab', newTab);
+    const newTab = e.metaKey || e.ctrlKey;
+
     const { countryCode } = parseValidLocale(locale) || {};
 
     const currencyCode = getCurrency(countryCode);
@@ -127,13 +128,13 @@ const DiamondTableRow = ({
         router.query.collectionSlug
       }/${productShapeId}/summary`;
 
-      return (window.location.href = nextUrl);
+      return newTab ? window.open(nextUrl, '_blank') : (window.location.href = nextUrl);
     }
   };
 
-  const handleInitBuilderFlow = () => {
-    handleSelectDiamond(true);
-  };
+  // const handleInitBuilderFlow = () => {
+  //   handleSelectDiamond(true);
+  // };
 
   function handleAddLooseDiamondToCart() {
     const mutatedLotId = lotId && getNumericalLotId(lotId);
@@ -202,23 +203,11 @@ const DiamondTableRow = ({
               </DarksideButton>
             )}
             {isBuilderFlowOpen ? (
-              <DarksideButton
-                type="solid"
-                colorTheme="black"
-                className="button-select"
-                // onClick={handleSelectDiamond}
-                onContextMenu={() => handleSelectDiamond(true)}
-              >
+              <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
                 <UIString>Select</UIString>
               </DarksideButton>
             ) : (
-              <DarksideButton
-                type="solid"
-                colorTheme="black"
-                className="button-select"
-                onClick={handleInitBuilderFlow}
-                onContextMenu={() => handleSelectDiamond(true)}
-              >
+              <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
                 <UIString>Select</UIString>
               </DarksideButton>
             )}
