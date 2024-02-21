@@ -84,6 +84,7 @@ export default async function middleware(request: NextRequest, _event: NextFetch
   // exclude API and Next.js internal routes
   if (!url.pathname.startsWith('/api') && !url.pathname.startsWith('/_next')) {
     let localRedirectDestination = await kv.hget<string>('redirects', url.pathname);
+    const requestPath = url.pathname;
 
     if (localRedirectDestination) {
       // If its a PDP, try to get more specific redirect
@@ -113,7 +114,7 @@ export default async function middleware(request: NextRequest, _event: NextFetch
 
       url.pathname = localRedirectDestination;
 
-      const isPermanent = await kv.sismember('permanent_redirects', url.pathname);
+      const isPermanent = await kv.sismember('permanent_redirects', requestPath);
 
       return NextResponse.redirect(url, isPermanent ? 301 : 302);
     }
