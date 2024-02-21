@@ -9,7 +9,6 @@ type plpProductsOptionsProps = {
 };
 
 export default async function getPlpProducts(options: plpProductsOptionsProps, res: NextApiResponse) {
-  console.log(options);
   setApiRouteCacheHeader(res);
 
   // sanitize options
