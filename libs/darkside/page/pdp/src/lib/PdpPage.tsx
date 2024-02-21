@@ -469,7 +469,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                   productType={shopifyProductData?.productType}
                   collectionSlug={collectionSlug}
                   productSlug={productSlug}
-                  productImageUrl={productContent?.image?.responsiveImage?.src}
+                  productImageUrl={productContent?.image?.responsiveImage?.src || productContent?.assetStack?.[0]?.url}
                 />
               )}
 
