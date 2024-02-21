@@ -276,7 +276,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     {
       title: _t(breadcrumbTitle),
       path: `/${isProductJewelry ? 'jewelry/' : isWeddingBand ? 'wedding-rings/' : ''}${
-        pdpTypeTitleSingleToPluralHandleAsConst[shopifyProductData?.productType] || shopifyProductData?.productType
+        pdpTypeTitleSingleToPluralHandleAsConst[shopifyProductData?.productType] === 'engagement-rings'
+          ? 'engagement-rings/settings'
+          : pdpTypeTitleSingleToPluralHandleAsConst[shopifyProductData?.productType] || shopifyProductData?.productType
       }`,
     },
     {

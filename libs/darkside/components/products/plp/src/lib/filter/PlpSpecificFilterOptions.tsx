@@ -122,6 +122,7 @@ const PlpSpecificFilterOptions = ({ filterOptionsOverride, filterTypes, updateFi
               allFilterTypes={filterTypes}
               updateFilter={updateFilter}
               currentFilters={filterValue}
+              mustHaveFilterActive={true}
             />
           );
         })}
