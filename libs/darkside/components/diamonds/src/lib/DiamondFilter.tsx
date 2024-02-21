@@ -291,7 +291,6 @@ const RadioFilter = (props) => {
 export interface DiamondFilterProps {
   handleRadioFilterChange: (type: string, values: string[]) => void;
   handleSliderFilterChange: (type: string, values: number[]) => void;
-  loading: boolean;
   options: object;
   ranges: object;
   availableDiamonds?: string[];
@@ -299,7 +298,7 @@ export interface DiamondFilterProps {
 
 const DiamondFilter = (props: DiamondFilterProps) => {
   const { locale } = useRouter();
-  const { options, ranges, loading, handleRadioFilterChange, handleSliderFilterChange, availableDiamonds } = props;
+  const { options, ranges, handleRadioFilterChange, handleSliderFilterChange, availableDiamonds } = props;
   const { data: diamondTableData } = useDiamondTableData(locale);
   const { diamondTable } = diamondTableData || {};
   const { colorFilterBelowCopy, color, cut, clarity, carat } = diamondTable || {};
@@ -405,8 +404,6 @@ const DiamondFilter = (props: DiamondFilterProps) => {
                 availableDiamonds={availableDiamonds}
               />
             )}
-
-            {loading && <div className="vo-filter-loading" />}
           </div>
         );
       })}

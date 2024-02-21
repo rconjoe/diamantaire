@@ -51,8 +51,6 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
   const [options, setOptions] = useState(props.options);
 
-  const [loading, setLoading] = useState(true);
-
   const { _t: _diamondTypes } = useTranslations(locale, [humanNamesMapperType.DIAMOND_SHAPES]);
 
   const {
@@ -72,12 +70,6 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
   const pageSeoTitle = seoTitle.replace(/%%(.*?)%%/g, diamondTypeTitle);
 
   const pageDynamicTitle = dynamicTitle.replace(/%%(.*?)%%/g, diamondTypeTitle);
-
-  // Do we need this (Charles)?
-  const updateLoading = (newState) => {
-    setLoading(newState);
-    console.log('loading', loading);
-  };
 
   const updateOptions = (newOptions) => {
     setOptions((prevOptions) => {
@@ -172,7 +164,6 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
     initialOptions: options,
     initialPagination: pagination,
     updateOptions,
-    updateLoading,
     clearOptions,
     currencyCode,
     ranges:
@@ -204,7 +195,6 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
             <DiamondFilter
               handleRadioFilterChange={handleRadioFilterChange}
               handleSliderFilterChange={handleSliderFilterChange}
-              loading={false}
               options={options}
               ranges={ranges}
             />

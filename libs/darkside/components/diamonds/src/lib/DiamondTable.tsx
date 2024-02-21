@@ -33,7 +33,7 @@ type DiamondTableProps = {
   };
   initialOptions: any;
   updateOptions: (options: any) => void;
-  updateLoading: (newState: boolean) => void;
+  // updateLoading: (newState: boolean) => void;
   clearOptions: () => void;
   isBuilderFlowOpen?: boolean;
   isTableView?: boolean;
@@ -52,7 +52,7 @@ const DiamondTable = (props: DiamondTableProps) => {
     initialPagination,
     initialOptions,
     updateOptions,
-    updateLoading,
+    // updateLoading,
     clearOptions,
     isBuilderFlowOpen,
     isTableView = true,
@@ -337,9 +337,9 @@ const DiamondTable = (props: DiamondTableProps) => {
     };
   }, [queryDiamond.hasNextPage, queryDiamond.isFetching, queryDiamond.isLoading, queryDiamond.fetchNextPage]);
 
-  useEffect(() => {
-    updateLoading(queryDiamond.isLoading);
-  }, [queryDiamond.isLoading]);
+  // useEffect(() => {
+  //   updateLoading(queryDiamond.isLoading);
+  // }, [queryDiamond.isLoading]);
 
   useEffect(() => {
     if (activeRow) {
