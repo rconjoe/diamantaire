@@ -60,8 +60,8 @@ export const DiamondPairActiveRow = ({
     return final?.id;
   }
 
-  const handleSelectDiamond = () => {
-    updateFlowData('ADD_DIAMOND', diamonds);
+  const handleSelectDiamond = (e) => {
+    const newTab = e.metaKey || e.ctrlKey;
 
     // By pair, we mean two diamonds with the same lotId
     const isPair = router?.asPath.includes('/pairs/');
@@ -77,10 +77,12 @@ export const DiamondPairActiveRow = ({
       : builderProduct?.product?.optionConfigs?.diamondType?.find((option) => option.value === diamondType)?.id ||
         router?.query?.productSlug;
 
-    // This is an anti-pattern but we need it for builder flow actions (or data doesn't propagate properly)
-    window.location.href = `${window.location.origin}/${locale}/customize/setting-to-diamond${
+    const newUrl = `${window.location.origin}${locale === 'en-US' ? '' : `/${locale}`}/customize/setting-to-diamond${
       isPair ? '/pairs' : ''
     }/${builderProduct?.product?.collectionSlug}/${productShapeId}/${lotIdSlug}/summary`;
+
+    // This is an anti-pattern but we need it for builder flow actions (or data doesn't propagate properly)
+    newTab ? window.open(newUrl, '_blank') : (window.location.href = newUrl);
   };
 
   return (
@@ -108,7 +110,7 @@ export const DiamondPairActiveRow = ({
 
           <div className="row-cta">
             {isBuilderFlowOpen ? (
-              <DarksideButton onClick={() => handleSelectDiamond()}>
+              <DarksideButton onClick={handleSelectDiamond}>
                 <UIString>Select</UIString>
               </DarksideButton>
             ) : (
