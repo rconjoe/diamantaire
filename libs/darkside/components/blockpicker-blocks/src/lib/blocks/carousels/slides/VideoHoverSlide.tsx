@@ -19,7 +19,6 @@ const VideoHoverSlide = (props) => {
         <div
           onMouseLeave={() => setIsHovered(false)}
           onMouseEnter={() => setIsHovered(true)}
-          onContextMenu={(e) => e.preventDefault()}
           onFocus={() => setIsHovered(true)}
           onBlur={() => setIsHovered(false)}
         >
