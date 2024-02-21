@@ -17,6 +17,7 @@ import MegaMenu from './MegaMenu';
 import MobileHeader from './MobileHeader';
 import StackedHeader from './StackedHeader';
 import TopBar from './TopBar';
+import CountryPicker from './CountryPicker';
 
 // TODO: setup proper type
 type HeaderProps = {
@@ -215,6 +216,7 @@ const Header: FC<HeaderProps> = ({ headerData, isTopbarShowing, setIsTopbarShowi
               <TopBar setIsTopbarShowing={setIsTopbarShowing} />
             </div>
           )}
+          <CountryPicker />
           {isHome && (
             <>
               <div ref={stackedHeaderRef}>
