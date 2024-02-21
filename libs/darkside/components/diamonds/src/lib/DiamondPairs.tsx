@@ -45,7 +45,7 @@ export const DiamondPairActiveRow = ({
 
   const { diamondType } = diamond1;
 
-  const { updateFlowData, builderProduct } = useContext(BuilderProductContext);
+  const { builderProduct } = useContext(BuilderProductContext);
   const router = useRouter();
 
   function getToiMoiShapeProductSlug(builderProduct, diamonds) {
@@ -60,9 +60,7 @@ export const DiamondPairActiveRow = ({
     return final?.id;
   }
 
-  const handleSelectDiamond = (e) => {
-    const newTab = e.metaKey || e.ctrlKey;
-
+  function determineNextUrl() {
     // By pair, we mean two diamonds with the same lotId
     const isPair = router?.asPath.includes('/pairs/');
     const lotIdSlug = diamonds?.map((diamond) => diamond?.lotId).join(',');
@@ -81,9 +79,10 @@ export const DiamondPairActiveRow = ({
       isPair ? '/pairs' : ''
     }/${builderProduct?.product?.collectionSlug}/${productShapeId}/${lotIdSlug}/summary`;
 
-    // This is an anti-pattern but we need it for builder flow actions (or data doesn't propagate properly)
-    newTab ? window.open(newUrl, '_blank') : (window.location.href = newUrl);
-  };
+    return newUrl; // Return the constructed URL string
+  }
+
+  const nextUrl = determineNextUrl();
 
   return (
     <StyledDiamondPairActiveRow>
@@ -110,11 +109,11 @@ export const DiamondPairActiveRow = ({
 
           <div className="row-cta">
             {isBuilderFlowOpen ? (
-              <DarksideButton onClick={handleSelectDiamond}>
+              <DarksideButton href={nextUrl}>
                 <UIString>Select</UIString>
               </DarksideButton>
             ) : (
-              <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
+              <DarksideButton type="solid" colorTheme="black" className="button-select" href={nextUrl}>
                 <UIString>Select</UIString>
               </DarksideButton>
             )}
