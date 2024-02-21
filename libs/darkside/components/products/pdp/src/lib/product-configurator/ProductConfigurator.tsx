@@ -662,7 +662,7 @@ function AddToCartButton({
   if (isFetching && trackInventory) {
     <Loader color="#000" />;
   }
-  if (!isInStock) {
+  if (!isInStock && !isFetching) {
     return (
       <AddToCartButtonContainer>
         <DarksideButton
