@@ -18,6 +18,15 @@ export const ModularTextOnlyBlockContainer = styled.div`
 
     ${media.medium`max-width: 714px;`}
 
+    .with-styles {
+      p {
+        margin-bottom: 3rem;
+        &:last-child {
+          margin-bottom: 0px;
+        }
+      }
+    }
+
     &.-vrai-created-diamond {
       p {
         text-align: center !important;

@@ -32,7 +32,6 @@ export const DIAMOND_VALID_QUERIES = [
   'priceMin',
   'caratMax',
   'caratMin',
-  'flow',
 ];
 export const DIAMOND_DETAIL_FACETED_NAV = ['slug'];
 export const DIAMOND_TABLE_FACETED_NAV = ['diamondType', 'clarity', 'cut', 'color'];

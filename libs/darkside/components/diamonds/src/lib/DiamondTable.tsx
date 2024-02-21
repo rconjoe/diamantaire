@@ -124,7 +124,7 @@ const DiamondTable = (props: DiamondTableProps) => {
       {
         accessorKey: 'diamondType',
         cell: (info: Info) => {
-          const shape = info.getValue();
+          const shape = info?.getValue();
 
           const diamondTypeHandle = shape || (shape && getDiamondType(shape)?.slug) || info.getValue();
 

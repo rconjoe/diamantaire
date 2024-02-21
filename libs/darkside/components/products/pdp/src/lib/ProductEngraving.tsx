@@ -5,6 +5,7 @@ import { DarksideButton, UIString } from '@diamantaire/darkside/components/commo
 import {
   ENGRAVING_CHARACTER_LIMITS,
   ENGRAVING_INITIALS_OPTIONS,
+  ENGRAVING_SYMBOL_OPTIONS,
   JEWELRY_ENGRAVING_MAX_LENGTH,
 } from '@diamantaire/shared/constants';
 import clsx from 'clsx';
@@ -171,7 +172,7 @@ const ProductEngraving = ({ engravingText, setEngravingText, hasSingleInitialEng
                 }
 
                 newValue.split('').forEach((char) => {
-                  if (ENGRAVING_INITIALS_OPTIONS.includes(char.toUpperCase())) {
+                  if (ENGRAVING_INITIALS_OPTIONS.includes(char.toUpperCase()) || ENGRAVING_SYMBOL_OPTIONS.includes(char)) {
                     return;
                   } else {
                     isValid = false;

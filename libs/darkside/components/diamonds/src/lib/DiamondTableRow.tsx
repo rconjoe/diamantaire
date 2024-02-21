@@ -1,11 +1,10 @@
-import { GTM_EVENTS, useAnalytics } from '@diamantaire/analytics';
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalContext, GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { LooseDiamondAttributeProps, addLooseDiamondToCart } from '@diamantaire/darkside/data/api';
 import { useCartData, useCartInfo, useTranslations } from '@diamantaire/darkside/data/hooks';
-import { DIAMOND_VIDEO_BASE_URL, getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
+import { DIAMOND_VIDEO_BASE_URL } from '@diamantaire/shared/constants';
 import { specGenerator } from '@diamantaire/shared/helpers';
 import { diamondRouteAppointment, diamondRoutePdp } from '@diamantaire/shared/routes';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
@@ -26,7 +25,6 @@ const DiamondTableRow = ({
   product?: DiamondDataTypes;
   isBuilderFlowOpen?: boolean;
 }) => {
-  const { emitDataLayer } = useAnalytics();
   const router = useRouter();
   const { handle, lotId, diamondType } = product;
   const { locale } = router;
@@ -66,73 +64,37 @@ const DiamondTableRow = ({
     );
   };
 
-  const handleSelectDiamond = async () => {
-    const { carat, color, clarity, cut, price } = product;
-
-    const { countryCode } = parseValidLocale(locale) || {};
-
-    const currencyCode = getCurrency(countryCode);
-
-    const formattedPrice = getFormattedPrice(price, locale, true, true);
-
-    emitDataLayer({
-      event: GTM_EVENTS.selectDiamond,
-      eventCategory: 'engagement_ring_creation',
-      eventAction: GTM_EVENTS.selectDiamond,
-      eventLabel: `${diamondType}, ${carat}, ${color}, ${clarity}, ${cut}`,
-      shape: diamondType,
-      // eslint-disable-next-line camelcase
-      diamond_type: diamondType,
-      carat,
-      colour: color,
-      clarity,
-      cut,
-      price: formattedPrice,
-      currencyCode,
-    });
-
+  function determineNextUrl() {
     const flowType = router.asPath.includes('setting-to-diamond') ? 'setting-to-diamond' : 'diamond-to-setting';
+    let nextUrl = '';
 
-    // Note: using window.location.href is an antipattern but we need it for builder flow actions (or data doesn't propagate properly)
-    // starting from diamond table page
     if (flowType === 'diamond-to-setting' && !router.query.collectionSlug && !router.query.productSlug) {
       console.log('case 001');
-
-      const nextUrl = `${locale === 'en-US' ? '' : `/${locale}`}/customize/diamond-to-setting/${product.lotId}`;
-
-      return (window.location.href = nextUrl);
+      nextUrl = `${locale === 'en-US' ? '' : `/${locale}`}/customize/diamond-to-setting/${product.lotId}`;
     } else if (flowType === 'setting-to-diamond') {
-      // mid-way through setting to diamond flow
       console.log('case 002');
-
-      // If the user changes their shape, we want to link back to the respective setting
       const productShapeId = builderProduct?.product?.optionConfigs?.diamondType?.find(
         (option) => option.value === diamondType,
       )?.id;
 
-      const nextUrl = `${locale === 'en-US' ? '' : `/${locale}`}/customize/setting-to-diamond/${router?.query
+      nextUrl = `${locale === 'en-US' ? '' : `/${locale}`}/customize/setting-to-diamond/${router?.query
         ?.collectionSlug}/${productShapeId}/${product.lotId}/summary`;
-
-      return (window.location.href = nextUrl);
     } else {
-      // diamond to setting flow - edit diamond
-
-      // If the user changes their shape, we want to link back to the respective setting
+      // Assuming this is the default or fallback case
+      console.log('default case');
       const productShapeId = builderProduct?.product?.optionConfigs?.diamondType?.find(
         (option) => option.value === diamondType,
       )?.id;
 
-      const nextUrl = `${locale === 'en-US' ? '' : `/${locale}`}/customize/diamond-to-setting/${product.lotId}/${
+      nextUrl = `${locale === 'en-US' ? '' : `/${locale}`}/customize/diamond-to-setting/${product.lotId}/${
         router.query.collectionSlug
       }/${productShapeId}/summary`;
-
-      return (window.location.href = nextUrl);
     }
-  };
 
-  const handleInitBuilderFlow = () => {
-    handleSelectDiamond();
-  };
+    return nextUrl; // Just return the constructed URL string
+  }
+
+  const nextUrl = determineNextUrl();
 
   function handleAddLooseDiamondToCart() {
     const mutatedLotId = lotId && getNumericalLotId(lotId);
@@ -201,11 +163,11 @@ const DiamondTableRow = ({
               </DarksideButton>
             )}
             {isBuilderFlowOpen ? (
-              <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
+              <DarksideButton type="solid" colorTheme="black" className="button-select" href={nextUrl}>
                 <UIString>Select</UIString>
               </DarksideButton>
             ) : (
-              <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleInitBuilderFlow}>
+              <DarksideButton type="solid" colorTheme="black" className="button-select" href={nextUrl}>
                 <UIString>Select</UIString>
               </DarksideButton>
             )}
