@@ -96,20 +96,45 @@ function CountryPicker() {
   );
 
   useEffect(() => {
-    const nextLocale = Cookies.get('NEXT_LOCALE');
-    const userCountryCode = getUserCountry();
-    const userLocale = getLocaleFromCountry(userCountryCode);
+    const decideOnShowingBanner = async () => {
+      let userCountryCode = getUserCountry();
 
-    // Condition 1: No NEXT_LOCALE cookie and geolocation suggests a different locale
-    if (!nextLocale && userLocale !== locale) {
-      setIsBannerVisible(true);
-    }
-    // Condition 2: NEXT_LOCALE cookie exists but doesn't match current router locale
-    else if (nextLocale && nextLocale !== locale) {
-      setIsBannerVisible(true);
-    } else {
-      setIsBannerVisible(false);
-    }
+      // If userCountryCode is not immediately available, retry after a short delay
+      if (!userCountryCode) {
+        setTimeout(async () => {
+          userCountryCode = getUserCountry();
+          if (!userCountryCode) {
+            console.log('Unable to determine user country after retry.');
+
+            return;
+          }
+          evaluateBannerVisibility();
+        }, 1000);
+
+        return;
+      }
+
+      evaluateBannerVisibility();
+    };
+
+    const evaluateBannerVisibility = () => {
+      const nextLocale = Cookies.get('NEXT_LOCALE');
+      const userCountryCode = getUserCountry();
+      const userLocale = getLocaleFromCountry(userCountryCode);
+
+      // Condition 1: No NEXT_LOCALE cookie and geolocation suggests a different locale
+      if (!nextLocale && userLocale !== locale) {
+        setIsBannerVisible(true);
+      }
+      // Condition 2: NEXT_LOCALE cookie exists but doesn't match current router locale
+      else if (nextLocale && nextLocale !== locale) {
+        setIsBannerVisible(true);
+      } else {
+        setIsBannerVisible(false);
+      }
+    };
+
+    decideOnShowingBanner();
   }, [locale]);
 
   const handleCountryChange = (countryCode) => {
