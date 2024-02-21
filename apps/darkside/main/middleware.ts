@@ -75,7 +75,7 @@ export default async function middleware(request: NextRequest, _event: NextFetch
     }
 
     // If you need to test a specific country as if they were choosing different locales, then replace selectedGeo with the country you want to test
-    res.cookies?.set('geo', JSON.stringify(US_GEO));
+    res.cookies?.set('geo', JSON.stringify(selectedGeo));
   } else {
     // store user's geo data in a cookie
     res.cookies?.set('geo', JSON.stringify(geo));
