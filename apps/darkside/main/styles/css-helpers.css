@@ -43,10 +43,6 @@ button:hover {
   width: 100%;
   margin-right: auto;
   margin-left: auto;
-  .container-wrapper {
-    padding-left: calc(var(--space-gutter) * 3);
-    padding-right: calc(var(--space-gutter) * 3);
-  }
 }
 .container-wrapper {
   width: 100%;
@@ -68,11 +64,6 @@ button:hover {
   }
   .below-banner-container-wrapper {
     max-width: var(--max-width-small);
-    .container-wrapper {
-      max-width: var(--max-width-small);
-      padding-left: initial;
-      padding-right: initial;
-    }
   }
 }
 
