@@ -66,9 +66,10 @@ const DiamondTableRow = ({
     );
   };
 
-  const handleSelectDiamond = async () => {
+  const handleSelectDiamond = async (newTab = false) => {
     const { carat, color, clarity, cut, price } = product;
 
+    console.log('newTab', newTab);
     const { countryCode } = parseValidLocale(locale) || {};
 
     const currencyCode = getCurrency(countryCode);
@@ -100,7 +101,7 @@ const DiamondTableRow = ({
 
       const nextUrl = `${locale === 'en-US' ? '' : `/${locale}`}/customize/diamond-to-setting/${product.lotId}`;
 
-      return (window.location.href = nextUrl);
+      return newTab ? window.open(nextUrl, '_blank') : (window.location.href = nextUrl);
     } else if (flowType === 'setting-to-diamond') {
       // mid-way through setting to diamond flow
       console.log('case 002');
@@ -113,7 +114,7 @@ const DiamondTableRow = ({
       const nextUrl = `${locale === 'en-US' ? '' : `/${locale}`}/customize/setting-to-diamond/${router?.query
         ?.collectionSlug}/${productShapeId}/${product.lotId}/summary`;
 
-      return (window.location.href = nextUrl);
+      return newTab ? window.open(nextUrl, '_blank') : (window.location.href = nextUrl);
     } else {
       // diamond to setting flow - edit diamond
 
@@ -131,7 +132,7 @@ const DiamondTableRow = ({
   };
 
   const handleInitBuilderFlow = () => {
-    handleSelectDiamond();
+    handleSelectDiamond(true);
   };
 
   function handleAddLooseDiamondToCart() {
@@ -201,11 +202,23 @@ const DiamondTableRow = ({
               </DarksideButton>
             )}
             {isBuilderFlowOpen ? (
-              <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
+              <DarksideButton
+                type="solid"
+                colorTheme="black"
+                className="button-select"
+                // onClick={handleSelectDiamond}
+                onContextMenu={() => handleSelectDiamond(true)}
+              >
                 <UIString>Select</UIString>
               </DarksideButton>
             ) : (
-              <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleInitBuilderFlow}>
+              <DarksideButton
+                type="solid"
+                colorTheme="black"
+                className="button-select"
+                onClick={handleInitBuilderFlow}
+                onContextMenu={() => handleSelectDiamond(true)}
+              >
                 <UIString>Select</UIString>
               </DarksideButton>
             )}

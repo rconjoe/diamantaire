@@ -41,6 +41,7 @@ export type DarksideButtonProps = {
   children: React.ReactNode;
   className?: string;
   onClick?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
+  onContextMenu?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
   buttonType?: 'button' | 'submit' | 'reset';
   type?: 'solid' | 'outline' | 'underline' | 'text-underline';
   colorTheme?: 'black' | 'teal' | 'white' | 'grey' | 'oos';

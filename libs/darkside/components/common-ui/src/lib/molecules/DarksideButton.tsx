@@ -237,6 +237,8 @@ const DarksideButton = ({
   children,
   className,
   onClick,
+  // Right click
+  onContextMenu,
   buttonType = 'button',
   type = 'solid',
   colorTheme = 'black',
@@ -271,7 +273,7 @@ const DarksideButton = ({
           <button>{children}</button>
         </Link>
       ) : (
-        <button style={style} disabled={disabled} type={buttonType} onClick={onClick}>
+        <button onContextMenu={onContextMenu} style={style} disabled={disabled} type={buttonType} onClick={onClick}>
           {children}
         </button>
       )}

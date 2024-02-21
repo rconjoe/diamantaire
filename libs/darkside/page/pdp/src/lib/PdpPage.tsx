@@ -174,9 +174,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     additionalVariantData?.omegaProduct?.productIconList?.productType ||
     additionalVariantData?.configuration?.productIconList?.productType;
 
-  // console.log('additionalVariantData v1', additionalVariantData);
-  //console.log('shopify', shopifyProductData);
-
   if (additionalVariantData) {
     // ER/WB
     if (additionalVariantData?.omegaProduct) {
@@ -201,19 +198,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     if (additionalVariantData?.accordionBlocks?.length > 0) {
       accordionBlocksOverride = additionalVariantData?.accordionBlocks;
     }
-
-    // console.log('v2 additionalVariantData', additionalVariantData);
-
-    // use parent product carat if none provided on the variant in Dato TODO: remove if not needed
-    // if (!productContent?.carat || productContent?.carat === '' || !additionalVariantData?.caratWeightOverride) {
-    //   if (additionalVariantData?.caratWeightOverride) {
-    //     additionalVariantData.carat = additionalVariantData.caratWeightOverride;
-    //   } else {
-    //     additionalVariantData.carat = datoParentProductData?.caratWeight || '';
-    //   }
-    // } else {
-    //   additionalVariantData.carat = additionalVariantData.caratWeightOverride;
-    // }
 
     additionalVariantData.productType = shopifyProductData.productType;
     additionalVariantData.productTitle = datoParentProductData?.productTitle;
