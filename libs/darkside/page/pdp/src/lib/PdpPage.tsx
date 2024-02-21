@@ -487,7 +487,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           </div>
         </div>
 
-        <div className="container-wrapper">
+        <div className="below-banner-container-wrapper">
           {trioBlocksId && <ProductTrioBlocks trioBlocksId={trioBlocksId} />}
 
           {additionalVariantData?.productSuggestionQuadBlock?.id && (
