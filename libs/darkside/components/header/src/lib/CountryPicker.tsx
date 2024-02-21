@@ -104,8 +104,6 @@ function CountryPicker() {
         setTimeout(async () => {
           userCountryCode = getUserCountry();
           if (!userCountryCode) {
-            console.log('Unable to determine user country after retry.');
-
             return;
           }
           evaluateBannerVisibility();
