@@ -488,9 +488,12 @@ function AddToCartButton({
   const jewelryProductTypes = ['Necklace', 'Bracelet', 'Earrings', 'Wedding Band', 'Ring'];
 
   // The _spec attribute controls what details are shown on a per-line-item basis in cart + checkout
-
   async function addProductToCart() {
     const productGroupKey = uuidv4();
+
+    updateGlobalContext({
+      isCartLoading: true,
+    });
 
     // Applies to all products
     const defaultAttributes = {
@@ -643,7 +646,13 @@ function AddToCartButton({
         hasEngraving: Boolean(engravingText),
         engravingText,
         locale,
-      }).then(() => refetch());
+      })
+        .then(() => refetch())
+        .then(() => {
+          updateGlobalContext({
+            isCartLoading: false,
+          });
+        });
     } else if (productType === 'Gift Card') {
       // eslint-disable-next-line unused-imports/no-unused-vars
       const { shippingText, ...otherAttributes } = defaultAttributes;

@@ -113,6 +113,10 @@ export const CartStyles = styled(motion.aside)`
   .cart-subtotal__gift-note {
     margin-top: 1rem;
   }
+
+  .cart-loader {
+    text-align: center;
+  }
 `;
 
 export const CartOverlay = styled(motion.button)`

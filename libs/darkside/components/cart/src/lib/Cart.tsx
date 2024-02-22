@@ -1,7 +1,7 @@
-import { FreezeBody, UIString } from '@diamantaire/darkside/components/common-ui';
+import { FreezeBody, Loader, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { updateItemQuantity } from '@diamantaire/darkside/data/api';
-import { useCartData, useCartInfo } from '@diamantaire/darkside/data/hooks';
+import { useCartData, useCartInfo, useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice, getVat, parseValidLocale } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import Link from 'next/link';
@@ -23,6 +23,8 @@ const Cart = ({ closeCart }) => {
   console.log('checkout', checkout);
 
   const updateGlobalContext = useContext(GlobalUpdateContext);
+
+  const { isCartLoading } = useGlobalContext();
 
   const isCartEmpty = !checkout || checkout?.totalQuantity === 0 ? true : false;
 
@@ -200,14 +202,14 @@ const Cart = ({ closeCart }) => {
                 );
               })}
 
-              {isCartEmpty ? (
+              {isCartEmpty && !isCartLoading ? (
                 <div className="cart-empty-message">
                   <p>
                     {emptyCartMainCopy} <br />
                     {emptyCartMainCtaRoute && <Link href={emptyCartMainCtaRoute}>{emptyCartMainCtaCopy}</Link>}
                   </p>
                 </div>
-              ) : (
+              ) : !isCartLoading ? (
                 <div className="cart-subtotal">
                   <p className="cart-subtotal__sig-text">
                     <UIString>Orders over $500 require a signature upon delivery.</UIString>
@@ -227,9 +229,18 @@ const Cart = ({ closeCart }) => {
                     }}
                   />
                 </div>
+              ) : (
+                ''
               )}
             </div>
           </div>
+
+          {isCartLoading && (
+            <div className="cart-loader">
+              <Loader color="#000" />
+            </div>
+          )}
+
           {!isCartEmpty && (
             <CartFooter
               cartTotal={cartTotal}
