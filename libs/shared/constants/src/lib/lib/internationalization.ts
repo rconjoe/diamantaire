@@ -380,6 +380,12 @@ export const countries: Record<string, CountryDetails> = {
   },
 };
 
+export const countryCodesWithVat = Object.values(countries).reduce((a, v) => {
+  if (v.vat) a.push(v.code);
+
+  return a;
+}, []);
+
 export const availableLocales = Object.entries(countries).flatMap(
   ([countryCode, countryDetails]: [string, CountryDetails]) => {
     if (countryCode !== 'Int') {
