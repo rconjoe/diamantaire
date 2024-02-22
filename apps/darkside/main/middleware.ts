@@ -45,6 +45,7 @@ export default async function middleware(request: NextRequest, _event: NextFetch
   const res = NextResponse.next();
 
   const { nextUrl: url, geo, cookies } = request;
+  const { pathname } = url;
 
   if (isDevEnv) {
     // const US_GEO = { city: 'New York', country: 'US', latitude: '40.7128', longitude: '-74.0060', region: 'NY' };
@@ -90,6 +91,8 @@ export default async function middleware(request: NextRequest, _event: NextFetch
   } else {
     // store user's geo data in a cookie
     res.cookies?.set('geo', JSON.stringify(geo));
+
+    res.cookies.set('last_pathname', pathname, { path: '/', maxAge: 60 * 60 * 24 });
   }
 
   // exclude API and Next.js internal routes
@@ -149,20 +152,32 @@ export default async function middleware(request: NextRequest, _event: NextFetch
   // If there's no preferred locale, derive the locale from the user's geo-location
   if (!preferredLocale) {
     const countryCode = geo.country || 'US';
+    const localeFromGeo = getLocaleFromCountry(countryCode);
+    const isHomepage = pathname === '/' || pathname === '/monitoring';
 
     // Handle the 'US' geo-location specifically to avoid adding a subpath for 'en-US'
-    if (countryCode === 'US' && url.locale === 'default') {
-      // No need to redirect for US users viewing the default path
-      return NextResponse.next();
+    if (countryCode === 'US') {
+      if (url.locale === 'default' || localeFromGeo === 'en-US') {
+        // Avoid showing the country picker for US users on the US site
+        return NextResponse.next();
+      }
     }
-
-    const localeFromGeo = getLocaleFromCountry(countryCode);
 
     // Ensure not to redirect if the locale is 'en-US' to avoid unnecessary redirection
     if (localeFromGeo !== 'en-US' && localeFromGeo !== url.locale) {
-      const response = NextResponse.redirect(new URL(`/${localeFromGeo}${url.pathname}${url.search}`, request.url));
+      let redirectURL;
+
+      if (isHomepage) {
+        redirectURL = new URL(`/${localeFromGeo}/`, request.url);
+      } else {
+        redirectURL = new URL(`/${localeFromGeo}${url.pathname}${url.search}`, request.url);
+      }
+
+      // Prepare the response for redirection
+      const response = NextResponse.redirect(redirectURL);
 
       // Set a cookie to indicate a geo-based redirection has occurred
+      // This cookie is set regardless of whether the redirection is from the homepage or another path
       response.cookies.set('geo_redirected', 'true', { path: '/', maxAge: 3600 }); // Expires in 1 hour
 
       return response;
