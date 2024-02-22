@@ -5,7 +5,13 @@ import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-contex
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { addERProductToCart, addJewelryProductToCart, addMiscProductToCart } from '@diamantaire/darkside/data/api';
 import { useCartData, useProductIconList, useTranslations, useVariantInventory } from '@diamantaire/darkside/data/hooks';
-import { DIAMOND_TYPE_HUMAN_NAMES, getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
+import {
+  DIAMOND_TYPE_HUMAN_NAMES,
+  getCurrency,
+  getFormattedCarat,
+  getFormattedPrice,
+  parseValidLocale,
+} from '@diamantaire/shared/constants';
 import { specGenerator } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { AnimatePresence } from 'framer-motion';
@@ -191,20 +197,43 @@ function ProductConfigurator({
   };
 
   const ProductFeedCompleteYourRingButton = ({ ctaText, diamondsOverride }) => {
+    const { _t } = useTranslations(locale, ['DIAMOND_SHAPES', 'DIAMOND_CUTS']);
+
+    if (!diamondsOverride || diamondsOverride.length === 0) return null;
+
+    const diamond = diamondsOverride[0];
+
+    const { color, carat, diamondType, clarity, cut } = diamond;
+
     return (
       <div
         style={{
-          margin: '2rem 0 1rem',
+          margin: '1rem 0 1rem',
           minHeight: '4.9rem',
         }}
       >
+        <p
+          style={{
+            marginBottom: '2rem',
+            fontSize: '1.7rem',
+          }}
+        >
+          <strong
+            style={{
+              fontWeight: '500',
+            }}
+          >
+            <UIString>centerstone</UIString>:
+          </strong>
+          {` ${_t(diamondType)}, ${getFormattedCarat(carat, locale)}ct, ${_t(color)}, ${clarity}, ${_t(cut)}`}
+        </p>
         <DarksideButton
           textSize="medium"
           onClick={() => {
             router.push(
-              `/customize/setting-to-diamond/summary/${router.query.collectionSlug}/${
-                router.query.productSlug
-              }/${diamondsOverride.map((diamond) => diamond?.lotId).join('/')}`,
+              `/customize/setting-to-diamond/${router.query.collectionSlug}/${router.query.productSlug}/${diamondsOverride
+                .map((diamond) => diamond?.lotId)
+                .join('/')}/summary`,
             );
           }}
         >
@@ -491,6 +520,7 @@ function AddToCartButton({
       image_url: image?.src,
       diamond_type: selectedConfiguration?.diamondType,
       ...selectedConfiguration,
+      contentIds: [id],
       ecommerce: {
         value: formattedPrice,
         currency: currencyCode,

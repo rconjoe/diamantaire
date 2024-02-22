@@ -13,11 +13,11 @@ import styled from 'styled-components';
 // import Search from 'components/search/Search';
 
 import CompactHeader from './CompactHeader';
+import CountryPicker from './CountryPicker';
 import MegaMenu from './MegaMenu';
 import MobileHeader from './MobileHeader';
 import StackedHeader from './StackedHeader';
 import TopBar from './TopBar';
-import CountryPicker from './CountryPicker';
 
 // TODO: setup proper type
 type HeaderProps = {
