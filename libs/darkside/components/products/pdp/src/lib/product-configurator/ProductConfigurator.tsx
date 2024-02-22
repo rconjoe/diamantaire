@@ -190,9 +190,8 @@ function ProductConfigurator({
     );
   };
 
-  const ProductFeedCompleteYourRingButton = ({ ctaText, diamondsOverride, selectedDiamond }) => {
-    console.log('selectedDiamond', selectedDiamond);
-    const diamond = selectedDiamond?.[0];
+  const ProductFeedCompleteYourRingButton = ({ ctaText, diamondsOverride }) => {
+    const diamond = diamondsOverride?.[0];
 
     const { color, carat, diamondType, clarity } = diamond || {};
     const { _t } = useTranslations(locale, ['DIAMOND_SHAPES', 'DIAMOND_CUTS']);
@@ -333,11 +332,7 @@ function ProductConfigurator({
 
       {isProductFeedUrl ? (
         <>
-          <ProductFeedCompleteYourRingButton
-            selectedDiamond={selectedDiamond}
-            ctaText={purchaseWithThisDiamondCopy}
-            diamondsOverride={selectedDiamond}
-          />
+          <ProductFeedCompleteYourRingButton ctaText={purchaseWithThisDiamondCopy} diamondsOverride={selectedDiamond} />
           <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
         </>
       ) : null}
