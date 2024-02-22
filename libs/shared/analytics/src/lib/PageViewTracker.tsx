@@ -116,7 +116,7 @@ const PageViewTracker = ({ productData, listPageData, isSummaryPage }: Props) =>
 
       return productViewed({
         // rudderstack base ecommerce keys
-        id,
+        id: parseFloat(id),
         product_id,
         sku,
         category: productType,

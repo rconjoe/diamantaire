@@ -336,6 +336,21 @@ const createStaticProps = (category: string) => {
       };
     }
 
+    // Fallback for when no filters are passed in the URL
+    if (presetFilters?.length > 0 && !initialFilterValues.diamondType) {
+      initialFilterValues = {
+        ...initialFilterValues,
+        diamondType: ['round-brilliant'],
+      };
+    }
+
+    if (presetFilters?.length > 0 && !initialFilterValues.metal) {
+      initialFilterValues = {
+        ...initialFilterValues,
+        metal: ['yellow-gold'],
+      };
+    }
+
     // Todo: fix pattern of using predefined query
     await queryClient.prefetchInfiniteQuery({
       queryKey: [`plp`, category, slug, JSON.stringify(initialFilterValues || {}), locale],

@@ -33,7 +33,7 @@ type DiamondTableProps = {
   };
   initialOptions: any;
   updateOptions: (options: any) => void;
-  updateLoading: (newState: boolean) => void;
+  // updateLoading: (newState: boolean) => void;
   clearOptions: () => void;
   isBuilderFlowOpen?: boolean;
   isTableView?: boolean;
@@ -52,7 +52,7 @@ const DiamondTable = (props: DiamondTableProps) => {
     initialPagination,
     initialOptions,
     updateOptions,
-    updateLoading,
+    // updateLoading,
     clearOptions,
     isBuilderFlowOpen,
     isTableView = true,
@@ -65,6 +65,8 @@ const DiamondTable = (props: DiamondTableProps) => {
   const tableHead = useRef<HTMLDivElement>(null);
   const tableBody = useRef<HTMLDivElement>(null);
   const loadTrigger = useRef<HTMLDivElement>(null);
+
+  const { _t } = useTranslations(locale);
 
   const [activeRow, setActiveRow] = useState<DiamondDataTypes | null>(null);
 
@@ -153,7 +155,14 @@ const DiamondTable = (props: DiamondTableProps) => {
       },
       {
         accessorKey: 'cut',
-        cell: (info: Info) => <UIString>{info.getValue()}</UIString>,
+        cell: (info: Info) => (
+          <>
+            <span className="mobile-only">{_t(info.getValue()).replace('+', '+ ')}</span>
+            <span className="tablet-and-up">
+              <UIString>{info.getValue()}</UIString>
+            </span>
+          </>
+        ),
         header: () => <UIString>cut</UIString>,
       },
       {
@@ -169,7 +178,7 @@ const DiamondTable = (props: DiamondTableProps) => {
     [locale],
   );
 
-  const { _t: diamond_shape_t } = useTranslations(locale, ['DIAMOND_SHAPES']);
+  const { _t: translateDiamondShape } = useTranslations(locale, ['DIAMOND_SHAPES']);
 
   const diamondPairColumns = useMemo(
     () => [
@@ -185,7 +194,7 @@ const DiamondTable = (props: DiamondTableProps) => {
                 accessorKey="diamondType"
                 renderValue={(v: unknown): string => {
                   if (typeof v === 'string') {
-                    return `${diamond_shape_t(v)}`;
+                    return `${translateDiamondShape(v)}`;
                   } else {
                     return 'Invalid Diamond Type';
                   }
@@ -328,9 +337,9 @@ const DiamondTable = (props: DiamondTableProps) => {
     };
   }, [queryDiamond.hasNextPage, queryDiamond.isFetching, queryDiamond.isLoading, queryDiamond.fetchNextPage]);
 
-  useEffect(() => {
-    updateLoading(queryDiamond.isLoading);
-  }, [queryDiamond.isLoading]);
+  // useEffect(() => {
+  //   updateLoading(queryDiamond.isLoading);
+  // }, [queryDiamond.isLoading]);
 
   useEffect(() => {
     if (activeRow) {

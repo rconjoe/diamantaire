@@ -858,23 +858,13 @@ const ReviewBuildStep = ({ settingSlugs }) => {
   function handleBuilderFlowVariantChange(option: OptionItemProps, configurationType) {
     console.log({ configurationType, option });
 
-    if (router.asPath.includes('setting-to-diamond')) {
-      const newUrl = `/customize/setting-to-diamond/summary/${
-        router.query.collectionSlug
-      }/${option?.id}/${builderProduct?.diamonds?.map((diamond) => diamond?.lotId).join('/')}`;
+    const newUrl = `/customize/diamond-to-setting/${builderProduct?.diamonds?.map((diamond) => diamond?.lotId).join('/')}/${
+      router.query.collectionSlug
+    }/${option?.id}/summary`;
 
-      return router.replace(newUrl, null, {
-        shallow: true,
-      });
-    } else {
-      const newUrl = `/customize/diamond-to-setting/${builderProduct?.diamonds
-        ?.map((diamond) => diamond?.lotId)
-        .join('/')}/${router.query.collectionSlug}/${option?.id}/summary`;
-
-      router.replace(newUrl, null, {
-        shallow: true,
-      });
-    }
+    router.replace(newUrl, null, {
+      shallow: true,
+    });
   }
 
   const handleOptionChange = (typeId: string, option: OptionItemProps) => {
