@@ -427,6 +427,7 @@ const SettingToDiamondSummaryPage = () => {
 
   const sizeOptionKey = 'ringSize';
   const router = useRouter();
+  const preselectedRingSize = router.query?.ringSize;
   const { locale } = router;
   const { data: seoData } = useBuilderFlowSeo(locale);
   const { seoTitle, seoDescription } = seoData?.builderFlow?.seoFields || {};
@@ -441,10 +442,14 @@ const SettingToDiamondSummaryPage = () => {
   const [engravingText, setEngravingText] = useState(null);
   const [handCaratValue, setHandCaratValue] = useState(null);
 
+  console.log(configurations?.ringSize, preselectedRingSize, 'preselectedRingSize', configurations?.ringSize?.find((item) => item.value === (preselectedRingSize ? preselectedRingSize : '5')));
+
+  const preselectedSizeVariant = configurations?.ringSize?.find((item) => item.value === preselectedRingSize)
+
   const [selectedSize, setSelectedSize] = useState<{
     id: string;
     value?: string;
-  }>(configurations?.ringSize?.filter((item) => item.value === '5')[0] || '5');
+  }>(preselectedSizeVariant || configurations?.ringSize?.filter((item) => item.value === '5')[0]);
 
   const { productAdded } = useAnalytics();
 
@@ -565,15 +570,14 @@ const SettingToDiamondSummaryPage = () => {
     const { payload, type } = action;
     const { typeId, value } = payload;
 
+
     switch (type) {
       case 'option-change':
         return { ...state, [typeId]: value };
     }
   }
 
-  const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
-
-  console.log('configState', configState);
+  const [, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
 
   const productIconListTypeOverride =
     additionalVariantData?.productIconList?.productType ||
@@ -962,7 +966,9 @@ const SettingToDiamondSummaryPage = () => {
 
         const variant: any = handle && (await fetchDatoVariant(handle, category, router.locale));
 
-        setSelectedSize(res?.optionConfigs?.ringSize?.filter((item) => item.value === '5')[0] || '5');
+        const querySizeVariant = res?.optionConfigs?.ringSize?.find((item) => item.value === preselectedRingSize);
+
+        setSelectedSize(querySizeVariant || res?.optionConfigs?.ringSize?.filter((item) => item.value === '5')[0] || '5');
 
         return {
           ...res,
