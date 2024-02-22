@@ -118,6 +118,10 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct || data?.weddingBandProduct;
 
+  const isEngagementRingProduct = !!data?.engagementRingProduct;
+
+  const dropHintEnabled = !isEngagementRingProduct;
+
   const {
     // ER + WB SEO
     seoTitle,
@@ -451,7 +455,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                   productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
                   handleOpenDropHintModal={handleOpenDropHintModal}
                   locale={router?.locale}
-                  withDropHint={true}
+                  withDropHint={dropHintEnabled}
                   productType={shopifyProductData?.productType}
                   collectionSlug={collectionSlug}
                   productSlug={productSlug}
