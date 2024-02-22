@@ -26,8 +26,6 @@ export const fetchDiamondData = async (options) => {
           ...diamondType,
         } || {};
 
-      delete query.flow;
-
       return Object.keys(query).length ? '?' + new URLSearchParams(query).toString() : '';
     };
 
@@ -91,8 +89,6 @@ export const fetchInfiniteDiamondData = async (options, pageParam = 1) => {
           ...diamondType,
           ...{ page: pageParam },
         } || {};
-
-      delete query.flow;
 
       return Object.keys(query).length ? '?' + new URLSearchParams(query).toString() : '';
     };
