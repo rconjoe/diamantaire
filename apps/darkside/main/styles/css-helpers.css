@@ -44,10 +44,6 @@ button:hover {
   margin-right: auto;
   margin-left: auto;
 }
-.below-banner-container-wrapper .container-wrapper {
-  padding-left: calc(var(--space-gutter) * 3);
-  padding-right: calc(var(--space-gutter) * 3);
-}
 .container-wrapper {
   width: 100%;
   padding-left: calc(var(--space-gutter) * 3);
@@ -61,21 +57,30 @@ button:hover {
     padding-left: initial;
     padding-right: initial;
   }
+  .below-banner-container-wrapper .container-wrapper {
+    padding-left: calc(var(--space-gutter) * 3);
+    padding-right: calc(var(--space-gutter) * 3);
+  }
 }
+
 @media (min-width: 992px) {
-  .container-wrapper {
+  .container-wrapper,
+  .below-banner-container-wrapper {
     max-width: 95vw;
   }
-  .below-banner-container-wrapper {
-    max-width: var(--max-width-small);
+  .below-banner-container-wrapper .container-wrapper {
+    padding-left: initial;
+    padding-right: initial;
   }
+}
+
+@media (min-width: 1515px) {
   .below-banner-container-wrapper .container-wrapper {
     max-width: var(--max-width-small);
     padding-left: initial;
     padding-right: initial;
   }
 }
-
 .container-wrapper .container-wrapper:not(:first-child) {
   padding-left: calc(var(--space-gutter) * 3);
   padding-right: calc(var(--space-gutter) * 3);
