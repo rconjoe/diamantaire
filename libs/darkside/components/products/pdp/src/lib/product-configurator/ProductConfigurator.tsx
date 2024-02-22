@@ -460,7 +460,7 @@ function AddToCartButton({
 
   const { emitDataLayer, productAdded } = useAnalytics();
   const { _t } = useTranslations(locale);
-  const { _t: earring_t } = useTranslations(locale, ['OPTION_NAMES', 'DIAMOND_SHAPES']);
+  const { _t: diamondShapesTranslations } = useTranslations(locale, ['OPTION_NAMES', 'DIAMOND_SHAPES']);
 
   const { chainLength, productTitle, productType, color, clarity, bandAccent, caratWeightOverride, image } =
     additionalVariantData;
@@ -562,7 +562,7 @@ function AddToCartButton({
       configuration: { ...selectedConfiguration, caratWeightOverride, color, clarity, ringSize: selectedSize },
       productType,
       _t,
-      alt_t: earring_t,
+      alt_t: diamondShapesTranslations,
     });
 
     const metal = _t(

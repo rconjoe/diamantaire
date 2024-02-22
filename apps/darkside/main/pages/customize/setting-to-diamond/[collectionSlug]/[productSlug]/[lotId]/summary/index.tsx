@@ -564,8 +564,6 @@ const SettingToDiamondSummaryPage = () => {
     const { payload, type } = action;
     const { typeId, value } = payload;
 
-    console.log('configOptionsReducer', { state, action });
-
     switch (type) {
       case 'option-change':
         return { ...state, [typeId]: value };
