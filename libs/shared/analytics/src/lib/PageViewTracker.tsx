@@ -114,8 +114,6 @@ const PageViewTracker = ({ productData, listPageData, isSummaryPage }: Props) =>
       const variant = productTitle;
       const configuration = normalizeVariantConfigurationForGTM(productConfiguration);
 
-      console.log('parseFloat(id)', parseFloat(id));
-
       return productViewed({
         // rudderstack base ecommerce keys
         id: parseFloat(id),
