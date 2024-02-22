@@ -14,7 +14,7 @@ import styled from 'styled-components';
 
 import { Heading } from './Heading';
 
-const CountrySelectorStyles = styled.div`
+export const CountrySelectorStyles = styled.div`
   ul {
     list-style: none;
   }

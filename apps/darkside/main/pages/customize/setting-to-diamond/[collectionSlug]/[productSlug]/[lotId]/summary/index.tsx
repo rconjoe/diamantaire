@@ -47,6 +47,7 @@ import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/templa
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   DIAMOND_VIDEO_BASE_URL,
+  ENGRAVING_REGEX,
   PdpTypePlural,
   getCurrency,
   getFormattedPrice,
@@ -1222,8 +1223,13 @@ const SettingToDiamondSummaryPage = () => {
                     type="text"
                     value={engravingInputText}
                     onChange={(e) => {
-                      if (e.target.value.length > MAX_CHAR_LIMIT) return;
-                      setEngravingInputText(e.target.value);
+                      const newValue = e.target.value;
+
+                      if (newValue.length > MAX_CHAR_LIMIT) return;
+
+                      if (ENGRAVING_REGEX.test(newValue) || newValue === '') {
+                        setEngravingInputText(newValue);
+                      }
                     }}
                   />
                   <p className="limit-text">

@@ -43,10 +43,10 @@ button:hover {
   width: 100%;
   margin-right: auto;
   margin-left: auto;
-  .container-wrapper {
-    padding-left: calc(var(--space-gutter) * 3);
-    padding-right: calc(var(--space-gutter) * 3);
-  }
+}
+.below-banner-container-wrapper .container-wrapper {
+  padding-left: calc(var(--space-gutter) * 3);
+  padding-right: calc(var(--space-gutter) * 3);
 }
 .container-wrapper {
   width: 100%;
@@ -63,15 +63,16 @@ button:hover {
   }
 }
 @media (min-width: 992px) {
-  .container-wrapper,
-  .below-banner-container-wrapper {
+  .container-wrapper {
     max-width: 95vw;
   }
   .below-banner-container-wrapper {
-    .container-wrapper {
-      padding-left: initial;
-      padding-right: initial;
-    }
+    max-width: var(--max-width-small);
+  }
+  .below-banner-container-wrapper .container-wrapper {
+    max-width: var(--max-width-small);
+    padding-left: initial;
+    padding-right: initial;
   }
 }
 

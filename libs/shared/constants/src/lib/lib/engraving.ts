@@ -28,6 +28,9 @@ export const ENGRAVING_INITIALS_OPTIONS = [
   'Y',
   'Z',
 ];
+export const ENGRAVING_SYMBOL_OPTIONS = ['&', '/', '-', '_', '!', '?', '.', ' ', '(', ')'];
+
+export const ENGRAVING_REGEX = new RegExp(/^[A-Z0-9&/_!?. ()-]+$/i);
 
 export const JEWELRY_ENGRAVING_MAX_LENGTH = 16;
 export const JEWELRY_INPUT_STYLE = 'jewelryInput';

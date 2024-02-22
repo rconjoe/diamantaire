@@ -401,6 +401,20 @@ export const sortedCountriesByRegion = Object.values(countryRegions).reduce(
   {},
 );
 
+export const getLocaleFromCountry = (countryCode) => {
+  const country = countries?.[countryCode];
+  const primaryLanguageCode = getPrimaryLanguage(countryCode);
+
+  if (!country) {
+    return 'en-US'; // Fallback to US English if country not found
+  }
+
+  return `${primaryLanguageCode}-${countryCode}`;
+};
+
+export const getCountryName = (countryCode: string) => {
+  return countries[countryCode]?.name;
+};
 /** LOCALES */
 
 const LOCALE_REGEX = /^[a-z]{2}-[A-Z]{2}$/;

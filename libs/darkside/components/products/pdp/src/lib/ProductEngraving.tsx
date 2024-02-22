@@ -2,11 +2,7 @@
 // Keep state regarding actual engraving text outside of this component
 
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
-import {
-  ENGRAVING_CHARACTER_LIMITS,
-  ENGRAVING_INITIALS_OPTIONS,
-  JEWELRY_ENGRAVING_MAX_LENGTH,
-} from '@diamantaire/shared/constants';
+import { ENGRAVING_CHARACTER_LIMITS, ENGRAVING_REGEX, JEWELRY_ENGRAVING_MAX_LENGTH } from '@diamantaire/shared/constants';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -159,26 +155,13 @@ const ProductEngraving = ({ engravingText, setEngravingText, hasSingleInitialEng
               ref={inputRef}
               value={engravingInputText}
               onChange={(e) => {
-                // Validate input value against allowed characters
-                let newValue = e.target.value;
-                let isValid = true;
+                const newValue = e.target.value;
 
                 if (newValue.length > MAX_CHAR_LIMIT) return;
 
-                // If initial, force uppercase
-                if (hasSingleInitialEngraving) {
-                  newValue = newValue.toUpperCase();
+                if (ENGRAVING_REGEX.test(newValue) || newValue === '') {
+                  setEngravingInputText(newValue);
                 }
-
-                newValue.split('').forEach((char) => {
-                  if (ENGRAVING_INITIALS_OPTIONS.includes(char.toUpperCase())) {
-                    return;
-                  } else {
-                    isValid = false;
-                  }
-                });
-
-                if (isValid) setEngravingInputText(newValue);
               }}
             />
             <p className="limit-text">

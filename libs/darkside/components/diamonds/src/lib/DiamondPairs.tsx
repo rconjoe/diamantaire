@@ -45,7 +45,7 @@ export const DiamondPairActiveRow = ({
 
   const { diamondType } = diamond1;
 
-  const { updateFlowData, builderProduct } = useContext(BuilderProductContext);
+  const { builderProduct } = useContext(BuilderProductContext);
   const router = useRouter();
 
   function getToiMoiShapeProductSlug(builderProduct, diamonds) {
@@ -60,9 +60,7 @@ export const DiamondPairActiveRow = ({
     return final?.id;
   }
 
-  const handleSelectDiamond = () => {
-    updateFlowData('ADD_DIAMOND', diamonds);
-
+  function determineNextUrl() {
     // By pair, we mean two diamonds with the same lotId
     const isPair = router?.asPath.includes('/pairs/');
     const lotIdSlug = diamonds?.map((diamond) => diamond?.lotId).join(',');
@@ -77,11 +75,14 @@ export const DiamondPairActiveRow = ({
       : builderProduct?.product?.optionConfigs?.diamondType?.find((option) => option.value === diamondType)?.id ||
         router?.query?.productSlug;
 
-    // This is an anti-pattern but we need it for builder flow actions (or data doesn't propagate properly)
-    window.location.href = `${window.location.origin}/${locale}/customize/setting-to-diamond${
+    const newUrl = `${window.location.origin}${locale === 'en-US' ? '' : `/${locale}`}/customize/setting-to-diamond${
       isPair ? '/pairs' : ''
     }/${builderProduct?.product?.collectionSlug}/${productShapeId}/${lotIdSlug}/summary`;
-  };
+
+    return newUrl; // Return the constructed URL string
+  }
+
+  const nextUrl = determineNextUrl();
 
   return (
     <StyledDiamondPairActiveRow>
@@ -108,11 +109,11 @@ export const DiamondPairActiveRow = ({
 
           <div className="row-cta">
             {isBuilderFlowOpen ? (
-              <DarksideButton onClick={() => handleSelectDiamond()}>
+              <DarksideButton href={nextUrl}>
                 <UIString>Select</UIString>
               </DarksideButton>
             ) : (
-              <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
+              <DarksideButton type="solid" colorTheme="black" className="button-select" href={nextUrl}>
                 <UIString>Select</UIString>
               </DarksideButton>
             )}
