@@ -517,6 +517,7 @@ function AddToCartButton({
       image_url: image?.src,
       diamond_type: selectedConfiguration?.diamondType,
       ...selectedConfiguration,
+      contentIds: [id],
       ecommerce: {
         value: formattedPrice,
         currency: currencyCode,
