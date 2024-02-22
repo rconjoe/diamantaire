@@ -16,7 +16,6 @@ const PlpPreviouslyViewedStyles = styled.section`
     padding-left: 0;
     padding-right: 0;
     @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
-      max-width: 100%;
       padding-left: unset;
       padding-right: unset;
     }
