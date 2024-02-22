@@ -174,9 +174,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     additionalVariantData?.omegaProduct?.productIconList?.productType ||
     additionalVariantData?.configuration?.productIconList?.productType;
 
-  // console.log('additionalVariantData v1', additionalVariantData);
-  //console.log('shopify', shopifyProductData);
-
   if (additionalVariantData) {
     // ER/WB
     if (additionalVariantData?.omegaProduct) {
@@ -201,19 +198,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     if (additionalVariantData?.accordionBlocks?.length > 0) {
       accordionBlocksOverride = additionalVariantData?.accordionBlocks;
     }
-
-    // console.log('v2 additionalVariantData', additionalVariantData);
-
-    // use parent product carat if none provided on the variant in Dato TODO: remove if not needed
-    // if (!productContent?.carat || productContent?.carat === '' || !additionalVariantData?.caratWeightOverride) {
-    //   if (additionalVariantData?.caratWeightOverride) {
-    //     additionalVariantData.carat = additionalVariantData.caratWeightOverride;
-    //   } else {
-    //     additionalVariantData.carat = datoParentProductData?.caratWeight || '';
-    //   }
-    // } else {
-    //   additionalVariantData.carat = additionalVariantData.caratWeightOverride;
-    // }
 
     additionalVariantData.productType = shopifyProductData.productType;
     additionalVariantData.productTitle = datoParentProductData?.productTitle;
@@ -292,7 +276,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     {
       title: _t(breadcrumbTitle),
       path: `/${isProductJewelry ? 'jewelry/' : isWeddingBand ? 'wedding-rings/' : ''}${
-        pdpTypeTitleSingleToPluralHandleAsConst[shopifyProductData?.productType] || shopifyProductData?.productType
+        pdpTypeTitleSingleToPluralHandleAsConst[shopifyProductData?.productType] === 'engagement-rings'
+          ? 'engagement-rings/settings'
+          : pdpTypeTitleSingleToPluralHandleAsConst[shopifyProductData?.productType] || shopifyProductData?.productType
       }`,
     },
     {
@@ -469,7 +455,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                   productType={shopifyProductData?.productType}
                   collectionSlug={collectionSlug}
                   productSlug={productSlug}
-                  productImageUrl={productContent?.image?.responsiveImage?.src}
+                  productImageUrl={productContent?.image?.responsiveImage?.src || productContent?.assetStack?.[0]?.url}
                 />
               )}
 
@@ -487,7 +473,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           </div>
         </div>
 
-        <div className="container-wrapper">
+        <div className="below-banner-container-wrapper">
           {trioBlocksId && <ProductTrioBlocks trioBlocksId={trioBlocksId} />}
 
           {additionalVariantData?.productSuggestionQuadBlock?.id && (
