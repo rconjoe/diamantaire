@@ -222,7 +222,7 @@ function ProductConfigurator({
           >
             <UIString>centerstone</UIString>:
           </strong>
-          {` ${_t(diamondType)}, ${_t(color)}, ${getFormattedCarat(carat, locale)}ct, ${clarity}, ${_t(cut)}`}
+          {` ${_t(diamondType)}, ${getFormattedCarat(carat, locale)}ct, ${_t(color)}, ${clarity}, ${_t(cut)}`}
         </p>
         <DarksideButton
           textSize="medium"
