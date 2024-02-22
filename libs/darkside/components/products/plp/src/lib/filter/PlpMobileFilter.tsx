@@ -74,6 +74,7 @@ const PlpMobileFilterStyles = styled.div`
 
             button {
               background-color: transparent;
+              font-size: var(--font-size-xxsmall);
               padding: 0;
               display: block;
 
@@ -115,6 +116,7 @@ const PlpMobileFilterStyles = styled.div`
           border: none;
           color: var(--color-dark-grey);
           text-decoration: underline;
+          font-size: var(--font-size-xxsmall);
         }
       }
 
