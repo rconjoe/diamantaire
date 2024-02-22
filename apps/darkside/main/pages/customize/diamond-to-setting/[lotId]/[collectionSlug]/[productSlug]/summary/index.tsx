@@ -734,11 +734,13 @@ const ReviewBuildStep = ({ settingSlugs }) => {
       hasEngraving: engravingText ? true : false,
       engravingText,
       locale,
-    }).then(() => refetch());
-
-    updateGlobalContext({
-      isCartOpen: true,
-    });
+    })
+      .then(() => refetch())
+      .then(() => {
+        updateGlobalContext({
+          isCartOpen: true,
+        });
+      });
 
     // TODO: Add Sentry Loggin
 

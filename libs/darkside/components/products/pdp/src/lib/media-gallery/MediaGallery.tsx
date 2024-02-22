@@ -30,6 +30,7 @@ const MediaGalleryStyles = styled.div`
     flex-wrap: wrap;
 
     > * {
+      min-width: calc(50% - 0.6rem);
       flex: 0 0 calc(50% - 0.3rem);
     }
   }
