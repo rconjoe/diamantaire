@@ -157,7 +157,7 @@ const DiamondTable = (props: DiamondTableProps) => {
         accessorKey: 'cut',
         cell: (info: Info) => (
           <>
-            <span className="mobile-only">{_t(info.getValue().replace('+', '+ '))}</span>
+            <span className="mobile-only">{_t(info.getValue()).replace('+', '+ ')}</span>
             <span className="tablet-and-up">
               <UIString>{info.getValue()}</UIString>
             </span>
