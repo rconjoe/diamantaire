@@ -38,6 +38,10 @@ export function specGenerator({ configuration, productType, _t, alt_t, hasChildD
 
   const specArray = [];
 
+  if (!alt_t) {
+    alt_t = _t;
+  }
+
   const isEngagementRing = productType === 'Engagement Ring';
   const isDiamond = productType === 'Diamond';
 

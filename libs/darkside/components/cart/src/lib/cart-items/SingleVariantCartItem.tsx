@@ -187,8 +187,6 @@ const SingleVariantCartItem = ({
     return matchingAttribute;
   }, []);
 
-  console.log('specs', specs);
-
   const itemAttributes = useMemo(() => {
     const initAttributes = [
       {
@@ -319,9 +317,6 @@ const SingleVariantCartItem = ({
 
   // The price needs to be combined in the case of two identical earrings
   const dynamicPrice = Array.from(Array(quantity).keys()).map(() => initPrice);
-
-  console.log('dynamicPricexxx', dynamicPrice);
-  console.log('initPrice', initPrice);
 
   const totalPrice =
     quantity === 1

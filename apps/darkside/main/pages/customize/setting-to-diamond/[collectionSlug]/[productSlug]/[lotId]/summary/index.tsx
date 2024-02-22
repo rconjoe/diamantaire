@@ -463,6 +463,7 @@ const SettingToDiamondSummaryPage = () => {
   const currencyCode = getCurrency(countryCode);
 
   const { _t } = useTranslations(locale);
+  const { _t: diamondShapesTranslations } = useTranslations(locale, ['OPTION_NAMES', 'DIAMOND_SHAPES']);
 
   const mutatedLotIds = Array.isArray(diamonds) ? diamonds?.map((diamond) => getNumericalLotId(diamond?.lotId)) : [];
 
@@ -645,6 +646,7 @@ const SettingToDiamondSummaryPage = () => {
       },
       productType,
       _t,
+      alt_t: diamondShapesTranslations,
       hasChildDiamond: true,
     });
 
@@ -686,6 +688,7 @@ const SettingToDiamondSummaryPage = () => {
       const diamondSpecs = specGenerator({
         configuration: { ...diamond, caratWeight: diamond?.carat },
         productType: 'Diamond',
+        alt_t: diamondShapesTranslations,
         _t,
       });
 
