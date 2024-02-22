@@ -5,7 +5,13 @@ import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-contex
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { addERProductToCart, addJewelryProductToCart, addMiscProductToCart } from '@diamantaire/darkside/data/api';
 import { useCartData, useProductIconList, useTranslations, useVariantInventory } from '@diamantaire/darkside/data/hooks';
-import { DIAMOND_TYPE_HUMAN_NAMES, getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
+import {
+  DIAMOND_TYPE_HUMAN_NAMES,
+  getCurrency,
+  getFormattedCarat,
+  getFormattedPrice,
+  parseValidLocale,
+} from '@diamantaire/shared/constants';
 import { specGenerator } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { AnimatePresence } from 'framer-motion';
@@ -193,7 +199,7 @@ function ProductConfigurator({
   const ProductFeedCompleteYourRingButton = ({ ctaText, diamondsOverride }) => {
     const diamond = diamondsOverride?.[0];
 
-    const { color, carat, diamondType, clarity } = diamond || {};
+    const { color, carat, diamondType, clarity, cut } = diamond || {};
     const { _t } = useTranslations(locale, ['DIAMOND_SHAPES', 'DIAMOND_CUTS']);
 
     return (
@@ -216,7 +222,7 @@ function ProductConfigurator({
           >
             <UIString>centerstone</UIString>:
           </strong>
-          {` ${_t(diamondType)}, ${_t(color)}, ${carat}ct, ${clarity}`}
+          {` ${_t(diamondType)}, ${_t(color)}, ${getFormattedCarat(carat, locale)}ct, ${clarity}, ${_t(cut)}`}
         </p>
         <DarksideButton
           textSize="medium"
