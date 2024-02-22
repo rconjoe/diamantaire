@@ -88,8 +88,7 @@ const StyledDiamondDetail = styled.div`
       aspect-ratio: 1/1;
 
       @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
-        width: 43.5rem;
-        max-width: 50%;
+        width: 50%;
       }
     }
   }
