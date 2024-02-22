@@ -197,12 +197,13 @@ function ProductConfigurator({
   };
 
   const ProductFeedCompleteYourRingButton = ({ ctaText, diamondsOverride }) => {
+    const { _t } = useTranslations(locale, ['DIAMOND_SHAPES', 'DIAMOND_CUTS']);
+
     if (!diamondsOverride || diamondsOverride.length === 0) return null;
 
     const diamond = diamondsOverride[0];
 
     const { color, carat, diamondType, clarity, cut } = diamond;
-    const { _t } = useTranslations(locale, ['DIAMOND_SHAPES', 'DIAMOND_CUTS']);
 
     return (
       <div
