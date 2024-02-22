@@ -163,7 +163,7 @@ export default async function middleware(request: NextRequest, _event: NextFetch
       const response = NextResponse.redirect(new URL(`/${localeFromGeo}${url.pathname}${url.search}`, request.url));
 
       response.cookies?.set('geo', JSON.stringify(geo));
-      response.cookies?.set('pathname', url.pathname);
+
       // Set a cookie to indicate a geo-based redirection has occurred
       response.cookies.set('geo_redirected', 'true', { path: '/', maxAge: 3600 }); // Expires in 1 hour
 
