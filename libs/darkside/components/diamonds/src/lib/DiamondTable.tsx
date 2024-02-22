@@ -66,6 +66,8 @@ const DiamondTable = (props: DiamondTableProps) => {
   const tableBody = useRef<HTMLDivElement>(null);
   const loadTrigger = useRef<HTMLDivElement>(null);
 
+  const { _t } = useTranslations(locale);
+
   const [activeRow, setActiveRow] = useState<DiamondDataTypes | null>(null);
 
   // PAGINATION;
@@ -155,9 +157,7 @@ const DiamondTable = (props: DiamondTableProps) => {
         accessorKey: 'cut',
         cell: (info: Info) => (
           <>
-            <span className="mobile-only">
-              <UIString>{info.getValue().replace('+', '+ ')}</UIString>
-            </span>
+            <span className="mobile-only">{_t(info.getValue().replace('+', '+ '))}</span>
             <span className="tablet-and-up">
               <UIString>{info.getValue()}</UIString>
             </span>
