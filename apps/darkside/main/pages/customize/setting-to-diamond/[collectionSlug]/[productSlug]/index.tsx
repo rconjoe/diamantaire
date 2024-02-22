@@ -148,19 +148,15 @@ const DiamondBuildStep = () => {
     isToiMoiOrPair = true;
   }
 
-  const [loading, setLoading] = useState(true);
-  // const [isTableView, setIsTableView] = useState(true);
   const isTableView = true;
+
   const [options, setOptions] = useState<{
     [key: string]: any;
   }>(initialOptions);
+
   const [activeRow, setActiveRow] = useState(null);
 
   const { data: { diamonds, pagination, ranges } = {} } = useDiamondsData({ ...options });
-
-  const updateLoading = (newState) => {
-    setLoading(newState);
-  };
 
   const tableOptions = {
     locale: DEFAULT_LOCALE,
@@ -168,7 +164,6 @@ const DiamondBuildStep = () => {
     initialDiamonds: diamonds,
     initialPagination: pagination,
     currencyCode: 'USD',
-    updateLoading,
   };
 
   const updateOptions = (newOptions) => {
@@ -289,7 +284,6 @@ const DiamondBuildStep = () => {
               <DiamondFilter
                 handleRadioFilterChange={handleRadioFilterChange}
                 handleSliderFilterChange={handleSliderFilterChange}
-                loading={loading}
                 options={options}
                 ranges={ranges}
                 availableDiamonds={availableDiamonds}
@@ -323,7 +317,7 @@ const DiamondBuildStep = () => {
                 activeRow={activeRow}
                 setActiveRow={setActiveRow}
                 updateOptions={updateOptions}
-                clearOptions={() => null}
+                clearOptions={clearOptions}
                 ranges={ranges}
                 isDiamondPairs={isToiMoiOrPair}
                 settingProductType={settingProductType}

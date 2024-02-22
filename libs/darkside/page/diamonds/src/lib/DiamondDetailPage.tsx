@@ -6,6 +6,7 @@ import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { getCurrencyFromLocale, getFormattedCarat } from '@diamantaire/shared/constants';
 import { getCountry, getDiamondType } from '@diamantaire/shared/helpers';
+import { DiamondDataTypes } from '@diamantaire/shared/types';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import Script from 'next/script';
@@ -106,6 +107,23 @@ async function getServerSideProps(context): Promise<GetServerSidePropsResult<Dia
     !queryClient.getQueryData(diamondInfoQuery.queryKey) ||
     !queryClient.getQueryData(diamondTableQuery.queryKey) ||
     !queryClient.getQueryData(productIconListQuery.queryKey)
+  ) {
+    return {
+      notFound: true,
+    };
+  }
+
+  // Check if diamond data exists
+  const diamondData = queryClient.getQueryData(diamondQuery.queryKey) as {
+    data?: { diamond?: DiamondDataTypes };
+  };
+
+  if (
+    !diamondData ||
+    !diamondData.data ||
+    !diamondData.data.diamond ||
+    !diamondData.data.diamond.carat ||
+    !diamondData.data.diamond.diamondType
   ) {
     return {
       notFound: true,
