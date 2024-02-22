@@ -859,9 +859,9 @@ const ReviewBuildStep = ({ settingSlugs }) => {
     console.log({ configurationType, option });
 
     if (router.asPath.includes('setting-to-diamond')) {
-      const newUrl = `/customize/setting-to-diamond/summary/${
-        router.query.collectionSlug
-      }/${option?.id}/${builderProduct?.diamonds?.map((diamond) => diamond?.lotId).join('/')}`;
+      const newUrl = `/customize/setting-to-diamond/${router.query.collectionSlug}/${option?.id}/${builderProduct?.diamonds
+        ?.map((diamond) => diamond?.lotId)
+        .join('/')}/summary`;
 
       return router.replace(newUrl, null, {
         shallow: true,

@@ -190,21 +190,42 @@ function ProductConfigurator({
     );
   };
 
-  const ProductFeedCompleteYourRingButton = ({ ctaText, diamondsOverride }) => {
+  const ProductFeedCompleteYourRingButton = ({ ctaText, diamondsOverride, selectedDiamond }) => {
+    console.log('selectedDiamond', selectedDiamond);
+    const diamond = selectedDiamond?.[0];
+
+    const { color, carat, diamondType, clarity } = diamond || {};
+    const { _t } = useTranslations(locale, ['DIAMOND_SHAPES', 'DIAMOND_CUTS']);
+
     return (
       <div
         style={{
-          margin: '2rem 0 1rem',
+          margin: '1rem 0 1rem',
           minHeight: '4.9rem',
         }}
       >
+        <p
+          style={{
+            marginBottom: '2rem',
+            fontSize: '1.7rem',
+          }}
+        >
+          <strong
+            style={{
+              fontWeight: '500',
+            }}
+          >
+            <UIString>centerstone</UIString>:
+          </strong>
+          {` ${_t(diamondType)}, ${_t(color)}, ${carat}ct, ${clarity}`}
+        </p>
         <DarksideButton
           textSize="medium"
           onClick={() => {
             router.push(
-              `/customize/setting-to-diamond/summary/${router.query.collectionSlug}/${
-                router.query.productSlug
-              }/${diamondsOverride.map((diamond) => diamond?.lotId).join('/')}`,
+              `/customize/setting-to-diamond/${router.query.collectionSlug}/${router.query.productSlug}/${diamondsOverride
+                .map((diamond) => diamond?.lotId)
+                .join('/')}/summary`,
             );
           }}
         >
@@ -312,7 +333,11 @@ function ProductConfigurator({
 
       {isProductFeedUrl ? (
         <>
-          <ProductFeedCompleteYourRingButton ctaText={purchaseWithThisDiamondCopy} diamondsOverride={selectedDiamond} />
+          <ProductFeedCompleteYourRingButton
+            selectedDiamond={selectedDiamond}
+            ctaText={purchaseWithThisDiamondCopy}
+            diamondsOverride={selectedDiamond}
+          />
           <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
         </>
       ) : null}
