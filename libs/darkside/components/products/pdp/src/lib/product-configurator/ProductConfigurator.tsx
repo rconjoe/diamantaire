@@ -460,7 +460,7 @@ function AddToCartButton({
 
   const { emitDataLayer, productAdded } = useAnalytics();
   const { _t } = useTranslations(locale);
-  const { _t: earring_t } = useTranslations(locale, ['OPTION_NAMES']);
+  const { _t: earring_t } = useTranslations(locale, ['OPTION_NAMES', 'DIAMOND_SHAPES']);
 
   const { chainLength, productTitle, productType, color, clarity, bandAccent, caratWeightOverride, image } =
     additionalVariantData;
@@ -491,6 +491,7 @@ function AddToCartButton({
   async function addProductToCart() {
     const productGroupKey = uuidv4();
 
+    // Toggle loader in cart
     updateGlobalContext({
       isCartLoading: true,
     });
@@ -600,7 +601,13 @@ function AddToCartButton({
         hasEngraving: Boolean(engravingText),
         engravingText,
         locale,
-      }).then(() => refetch());
+      })
+        .then(() => refetch())
+        .then(() => {
+          updateGlobalContext({
+            isCartLoading: false,
+          });
+        });
     } else if (jewelryProductTypes.includes(productType)) {
       // Certain products have a different set of attributes, so we add them all here, then filter out when adding to cart. See addJewelryProductToCart in CartContext.tsx
 
@@ -672,7 +679,13 @@ function AddToCartButton({
         variantId: variantId,
         attributes: giftCardAttributes,
         locale,
-      }).then(() => refetch());
+      })
+        .then(() => refetch())
+        .then(() => {
+          updateGlobalContext({
+            isCartLoading: false,
+          });
+        });
     } else if (productType === 'Ring Sizer') {
       // eslint-disable-next-line unused-imports/no-unused-vars
       const { shippingText, ...otherAttributes } = defaultAttributes;
@@ -690,7 +703,13 @@ function AddToCartButton({
         variantId: variantId,
         attributes: ringSizerAttributes,
         locale,
-      }).then(() => refetch());
+      })
+        .then(() => refetch())
+        .then(() => {
+          updateGlobalContext({
+            isCartLoading: false,
+          });
+        });
     }
 
     updateGlobalContext({
