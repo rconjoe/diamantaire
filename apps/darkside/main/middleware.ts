@@ -20,7 +20,18 @@ const ORDERED_CONFIGURATION_PROPERTIES = [
 ];
 const VALID_COUNTRY_SUBDOMAINS = ['de', 'be', 'fr', 'it', 'se', 'es', 'no', 'nl', 'ch', 'dk'];
 
+const PUBLIC_FILE = /\.(.*)$/;
+
 export default async function middleware(request: NextRequest, _event: NextFetchEvent): Promise<NextMiddlewareResult> {
+  // Bypass middleware for _next assets, API requests, or public files
+  if (
+    request.nextUrl.pathname.startsWith('/_next') ||
+    request.nextUrl.pathname.includes('/api/') ||
+    PUBLIC_FILE.test(request.nextUrl.pathname)
+  ) {
+    return NextResponse.next();
+  }
+
   // Use authMiddleware
   const authResult = authMiddleware({
     publicRoutes: ['/((?!.*\\..*|_next).*)', '/(api|trpc)(.*)', '/sign-in', '/sign-up'],
