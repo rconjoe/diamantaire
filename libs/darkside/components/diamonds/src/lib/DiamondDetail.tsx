@@ -11,7 +11,7 @@ import {
   useTranslations,
 } from '@diamantaire/darkside/data/hooks';
 import { DIAMOND_VIDEO_BASE_URL, getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
-import { getIsUserInEu } from '@diamantaire/shared/geolocation';
+import { shouldDisplayVat } from '@diamantaire/shared/geolocation';
 import { getDiamondType, specGenerator } from '@diamantaire/shared/helpers';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import useEmblaCarousel from 'embla-carousel-react';
@@ -195,7 +195,7 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
             <div className="price">
               <span>{price}</span>
 
-              {getIsUserInEu() && (
+              {shouldDisplayVat(locale) && (
                 <div className="price-text">
                   <UIString>incl. VAT</UIString>
                 </div>

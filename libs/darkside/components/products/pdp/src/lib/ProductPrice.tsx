@@ -1,14 +1,13 @@
 import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { DiamondLowestPriceDataProps, useTranslations } from '@diamantaire/darkside/data/hooks';
 import {
-  DEFAULT_LOCALE,
   ENGRAVEABLE_JEWELRY_SLUGS,
   ENGRAVING_PRICE_CENTS,
   getFormattedPrice,
   combinePricesOfMultipleProducts,
   simpleFormatPrice,
-  parseValidLocale,
 } from '@diamantaire/shared/constants';
+import { shouldDisplayVat } from '@diamantaire/shared/geolocation';
 import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
@@ -55,10 +54,6 @@ const ProductPrice = ({
 
   const { _t } = useTranslations(locale);
 
-  const { countryCode } = parseValidLocale(locale);
-
-  const isInUSOrCA = locale === DEFAULT_LOCALE || countryCode === 'CA';
-
   const doesProductQualifyForFreeEngraving =
     ENGRAVEABLE_JEWELRY_SLUGS.filter((slug) => slug === query.collectionSlug).length > 0;
 
@@ -87,7 +82,7 @@ const ProductPrice = ({
         </p>
       )}
 
-      {!isInUSOrCA && (
+      {shouldDisplayVat(locale) && (
         <p className="small">
           <UIString>incl. VAT</UIString>
         </p>

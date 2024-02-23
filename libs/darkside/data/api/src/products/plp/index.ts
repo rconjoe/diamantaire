@@ -82,6 +82,8 @@ export async function getVRAIServerPlpData(
     reqUrl = `${window.location.origin}/api/plp/getPlpProducts?${qParams?.toString()}`;
   }
 
+  console.log('reqUrlxxx', reqUrl);
+
   try {
     const response = await fetch(reqUrl, {
       method: 'GET',

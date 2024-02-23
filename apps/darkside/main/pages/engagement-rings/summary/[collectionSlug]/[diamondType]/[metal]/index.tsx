@@ -26,7 +26,7 @@ const SummaryRedirectStyles = styled.div`
   margin: 3rem 0;
 `;
 
-const SummaryRedirectPage = ({ collectionSlug, lotId, configuration }) => {
+const SummaryRedirectPage = ({ collectionSlug, lotId, configuration, ringSize }) => {
 
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState(null);
@@ -53,7 +53,7 @@ const SummaryRedirectPage = ({ collectionSlug, lotId, configuration }) => {
   },[]);
 
   const fixedLotId = 'F'+lotId;
-  const redirectLink = `/customize/setting-to-diamond/${collectionSlug}/${product?.productSlug}/${fixedLotId}/summary`;
+  const redirectLink = `/customize/setting-to-diamond/${collectionSlug}/${product?.productSlug}/${fixedLotId}/summary${ringSize ? `?ringSize=${ringSize}` : ''}`;
   
 
   if (!loading && typeof window !== 'undefined'){
@@ -78,6 +78,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
     props: {
       collectionSlug: params.collectionSlug,
       lotId: query.diamondLotId,
+      ringSize: query.ringSize,
       configuration: Object.entries(query).reduce((acc,[k,v])=> {
         if (validConfigurations.includes(k)){
           acc[k] = v;

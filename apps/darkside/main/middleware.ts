@@ -1,5 +1,5 @@
 import { authMiddleware } from '@clerk/nextjs';
-import { isDevEnv } from '@diamantaire/shared/constants';
+import { isDevEnv, getLocaleFromCountry } from '@diamantaire/shared/constants';
 import { kv } from '@vercel/kv';
 import { NextMiddlewareResult } from 'next/dist/server/web/types';
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
@@ -18,8 +18,20 @@ const ORDERED_CONFIGURATION_PROPERTIES = [
   'ceramicColor',
   'diamondSize',
 ];
+const VALID_COUNTRY_SUBDOMAINS = ['de', 'be', 'fr', 'it', 'se', 'es', 'no', 'nl', 'ch', 'dk'];
+
+const PUBLIC_FILE = /\.(.*)$/;
 
 export default async function middleware(request: NextRequest, _event: NextFetchEvent): Promise<NextMiddlewareResult> {
+  // Bypass middleware for _next assets, API requests, or public files
+  if (
+    request.nextUrl.pathname.startsWith('/_next') ||
+    request.nextUrl.pathname.includes('/api/') ||
+    PUBLIC_FILE.test(request.nextUrl.pathname)
+  ) {
+    return NextResponse.next();
+  }
+
   // Use authMiddleware
   const authResult = authMiddleware({
     publicRoutes: ['/((?!.*\\..*|_next).*)', '/(api|trpc)(.*)', '/sign-in', '/sign-up'],
@@ -33,7 +45,11 @@ export default async function middleware(request: NextRequest, _event: NextFetch
   // This is what gets returned from the middleware, cookies need to be set on the res
   const res = NextResponse.next();
 
-  const { nextUrl: url, geo } = request;
+  const { headers, nextUrl: url, geo, cookies } = request;
+  const host = headers.get('host');
+  // eslint-disable-next-line security/detect-unsafe-regex
+  const subdomainMatch = host.match(/^(.+?)\.(vrai\.com|vrai\.qa|localhost(?::\d+)?)$/);
+  const subdomain = subdomainMatch ? subdomainMatch[1] : '';
 
   if (isDevEnv) {
     // const US_GEO = { city: 'New York', country: 'US', latitude: '40.7128', longitude: '-74.0060', region: 'NY' };
@@ -128,9 +144,51 @@ export default async function middleware(request: NextRequest, _event: NextFetch
     }
   }
 
+
+  if (subdomain && VALID_COUNTRY_SUBDOMAINS.includes(subdomain.toLowerCase())) {
+    const countryCode = subdomain.toUpperCase();
+    const localePath = getLocaleFromCountry(countryCode);
+    const targetUrl = new URL(`https://www.vrai.com/${localePath}${url.pathname}${url.search}`);
+
+    return NextResponse.redirect(targetUrl);
+  }
+  
+  const preferredLocale = cookies.get('NEXT_LOCALE')?.value;
+
+  // Redirect if there's a preferred locale that doesn't match the current locale
+  if (preferredLocale && preferredLocale !== url.locale) {
+    return NextResponse.redirect(new URL(`/${preferredLocale}${url.pathname}${url.search}`, request.url));
+  }
+
+  // If there's no preferred locale, derive the locale from the user's geo-location
+  if (!preferredLocale) {
+    const countryCode = geo.country || 'US';
+
+    // Handle the 'US' geo-location specifically to avoid adding a subpath for 'en-US'
+    if (countryCode === 'US' && url.locale === 'default') {
+      // No need to redirect for US users viewing the default path
+      return NextResponse.next();
+    }
+
+    const localeFromGeo = getLocaleFromCountry(countryCode);
+
+    // Ensure not to redirect if the locale is 'en-US' to avoid unnecessary redirection
+    if (localeFromGeo !== 'en-US' && localeFromGeo !== url.locale) {
+      const response = NextResponse.redirect(new URL(`/${localeFromGeo}${url.pathname}${url.search}`, request.url));
+
+      response.cookies?.set('geo', JSON.stringify(geo));
+
+      // Set a cookie to indicate a geo-based redirection has occurred
+      response.cookies.set('geo_redirected', 'true', { path: '/', maxAge: 3600 }); // Expires in 1 hour
+
+      return response;
+    }
+
+  }
+
   return res;
 }
 
 export const config = {
-  matcher: ['/((?!.*\\..*|_next).*)', '/(api|trpc)(.*)'],
+  matcher: ['/((?!.*\\..*|_next).*)', '/(api|trpc)(.*)', '/'],
 };

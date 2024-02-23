@@ -761,12 +761,16 @@ function AddToCartButton({
             });
 
             const isToiMoi = router.asPath.includes('toi-moi');
+            const isPair = isSoldAsDouble && selectedPair === 'pair';
+            const nextUrl = `${locale === 'en-US' ? '' : `/${locale}/`}/customize/setting-to-diamond/${
+              isPair || isToiMoi ? 'pairs/' : ''
+            }${router.query.collectionSlug}/${router.query.productSlug}/`;
 
-            router.push(
-              `/customize/setting-to-diamond/${(isSoldAsDouble && selectedPair === 'pair') || isToiMoi ? 'pairs/' : ''}${
-                router.query.collectionSlug
-              }/${router.query.productSlug}/`,
-            );
+            if (isPair) {
+              window.location.href = nextUrl;
+            }
+
+            router.push(nextUrl);
           }
         }}
       >

@@ -19,6 +19,7 @@ import styled from 'styled-components';
 import CartDiamondCertificate from './CartCertificate';
 import ChildProduct from './ChildProduct';
 import { CartItem } from '../types';
+import clsx from 'clsx';
 
 const MultiVariantCartItemStyles = styled.div`
   margin-bottom: 4rem;
@@ -96,9 +97,13 @@ const MultiVariantCartItemStyles = styled.div`
         }
         &.engraving {
           flex-wrap: wrap;
+          &.-engagement-ring {
+            span:not(.engraving-label) {
+              font-family: var(--font-family-script-mt);
+            }
+          }
           span {
             font-weight: bold;
-            font-style: italic;
             margin: 0;
 
             &.engraving-label {
@@ -220,7 +225,11 @@ const MultiVariantCartItem = ({
 
     return matchingAttribute;
   }, [attributes]);
+  const engravingFont = useMemo(() => {
+    const matchingAttribute = attributes?.filter((attr) => attr.key === '_EngravingFont')?.[0]?.value;
 
+    return matchingAttribute;
+  }, [attributes]);
   const specs = useMemo(() => {
     const matchingAttribute = attributes?.find((attr) => attr.key === '_specs')?.value;
 
@@ -449,7 +458,7 @@ const MultiVariantCartItem = ({
           </p>
           {specs?.split(';').map((val) => <p key={id + `-${val}`}>{val}</p>)}
           {engraving && (
-            <p className="engraving">
+            <p className={clsx('engraving', { '-engagement-ring': engravingFont === 'Script MT Bold' })}>
               <span className="engraving-label">{_t('Engraving')}:</span>
               <span>{engraving}</span>
             </p>
