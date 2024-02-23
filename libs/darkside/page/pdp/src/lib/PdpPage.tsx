@@ -463,7 +463,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 />
               )}
 
-              {additionalVariantData && <NeedTimeToThinkForm productData={productData} />}
+              {productData && <NeedTimeToThinkForm productData={productData} />}
 
               <ProductDescription
                 title={productTitle}
