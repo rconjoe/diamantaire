@@ -175,5 +175,5 @@ export default async function middleware(request: NextRequest, _event: NextFetch
 }
 
 export const config = {
-  matcher: ['/((?!.*\\..*|_next).*)', '/(api|trpc)(.*)'],
+  matcher: ['/((?!.*\\..*|_next).*)', '/(api|trpc)(.*)', '/'],
 };
