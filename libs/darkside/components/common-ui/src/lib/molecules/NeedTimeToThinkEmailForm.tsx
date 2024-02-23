@@ -31,7 +31,7 @@ const NeedTimeToThinkFormStyles = styled.div<{ isUserInEu?: boolean }>`
 const NeedTimeToThinkForm = ({ productData }) => {
   const router = useRouter();
   const isUserInEu = getIsUserInEu();
-  const [valid, setValid] = useState(false);
+  const [valid, setValid] = useState(!isUserInEu);
   const { locale, asPath } = router || {};
   const globalTemplateData = useGlobalData(locale);
   const footerData = globalTemplateData.data?.footerNavigation;
@@ -89,10 +89,13 @@ const NeedTimeToThinkForm = ({ productData }) => {
         countryCode,
         pageTitle,
       });
+
       setIsSuccessful(true);
+
       setFormSubmissionResult(successCopy);
     } catch (error) {
       setIsSuccessful(false);
+
       toast.error(errorCopy, {
         autoClose: 3000,
       });
