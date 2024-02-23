@@ -571,7 +571,6 @@ export function getFormattedPrice(
   // Canada symbol
   if (countryCode === 'CA') {
     formattedPrice = formattedPrice.replace(/\s+/, ',');
-    currencySymbol = 'CA' + currencySymbol;
   }
 
   // Australia symbol
@@ -685,7 +684,6 @@ export function simpleFormatPrice(
   // Canada symbol
   if (countryCode === 'CA') {
     formattedPrice = formattedPrice.replace(/\s+/, ',');
-    currencySymbol = 'CA' + currencySymbol;
   }
   // Australia symbol
   if (countryCode === 'AU') {
