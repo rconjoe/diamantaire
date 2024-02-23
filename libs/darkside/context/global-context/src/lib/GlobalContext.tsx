@@ -6,6 +6,7 @@ export interface GlobalContextInterface {
   isCartOpen?: boolean;
   isWishlistOpen?: boolean;
   isWishlistUpdated?: number;
+  isCartLoading?: boolean;
 }
 
 export const GlobalContext = createContext<GlobalContextInterface | null>(null);
@@ -21,6 +22,7 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     isCartOpen: false,
     isWishlistOpen: false,
     isWishlistUpdated: 0,
+    isCartLoading: false,
   });
 
   const updateGlobalContext = (data: Partial<GlobalContextInterface>) => {

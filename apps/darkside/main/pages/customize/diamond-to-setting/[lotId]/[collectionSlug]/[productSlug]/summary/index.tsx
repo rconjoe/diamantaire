@@ -457,7 +457,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
   const currencyCode = getCurrency(countryCode);
 
   const { _t } = useTranslations(locale);
-  const { _t: shapes_t } = useTranslations(locale, ['DIAMOND_SHAPES']);
+  const { _t: diamondShapesTranslations } = useTranslations(locale, ['DIAMOND_SHAPES']);
 
   const mutatedLotIds = Array.isArray(diamonds) ? diamonds?.map((diamond) => getNumericalLotId(diamond?.lotId)) : [];
 
@@ -649,6 +649,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
         ringSize: selectedSize?.value,
       },
       productType,
+      alt_t: diamondShapesTranslations,
       _t,
       hasChildDiamond: true,
     });
@@ -691,6 +692,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
       const diamondSpecs = specGenerator({
         configuration: { ...diamond, caratWeight: diamond?.carat },
         productType: 'Diamond',
+        alt_t: diamondShapesTranslations,
         _t,
       });
       const diamondAttributes: ProductAddonDiamond['attributes'] = {
@@ -734,11 +736,13 @@ const ReviewBuildStep = ({ settingSlugs }) => {
       hasEngraving: engravingText ? true : false,
       engravingText,
       locale,
-    }).then(() => refetch());
-
-    updateGlobalContext({
-      isCartOpen: true,
-    });
+    })
+      .then(() => refetch())
+      .then(() => {
+        updateGlobalContext({
+          isCartOpen: true,
+        });
+      });
 
     // TODO: Add Sentry Loggin
 
@@ -830,7 +834,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
   const summaryItems = [
     {
       label: _t('diamondType'),
-      value: diamonds?.map((diamond) => shapes_t(diamond?.diamondType)).join(' + '),
+      value: diamonds?.map((diamond) => diamondShapesTranslations(diamond?.diamondType)).join(' + '),
       onClick: () => {
         router.push(
           `/customize/${flowType}/${router.query.lotId}/${router.query.collectionSlug}/${router.query.productSlug}/edit-diamond`,

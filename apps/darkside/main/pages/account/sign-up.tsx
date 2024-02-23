@@ -41,6 +41,7 @@ const SignInPage = () => {
         }}
         afterSignUpUrl={POST_SIGN_UP_REDIRECT_URL}
         afterSignInUrl={POST_SIGN_IN_REDIRECT_URL}
+        signInUrl="/account/sign-in"
         routing="hash"
       />
     </SignUpPageStyles>

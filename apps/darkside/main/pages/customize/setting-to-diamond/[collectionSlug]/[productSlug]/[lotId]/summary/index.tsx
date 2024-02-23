@@ -444,11 +444,7 @@ const SettingToDiamondSummaryPage = () => {
   const [selectedSize, setSelectedSize] = useState<{
     id: string;
     value?: string;
-    valueLabel?: string;
-    isSelected?: boolean;
   }>(configurations?.ringSize?.filter((item) => item.value === '5')[0] || '5');
-
-  console.log('selectedSize', selectedSize);
 
   const { productAdded } = useAnalytics();
 
@@ -460,7 +456,6 @@ const SettingToDiamondSummaryPage = () => {
 
   const diamondPrice = Array.isArray(diamonds) && diamonds?.map((diamond) => Math.ceil(diamond.price));
 
-  console.log('diamondPrice', diamondPrice);
   const diamondPricesCombined = diamondPrice && diamondPrice.reduce((acc, price) => acc + price, 0);
 
   const { countryCode, languageCode } = parseValidLocale(locale);
@@ -468,6 +463,7 @@ const SettingToDiamondSummaryPage = () => {
   const currencyCode = getCurrency(countryCode);
 
   const { _t } = useTranslations(locale);
+  const { _t: diamondShapesTranslations } = useTranslations(locale, ['OPTION_NAMES', 'DIAMOND_SHAPES']);
 
   const mutatedLotIds = Array.isArray(diamonds) ? diamonds?.map((diamond) => getNumericalLotId(diamond?.lotId)) : [];
 
@@ -569,8 +565,6 @@ const SettingToDiamondSummaryPage = () => {
     const { payload, type } = action;
     const { typeId, value } = payload;
 
-    console.log('configOptionsReducer', { state, action });
-
     switch (type) {
       case 'option-change':
         return { ...state, [typeId]: value };
@@ -652,6 +646,7 @@ const SettingToDiamondSummaryPage = () => {
       },
       productType,
       _t,
+      alt_t: diamondShapesTranslations,
       hasChildDiamond: true,
     });
 
@@ -693,6 +688,7 @@ const SettingToDiamondSummaryPage = () => {
       const diamondSpecs = specGenerator({
         configuration: { ...diamond, caratWeight: diamond?.carat },
         productType: 'Diamond',
+        alt_t: diamondShapesTranslations,
         _t,
       });
 

@@ -84,8 +84,6 @@ const ChildProduct = ({ lineItem }) => {
       : JSON.parse(attributes?.find((item) => item.key === 'productAsset')?.value);
   }, [lineItem]);
 
-  console.log('child prod image', image);
-
   const productType = useMemo(() => {
     let matchingAttribute = attributes?.find((attr) => attr.key === '_productType')?.value;
 

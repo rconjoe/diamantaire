@@ -36,9 +36,11 @@ export function specGenerator({ configuration, productType, _t, alt_t, hasChildD
     sideStoneShape,
   } = configuration || {};
 
-  console.log('specGenerator', configuration);
-
   const specArray = [];
+
+  if (!alt_t) {
+    alt_t = _t;
+  }
 
   const isEngagementRing = productType === 'Engagement Ring';
   const isDiamond = productType === 'Diamond';
@@ -51,14 +53,14 @@ export function specGenerator({ configuration, productType, _t, alt_t, hasChildD
 
   // Need to duplicate next 2 to catch all cases
   if (diamondShape && !sideStoneCarat && diamondShape?.split('').filter((c) => c === '+').length < 2) {
-    specArray.push(`${_t('shape')}: ${_t(diamondShape)}`);
+    specArray.push(`${_t('shape')}: ${alt_t(diamondShape)}`);
   }
 
   if (diamondType && !sideStoneCarat && diamondType?.split('').filter((c) => c === '+').length < 2) {
     specArray.push(
       `${_t('shape')}:  ${diamondType
         ?.split('+')
-        .map((diamondType) => _t(diamondType))
+        .map((diamondType) => alt_t(diamondType))
         .join(' + ')}`,
     );
   }
