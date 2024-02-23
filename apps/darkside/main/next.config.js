@@ -59,6 +59,8 @@ const AVAILABLE_LOCALES = [
   'en-RO',
   'en-SI',
   'en-SK',
+  'en-MX',
+  'en-AE',
 ];
 
 /**

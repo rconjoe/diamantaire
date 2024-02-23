@@ -8,6 +8,7 @@ import {
 } from '@diamantaire/shared/constants';
 import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useState, useMemo, useEffect } from 'react';
 import styled from 'styled-components';
@@ -126,6 +127,7 @@ const CountrySelector = ({ toggleCountrySelector }: { toggleCountrySelector: () 
 
                           window.localStorage.removeItem('cartId');
                           window.localStorage.setItem('locale', newLocale);
+                          Cookies.set('NEXT_LOCALE', newLocale);
                           toggleCountrySelector();
 
                           // Need to reset stored locale value for cart stuff
