@@ -442,8 +442,6 @@ const SettingToDiamondSummaryPage = () => {
   const [engravingText, setEngravingText] = useState(null);
   const [handCaratValue, setHandCaratValue] = useState(null);
 
-  console.log(configurations?.ringSize, preselectedRingSize, 'preselectedRingSize', configurations?.ringSize?.find((item) => item.value === (preselectedRingSize ? preselectedRingSize : '5')));
-
   const preselectedSizeVariant = configurations?.ringSize?.find((item) => item.value === preselectedRingSize)
 
   const [selectedSize, setSelectedSize] = useState<{
@@ -569,7 +567,6 @@ const SettingToDiamondSummaryPage = () => {
   function configOptionsReducer(state, action: any) {
     const { payload, type } = action;
     const { typeId, value } = payload;
-
 
     switch (type) {
       case 'option-change':
@@ -1335,7 +1332,6 @@ export async function getServerSideProps(
   context: GetServerSidePropsContext,
 ): Promise<GetServerSidePropsResult<BuilderStepSeoProps>> {
   const { locale } = context;
-
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
