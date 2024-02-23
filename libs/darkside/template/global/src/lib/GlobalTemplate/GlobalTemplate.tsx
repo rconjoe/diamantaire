@@ -34,6 +34,28 @@ export const vraiFont = localFont({
   ],
 });
 
+export const scriptMtFont = localFont({
+  variable: '--font-family-script-mt',
+  preload: true,
+  src: [
+    {
+      path: './script-mt-bold.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './script-mt-bold.woff',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './script-mt-bold.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+  ],
+});
+
 // const MainContainer = styled.main`
 //   /* Fallback for padding before menu renders - will need to be changed once top bar becomes dynamic */
 //   /* min-height: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop + 1}px` : '7rem')};
@@ -79,7 +101,7 @@ export const GlobalTemplate = ({ children }) => {
       style={{
         height: 'fit-content',
       }}
-      className={`${vraiFont.className} ${vraiFont.variable}`}
+      className={`${vraiFont.className} ${vraiFont.variable} ${scriptMtFont.variable}`}
     >
       {headerData && (
         <Header

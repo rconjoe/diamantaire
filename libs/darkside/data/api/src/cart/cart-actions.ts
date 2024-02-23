@@ -1,5 +1,6 @@
 import { getCountry, getFormattedShipByDate, getLanguage } from '@diamantaire/shared/helpers';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
+import { DEFAULT_BUILDER_ENGRAVING_FONT, ENGRAVING_FONT_RENDER_MAP } from '@diamantaire/styles/darkside-styles';
 import { AttributeInput } from 'shopify-buy';
 
 import {
@@ -574,7 +575,7 @@ export async function addERProductToCart({
                 value: settingAttributes.productAsset,
               },
               {
-                key: 'engravingText',
+                key: '_EngravingBack',
                 value: engravingText,
               },
               {
@@ -644,7 +645,10 @@ export async function addERProductToCart({
         key: '_EngravingBack',
         value: engravingText,
       });
-
+      refinedSettingAttributes.push({
+        key: '_EngravingFont',
+        value: ENGRAVING_FONT_RENDER_MAP[DEFAULT_BUILDER_ENGRAVING_FONT],
+      });
       groupedItems.unshift({
         variantId: engravingVariantId,
         customAttributes: [
@@ -653,8 +657,12 @@ export async function addERProductToCart({
             value: settingAttributes.productAsset,
           },
           {
-            key: 'engravingText',
+            key: '_EngravingBack',
             value: engravingText,
+          },
+          {
+            key: '_EngravingFont',
+            value: ENGRAVING_FONT_RENDER_MAP[DEFAULT_BUILDER_ENGRAVING_FONT],
           },
           {
             key: '_hiddenProduct',

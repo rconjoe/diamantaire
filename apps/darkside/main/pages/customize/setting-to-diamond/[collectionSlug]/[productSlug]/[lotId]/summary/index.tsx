@@ -47,6 +47,7 @@ import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/templa
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   DIAMOND_VIDEO_BASE_URL,
+  ENGAGEMENT_RING_PRODUCT_TYPE,
   ENGRAVING_REGEX,
   PdpTypePlural,
   getCurrency,
@@ -58,6 +59,7 @@ import { generateDiamondSpriteImage, specGenerator } from '@diamantaire/shared/h
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
+import { DEFAULT_BUILDER_ENGRAVING_FONT, getRenderedInputEngravingFontStyles } from '@diamantaire/styles/darkside-styles';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import clsx from 'clsx';
 import useEmblaCarousel from 'embla-carousel-react';
@@ -356,6 +358,11 @@ const ReviewBuildStepStyles = styled(motion.div)`
 
       .engraving-input-container {
         margin: 2rem 0;
+        &.-engagement-ring {
+          input {
+            ${getRenderedInputEngravingFontStyles(DEFAULT_BUILDER_ENGRAVING_FONT)};
+          }
+        }
         input {
           border: 0.1rem solid #ccc;
           height: 4rem;
@@ -1217,7 +1224,11 @@ const SettingToDiamondSummaryPage = () => {
               )}
 
               {isEngravingInputVisible && (
-                <div className="engraving-input-container">
+                <div
+                  className={clsx('engraving-input-container', {
+                    '-engagement-ring': productType === ENGAGEMENT_RING_PRODUCT_TYPE,
+                  })}
+                >
                   <input
                     type="text"
                     value={engravingInputText}
