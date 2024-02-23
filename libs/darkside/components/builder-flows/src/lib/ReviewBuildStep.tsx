@@ -1132,7 +1132,7 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
                 </div>
               )}
 
-              {additionalVariantData && <NeedTimeToThinkForm productData={productData} />}
+              {productData && <NeedTimeToThinkForm productData={productData} />}
             </div>
           </div>
         </div>

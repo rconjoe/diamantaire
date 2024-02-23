@@ -1285,7 +1285,7 @@ const SettingToDiamondSummaryPage = () => {
                 </div>
               )}
 
-              {additionalVariantData && <NeedTimeToThinkForm productData={productData} />}
+              {productData && <NeedTimeToThinkForm productData={productData} />}
 
               <ProductDescription
                 title={productTitle}
