@@ -39,29 +39,16 @@ const StandardPageEntry = ({ page, countryCode, currencyCode, gtmClass }: Standa
 
         const shouldLazyLoad = contentIsAboveFold ? false : true;
 
-        if (shouldLazyLoad) {
-          return (
-            <BlockPicker
-              key={`${_modelApiKey}_${idx}`}
-              _modelApiKey={_modelApiKey}
-              modularBlockData={contentBlockData}
-              countryCode={countryCode}
-              currencyCode={currencyCode}
-              shouldLazyLoad={shouldLazyLoad}
-            />
-          );
-        } else {
-          return (
-            <BlockPicker
-              _modelApiKey={_modelApiKey}
-              modularBlockData={contentBlockData}
-              countryCode={countryCode}
-              currencyCode={currencyCode}
-              shouldLazyLoad={shouldLazyLoad}
-              key={`${_modelApiKey}_${idx}`}
-            />
-          );
-        }
+        return (
+          <BlockPicker
+            _modelApiKey={_modelApiKey}
+            modularBlockData={contentBlockData}
+            countryCode={countryCode}
+            currencyCode={currencyCode}
+            shouldLazyLoad={shouldLazyLoad}
+            key={`${_modelApiKey}_${idx}`}
+          />
+        );
       })}
     </div>
   );
