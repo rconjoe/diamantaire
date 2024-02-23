@@ -47,7 +47,9 @@ export default async function middleware(request: NextRequest, _event: NextFetch
 
   const { headers, nextUrl: url, geo } = request;
   const host = headers.get('host');
-  const [subdomain, ...rest] = host?.split('.') || [];
+  // eslint-disable-next-line security/detect-unsafe-regex
+  const subdomainMatch = host.match(/^(.+?)\.(vrai\.com|vrai\.qa|localhost(?::\d+)?)$/);
+  const subdomain = subdomainMatch ? subdomainMatch[1] : '';
 
   if (isDevEnv) {
     // const US_GEO = { city: 'New York', country: 'US', latitude: '40.7128', longitude: '-74.0060', region: 'NY' };
