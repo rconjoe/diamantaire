@@ -6,7 +6,6 @@ import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { getCurrencyFromLocale, getFormattedCarat } from '@diamantaire/shared/constants';
 import { getCountry, getDiamondType } from '@diamantaire/shared/helpers';
-import { DiamondDataTypes } from '@diamantaire/shared/types';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import Script from 'next/script';
@@ -101,6 +100,8 @@ async function getServerSideProps(context): Promise<GetServerSidePropsResult<Dia
   await queryClient.prefetchQuery(diamondTableQuery);
   await queryClient.prefetchQuery(productIconListQuery);
 
+  console.log('diamondData', diamondData);
+
   if (
     !queryClient.getQueryData(diamondQuery.queryKey) ||
     !queryClient.getQueryData(diamondPdpQuery.queryKey) ||
@@ -114,21 +115,21 @@ async function getServerSideProps(context): Promise<GetServerSidePropsResult<Dia
   }
 
   // Check if diamond data exists
-  const diamondData = queryClient.getQueryData(diamondQuery.queryKey) as {
-    data?: { diamond?: DiamondDataTypes };
-  };
+  // const diamondData = queryClient.getQueryData(diamondQuery.queryKey) as {
+  //   data?: { diamond?: DiamondDataTypes };
+  // };
 
-  if (
-    !diamondData ||
-    !diamondData.data ||
-    !diamondData.data.diamond ||
-    !diamondData.data.diamond.carat ||
-    !diamondData.data.diamond.diamondType
-  ) {
-    return {
-      notFound: true,
-    };
-  }
+  // if (
+  //   !diamondData ||
+  //   !diamondData.data ||
+  //   !diamondData.data.diamond ||
+  //   !diamondData.data.diamond.carat ||
+  //   !diamondData.data.diamond.diamondType
+  // ) {
+  //   return {
+  //     notFound: true,
+  //   };
+  // }
 
   return {
     props: {
