@@ -117,16 +117,23 @@ function CountryPicker() {
 
     const evaluateBannerVisibility = () => {
       const nextLocale = Cookies.get('NEXT_LOCALE');
+      const geoRedirected = Cookies.get('geo_redirected');
       const userCountryCode = getUserCountry();
       const userLocale = getLocaleFromCountry(userCountryCode);
 
-      // Condition 1: No NEXT_LOCALE cookie and geolocation suggests a different locale
-      if (!nextLocale && userLocale !== locale) {
+      // Condition 1: No NEXT_LOCALE cookie and geolocation suggests a different locale, but not geo-redirected
+      if (!nextLocale && userLocale !== locale && !geoRedirected) {
         setIsBannerVisible(true);
       }
       // Condition 2: NEXT_LOCALE cookie exists but doesn't match current router locale
       else if (nextLocale && nextLocale !== locale) {
         setIsBannerVisible(true);
+      }
+      // New Condition: User was geo-redirected
+      else if (geoRedirected) {
+        setIsBannerVisible(true);
+        // Optionally clear the geo_redirected cookie after reading it
+        Cookies.remove('geo_redirected');
       } else {
         setIsBannerVisible(false);
       }

@@ -17,6 +17,7 @@ export type ERProductCartItemProps = {
     feedId: string;
     // This is the engraving text
     _EngravingBack?: string;
+    _EngravingFont?: string;
     // Should follow pattern: Shape: Round Brilliant;Metal: 18k Yellow Gold;Band: Double pavé;Ring size: 6
     _specs: string;
     // This unifies the setting with the custom diamond

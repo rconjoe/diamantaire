@@ -240,7 +240,7 @@ const PlpProductGrid = ({
               }
 
               return (
-                <Fragment key={product?.defaultId}>
+                <Fragment key={`${product?.defaultId}-${gridItemIndex}`}>
                   {cardCollectionObject[gridItemIndex] !== undefined && (
                     <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex]]} />
                   )}

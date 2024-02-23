@@ -1,5 +1,6 @@
 import { countries, generateLocale, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
 import clsx from 'clsx';
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -87,7 +88,7 @@ const LanguageSelector = ({ toggleLanguageSelector }: LanguageSelectorProps) => 
                   window.localStorage.removeItem('cartId');
                   window.localStorage.setItem('locale', newLocale);
                   toggleLanguageSelector();
-
+                  Cookies.set('NEXT_LOCALE', newLocale);
                   // Need to reset stored locale value for cart stuff
                   window.location.href = `/${newLocale}/${router.asPath}`;
                 }}

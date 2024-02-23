@@ -36,7 +36,7 @@ import {
   getFormattedPrice,
   parseValidLocale,
 } from '@diamantaire/shared/constants';
-import { getIsUserInEu } from '@diamantaire/shared/geolocation';
+import { shouldDisplayVat } from '@diamantaire/shared/geolocation';
 import {
   capitalizeFirstLetter,
   generateDiamondSpriteImage,
@@ -374,7 +374,8 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
               <div className="primary-price">
                 <p>{formattedPrice}</p>
-                {getIsUserInEu() && (
+
+                {shouldDisplayVat(locale) && (
                   <small>
                     <UIString>incl. VAT</UIString>
                   </small>

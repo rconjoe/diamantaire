@@ -45,7 +45,7 @@ export default async function middleware(request: NextRequest, _event: NextFetch
   // This is what gets returned from the middleware, cookies need to be set on the res
   const res = NextResponse.next();
 
-  const { headers, nextUrl: url, geo } = request;
+  const { headers, nextUrl: url, geo, cookies } = request;
   const host = headers.get('host');
   // eslint-disable-next-line security/detect-unsafe-regex
   const subdomainMatch = host.match(/^(.+?)\.(vrai\.com|vrai\.qa|localhost(?::\d+)?)$/);
@@ -144,6 +144,7 @@ export default async function middleware(request: NextRequest, _event: NextFetch
     }
   }
 
+
   if (subdomain && VALID_COUNTRY_SUBDOMAINS.includes(subdomain.toLowerCase())) {
     const countryCode = subdomain.toUpperCase();
     const localePath = getLocaleFromCountry(countryCode);
@@ -151,10 +152,43 @@ export default async function middleware(request: NextRequest, _event: NextFetch
 
     return NextResponse.redirect(targetUrl);
   }
+  
+  const preferredLocale = cookies.get('NEXT_LOCALE')?.value;
+
+  // Redirect if there's a preferred locale that doesn't match the current locale
+  if (preferredLocale && preferredLocale !== url.locale) {
+    return NextResponse.redirect(new URL(`/${preferredLocale}${url.pathname}${url.search}`, request.url));
+  }
+
+  // If there's no preferred locale, derive the locale from the user's geo-location
+  if (!preferredLocale) {
+    const countryCode = geo.country || 'US';
+
+    // Handle the 'US' geo-location specifically to avoid adding a subpath for 'en-US'
+    if (countryCode === 'US' && url.locale === 'default') {
+      // No need to redirect for US users viewing the default path
+      return NextResponse.next();
+    }
+
+    const localeFromGeo = getLocaleFromCountry(countryCode);
+
+    // Ensure not to redirect if the locale is 'en-US' to avoid unnecessary redirection
+    if (localeFromGeo !== 'en-US' && localeFromGeo !== url.locale) {
+      const response = NextResponse.redirect(new URL(`/${localeFromGeo}${url.pathname}${url.search}`, request.url));
+
+      response.cookies?.set('geo', JSON.stringify(geo));
+
+      // Set a cookie to indicate a geo-based redirection has occurred
+      response.cookies.set('geo_redirected', 'true', { path: '/', maxAge: 3600 }); // Expires in 1 hour
+
+      return response;
+    }
+
+  }
 
   return res;
 }
 
 export const config = {
-  matcher: ['/((?!.*\\..*|_next).*)', '/(api|trpc)(.*)'],
+  matcher: ['/((?!.*\\..*|_next).*)', '/(api|trpc)(.*)', '/'],
 };

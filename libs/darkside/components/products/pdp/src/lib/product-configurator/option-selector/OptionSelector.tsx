@@ -523,7 +523,7 @@ function OptionSelector({
 
   function renderRingSizeOptions() {
     const renderRingSizes = () => {
-      const visibleOptions = showingAllRingSizes
+      const visibleOptions = showingAllRingSizes || (!presetRingSizes.includes(selectedOptionValue))
         ? options
         : options.filter((option) => presetRingSizes.includes(option.value));
 

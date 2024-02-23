@@ -4,6 +4,7 @@ const SideBySide = `
   ... on ModularSideBySideBlockRecord {
     id
     _modelApiKey
+    shouldHeadingBeAboveImageOnMobile
     image {
       url
       alt

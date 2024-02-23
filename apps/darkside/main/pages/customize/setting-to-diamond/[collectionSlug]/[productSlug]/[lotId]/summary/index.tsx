@@ -47,6 +47,7 @@ import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/templa
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   DIAMOND_VIDEO_BASE_URL,
+  ENGAGEMENT_RING_PRODUCT_TYPE,
   ENGRAVING_REGEX,
   PdpTypePlural,
   getCurrency,
@@ -58,6 +59,7 @@ import { generateDiamondSpriteImage, specGenerator } from '@diamantaire/shared/h
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
+import { DEFAULT_BUILDER_ENGRAVING_FONT, getRenderedInputEngravingFontStyles } from '@diamantaire/styles/darkside-styles';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import clsx from 'clsx';
 import useEmblaCarousel from 'embla-carousel-react';
@@ -356,6 +358,11 @@ const ReviewBuildStepStyles = styled(motion.div)`
 
       .engraving-input-container {
         margin: 2rem 0;
+        &.-engagement-ring {
+          input {
+            ${getRenderedInputEngravingFontStyles(DEFAULT_BUILDER_ENGRAVING_FONT)};
+          }
+        }
         input {
           border: 0.1rem solid #ccc;
           height: 4rem;
@@ -427,6 +434,7 @@ const SettingToDiamondSummaryPage = () => {
 
   const sizeOptionKey = 'ringSize';
   const router = useRouter();
+  const preselectedRingSize = router.query?.ringSize;
   const { locale } = router;
   const { data: seoData } = useBuilderFlowSeo(locale);
   const { seoTitle, seoDescription } = seoData?.builderFlow?.seoFields || {};
@@ -441,10 +449,12 @@ const SettingToDiamondSummaryPage = () => {
   const [engravingText, setEngravingText] = useState(null);
   const [handCaratValue, setHandCaratValue] = useState(null);
 
+  const preselectedSizeVariant = configurations?.ringSize?.find((item) => item.value === preselectedRingSize)
+
   const [selectedSize, setSelectedSize] = useState<{
     id: string;
     value?: string;
-  }>(configurations?.ringSize?.filter((item) => item.value === '5')[0] || '5');
+  }>(preselectedSizeVariant || configurations?.ringSize?.filter((item) => item.value === '5')[0]);
 
   const { productAdded } = useAnalytics();
 
@@ -571,9 +581,7 @@ const SettingToDiamondSummaryPage = () => {
     }
   }
 
-  const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
-
-  console.log('configState', configState);
+  const [, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
 
   const productIconListTypeOverride =
     additionalVariantData?.productIconList?.productType ||
@@ -962,7 +970,9 @@ const SettingToDiamondSummaryPage = () => {
 
         const variant: any = handle && (await fetchDatoVariant(handle, category, router.locale));
 
-        setSelectedSize(res?.optionConfigs?.ringSize?.filter((item) => item.value === '5')[0] || '5');
+        const querySizeVariant = res?.optionConfigs?.ringSize?.find((item) => item.value === preselectedRingSize);
+
+        setSelectedSize(querySizeVariant || res?.optionConfigs?.ringSize?.filter((item) => item.value === '5')[0] || '5');
 
         return {
           ...res,
@@ -1214,7 +1224,11 @@ const SettingToDiamondSummaryPage = () => {
               )}
 
               {isEngravingInputVisible && (
-                <div className="engraving-input-container">
+                <div
+                  className={clsx('engraving-input-container', {
+                    '-engagement-ring': productType === ENGAGEMENT_RING_PRODUCT_TYPE,
+                  })}
+                >
                   <input
                     type="text"
                     value={engravingInputText}
@@ -1329,7 +1343,6 @@ export async function getServerSideProps(
   context: GetServerSidePropsContext,
 ): Promise<GetServerSidePropsResult<BuilderStepSeoProps>> {
   const { locale } = context;
-
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
