@@ -96,10 +96,6 @@ export const ModularSideBySideBlockStyles = styled.div`
       text-align: left;
     }
 
-    ${desktopAndUp(`
-      font-size: 3.2rem;
-    `)};
-
     &.more-square {
       font-weight: normal !important;
 
