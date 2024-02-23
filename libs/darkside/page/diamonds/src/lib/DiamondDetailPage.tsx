@@ -100,8 +100,6 @@ async function getServerSideProps(context): Promise<GetServerSidePropsResult<Dia
   await queryClient.prefetchQuery(diamondTableQuery);
   await queryClient.prefetchQuery(productIconListQuery);
 
-  console.log('diamondData', diamondData);
-
   if (
     !queryClient.getQueryData(diamondQuery.queryKey) ||
     !queryClient.getQueryData(diamondPdpQuery.queryKey) ||
