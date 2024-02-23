@@ -12,7 +12,7 @@ import {
   getFormattedPrice,
   parseValidLocale,
 } from '@diamantaire/shared/constants';
-import { specGenerator } from '@diamantaire/shared/helpers';
+import { getFormattedShipByDate, specGenerator } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
@@ -583,7 +583,7 @@ function AddToCartButton({
         feedId: variantId,
         _specs: specs,
         // This gets overwritten by updateShippingTimes in cart-actions
-        productIconListShippingCopy: 'Ready-to-ship. Ships by Fri, Dec 1',
+        productIconListShippingCopy: `${defaultAttributes?.shippingText} ${getFormattedShipByDate(shippingTime, locale)}`,
         productGroupKey,
         ringSize: selectedSize,
         shippingBusinessDays: shippingTime ? shippingTime.toString() : '',
@@ -635,7 +635,7 @@ function AddToCartButton({
         totalPriceOverride: shouldDoublePrice ? price.toString() : null,
         pdpUrl: window.location.href,
         shippingBusinessDays: shippingTime ? shippingTime.toString() : '',
-        productIconListShippingCopy: 'Ready-to-ship. Ships by Fri, Dec 1',
+        productIconListShippingCopy: `${defaultAttributes?.shippingText} ${getFormattedShipByDate(shippingTime, locale)}`,
       };
 
       let refinedVariantId = variantId;
