@@ -1,5 +1,5 @@
 import { authMiddleware } from '@clerk/nextjs';
-import { isDevEnv } from '@diamantaire/shared/constants';
+import { isDevEnv, getLocaleFromCountry } from '@diamantaire/shared/constants';
 import { kv } from '@vercel/kv';
 import { NextMiddlewareResult } from 'next/dist/server/web/types';
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
@@ -18,6 +18,7 @@ const ORDERED_CONFIGURATION_PROPERTIES = [
   'ceramicColor',
   'diamondSize',
 ];
+const VALID_COUNTRY_SUBDOMAINS = ['de', 'be', 'fr', 'it', 'se', 'es', 'no', 'nl', 'ch', 'dk'];
 
 export default async function middleware(request: NextRequest, _event: NextFetchEvent): Promise<NextMiddlewareResult> {
   // Use authMiddleware
@@ -33,7 +34,9 @@ export default async function middleware(request: NextRequest, _event: NextFetch
   // This is what gets returned from the middleware, cookies need to be set on the res
   const res = NextResponse.next();
 
-  const { nextUrl: url, geo } = request;
+  const { headers, nextUrl: url, geo } = request;
+  const host = headers.get('host');
+  const [subdomain, ...rest] = host?.split('.') || [];
 
   if (isDevEnv) {
     // const US_GEO = { city: 'New York', country: 'US', latitude: '40.7128', longitude: '-74.0060', region: 'NY' };
@@ -126,6 +129,14 @@ export default async function middleware(request: NextRequest, _event: NextFetch
 
       return NextResponse.rewrite(url);
     }
+  }
+
+  if (subdomain && VALID_COUNTRY_SUBDOMAINS.includes(subdomain.toLowerCase())) {
+    const countryCode = subdomain.toUpperCase();
+    const localePath = getLocaleFromCountry(countryCode);
+    const targetUrl = new URL(`https://www.vrai.com/${localePath}${url.pathname}${url.search}`);
+
+    return NextResponse.redirect(targetUrl);
   }
 
   return res;
