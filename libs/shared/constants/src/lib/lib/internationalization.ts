@@ -371,11 +371,18 @@ export const countries: Record<string, CountryDetails> = {
     languages: [Language.English],
     vat: 0.2,
   },
-  Int: {
-    code: 'Int',
-    name: 'International',
+  MX: {
+    code: 'MX',
+    name: 'Mexico',
+    region: countryRegions.NorthAmerica,
+    currency: Currency.USDollars,
+    languages: [Language.English],
+  },
+  AE: {
+    code: 'AE',
+    name: 'United Arab Emirates',
     region: countryRegions.International,
-    currency: Currency.Euros,
+    currency: Currency.USDollars,
     languages: [Language.English],
   },
 };
@@ -415,6 +422,7 @@ export const getLocaleFromCountry = (countryCode) => {
 export const getCountryName = (countryCode: string) => {
   return countries[countryCode]?.name;
 };
+
 /** LOCALES */
 
 const LOCALE_REGEX = /^[a-z]{2}-[A-Z]{2}$/;
