@@ -548,12 +548,11 @@ export function getFormattedPrice(
 
   // this is a hack to see proper CAD formatting
   // https://github.com/nodejs/node/issues/15265#issuecomment-776942859
-  const customLocale = countryCode === 'ES' ? 'de-DE' : locale === 'en-CA' ? 'en-US' : locale;
+  const customLocale = countryCode === 'ES' ? 'de-DE' : locale === 'en-CA' || locale === 'fr-CA' ? 'en-US' : locale;
 
   const numberFormat = new Intl.NumberFormat(customLocale, {
     currency,
     style: 'currency',
-    currencyDisplay: 'narrowSymbol',
     minimumFractionDigits: hideZeroCents ? 0 : 2,
     maximumFractionDigits: hideZeroCents ? 0 : 2,
   });
@@ -572,7 +571,6 @@ export function getFormattedPrice(
   // Canada symbol
   if (countryCode === 'CA') {
     formattedPrice = formattedPrice.replace(/\s+/, ',');
-    currencySymbol = 'CA' + currencySymbol;
   }
 
   // Australia symbol
@@ -661,11 +659,10 @@ export function simpleFormatPrice(
   const { countryCode } = parseValidLocale(locale);
   const currency = cur || getCurrency(countryCode);
 
-  const customLocale = countryCode === 'ES' ? 'de-DE' : locale === 'en-CA' ? 'en-US' : locale;
+  const customLocale = countryCode === 'ES' ? 'de-DE' : locale === 'en-CA' || locale === 'fr-CA' ? 'en-US' : locale;
   const numberFormat = new Intl.NumberFormat(customLocale, {
     currency,
     style: 'currency',
-    currencyDisplay: 'narrowSymbol',
     minimumFractionDigits: hideZeroCents ? 0 : 2,
     maximumFractionDigits: hideZeroCents ? 0 : 2,
   });
@@ -687,7 +684,6 @@ export function simpleFormatPrice(
   // Canada symbol
   if (countryCode === 'CA') {
     formattedPrice = formattedPrice.replace(/\s+/, ',');
-    currencySymbol = 'CA' + currencySymbol;
   }
   // Australia symbol
   if (countryCode === 'AU') {
