@@ -103,6 +103,7 @@ export const BannerWrapper = styled.div`
 
   .cta {
     max-width: 35rem;
+    margin: 0 auto;
     .cta__button {
       margin: 0 0 2rem;
       /* We're overriding DarksideButton styles here */

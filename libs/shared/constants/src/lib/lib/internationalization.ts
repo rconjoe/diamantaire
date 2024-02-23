@@ -553,7 +553,6 @@ export function getFormattedPrice(
   const numberFormat = new Intl.NumberFormat(customLocale, {
     currency,
     style: 'currency',
-    currencyDisplay: 'narrowSymbol',
     minimumFractionDigits: hideZeroCents ? 0 : 2,
     maximumFractionDigits: hideZeroCents ? 0 : 2,
   });
@@ -665,7 +664,6 @@ export function simpleFormatPrice(
   const numberFormat = new Intl.NumberFormat(customLocale, {
     currency,
     style: 'currency',
-    currencyDisplay: 'narrowSymbol',
     minimumFractionDigits: hideZeroCents ? 0 : 2,
     maximumFractionDigits: hideZeroCents ? 0 : 2,
   });

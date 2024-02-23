@@ -7,7 +7,8 @@ export const ModularSideBySideBlockStyles = styled.div`
   ${media.medium`
     display: flex;
     flex-direction: ${(props) => (props.$textBlockAlignment === 'left' ? 'row-reverse' : 'row')};
-    justify-content: space-evenly;
+    justify-content: center;
+    gap: 20px;
     margin: ${setSpace(5)} auto;
   `}
 
@@ -86,13 +87,17 @@ export const ModularSideBySideBlockStyles = styled.div`
 
   .side-by-side__title {
     margin: 0;
-    font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-xsmall);
+    font-weight: normal;
+
     font-family: var(--font-family-main);
-    text-align: left;
+    text-align: center;
+
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      text-align: left;
+    }
 
     ${desktopAndUp(`
-      font-size: 2.2rem;
+      font-size: 3.2rem;
     `)};
 
     &.more-square {
@@ -107,18 +112,27 @@ export const ModularSideBySideBlockStyles = styled.div`
         font-size: 2.8rem;
       `)}
     }
+
+    &.mobile-only-heading {
+      margin-bottom: 2rem;
+    }
   }
 
   .side-by-side__copy {
-    text-align: left;
     margin: ${setSpace(1.5)} 0;
     font-weight: var(--font-weight-normal);
     font-size: var(--font-size-xsmall);
     font-family: var(--font-family-main);
     line-height: 2rem;
+    text-align: center;
+
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      text-align: left;
+    }
 
     p {
       margin: 0 0 2rem;
+      font-size: var(--font-size-xsmall);
     }
 
     p:last-child {
@@ -133,12 +147,16 @@ export const ModularSideBySideBlockStyles = styled.div`
   }
 
   .side-by-side__cta {
-    text-align: left;
     margin: ${setSpace(1.5)} 0;
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-xsmall);
     color: var(--color-teal);
     font-family: var(--font-family-main);
     text-decoration: underline;
+    text-align: center;
+
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      text-align: left;
+    }
   }
 `;

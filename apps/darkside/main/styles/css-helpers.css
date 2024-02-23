@@ -146,13 +146,18 @@ iframe#kustomer-ui-sdk-iframe {
 
 .hide-on-mobile {
   display: none;
-  @media (min-width: 768px) {
-    display: block;
-  }
 }
+
 .show-on-mobile {
   display: block;
-  @media (min-width: 768px) {
+}
+
+@media (min-width: 768px) {
+  .hide-on-mobile {
+    display: block;
+  }
+
+  .show-on-mobile {
     display: none;
   }
 }

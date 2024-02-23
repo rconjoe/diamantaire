@@ -27,6 +27,12 @@ function PlpSortOptions({ sortOptions, onSortOptionChange }: PlpSortOptionsProps
 
     setCurrentSortOption(val);
 
+    console.log('sorting', {
+      sortBy: selectedSortOption?.field,
+      sortOrder: selectedSortOption?.isDescendingOrder ? 'desc' : 'asc',
+      id: value,
+    });
+
     onSortOptionChange({
       sortBy: selectedSortOption?.field,
       sortOrder: selectedSortOption?.isDescendingOrder ? 'desc' : 'asc',

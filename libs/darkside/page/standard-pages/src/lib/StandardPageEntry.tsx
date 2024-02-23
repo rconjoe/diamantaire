@@ -5,7 +5,7 @@
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 import { Breadcrumb } from '@diamantaire/darkside/components/common-ui';
 import clsx from 'clsx';
-import React, { Suspense } from 'react';
+import React from 'react';
 
 type StandardPageEntryProps = {
   page?: {
@@ -41,15 +41,14 @@ const StandardPageEntry = ({ page, countryCode, currencyCode, gtmClass }: Standa
 
         if (shouldLazyLoad) {
           return (
-            <Suspense fallback={'Loading'} key={`${_modelApiKey}_${idx}`}>
-              <BlockPicker
-                _modelApiKey={_modelApiKey}
-                modularBlockData={contentBlockData}
-                countryCode={countryCode}
-                currencyCode={currencyCode}
-                shouldLazyLoad={shouldLazyLoad}
-              />
-            </Suspense>
+            <BlockPicker
+              key={`${_modelApiKey}_${idx}`}
+              _modelApiKey={_modelApiKey}
+              modularBlockData={contentBlockData}
+              countryCode={countryCode}
+              currencyCode={currencyCode}
+              shouldLazyLoad={shouldLazyLoad}
+            />
           );
         } else {
           return (

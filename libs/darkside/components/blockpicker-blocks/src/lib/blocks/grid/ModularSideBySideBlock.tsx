@@ -23,6 +23,7 @@ type ModularSideBySideBlockProps = {
   image: DatoImageType;
   imageInline: DatoImageType;
   imageMobile: DatoImageType;
+  shouldHeadingBeAboveImageOnMobile: boolean;
 };
 
 const ModularSideBySideBlock = ({
@@ -42,6 +43,7 @@ const ModularSideBySideBlock = ({
   imageInline,
   imageMobile,
   darksideButtons,
+  shouldHeadingBeAboveImageOnMobile,
 }: ModularSideBySideBlockProps) => {
   // If there are supported countries listed, check to see if its supported.
   if (supportedCountries?.length && !supportedCountries.includes(countryCode)) {
@@ -58,6 +60,18 @@ const ModularSideBySideBlock = ({
       className={clsx('container-wrapper', additionalClass)}
       $textBlockAlignment={textBlockAlignment}
     >
+      {title && shouldHeadingBeAboveImageOnMobile && (
+        <Heading
+          type={headingType ? headingType : 'h2'}
+          className={clsx(
+            'side-by-side__title h1 primary show-on-mobile mobile-only-heading',
+            headingAdditionalClass ? headingAdditionalClass : 'h1',
+            additionalClass,
+          )}
+        >
+          {title}
+        </Heading>
+      )}
       <div className={clsx('side-by-side__image-container', additionalClass)}>
         <div className="desktop">
           <DatoImage image={image} overrideAlt={alt} />
@@ -66,15 +80,19 @@ const ModularSideBySideBlock = ({
           <DatoImage image={imageMobile} overrideAlt={alt} />
         </div>
       </div>
+
       <div className={clsx('side-by-side__text-container', additionalClass)}>
         <div className={clsx('side-by-side__inner-text-container', additionalClass)}>
           {title && (
             <Heading
               type={headingType ? headingType : 'h2'}
               className={clsx(
-                'side-by-side__title',
+                'side-by-side__title h1 primary',
                 headingAdditionalClass ? headingAdditionalClass : 'h1',
                 additionalClass,
+                {
+                  'hide-on-mobile': shouldHeadingBeAboveImageOnMobile,
+                },
               )}
             >
               {title}
