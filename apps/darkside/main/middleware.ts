@@ -18,6 +18,7 @@ const ORDERED_CONFIGURATION_PROPERTIES = [
   'ceramicColor',
   'diamondSize',
 ];
+const VALID_COUNTRY_SUBDOMAINS = ['de', 'be', 'fr', 'it', 'se', 'es', 'no', 'nl', 'ch', 'dk'];
 
 const PUBLIC_FILE = /\.(.*)$/;
 
@@ -44,7 +45,11 @@ export default async function middleware(request: NextRequest, _event: NextFetch
   // This is what gets returned from the middleware, cookies need to be set on the res
   const res = NextResponse.next();
 
-  const { nextUrl: url, geo, cookies } = request;
+  const { headers, nextUrl: url, geo, cookies } = request;
+  const host = headers.get('host');
+  // eslint-disable-next-line security/detect-unsafe-regex
+  const subdomainMatch = host.match(/^(.+?)\.(vrai\.com|vrai\.qa|localhost(?::\d+)?)$/);
+  const subdomain = subdomainMatch ? subdomainMatch[1] : '';
 
   if (isDevEnv) {
     // const US_GEO = { city: 'New York', country: 'US', latitude: '40.7128', longitude: '-74.0060', region: 'NY' };
@@ -139,6 +144,15 @@ export default async function middleware(request: NextRequest, _event: NextFetch
     }
   }
 
+
+  if (subdomain && VALID_COUNTRY_SUBDOMAINS.includes(subdomain.toLowerCase())) {
+    const countryCode = subdomain.toUpperCase();
+    const localePath = getLocaleFromCountry(countryCode);
+    const targetUrl = new URL(`https://www.vrai.com/${localePath}${url.pathname}${url.search}`);
+
+    return NextResponse.redirect(targetUrl);
+  }
+  
   const preferredLocale = cookies.get('NEXT_LOCALE')?.value;
 
   // Redirect if there's a preferred locale that doesn't match the current locale
@@ -169,6 +183,7 @@ export default async function middleware(request: NextRequest, _event: NextFetch
 
       return response;
     }
+
   }
 
   return res;
