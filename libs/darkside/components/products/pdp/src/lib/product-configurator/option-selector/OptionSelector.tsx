@@ -386,7 +386,7 @@ function OptionSelector({
         if (selectedOptionValue !== 'other') {
           return (
             <>
-              {CARAT_WEIGHT_HUMAN_NAMES?.[selectedOptionValue].value} ct
+              {CARAT_WEIGHT_HUMAN_NAMES?.[selectedOptionValue]?.value || selectedOptionValue} ct
               {productType === 'Engagement Ring' && renderDiamondSpecs()}
             </>
           );
