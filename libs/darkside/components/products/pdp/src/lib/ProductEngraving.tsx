@@ -2,7 +2,14 @@
 // Keep state regarding actual engraving text outside of this component
 
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
-import { ENGRAVING_CHARACTER_LIMITS, ENGRAVING_REGEX, JEWELRY_ENGRAVING_MAX_LENGTH } from '@diamantaire/shared/constants';
+import {
+  ENGAGEMENT_RING_PRODUCT_TYPE,
+  ENGRAVING_CHARACTER_LIMITS,
+  ENGRAVING_REGEX,
+  JEWELRY_ENGRAVING_MAX_LENGTH,
+  WEDDING_BAND_PRODUCT_TYPE,
+} from '@diamantaire/shared/constants';
+import { DEFAULT_BUILDER_ENGRAVING_FONT, getRenderedInputEngravingFontStyles } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -47,6 +54,11 @@ const ProductEngravingStyles = styled.div`
 
     .engraving-input-container {
       margin: 2rem 0;
+      &.-engagement-ring {
+        input {
+          ${getRenderedInputEngravingFontStyles(DEFAULT_BUILDER_ENGRAVING_FONT)};
+        }
+      }
       input {
         border: 0.1rem solid #ccc;
         height: 4rem;
@@ -71,7 +83,8 @@ const ProductEngravingStyles = styled.div`
   }
 `;
 
-const ProductEngraving = ({ engravingText, setEngravingText, hasSingleInitialEngraving }) => {
+const ProductEngraving = ({ engravingText, setEngravingText, hasSingleInitialEngraving, productType }) => {
+  console.log({ productType });
   const [isEngravingInputVisible, setIsEngravingInputVisible] = useState(false);
   const [engravingInputText, setEngravingInputText] = useState('');
 
@@ -148,6 +161,7 @@ const ProductEngraving = ({ engravingText, setEngravingText, hasSingleInitialEng
           <div
             className={clsx('engraving-input-container', {
               'is-initial': hasSingleInitialEngraving,
+              '-engagement-ring': productType === ENGAGEMENT_RING_PRODUCT_TYPE || productType === WEDDING_BAND_PRODUCT_TYPE,
             })}
           >
             <input

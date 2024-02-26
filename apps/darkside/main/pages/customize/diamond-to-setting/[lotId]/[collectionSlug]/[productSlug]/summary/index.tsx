@@ -50,6 +50,7 @@ import {
   ENGAGEMENT_RING_PRODUCT_TYPE,
   ENGRAVING_REGEX,
   PdpTypePlural,
+  WEDDING_BAND_PRODUCT_TYPE,
   getCurrency,
   getFormattedPrice,
   parseValidLocale,
@@ -666,7 +667,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
       _productTypeTranslated: _t(productType),
       metalType: erMetal,
       productAsset: image?.src,
-      _productAssetObject: JSON.stringify(image),
+
       _productTitle: productTitle,
       productIconListShippingCopy: 'temp',
       pdpUrl: window.location.href,
@@ -684,7 +685,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
       productCategory: settingType === 'engagement-ring' ? _t('Setting') : productType ? productType : _t('Setting'),
       _dateAdded: Date.now().toString(),
       shippingBusinessDays: isDiamondCFY ? cfyShippingTime?.toString() : shippingTime?.toString(),
-
+      _productAssetObject: JSON.stringify(image),
       // Diamond Sync
       childProduct: JSON.stringify({
         behavior: 'linked',
@@ -705,11 +706,6 @@ const ReviewBuildStep = ({ settingSlugs }) => {
       const diamondAttributes: ProductAddonDiamond['attributes'] = {
         _productTitle: diamond?.productTitle,
         productAsset: diamondImages[index],
-        _productAssetObject: JSON.stringify({
-          src: diamondImages[index],
-          width: 200,
-          height: 200,
-        }),
         _dateAdded: (Date.now() + 100).toString(),
         caratWeight: diamond.carat.toString(),
         clarity: diamond.clarity,
@@ -727,6 +723,11 @@ const ReviewBuildStep = ({ settingSlugs }) => {
         productIconListShippingCopy: 'temp',
         pdpUrl: window.location.href,
         shippingBusinessDays: isDiamondCFY ? cfyShippingTime?.toString() : shippingTime?.toString(),
+        _productAssetObject: JSON.stringify({
+          src: diamondImages[index],
+          width: 200,
+          height: 200,
+        }),
       };
 
       return {
@@ -1218,7 +1219,8 @@ const ReviewBuildStep = ({ settingSlugs }) => {
               {isEngravingInputVisible && (
                 <div
                   className={clsx('engraving-input-container', {
-                    '-engagement-ring': productType === ENGAGEMENT_RING_PRODUCT_TYPE,
+                    '-engagement-ring':
+                      productType === ENGAGEMENT_RING_PRODUCT_TYPE || productType === WEDDING_BAND_PRODUCT_TYPE,
                   })}
                 >
                   <input
