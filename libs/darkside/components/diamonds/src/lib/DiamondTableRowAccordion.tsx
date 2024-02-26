@@ -143,7 +143,7 @@ const DiamondDetailRowAccordion = ({
       title: (
         <>
           <strong>{titleCertificate?.value}:</strong>
-          <strong>{labelCertificate}</strong>
+          <span>{labelCertificate}</span>
         </>
       ),
       children: (
@@ -158,7 +158,7 @@ const DiamondDetailRowAccordion = ({
       title: (
         <>
           <strong>{titleOrigin?.value}:</strong>
-          <strong>{origin}</strong>
+          <span>{origin}</span>
         </>
       ),
       children: <Markdown withStyles={false}>{originContent}</Markdown>,

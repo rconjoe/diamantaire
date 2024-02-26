@@ -283,7 +283,7 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
     return (
       <>
         <strong>{title}:</strong>
-        <strong>{label}</strong>
+        <span>{label}</span>
       </>
     );
   };
@@ -312,7 +312,7 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
     return (
       <>
         <strong>{title}:</strong>
-        <strong>{label}</strong>
+        <span>{label}</span>
       </>
     );
   };
