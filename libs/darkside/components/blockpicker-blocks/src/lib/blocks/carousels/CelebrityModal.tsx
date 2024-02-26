@@ -55,7 +55,6 @@ const CelebrityModalStyles = styled.div`
               border-radius: 0.4rem;
               display: flex;
               flex-direction: column;
-              justify-content: space-between;
               transition: 0.25s;
 
               &:hover {
