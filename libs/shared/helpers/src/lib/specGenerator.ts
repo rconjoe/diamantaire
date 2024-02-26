@@ -1,6 +1,8 @@
 // The _spec attribute controls what details are shown on a per-line-item basis in cart + checkout
 //
 
+import { getFormattedCarat } from '@diamantaire/shared/constants';
+
 type SpecGenerator = {
   configuration: {
     [key: string]: any;
@@ -10,9 +12,10 @@ type SpecGenerator = {
   alt_t?: (key: string) => string;
   // Builder flow product indicator
   hasChildDiamond?: boolean;
+  locale?: string;
 };
 
-export function specGenerator({ configuration, productType, _t, alt_t, hasChildDiamond }: SpecGenerator) {
+export function specGenerator({ configuration, productType, _t, alt_t, hasChildDiamond, locale }: SpecGenerator) {
   const {
     diamondShape,
     diamondSize,
@@ -85,7 +88,9 @@ export function specGenerator({ configuration, productType, _t, alt_t, hasChildD
   }
 
   if (caratWeight && !isEngagementRing && parseFloat(caratWeight)) {
-    specArray.push(`${_t('carat weight')}: ${_t(caratWeight)}ct`);
+    const formattedCarat = getFormattedCarat(caratWeight, locale);
+
+    specArray.push(`${_t('carat weight')}: ${formattedCarat}ct`);
   }
 
   if (bandWidth) {
@@ -134,7 +139,7 @@ export function specGenerator({ configuration, productType, _t, alt_t, hasChildD
   if (isDiamond) {
     specArray.push(`${_t('color')}: ${color}`);
     specArray.push(`${_t('clarity')}: ${clarity}`);
-    specArray.push(`${_t('cut')}: ${cut}`);
+    specArray.push(`${_t('cut')}: ${_t(cut)}`);
   }
 
   return specArray.join(';');
