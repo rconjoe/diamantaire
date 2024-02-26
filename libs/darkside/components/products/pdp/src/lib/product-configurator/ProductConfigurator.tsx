@@ -563,6 +563,7 @@ function AddToCartButton({
       productType,
       _t,
       alt_t: diamondShapesTranslations,
+      locale,
     });
 
     const metal = _t(

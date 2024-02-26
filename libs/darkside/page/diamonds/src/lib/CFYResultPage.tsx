@@ -230,6 +230,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
       },
       productType: 'Diamond',
       _t,
+      locale,
     });
 
     const spriteImageUrl = generateDiamondSpriteImage({ diamondType });
