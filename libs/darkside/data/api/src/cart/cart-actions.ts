@@ -34,6 +34,7 @@ import {
 } from './mutations/cart';
 import { getCartQuery } from './queries/cart';
 import { getEmailFromCookies } from '../clients';
+import { WEDDING_BAND_PRODUCT_TYPE } from '@diamantaire/shared/constants';
 
 // NEW
 
@@ -334,6 +335,13 @@ export function addJewelryProductToCart({
         value: engravingText,
       });
 
+      if (productType === WEDDING_BAND_PRODUCT_TYPE) {
+        refinedAttributes.push({
+          key: '_EngravingFont',
+          value: ENGRAVING_FONT_RENDER_MAP[DEFAULT_BUILDER_ENGRAVING_FONT],
+        });
+      }
+
       return addCustomizedItem(
         [
           {
@@ -348,9 +356,17 @@ export function addJewelryProductToCart({
                 value: attributes.productAsset,
               },
               {
-                key: 'engravingText',
+                key: '_EngravingBack',
                 value: engravingText,
               },
+              ...(productType === WEDDING_BAND_PRODUCT_TYPE
+                ? [
+                    {
+                      key: '_EngravingFont',
+                      value: ENGRAVING_FONT_RENDER_MAP[DEFAULT_BUILDER_ENGRAVING_FONT],
+                    },
+                  ]
+                : []),
               {
                 key: '_hiddenProduct',
                 value: 'true',
