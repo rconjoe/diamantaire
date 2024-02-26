@@ -1,5 +1,6 @@
 import { authMiddleware } from '@clerk/nextjs';
 import { isDevEnv, getLocaleFromCountry } from '@diamantaire/shared/constants';
+import { prerender } from '@diamantaire/shared/helpers';
 import { kv } from '@vercel/kv';
 import { NextMiddlewareResult } from 'next/dist/server/web/types';
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
@@ -31,6 +32,9 @@ export default async function middleware(request: NextRequest, _event: NextFetch
   ) {
     return NextResponse.next();
   }
+
+  // Pre-render
+  prerender(request);
 
   // Use authMiddleware
   const authResult = authMiddleware({
@@ -144,7 +148,6 @@ export default async function middleware(request: NextRequest, _event: NextFetch
     }
   }
 
-
   if (subdomain && VALID_COUNTRY_SUBDOMAINS.includes(subdomain.toLowerCase())) {
     const countryCode = subdomain.toUpperCase();
     const localePath = getLocaleFromCountry(countryCode);
@@ -152,7 +155,7 @@ export default async function middleware(request: NextRequest, _event: NextFetch
 
     return NextResponse.redirect(targetUrl);
   }
-  
+
   const preferredLocale = cookies.get('NEXT_LOCALE')?.value;
 
   // Redirect if there's a preferred locale that doesn't match the current locale
@@ -183,7 +186,6 @@ export default async function middleware(request: NextRequest, _event: NextFetch
 
       return response;
     }
-
   }
 
   return res;
