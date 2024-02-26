@@ -35,8 +35,8 @@ const SingleJournalEntry = () => {
         path: '/',
       },
       {
-        title: singleJournal?.category.copy,
-        path: `/${singleJournal?.category.key}`,
+        title: singleJournal?.category?.copy || "",
+        path: `/${singleJournal?.category?.key || ""}`,
       },
       {
         title: singleJournal?.title,
