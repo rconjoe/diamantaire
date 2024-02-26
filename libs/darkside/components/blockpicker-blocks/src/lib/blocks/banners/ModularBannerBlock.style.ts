@@ -83,13 +83,6 @@ export const BannerWrapper = styled.div`
   &.-full-screen {
     max-width: 100%;
   }
-
-  // hack to fix extra space below desktop banner image
-  .image {
-    ${tabletAndUp(`
-      aspect-ratio: 3 !important;
-    `)}
-  }
   .special_shapes & {
     margin: 0 auto !important;
   }

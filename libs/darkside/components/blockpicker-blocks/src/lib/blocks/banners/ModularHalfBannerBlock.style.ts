@@ -21,6 +21,7 @@ export const ModularHalfBannerBlockContainer = styled.div`
   }
 
   &.container-wrapper {
+    max-width: 1440px;
     padding: 0;
   }
 
@@ -32,13 +33,14 @@ export const ModularHalfBannerBlockContainer = styled.div`
     position: relative;
 
     ${tabletAndUp(`
-    max-width: 60%;
-    min-height: calc(60vw / 8 * 5);
-  `)};
+      max-width: 60%;
+      min-height: calc(60vw / 8 * 5);
+    `)};
 
     ${XXLDesktopAndUp(`
-    min-height: 54rem;
-  `)};
+      min-height: 540px;
+      max-width: 60%;
+    `)};
 
     &.-left {
       ${tabletAndUp(`
@@ -79,8 +81,6 @@ export const ModularHalfBannerBlockContainer = styled.div`
 
       img {
         max-width: 600px;
-
-
       }
     `)};
 
