@@ -22,6 +22,8 @@ const VALID_COUNTRY_SUBDOMAINS = ['de', 'be', 'fr', 'it', 'se', 'es', 'no', 'nl'
 
 const PUBLIC_FILE = /\.(.*)$/;
 
+// https://docs.prerender.io/docs/nextjs
+
 export async function prerender(request) {
   const userAgent = request.headers.get('user-agent');
   const bots = [

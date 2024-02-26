@@ -19,7 +19,6 @@ export * from './isEmptyObject';
 export * from './mapShapeToSeoTitle';
 export * from './normalizeDatoNumberedContent';
 export * from './object-transformations';
-export * from './prerender';
 export * from './products';
 export * from './replacePlaceholders';
 export * from './routes';
