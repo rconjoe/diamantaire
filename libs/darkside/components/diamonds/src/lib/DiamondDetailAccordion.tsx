@@ -1,17 +1,14 @@
 import { Accordion, CertificateThumb, Heading, Slider, UIString } from '@diamantaire/darkside/components/common-ui';
-import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useDiamondPdpData, useDiamondTableData, useDiamondsData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedCarat } from '@diamantaire/shared/constants';
 import Markdown from 'markdown-to-jsx';
 import Image from 'next/image';
-import { useContext } from 'react';
 
 import { StyledDiamondDetailAccordion } from './DiamondDetailAccordion.style';
 
 const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: string }) => {
   const { _t } = useTranslations(locale);
   const getInfo = (arr, v) => arr.find((x) => x.key === v);
-  const { isMobile } = useContext(GlobalContext);
   const { data: { diamond: product } = {} } = useDiamondsData({ lotId });
   const { data: { ranges } = {} } = useDiamondsData({ diamondType: product?.diamondType });
   const { data: { diamondTable: DiamondTableData } = {} } = useDiamondTableData(locale);
@@ -307,6 +304,28 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
     );
   };
 
+  // ORIGIN
+  const getOriginTitle = () => {
+    const { origin: label } = DiamondTableData || {};
+    const title = getInfo(specs, 'origin')?.value;
+
+    return (
+      <>
+        <strong>{title}:</strong>
+        <strong>{label}</strong>
+      </>
+    );
+  };
+  const getOriginContent = () => {
+    const { originContent } = DiamondTableData || {};
+
+    return (
+      <div className="row">
+        <div className="description">{<Markdown>{originContent}</Markdown>}</div>
+      </div>
+    );
+  };
+
   // ACCORDION
   const accordionContent = [
     {
@@ -335,11 +354,16 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
       className: 'certificate',
       withHeading: false,
     },
+    {
+      title: getOriginTitle(),
+      children: getOriginContent(),
+      className: 'origin',
+    },
   ];
 
   return (
     <StyledDiamondDetailAccordion>
-      <Accordion rows={accordionContent} activeDefault={isMobile ? 0 : 4} isDiamondDetail={true} enableScroll={true} />
+      <Accordion rows={accordionContent} isDiamondDetail={true} enableScroll={true} />
     </StyledDiamondDetailAccordion>
   );
 };

@@ -32,6 +32,8 @@ const DiamondDetailRowAccordion = ({
     clarity: clarityContent,
     certificateLabel: labelCertificate,
     certificate: certificateContent,
+    origin,
+    originContent,
   } = diamondTable || {};
 
   if (!specs) return;
@@ -43,6 +45,7 @@ const DiamondDetailRowAccordion = ({
   const titleClarity = specs.find((v) => v.key === 'clarity');
   const labelClarity = clarityMapAbridged.find((v) => v.key === productClarity);
   const titleCertificate = specs.find((v) => v.key === 'certificate');
+  const titleOrigin = specs.find((v) => v.key === 'origin');
 
   const cutOrder = ['Ideal+Hearts', 'Ideal', 'Excellent+', 'Excellent', 'Very Good'];
 
@@ -150,6 +153,16 @@ const DiamondDetailRowAccordion = ({
         </>
       ),
       className: 'certificate product-pair',
+    },
+    {
+      title: (
+        <>
+          <strong>{titleOrigin?.value}:</strong>
+          <strong>{origin}</strong>
+        </>
+      ),
+      children: <Markdown withStyles={false}>{originContent}</Markdown>,
+      className: 'origin',
     },
   ];
 
