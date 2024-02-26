@@ -345,10 +345,6 @@ export function addJewelryProductToCart({
       return addCustomizedItem(
         [
           {
-            variantId: variantId,
-            customAttributes: refinedAttributes,
-          },
-          {
             variantId: engravingVariantId,
             customAttributes: [
               {
@@ -380,6 +376,10 @@ export function addJewelryProductToCart({
                 value: 'true',
               },
             ],
+          },
+          {
+            variantId: variantId,
+            customAttributes: refinedAttributes,
           },
         ],
         locale,
