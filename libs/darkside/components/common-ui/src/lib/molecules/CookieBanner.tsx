@@ -99,7 +99,7 @@ const CookieBanner = () => {
   const [showBanner, setShowBanner] = useState(false);
 
   const handleAcceptPrivacy = () => {
-    Cookies.set('didAcceptPrivacy', 'true');
+    Cookies.set('didAcceptPrivacy', 'true', { expires: 365 });
     setShowBanner(false);
   };
 
