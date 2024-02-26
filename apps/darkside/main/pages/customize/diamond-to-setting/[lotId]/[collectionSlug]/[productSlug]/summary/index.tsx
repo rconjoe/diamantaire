@@ -50,6 +50,7 @@ import {
   ENGAGEMENT_RING_PRODUCT_TYPE,
   ENGRAVING_REGEX,
   PdpTypePlural,
+  WEDDING_BAND_PRODUCT_TYPE,
   getCurrency,
   getFormattedPrice,
   parseValidLocale,
@@ -1218,7 +1219,8 @@ const ReviewBuildStep = ({ settingSlugs }) => {
               {isEngravingInputVisible && (
                 <div
                   className={clsx('engraving-input-container', {
-                    '-engagement-ring': productType === ENGAGEMENT_RING_PRODUCT_TYPE,
+                    '-engagement-ring':
+                      productType === ENGAGEMENT_RING_PRODUCT_TYPE || productType === WEDDING_BAND_PRODUCT_TYPE,
                   })}
                 >
                   <input

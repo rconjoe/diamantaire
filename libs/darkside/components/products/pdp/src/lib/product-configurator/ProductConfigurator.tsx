@@ -333,6 +333,7 @@ function ProductConfigurator({
       {extraOptions && extraOptions.length > 0 && <ProductExtraInfo extraOptions={extraOptions} />}
       {(isEngraveable || hasSingleInitialEngraving) && isConfigurationComplete && !isBuilderFlowOpen && (
         <ProductEngraving
+          productType={additionalVariantData?.productType}
           engravingText={engravingText}
           setEngravingText={setEngravingText}
           hasSingleInitialEngraving={hasSingleInitialEngraving}
