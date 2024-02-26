@@ -27,7 +27,7 @@ const HomePage = (props: HomePageProps) => {
 
   return (
     <>
-      <StandardPageSeo title={seoTitle} description={seoDescription} />
+      <StandardPageSeo title={seoTitle} description={seoDescription} breadcrumb={page?.breadcrumb} />
       <StandardPageEntry
         gtmClass="mkt-is-homepage"
         page={page}
