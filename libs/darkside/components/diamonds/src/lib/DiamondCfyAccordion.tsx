@@ -249,6 +249,30 @@ const DiamondCfyAccordion = ({
     );
   };
 
+  // ORIGIN
+  const getOriginTitle = () => {
+    const title = getInfo(specs, 'origin')?.value;
+    const { origin: label } = DiamondTableData || {};
+
+    return (
+      <>
+        <strong className="label">{title}:</strong>
+        <div className="value">
+          <span>{label}</span>
+        </div>
+      </>
+    );
+  };
+  const getOriginContent = () => {
+    const { originContent } = DiamondTableData || {};
+
+    return (
+      <div className="description">
+        <Markdown withStyles={false}>{originContent}</Markdown>
+      </div>
+    );
+  };
+
   // ACTIVE DEFAULT
   const getActiveDefault = () => {
     let activeDefault = -1;
@@ -315,6 +339,12 @@ const DiamondCfyAccordion = ({
       title: getCutTitle(),
       children: getCutContent(),
       className: 'cut',
+    },
+    {
+      type: 'origin',
+      title: getOriginTitle(),
+      children: getOriginContent(),
+      className: 'origin',
     },
   ];
 

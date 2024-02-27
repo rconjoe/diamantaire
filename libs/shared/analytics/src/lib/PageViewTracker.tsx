@@ -177,7 +177,7 @@ const PageViewTracker = ({ productData, listPageData, isSummaryPage }: Props) =>
     emitViewPageEvent(router.pathname);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [router.asPath]);
 
   return null; // This component doesn't render anything in the DOM
 };

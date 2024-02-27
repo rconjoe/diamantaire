@@ -656,6 +656,7 @@ const SettingToDiamondSummaryPage = () => {
       _t,
       alt_t: diamondShapesTranslations,
       hasChildDiamond: true,
+      locale,
     });
 
     const settingAttributes: ERProductCartItemProps['settingAttributes'] = {
@@ -698,6 +699,7 @@ const SettingToDiamondSummaryPage = () => {
         productType: 'Diamond',
         alt_t: diamondShapesTranslations,
         _t,
+        locale,
       });
       const diamondAttributes: ProductAddonDiamond['attributes'] = {
         _productTitle: diamond?.productTitle,

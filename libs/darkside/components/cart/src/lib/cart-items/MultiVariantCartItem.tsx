@@ -4,6 +4,7 @@ import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { updateMultipleItemsQuantity } from '@diamantaire/darkside/data/api';
 import { CartCertProps, useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import {
+  ENGAGEMENT_RING_PRODUCT_TYPE,
   combinePricesOfMultipleProducts,
   getFormattedPrice,
   parseValidLocale,
@@ -474,7 +475,7 @@ const MultiVariantCartItem = ({
 
         return <ChildProduct key={childProduct?.id} lineItem={childProduct} />;
       })}
-      {productType === 'Engagement Ring' && <CartDiamondCertificate certificate={certificate} />}
+      {productType === ENGAGEMENT_RING_PRODUCT_TYPE && <CartDiamondCertificate certificate={certificate} />}
     </MultiVariantCartItemStyles>
   );
 };

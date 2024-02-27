@@ -50,6 +50,7 @@ import {
   ENGAGEMENT_RING_PRODUCT_TYPE,
   ENGRAVING_REGEX,
   PdpTypePlural,
+  WEDDING_BAND_PRODUCT_TYPE,
   getCurrency,
   getFormattedPrice,
   parseValidLocale,
@@ -449,7 +450,7 @@ const SettingToDiamondSummaryPage = () => {
   const [engravingText, setEngravingText] = useState(null);
   const [handCaratValue, setHandCaratValue] = useState(null);
 
-  const preselectedSizeVariant = configurations?.ringSize?.find((item) => item.value === preselectedRingSize)
+  const preselectedSizeVariant = configurations?.ringSize?.find((item) => item.value === preselectedRingSize);
 
   const [selectedSize, setSelectedSize] = useState<{
     id: string;
@@ -656,6 +657,7 @@ const SettingToDiamondSummaryPage = () => {
       _t,
       alt_t: diamondShapesTranslations,
       hasChildDiamond: true,
+      locale,
     });
 
     const settingAttributes: ERProductCartItemProps['settingAttributes'] = {
@@ -698,6 +700,7 @@ const SettingToDiamondSummaryPage = () => {
         productType: 'Diamond',
         alt_t: diamondShapesTranslations,
         _t,
+        locale,
       });
 
       const diamondAttributes: ProductAddonDiamond['attributes'] = {
@@ -1226,7 +1229,8 @@ const SettingToDiamondSummaryPage = () => {
               {isEngravingInputVisible && (
                 <div
                   className={clsx('engraving-input-container', {
-                    '-engagement-ring': productType === ENGAGEMENT_RING_PRODUCT_TYPE,
+                    '-engagement-ring':
+                      productType === ENGAGEMENT_RING_PRODUCT_TYPE || productType === WEDDING_BAND_PRODUCT_TYPE,
                   })}
                 >
                   <input

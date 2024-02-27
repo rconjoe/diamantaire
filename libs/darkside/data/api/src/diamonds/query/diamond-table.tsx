@@ -17,6 +17,7 @@ query diamondTableQuery($locale: SiteLocale) {
     certificate(markdown: false)
     dfCertificateDetail
     origin
+    originContent
     certificateLabel
     specs {
       key
