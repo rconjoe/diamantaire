@@ -749,10 +749,15 @@ const SettingToDiamondSummaryPage = () => {
     });
 
     // TODO: Add Sentry Loggin
-
+    console.log({ product });
     if (Array.isArray(diamonds) && diamonds.length > 0) {
       // Extract setting information
-      const { productTitle: settingProductTitle, image: { src } = { src: '' }, price: settingPrice } = product || {};
+      const {
+        productTitle: settingProductTitle,
+        image: { src } = { src: '' },
+        price: settingPrice,
+        productContent,
+      } = product || {};
       const formattedSettingPrice = getFormattedPrice(settingPrice, locale, true, true);
       const id = settingVariantId.split('/').pop();
       const totalAmount = getFormattedPrice(settingPrice + diamondPricesCombined, locale, true, true);
@@ -766,7 +771,7 @@ const SettingToDiamondSummaryPage = () => {
         variant: variantProductTitle,
         quantity: 1,
         brand: 'VRAI',
-        image_url: src,
+        image_url: src || productContent?.assetStack?.[0]?.url,
         ...selectedConfiguration,
         setting: settingProductTitle,
         gold_purity: goldPurity,
