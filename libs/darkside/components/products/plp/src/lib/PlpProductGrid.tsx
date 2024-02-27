@@ -173,7 +173,7 @@ const PlpProductGrid = ({
     }
 
     if (creativeBlocksData[1]) {
-      object[19] = { ...creativeBlocksData[1], className: 'creative-block--right' };
+      object[20] = { ...creativeBlocksData[1], className: 'creative-block--right' };
     }
 
     return object;
