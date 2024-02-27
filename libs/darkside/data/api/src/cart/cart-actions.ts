@@ -209,7 +209,6 @@ async function addToCart(
   cartId: string,
   lines: { merchandiseId: string; quantity: number; attributes?: AttributeInput[] }[],
 ): Promise<Cart> {
-  console.log('getttinggggg', lines);
   const res = await shopifyFetch<ShopifyAddToCartOperation>({
     query: addToCartMutation,
     variables: {
@@ -526,8 +525,6 @@ export async function addERProductToCart({
   engravingText,
   locale,
 }: ERProductCartItemProps) {
-  console.log('getting attr', settingAttributes);
-
   const engravingVariantId = createShopifyVariantId(12459937759298);
 
   let refinedSettingAttributes = Object.keys(settingAttributes)
@@ -689,7 +686,6 @@ const addCustomizedItem = async (
     | undefined,
   locale: string,
 ): Promise<string | undefined> => {
-  console.log('customized item getting', items);
   if (!items || items.length === 0) {
     return 'Missing product or diamond';
   }
