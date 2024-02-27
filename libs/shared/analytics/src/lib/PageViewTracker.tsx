@@ -61,7 +61,6 @@ const PageViewTracker = ({ productData, listPageData, isSummaryPage }: Props) =>
 
     const isProductSlug = productSlugSegmentPath === '[productSlug]' || isSummaryPage;
     const isListPageSlug = productSlugSegmentPath === '[...plpSlug]' || pathname === '/customize/diamond-to-setting/[lotId]';
-    //console.log({ pathname, productData });
 
     if (isListPageSlug) {
       const { hero, productData: listpageProductData, category } = listPageData || {};
