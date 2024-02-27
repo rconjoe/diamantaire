@@ -95,7 +95,7 @@ export class ProductsService {
       // To disable expiration of the cache, set the ttl configuration property to 0:
       // https://docs.nestjs.com/techniques/caching
       await this.cacheManager.set(`${key}-data`, value, 0);
-    }    
+    }
   };
 
   async setSWRCacheRevalidate(key: string, ttl: number) {
@@ -119,6 +119,13 @@ export class ProductsService {
     this.logger.debug(`SWR Cache Request: ${JSON.stringify({ isFresh, isRefreshing, key })}`);
 
     return [isFresh, cachedData];
+  }
+
+  generatePlpCacheKey(sortBy: string, sortOrder: string, plpSlug: string, limit: number, page: number, filters: Record<string, unknown>, locale: string) {
+    const sortCacheEntry = sortBy ? `:soted=${sortBy}_${sortOrder}` : '';
+    const cacheKey = `plp-data:${plpSlug}:limit=${limit}-page=${page}:${this.generateQueryCacheKey(filters)}:${getDatoRequestLocale(locale)}${sortCacheEntry}`;
+
+    return cacheKey;
   }
 
   /**
@@ -147,12 +154,13 @@ export class ProductsService {
     const plpSlug = `${category}/${slug}`; // "jewelry/best-selling-gifts"
     const skip = (page - 1) * limit;
     const { metals, styles, diamondTypes, subStyles, priceMin, priceMax } = filters;
-    const cacheKey = `plp-data:${plpSlug}:limit=${limit}-page=${page}:${this.generateQueryCacheKey(filters)}:${getDatoRequestLocale(locale)}`;
+
+    const cacheKey = this.generatePlpCacheKey(sortBy, sortOrder, plpSlug, limit, page, filters, locale);
     const [isFresh, cachedData] = await this.getSWRCache(cacheKey);
 
     const fetchPlpData = async () => {
       this.setSWRCacheRefresh(cacheKey);
-      
+
       // Supports multiselect
       const filterQuery = {
         ...(diamondTypes && { 'configuration.diamondType': { $in: diamondTypes.map(d => new RegExp(d, 'i')) }}),
@@ -226,7 +234,7 @@ export class ProductsService {
         ];
 
         const productResponse = await Promise.all(productPromises);
-        
+
         // this.cacheManager.set(cacheKey, productResponse, PLP_DATA_TTL);
       const [products, totalDocumentsQuery] = productResponse;
       const totalDocuments = totalDocumentsQuery?.[0]?.documentCount || 0;
@@ -236,7 +244,7 @@ export class ProductsService {
       const productHandleProductTypes = ['Engagement Ring', 'Wedding Band'];
       const contentIdsByProductType = products.reduce(
         (acc, plpItem) => {
-          
+
           const idList = plpItem.variants.map((v) => v.contentId);
           const productType = plpItem?.variants?.[0]?.productType;
 
@@ -272,12 +280,12 @@ export class ProductsService {
         [productContent, collectionLowestPrices, availableFilters] = await Promise.all(dataPromises);
       } catch (e){
         this.logger.error(`Error fetching PLP data: ${e['message']}`);
-        
+
         Sentry.captureException(e);
 
         return null;
       }
-      
+
 
       const paginator = {
         totalDocs: totalDocuments,
@@ -340,7 +348,7 @@ export class ProductsService {
         if (!product){
           this.logger.warn(`No primary product found for PLP item ${plpItem.primaryProductSlug}, found: ${plpItem.variants.map(v=>v.contentId).join(', ')}`);
           Sentry.captureMessage(`No primary product found for PLP item ${plpItem.primaryProductSlug}, found: ${plpItem.variants.map(v=>v.contentId).join(', ')}`);
-          
+
           return undefined;
         }
         const metalOptions = plpItem.variants.map(v => ({ value: v.configuration.metal, id: v.contentId }));
@@ -398,7 +406,7 @@ export class ProductsService {
       }
       // Trigger an async process to update the data in place
       fetchPlpData();
-    }  
+    }
 
     return cachedData;
   }
@@ -741,8 +749,8 @@ export class ProductsService {
 
   /**
    * PDP request
-   * @param input 
-   * @returns 
+   * @param input
+   * @returns
    */
   async findProductBySlug(input: ProductSlugInput) {
     const setLocal = input?.locale ? input?.locale : 'en_US'; // get locale from input or default to en_US
@@ -766,7 +774,7 @@ export class ProductsService {
 
         const productCatalogCacheKey: string = `products::` + setLocal + (includeDraftProducts() ? `:draft` : ``);
         const productsCollectionCacheKey: string = `products:` + query.collectionSlug + `:` + setLocal + (includeDraftProducts() ? `:draft` : ``);
-        
+
         // check for cached data
         const cachedData = await this.cacheManager.get(cachedKey);
 
@@ -806,8 +814,8 @@ export class ProductsService {
               this.logger.verbose(`Collection not found in catalog cache: ${input.slug}.`);
               // this.cacheManager.del(productCatalogCacheKey);
             }
-          } 
-          
+          }
+
           // Fetch collection if not found in cache
           if(!collection){
             this.logger.verbose(`findProductBySlug :: From DB 2`);
