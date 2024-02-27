@@ -1,4 +1,4 @@
-import { captureException } from '@sentry/node';
+import { captureException } from '@sentry/nextjs';
 import { useEffect, useState, useRef } from 'react';
 
 export function useVariantInventory(variantId: string, trackInventory: boolean) {
@@ -27,7 +27,7 @@ export function useVariantInventory(variantId: string, trackInventory: boolean) 
         } catch (error) {
           if (error instanceof Error && error.name !== 'AbortError') {
             console.error('Error fetching inventory:', error);
-            captureException(`Failed getting variant inventory. Payload ${JSON.stringify(error)}`);
+            captureException(`Failed getting variant inventory. Payload: ${JSON.stringify(error)}`);
             setInStock(true); // Assume in stock if there's an error
           }
         } finally {
