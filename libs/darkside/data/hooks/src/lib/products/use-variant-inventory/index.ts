@@ -26,7 +26,7 @@ export function useVariantInventory(variantId: string, trackInventory: boolean) 
         } catch (error) {
           if (error instanceof Error && error.name !== 'AbortError') {
             console.error('Error fetching inventory:', error);
-            setInStock(true); // Assume in stock if there's an error
+            setInStock(false); // Assume not in stock if there's an error
           }
         } finally {
           setIsFetching(false);
@@ -38,7 +38,6 @@ export function useVariantInventory(variantId: string, trackInventory: boolean) 
 
     // Extract numerical ID if variantId is in a URL format
     const numericalVariantId = variantId?.includes('gid') ? variantId?.split('/').pop() : variantId;
-
 
     // Reset isInStock based on trackInventory when variantId changes
     setInStock(!trackInventory);
