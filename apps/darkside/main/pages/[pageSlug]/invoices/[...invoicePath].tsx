@@ -1,3 +1,5 @@
+// This file can be deleted after April 1st, 2024
+
 const CheckoutRedirect = () => {
   return null;
 };
