@@ -267,8 +267,7 @@ const StyledDiamondFilter = styled.aside`
     justify-content: flex-start;
 
     img {
-      margin-top: -2rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
     }
   }
 

@@ -5,7 +5,11 @@ import { BuilderProductContext } from '@diamantaire/darkside/context/product-bui
 import { useBuilderFlowSeo, useDiamondTableData, useDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
-import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
+import {
+  DEFAULT_LOCALE,
+  DIAMOND_TABLE_DEFAULT_OPTIONS,
+  DIAMOND_TABLE_DEFAULT_VALID_QUERIES,
+} from '@diamantaire/shared/constants';
 import { getDiamondShallowRoute } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
@@ -98,31 +102,18 @@ const DiamondBuildStep = () => {
   const { clearFiltersButtonCopy } = diamondTable || {};
 
   const defaultInitialOptions = {
-    caratMin: 1,
+    ...DIAMOND_TABLE_DEFAULT_OPTIONS,
     diamondType: diamondTypeToShow,
+    caratMin: 1,
     limit: 20,
-    page: 1,
-    sortBy: 'carat',
-    sortOrder: 'desc',
   };
+
+  const acceptedParams = [...DIAMOND_TABLE_DEFAULT_VALID_QUERIES, 'diamondType', 'clarity', 'color', 'cut'];
 
   let routerInitialOptions: object = {
     ...query,
     diamondType: diamondTypeToShow,
   };
-
-  const acceptedParams = [
-    'caratMin',
-    'caratMax',
-    'page',
-    'sortBy',
-    'sortOrder',
-    'limit',
-    'diamondType',
-    'cut',
-    'clarity',
-    'color',
-  ];
 
   routerInitialOptions = Object.keys(routerInitialOptions).reduce((acc, key) => {
     if (acceptedParams.includes(key)) {

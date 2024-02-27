@@ -1,7 +1,11 @@
 import { DarksideButton, Heading, ShowTabletAndUpOnly, UIString } from '@diamantaire/darkside/components/common-ui';
 import { DiamondFilter, DiamondPromo, DiamondTable } from '@diamantaire/darkside/components/diamonds';
 import { useDiamondTableData, useDiamondsData } from '@diamantaire/darkside/data/hooks';
-import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
+import {
+  DEFAULT_LOCALE,
+  DIAMOND_TABLE_DEFAULT_OPTIONS,
+  DIAMOND_TABLE_DEFAULT_VALID_QUERIES,
+} from '@diamantaire/shared/constants';
 import { getDiamondShallowRoute } from '@diamantaire/shared/helpers';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
@@ -93,31 +97,18 @@ const DiamondBuildStep = ({
   const { asPath, query, locale } = router;
 
   const defaultInitialOptions = {
-    caratMin: 1,
+    ...DIAMOND_TABLE_DEFAULT_OPTIONS,
     diamondType: diamondTypeToShow,
+    caratMin: 1,
     limit: 20,
-    page: 1,
-    sortBy: 'carat',
-    sortOrder: 'desc',
   };
+
+  const acceptedParams = [...DIAMOND_TABLE_DEFAULT_VALID_QUERIES, 'diamondType', 'clarity', 'color', 'cut'];
 
   let routerInitialOptions: object = {
     ...query,
     diamondType: diamondTypeToShow,
   };
-
-  const acceptedParams = [
-    'caratMin',
-    'caratMax',
-    'page',
-    'sortBy',
-    'sortOrder',
-    'limit',
-    'diamondType',
-    'cut',
-    'clarity',
-    'color',
-  ];
 
   routerInitialOptions = Object.keys(routerInitialOptions).reduce((acc, key) => {
     if (acceptedParams.includes(key)) {
