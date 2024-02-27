@@ -1,3 +1,4 @@
+import { PageViewTracker, useAnalytics } from '@diamantaire/analytics';
 import { Loader } from '@diamantaire/darkside/components/common-ui';
 import { PlpHeroBanner, PlpProductGrid } from '@diamantaire/darkside/components/products/plp';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
@@ -42,6 +43,7 @@ const SettingSelectStepStyles = styled.div`
 `;
 
 const SettingSelectStep = () => {
+  const { productListFiltered } = useAnalytics();
   const { locale } = useRouter();
   const { data: seoData } = useBuilderFlowSeo(locale);
   const { seoTitle, seoDescription } = seoData?.builderFlow?.seoFields || {};
@@ -89,10 +91,16 @@ const SettingSelectStep = () => {
       sortOrder,
     });
   };
+  const listPageData = {
+    productData: data,
+    hero,
+    category,
+  };
 
   return (
     <SettingSelectStepStyles>
       <NextSeo title={seoTitle} description={seoDescription} nofollow={true} noindex={true} />
+      <PageViewTracker listPageData={listPageData} />
       <PlpHeroBanner showHeroWithBanner={true} data={hero} />
       <div className="wrapper" ref={containerRef}>
         {(data?.pages?.length === 0 || data?.pages?.[0].message) && (
