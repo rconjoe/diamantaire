@@ -65,6 +65,7 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
     },
     productType: 'Diamond',
     _t,
+    locale,
   });
 
   function handleAddLooseDiamondToCart() {

@@ -660,6 +660,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
       alt_t: diamondShapesTranslations,
       _t,
       hasChildDiamond: true,
+      locale,
     });
 
     const settingAttributes: ERProductCartItemProps['settingAttributes'] = {
@@ -702,6 +703,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
         productType: 'Diamond',
         alt_t: diamondShapesTranslations,
         _t,
+        locale,
       });
       const diamondAttributes: ProductAddonDiamond['attributes'] = {
         _productTitle: diamond?.productTitle,
