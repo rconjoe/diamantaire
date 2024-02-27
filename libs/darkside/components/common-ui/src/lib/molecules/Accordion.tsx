@@ -78,7 +78,7 @@ const Accordion = ({ rows, activeDefault = null, isDiamondDetail, enableScroll, 
             <div className="accordion-header" onClick={() => toggleAccordion(index)}>
               {isDiamondDetail ? (
                 withHeading ? (
-                  <Heading type="h2" className="text">
+                  <Heading type="h3" className="text">
                     {row.title}
                   </Heading>
                 ) : (

@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { useAnalytics } from '@diamantaire/analytics';
-import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Loader } from '@diamantaire/darkside/components/common-ui';
 import { getEmailFromCookies, updateShippingTimes } from '@diamantaire/darkside/data/api';
 import { parseValidLocale } from '@diamantaire/shared/constants';
 import { goToCheckoutUrl } from '@diamantaire/shared/helpers';
@@ -144,6 +144,14 @@ const CartFooterStyles = styled.div`
       }
     }
   }
+
+  .isGoingToCheckout {
+    button {
+      &:hover {
+        background-color: var(--color-black);
+      }
+    }
+  }
 `;
 
 type CartFooterProps = {
@@ -155,6 +163,7 @@ type CartFooterProps = {
 };
 
 const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink, cartTotal }: CartFooterProps) => {
+  const [isGoingToCheckout, setIsGoingToCheckout] = useState(false);
   const { locale } = useRouter();
   // Off by default in EU
   const { countryCode } = parseValidLocale(locale);
@@ -174,6 +183,8 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink, cartTotal }
   const { consent } = useCookieConsentContext();
   const handleCheckoutClick = () => {
     if (!hasTermsConsent) return;
+
+    setIsGoingToCheckout(true);
 
     const { checkoutUrl, cost, lines, id: cartId } = checkout || {};
     const { subtotalAmount, totalTaxAmount } = cost || {};
@@ -321,11 +332,20 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink, cartTotal }
           })}
         >
           <DarksideButton
-            className={!hasTermsConsent ? 'disabled' : ''}
+            className={clsx({
+              disabled: !hasTermsConsent,
+              isGoingToCheckout: isGoingToCheckout,
+            })}
             disabled={!hasTermsConsent}
             onClick={handleCheckoutClick}
           >
-            {checkoutCta} | {cartTotal}
+            {isGoingToCheckout ? (
+              <Loader color="#fff" />
+            ) : (
+              <>
+                {checkoutCta} | {cartTotal}
+              </>
+            )}
           </DarksideButton>
         </li>
         {countryCode === 'US' && (
