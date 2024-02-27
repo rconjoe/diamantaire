@@ -769,6 +769,8 @@ const SettingToDiamondSummaryPage = () => {
         image_url: src,
         ...selectedConfiguration,
         setting: settingProductTitle,
+        gold_purity: goldPurity,
+        band_accent: bandAccent,
       };
 
       // Diamond products data
@@ -783,8 +785,6 @@ const SettingToDiamondSummaryPage = () => {
         diamond_lot_Id: diamond?.lotId,
         diamond_type: diamond?.diamondType,
         carat: diamond?.carat,
-        gold_purity: goldPurity,
-        band_accent: bandAccent,
         shape: diamond?.diamondType,
         clarity: diamond?.clarity,
         colour: diamond?.color,
