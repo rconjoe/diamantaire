@@ -39,7 +39,7 @@ const StyledDiamondCfyFilterShape = styled.div`
     }
   }
 
-  .box {
+  .popular {
     background: var(--color-lightest-grey);
     padding: 0 0 1rem;
   }
@@ -71,7 +71,7 @@ const StyledDiamondCfyFilterShape = styled.div`
     display: block;
     text-align: center;
     margin: 0 auto;
-    max-width: 7.9rem;
+    max-width: 7.5rem;
     font-size: var(--font-size-xxxsmall);
     line-height: 1;
   }

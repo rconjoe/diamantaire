@@ -1,4 +1,3 @@
-import { desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const asideWidthLG = '40rem';
@@ -10,27 +9,27 @@ const StyledDiamondPage = styled.div`
   margin: 2.5rem auto 0;
   display: block;
 
-  ${tabletAndUp(`
+  @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
     margin: 2.5rem auto 0;
     flex-wrap: wrap;
     display: flex;
     gap: 0 ${gapMD};
     max-width: 90vw;
-  `)}
+  }
 
-  ${desktopAndUp(`
+  @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
     gap: 0 ${gapLG};
-  `)}
+  }
 
   .page-title {
     width: 100%;
     display: block;
     padding: 0 0 3rem;
 
-    ${tabletAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       display: flex;
       justify-content: center;
-    `)}
+    }
 
     .title {
       font-size: var(--font-size-small);
@@ -44,31 +43,30 @@ const StyledDiamondPage = styled.div`
     display: block;
     width: 100%;
 
-    ${tabletAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       width: ${asideWidthMD};
       display: flex;
       flex-direction: column;
       position: sticky;
       align-self: flex-start;
       top: 55px;
+    }
 
-    `)}
-
-    ${desktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       width: ${asideWidthLG};
-    `)}
+    }
   }
 
   .page-main {
     width: 100%;
 
-    ${tabletAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       width: calc(100% - ${asideWidthMD} - ${gapMD});
-    `)}
+    }
 
-    ${desktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       width: calc(100% - ${asideWidthLG} - ${gapLG});
-    `)}
+    }
   }
 
   .vo-filter-clear-button {

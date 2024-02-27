@@ -120,6 +120,8 @@ interface CtoDiamondTable {
   seeDetails: string;
   selectedDiamondId: string;
   vraiDiamondsInfo: string;
+  nonStandardShapeAppointmentsBody: string;
+  scheduleAnAppointment: string;
 
   blocks: {
     _modelApiKey: string;

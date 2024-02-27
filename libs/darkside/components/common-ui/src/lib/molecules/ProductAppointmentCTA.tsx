@@ -207,6 +207,7 @@ const ProductAppointmentCTA = ({
         </span>
         {ctaTitle}
       </button>
+
       <AnimatePresence>
         {isAppointmentSlideoutShowing && (
           <SlideOut
