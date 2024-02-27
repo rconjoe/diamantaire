@@ -33,6 +33,12 @@ const CookieBannerStyles = styled.div`
       flex-direction: row;
       padding: 5rem 0;
     }
+
+    @media (min-width: ${({ theme }) => theme.sizes.xxl}) {
+      max-width: 100%;
+      padding: 0 10rem;
+    }
+
     a {
       color: var(--color-teal);
     }
