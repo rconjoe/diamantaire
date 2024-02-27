@@ -41,7 +41,8 @@ const CelebrityModalStyles = styled.div`
           display: flex;
           li {
             margin-bottom: 1rem;
-            flex: 1;
+            flex:0 1 auto;
+            width: 50%;
             display: flex;
             margin-right: 1rem;
             &:last-child {
