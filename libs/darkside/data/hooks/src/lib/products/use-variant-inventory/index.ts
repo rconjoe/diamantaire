@@ -20,7 +20,9 @@ export function useVariantInventory(variantId: string, trackInventory: boolean) 
           const reqUrl = `${BASE_URL}/api/products/inventory?${new URLSearchParams({ variantId: id }).toString()}`;
 
           const response = await fetch(reqUrl, { signal: abortController.current.signal });
-          const { inventoryQuantity, inventoryPolicy } = await response.json();
+          const jsonResponse = await response.json();
+
+          const { inventoryQuantity, inventoryPolicy } = jsonResponse
 
           setInStock(inventoryPolicy === 'continue' || inventoryQuantity > 0);
         } catch (error) {
