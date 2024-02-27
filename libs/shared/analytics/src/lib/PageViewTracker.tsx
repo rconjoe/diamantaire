@@ -56,11 +56,12 @@ const PageViewTracker = ({ productData, listPageData, isSummaryPage }: Props) =>
 
   function emitViewPageEvent(pageName: string) {
     const segments = router?.pathname.split('/').filter(Boolean);
-
+    const { pathname } = router;
     const productSlugSegmentPath = segments[segments.length - 1];
 
     const isProductSlug = productSlugSegmentPath === '[productSlug]' || isSummaryPage;
-    const isListPageSlug = productSlugSegmentPath === '[...plpSlug]';
+    const isListPageSlug = productSlugSegmentPath === '[...plpSlug]' || pathname === '/customize/diamond-to-setting/[lotId]';
+    //console.log({ pathname, productData });
 
     if (isListPageSlug) {
       const { hero, productData: listpageProductData, category } = listPageData || {};
