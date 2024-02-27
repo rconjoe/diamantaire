@@ -174,8 +174,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const variantId = shopifyProductData?.shopifyVariantId;
 
-  console.log('shopifyProductData', shopifyProductData);
-
   const productIconListTypeOverride =
     additionalVariantData?.omegaProduct?.productIconList?.productType ||
     additionalVariantData?.configuration?.productIconList?.productType;
