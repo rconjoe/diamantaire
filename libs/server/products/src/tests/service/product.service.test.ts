@@ -78,7 +78,7 @@ describe("getPlpProducts", () => {
     const sortingCacheKey = productsService.generatePlpCacheKey(sortBy, sortOrder, slug, limit, page, filters, locale);
     const nonSortingCacheKey = productsService.generatePlpCacheKey(undefined, sortOrder, slug, limit, page, filters, locale);
 
-    expect(sortingCacheKey).toBe("plp-data:bracelets:limit=12-page=1:diamondTypes=princess,pear-metals=Platinum-priceMax=1500-priceMin=500-styles=Bezel,Floral:en_US:soted=price_asc");
+    expect(sortingCacheKey).toBe("plp-data:bracelets:limit=12-page=1:diamondTypes=princess,pear-metals=Platinum-priceMax=1500-priceMin=500-styles=Bezel,Floral:en_US:sorted=price_asc");
     expect(nonSortingCacheKey).toBe("plp-data:bracelets:limit=12-page=1:diamondTypes=princess,pear-metals=Platinum-priceMax=1500-priceMin=500-styles=Bezel,Floral:en_US");
   })
 })

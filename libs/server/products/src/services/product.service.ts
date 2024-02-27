@@ -122,7 +122,7 @@ export class ProductsService {
   }
 
   generatePlpCacheKey(sortBy: string, sortOrder: string, plpSlug: string, limit: number, page: number, filters: Record<string, unknown>, locale: string) {
-    const sortCacheEntry = sortBy ? `:soted=${sortBy}_${sortOrder}` : '';
+    const sortCacheEntry = sortBy ? `:sorted=${sortBy}_${sortOrder}` : '';
     const cacheKey = `plp-data:${plpSlug}:limit=${limit}-page=${page}:${this.generateQueryCacheKey(filters)}:${getDatoRequestLocale(locale)}${sortCacheEntry}`;
 
     return cacheKey;
