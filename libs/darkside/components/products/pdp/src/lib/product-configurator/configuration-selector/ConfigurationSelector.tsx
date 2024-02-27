@@ -143,9 +143,8 @@ function ConfigurationSelector({
   function toggleOrientation() {
     let newOrientation;
 
-    console.log('configurations', configurations);
-
-    if (configurations['diamondOrientation'].length > 1) {
+    // Don't change it if there's only one option
+    if (configurations?.['diamondOrientation']?.length > 1) {
       if (selectedConfiguration?.diamondOrientation === 'horizontal') {
         newOrientation = configurations['diamondOrientation'].find((option) => option.value !== 'horizontal');
       } else {
