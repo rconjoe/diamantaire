@@ -233,6 +233,7 @@
     "jest-environment-jsdom": "29.4.3",
     "jest-environment-node": "^29.4.1",
     "jsonc-eslint-parser": "^2.1.0",
+    "mongodb-memory-server": "^9.1.6",
     "nx": "16.8.1",
     "nx-cloud": "^16.5.2",
     "prettier": "^3.0.3",
