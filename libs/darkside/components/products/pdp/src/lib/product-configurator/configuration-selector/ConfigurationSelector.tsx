@@ -155,9 +155,12 @@ function ConfigurationSelector({
     }
   }
 
+  // For now, we will hide rotate if hidden halo is selected to prevent issues
+  const isVariantHiddenHalo = selectedConfiguration?.hiddenHalo === 'yes';
+
   return (
     <StyledConfigurationSelector>
-      {hasMultipleDiamondOrientations && (
+      {hasMultipleDiamondOrientations && !isVariantHiddenHalo && (
         <button className="rotate-toggle" onClick={() => toggleOrientation()}>
           {' '}
           <RotateIcon />
