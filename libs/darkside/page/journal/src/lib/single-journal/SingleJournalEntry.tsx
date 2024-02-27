@@ -9,6 +9,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { SingleJournalEntryStyles } from './SingleJourneyEntry.style';
 
+const JOURNAL_PATH = '/journal';
+
 const SingleJournalEntry = () => {
   const router = useRouter();
   const locale = router.locale;
@@ -23,7 +25,7 @@ const SingleJournalEntry = () => {
   useEffect(() => {
     setSingleJournal(data?.blogPost);
   }, [data]);
-
+  
   const crumbs = useMemo(
     () => [
       {
@@ -32,11 +34,11 @@ const SingleJournalEntry = () => {
       },
       {
         title: 'Journal',
-        path: '/',
+        path: JOURNAL_PATH,
       },
       {
         title: singleJournal?.category?.copy || "",
-        path: `/${singleJournal?.category?.key || ""}`,
+        path: `${JOURNAL_PATH}/${singleJournal?.category?.key || ""}`,
       },
       {
         title: singleJournal?.title,
