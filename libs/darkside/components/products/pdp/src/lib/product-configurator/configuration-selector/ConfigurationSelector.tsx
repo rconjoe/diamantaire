@@ -143,13 +143,17 @@ function ConfigurationSelector({
   function toggleOrientation() {
     let newOrientation;
 
-    if (selectedConfiguration?.diamondOrientation === 'horizontal') {
-      newOrientation = configurations['diamondOrientation'].find((option) => option.value !== 'horizontal');
-    } else {
-      newOrientation = configurations['diamondOrientation'].find((option) => option.value !== 'vertical');
-    }
+    console.log('configurations', configurations);
 
-    setProductSlug(newOrientation?.id);
+    if (configurations['diamondOrientation'].length > 1) {
+      if (selectedConfiguration?.diamondOrientation === 'horizontal') {
+        newOrientation = configurations['diamondOrientation'].find((option) => option.value !== 'horizontal');
+      } else {
+        newOrientation = configurations['diamondOrientation'].find((option) => option.value !== 'vertical');
+      }
+
+      setProductSlug(newOrientation?.id);
+    }
   }
 
   return (

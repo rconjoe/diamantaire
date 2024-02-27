@@ -174,6 +174,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const variantId = shopifyProductData?.shopifyVariantId;
 
+  console.log('shopifyProductData', shopifyProductData);
+
   const productIconListTypeOverride =
     additionalVariantData?.omegaProduct?.productIconList?.productType ||
     additionalVariantData?.configuration?.productIconList?.productType;
@@ -293,7 +295,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   // Doubles price if product is earrings pair
   const [shouldDoublePrice, setShouldDoublePrice] = useState<boolean>(
-    shopifyProductData?.productType.toLowerCase() === 'earrings' || null,
+    shopifyProductData?.productType?.toLowerCase() === 'earrings' || null,
   );
 
   // Engraving

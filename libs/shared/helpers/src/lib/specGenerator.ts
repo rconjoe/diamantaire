@@ -126,7 +126,7 @@ export function specGenerator({ configuration, productType, _t, alt_t, hasChildD
   }
 
   // ER specific
-  if (isEngagementRing || productType === 'Wedding Band') {
+  if (isEngagementRing || productType === 'Wedding Band' || productType === 'Ring') {
     specArray.push(`${_t('ringSize')}: ${ringSize}`);
   }
 

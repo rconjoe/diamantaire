@@ -458,12 +458,6 @@ export const updateItemQuantity = async ({
 }): Promise<string | undefined> => {
   const cartId = localStorage.getItem('cartId');
 
-  console.log('update preview', {
-    lineId,
-    variantId,
-    quantity,
-  });
-
   if (!cartId) {
     return 'Missing cart ID';
   }
