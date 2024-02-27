@@ -22,6 +22,131 @@ const VALID_COUNTRY_SUBDOMAINS = ['de', 'be', 'fr', 'it', 'se', 'es', 'no', 'nl'
 
 const PUBLIC_FILE = /\.(.*)$/;
 
+// https://docs.prerender.io/docs/nextjs
+
+export async function prerender(request) {
+  const userAgent = request.headers.get('user-agent');
+  const bots = [
+    'googlebot',
+    'yahoo! slurp',
+    'bingbot',
+    'yandex',
+    'baiduspider',
+    'facebookexternalhit',
+    'twitterbot',
+    'rogerbot',
+    'linkedinbot',
+    'embedly',
+    'quora link preview',
+    'showyoubot',
+    'outbrain',
+    'pinterest/0.',
+    'developers.google.com/+/web/snippet',
+    'slackbot',
+    'vkshare',
+    'w3c_validator',
+    'redditbot',
+    'applebot',
+    'whatsapp',
+    'flipboard',
+    'tumblr',
+    'bitlybot',
+    'skypeuripreview',
+    'nuzzel',
+    'discordbot',
+    'google page speed',
+    'qwantify',
+    'pinterestbot',
+    'bitrix link preview',
+    'xing-contenttabreceiver',
+    'chrome-lighthouse',
+    'telegrambot',
+    'integration-test', // Integration testing
+  ];
+
+  const IGNORE_EXTENSIONS = [
+    '.js',
+    '.css',
+    '.xml',
+    '.less',
+    '.png',
+    '.jpg',
+    '.jpeg',
+    '.gif',
+    '.pdf',
+    '.doc',
+    '.txt',
+    '.ico',
+    '.rss',
+    '.zip',
+    '.mp3',
+    '.rar',
+    '.exe',
+    '.wmv',
+    '.doc',
+    '.avi',
+    '.ppt',
+    '.mpg',
+    '.mpeg',
+    '.tif',
+    '.wav',
+    '.mov',
+    '.psd',
+    '.ai',
+    '.xls',
+    '.mp4',
+    '.m4a',
+    '.swf',
+    '.dat',
+    '.dmg',
+    '.iso',
+    '.flv',
+    '.m4v',
+    '.torrent',
+    '.woff',
+    '.ttf',
+    '.svg',
+    '.webmanifest',
+  ];
+  const isBot = userAgent && bots.some((bot) => userAgent.toLowerCase().includes(bot));
+  const isPrerender = request.headers.get('X-Prerender');
+  const pathname = new URL(request.url).pathname;
+  const extension = pathname.slice(((pathname.lastIndexOf('.') - 1) >>> 0) + 1);
+
+  if (isPrerender || !isBot || (extension.length && IGNORE_EXTENSIONS.includes(extension))) {
+    return NextResponse.next();
+  } else {
+    // Check if request is coming from a bot
+    if (isBot) {
+      const newURL = `https://service.prerender.io/${request.url}`;
+      const newHeaders = new Headers(request.headers);
+
+      //Do not forget to add your Prerender token as an environment variable
+      newHeaders.set('X-Prerender-Token', process.env.PRERENDER_TOKEN);
+      newHeaders.set('X-Prerender-Int-Type', 'NextJS');
+
+      const res = await fetch(
+        new Request(newURL, {
+          headers: newHeaders,
+          redirect: 'manual',
+        }),
+      );
+
+      const responseHeaders = new Headers(res.headers);
+
+      responseHeaders.set('X-Redirected-From', request.url);
+
+      return new Response(res.body, {
+        status: res.status,
+        statusText: res.statusText,
+        headers: responseHeaders,
+      });
+    }
+
+    return NextResponse.next();
+  }
+}
+
 export default async function middleware(request: NextRequest, _event: NextFetchEvent): Promise<NextMiddlewareResult> {
   // Bypass middleware for _next assets, API requests, or public files
   if (
@@ -31,6 +156,9 @@ export default async function middleware(request: NextRequest, _event: NextFetch
   ) {
     return NextResponse.next();
   }
+
+  // Pre-render
+  prerender(request);
 
   // Use authMiddleware
   const authResult = authMiddleware({
@@ -144,7 +272,6 @@ export default async function middleware(request: NextRequest, _event: NextFetch
     }
   }
 
-
   if (subdomain && VALID_COUNTRY_SUBDOMAINS.includes(subdomain.toLowerCase())) {
     const countryCode = subdomain.toUpperCase();
     const localePath = getLocaleFromCountry(countryCode);
@@ -152,7 +279,7 @@ export default async function middleware(request: NextRequest, _event: NextFetch
 
     return NextResponse.redirect(targetUrl);
   }
-  
+
   const preferredLocale = cookies.get('NEXT_LOCALE')?.value;
 
   // Redirect if there's a preferred locale that doesn't match the current locale
@@ -183,7 +310,6 @@ export default async function middleware(request: NextRequest, _event: NextFetch
 
       return response;
     }
-
   }
 
   return res;
