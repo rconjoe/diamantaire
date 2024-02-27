@@ -15,6 +15,9 @@ export const BookAppointmentStyles = styled.div`
     min-width: 80%;`}
     ${media.large` min-height: 1375px;`}
   }
+  .text-block__wrapper {
+    margin-bottom: 0;
+  }
 `;
 const BookAppointmentPage = (props) => {
   const { location, locale } = props;
