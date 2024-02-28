@@ -102,8 +102,12 @@ export const BannerWrapper = styled.div`
   }
 
   .cta {
-    max-width: 35rem;
-    margin: 0 auto;
+    /* Don't edit unless absolutely neccesary. 99% of the time, it will be easier to wrap the container, and style it that way  */
+    margin: 0;
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      max-width: 35rem;
+    }
+
     .cta__button {
       margin: 0 0 2rem;
       /* We're overriding DarksideButton styles here */

@@ -88,7 +88,7 @@ export function specGenerator({ configuration, productType, _t, alt_t, hasChildD
   }
 
   if (caratWeight && !isEngagementRing && parseFloat(caratWeight)) {
-    const formattedCarat = getFormattedCarat(caratWeight, locale);
+    const formattedCarat = getFormattedCarat(parseFloat(caratWeight), locale);
 
     specArray.push(`${_t('carat weight')}: ${formattedCarat}ct`);
   }
@@ -131,7 +131,7 @@ export function specGenerator({ configuration, productType, _t, alt_t, hasChildD
   }
 
   // ER specific
-  if (isEngagementRing || productType === 'Wedding Band') {
+  if (isEngagementRing || productType === 'Wedding Band' || productType === 'Ring') {
     specArray.push(`${_t('ringSize')}: ${ringSize}`);
   }
 

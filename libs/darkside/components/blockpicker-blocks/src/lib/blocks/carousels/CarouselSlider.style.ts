@@ -141,10 +141,18 @@ export const CarouselSliderContainer = styled.div`
 
     &.arrow-left {
       left: 0;
+      ${tabletAndUp(`
+        left: -20px;
+      `)}
     }
 
     &.arrow-right {
       right: 0;
+
+      ${tabletAndUp(`
+        right: 0;
+        right: -20px;
+      `)}
     }
   }
 

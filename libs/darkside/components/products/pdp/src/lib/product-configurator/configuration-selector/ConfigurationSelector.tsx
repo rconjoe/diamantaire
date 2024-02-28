@@ -143,18 +143,24 @@ function ConfigurationSelector({
   function toggleOrientation() {
     let newOrientation;
 
-    if (selectedConfiguration?.diamondOrientation === 'horizontal') {
-      newOrientation = configurations['diamondOrientation'].find((option) => option.value !== 'horizontal');
-    } else {
-      newOrientation = configurations['diamondOrientation'].find((option) => option.value !== 'vertical');
-    }
+    // Don't change it if there's only one option
+    if (configurations?.['diamondOrientation']?.length > 1) {
+      if (selectedConfiguration?.diamondOrientation === 'horizontal') {
+        newOrientation = configurations['diamondOrientation'].find((option) => option.value !== 'horizontal');
+      } else {
+        newOrientation = configurations['diamondOrientation'].find((option) => option.value !== 'vertical');
+      }
 
-    setProductSlug(newOrientation?.id);
+      setProductSlug(newOrientation?.id);
+    }
   }
+
+  // For now, we will hide rotate if hidden halo is selected to prevent issues
+  const isVariantHiddenHalo = selectedConfiguration?.hiddenHalo === 'yes';
 
   return (
     <StyledConfigurationSelector>
-      {hasMultipleDiamondOrientations && (
+      {hasMultipleDiamondOrientations && !isVariantHiddenHalo && (
         <button className="rotate-toggle" onClick={() => toggleOrientation()}>
           {' '}
           <RotateIcon />
