@@ -8,6 +8,7 @@ import { NextSeo } from 'next-seo';
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { SingleJournalEntryStyles } from './SingleJourneyEntry.style';
+import { generateSubheading } from '../journal-helpers';
 
 const JOURNAL_PATH = '/journal';
 
@@ -73,9 +74,12 @@ const SingleJournalEntry = () => {
       )}
 
       <div className="journal-entry__crumbs">{crumbs && <Breadcrumb breadcrumb={crumbs} simple={true} />}</div>
-
       {data?.blogPost?.content?.map((contentBlockData) => {
         const { id, _modelApiKey } = contentBlockData;
+
+        if (contentBlockData?.title) {
+          contentBlockData.subtitle = generateSubheading(data?.blogPost)
+        }
 
         return (
           <React.Fragment key={id}>
