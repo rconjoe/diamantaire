@@ -197,13 +197,7 @@ function ProductConfigurator({
   };
 
   const ProductFeedCompleteYourRingButton = ({ ctaText, diamondsOverride }) => {
-    const { _t } = useTranslations(locale, ['DIAMOND_SHAPES', 'DIAMOND_CUTS']);
-
     if (!diamondsOverride || diamondsOverride.length === 0) return null;
-
-    const diamond = diamondsOverride[0];
-
-    const { color, carat, diamondType, clarity, cut } = diamond;
 
     return (
       <div
@@ -212,21 +206,6 @@ function ProductConfigurator({
           minHeight: '4.9rem',
         }}
       >
-        <p
-          style={{
-            marginBottom: '2rem',
-            fontSize: '1.7rem',
-          }}
-        >
-          <strong
-            style={{
-              fontWeight: '500',
-            }}
-          >
-            <UIString>centerstone</UIString>:
-          </strong>
-          {` ${_t(diamondType)}, ${getFormattedCarat(carat, locale)}ct, ${_t(color)}, ${clarity}, ${_t(cut)}`}
-        </p>
         <DarksideButton
           textSize="medium"
           onClick={() => {

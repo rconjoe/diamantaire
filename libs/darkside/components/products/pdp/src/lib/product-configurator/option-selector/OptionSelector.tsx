@@ -397,13 +397,14 @@ function OptionSelector({
             diamondType,
             color,
             clarity,
-          }: { carat?: string; diamondType?: string; color?: string; clarity?: string } = diamond;
+            cut,
+          }: { carat?: string; diamondType?: string; color?: string; clarity?: string; cut?: string } = diamond;
 
           return (
             // eslint-disable-next-line react/jsx-no-useless-fragment
             <>
               {productType === 'Engagement Ring' &&
-                `${_t(getDiamondType(diamondType)?.slug)}, ${carat}ct, ${color}, ${clarity}`}
+                `${_t(getDiamondType(diamondType)?.slug)}, ${carat}ct, ${color}, ${clarity}, ${_t(cut)}`}
             </>
           );
         } else if (selectedOptionValue === 'other' && productType !== 'Engagement Ring') {
@@ -523,9 +524,10 @@ function OptionSelector({
 
   function renderRingSizeOptions() {
     const renderRingSizes = () => {
-      const visibleOptions = showingAllRingSizes || (!presetRingSizes.includes(selectedOptionValue))
-        ? options
-        : options.filter((option) => presetRingSizes.includes(option.value));
+      const visibleOptions =
+        showingAllRingSizes || !presetRingSizes.includes(selectedOptionValue)
+          ? options
+          : options.filter((option) => presetRingSizes.includes(option.value));
 
       return visibleOptions.map((option) => {
         const isSelected = selectedOptionValue === option.value;
