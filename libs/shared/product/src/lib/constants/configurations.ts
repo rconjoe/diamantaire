@@ -148,7 +148,7 @@ export const mixedDiamondTypes = [
 export const diamondTypeValues = [...standardDiamondTypeValues, ...nonStandardDiamondTypes, ...mixedDiamondTypes];
 export const bandStoneShapeValues = diamondTypeValues;
 
-export const earringSizeValues = ['10mm', '12mm', '15mm', '18mm', 'One Size'] as const;
+export const earringSizeValues = ['10mm', '12mm', '14mm', '15mm', '18mm', 'One Size'] as const;
 export const caratWeightValues = [
   '0.10ct',
   '0.25ct',
