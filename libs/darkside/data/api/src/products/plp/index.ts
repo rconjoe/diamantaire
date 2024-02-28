@@ -34,15 +34,13 @@ export async function getVRAIServerPlpData(
   const optionsQuery = Object.entries(filterOptions).reduce((acc, [key, value]: [string, any]) => {
     if (key === 'price') {
       const { min, max, isPlpPriceRange } = value;
-
-      const convertToUSD = locale !== 'en-US' && isPlpPriceRange;
-
       const currency = getCurrencyFromLocale(locale);
-
       const countryCode = getCountry(locale);
+      const vat = getVat(countryCode);
+
+      const convertToUSD = locale !== 'en-US' && isPlpPriceRange && vat;
 
       const amountMinusVat = (amountInCents) => {
-        const vat = getVat(countryCode);
 
         const res = amountInCents / (1 + vat) / 100;
 
@@ -143,7 +141,7 @@ export function usePlpVRAIProducts(category, slug, filterOptions, pageOptions, l
           return lastPage.paginator.nextPage;
         } else {
           // Return false means no next page
-          return false;
+          return undefined;
         }
       },
     },
@@ -165,7 +163,7 @@ export function useDiamondPlpProducts(slug, pageParamInit = 1, options) {
           return lastPage.paginator.nextPage;
         } else {
           // Return false means no next page
-          return false;
+          return undefined;
         }
       },
     },
@@ -194,7 +192,7 @@ export const LIST_PAGE_DATO_SERVER_QUERY = gql`
         link {
           ... on ListPageRecord {
             slug
-            
+
           }
           ... on StandardPageRecord {
             slug
