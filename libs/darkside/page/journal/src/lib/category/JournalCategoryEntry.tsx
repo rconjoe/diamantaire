@@ -71,12 +71,12 @@ const JournalCategoryEntry = (props: JournalCategoryEntryProps) => {
     {
       key: 'home',
       copy: 'Home',
-      path: 'https://www.vrai.com/',
+      path: '/',
     },
     {
       key: 'journal',
       copy: 'Journal',
-      path: 'https://www.vrai.com/journal',
+      path: '/journal',
     },
     {
       key: slug,
