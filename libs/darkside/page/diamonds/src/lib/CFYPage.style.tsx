@@ -58,7 +58,7 @@ const StyledCFYPage = styled.div`
 
   .page-aside {
     width: 100%;
-    margin: 4rem 0 0;
+    margin: 1rem 0 0;
 
     @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       margin: 0;
@@ -67,7 +67,7 @@ const StyledCFYPage = styled.div`
     }
 
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
-      transform: translateX(-4rem);
+      transform: translateX(-5.5rem);
     }
   }
 

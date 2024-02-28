@@ -59,6 +59,10 @@ const StyledDiamondCfyFilterShape = styled.div`
     display: flex;
     padding: 1.5rem;
     gap: 1rem 0;
+
+    @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+      gap: 2rem 0;
+    }
   }
 
   .list-item {
