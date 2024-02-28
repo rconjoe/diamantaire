@@ -131,7 +131,7 @@ export const CartProvider = ({ children }) => {
     cartId: string,
     lines: { merchandiseId: string; quantity: number; attributes?: AttributeInput[] }[],
   ): Promise<Cart> {
-    console.log('atc is getting ', cartId, lines);
+    // console.log('atc is getting ', cartId, lines);
     const res = await shopifyFetch<ShopifyAddToCartOperation>({
       query: addToCartMutation,
       variables: {
@@ -141,7 +141,7 @@ export const CartProvider = ({ children }) => {
       cache: 'no-store',
     });
 
-    console.log('add to cart res', res);
+    // console.log('add to cart res', res);
 
     return reshapeCart(res.body.data.cartLinesAdd.cart);
   }
@@ -261,7 +261,6 @@ export const CartProvider = ({ children }) => {
     customAttributes?: AttributeInput[],
     quantity?: number,
   ): Promise<string | undefined> => {
-    console.log('addItemToCart running');
     let cartId = localStorage.getItem('cartId');
     let cart;
 
@@ -300,7 +299,6 @@ export const CartProvider = ({ children }) => {
         }[]
       | undefined,
   ): Promise<string | undefined> => {
-    console.log('customized item getting', items);
     let cartId = localStorage.getItem('cartId');
     let cart;
 
@@ -357,8 +355,6 @@ export const CartProvider = ({ children }) => {
 
       return refinedItems.push(newItem);
     });
-
-    console.log('updateMultipleItemsQuantity refinedItems', refinedItems);
 
     if (!cartId) {
       return 'Missing cart ID';

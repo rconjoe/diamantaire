@@ -20,8 +20,6 @@ const Cart = ({ closeCart }) => {
 
   const { data: checkout, refetch } = useCartData(locale);
 
-  console.log('checkout', checkout);
-
   const updateGlobalContext = useContext(GlobalUpdateContext);
 
   const { isCartLoading } = useGlobalContext();
