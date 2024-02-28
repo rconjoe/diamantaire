@@ -710,6 +710,8 @@ export function simpleFormatPrice(
 }
 
 export function getFormattedCarat(carat: number, locale: string = DEFAULT_LOCALE, digits?: number) {
+  debugger;
+
   return Intl.NumberFormat(locale, {
     minimumFractionDigits: digits ? digits : 2,
     maximumFractionDigits: digits ? digits : 2,

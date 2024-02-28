@@ -497,6 +497,8 @@ function AddToCartButton({
       isCartLoading: true,
     });
 
+    debugger;
+
     // Applies to all products
     const defaultAttributes = {
       _productTitle: productTitle,
