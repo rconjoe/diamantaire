@@ -9,7 +9,7 @@ const StyledDiamondCfyFilterShape = styled.div`
     text-align: center;
     line-height: 1.1;
     font-size: var(--font-size-xxxsmall);
-    margin: 1rem auto 1rem;
+    margin: 2rem auto;
 
     @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       font-size: var(--font-size-xsmall);
