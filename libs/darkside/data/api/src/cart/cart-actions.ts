@@ -1,3 +1,4 @@
+import { WEDDING_BAND_PRODUCT_TYPE } from '@diamantaire/shared/constants';
 import { getCountry, getFormattedShipByDate, getLanguage } from '@diamantaire/shared/helpers';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
 import { DEFAULT_BUILDER_ENGRAVING_FONT, ENGRAVING_FONT_RENDER_MAP } from '@diamantaire/styles/darkside-styles';
@@ -34,12 +35,17 @@ import {
 } from './mutations/cart';
 import { getCartQuery } from './queries/cart';
 import { getEmailFromCookies } from '../clients';
-import { WEDDING_BAND_PRODUCT_TYPE } from '@diamantaire/shared/constants';
 
 // NEW
 
 const endpoint = process.env['NEXT_PUBLIC_SHOPIFY_STOREFRONT_GRAPHQL_URI'];
 const key = process.env['NEXT_PUBLIC_SHOPIFY_STOREFRONT_API_TOKEN'];
+
+type GroupedItem = {
+  variantId: string;
+  customAttributes: Array<any>;
+  quantity?: number;
+};
 
 async function shopifyFetch<T>({
   cache = 'force-cache',
@@ -613,7 +619,7 @@ export async function addERProductToCart({
   } else {
     // If there is a custom diamond, add the setting and the diamond
 
-    const groupedItems = diamonds.map((diamond) => {
+    const groupedItems: GroupedItem[] = diamonds.map((diamond) => {
       const refinedDiamondAttributes = Object.keys(diamond.attributes)
         .map((key) => {
           return {
