@@ -31,7 +31,9 @@ export const ALL_CFY_DIAMOND_TYPES = [
   'trillion',
 ];
 
-export const POPULAR_CFY_DIAMOND_TYPES = [
+export const POPULAR_CFY_DIAMOND_TYPES = ['round-brilliant', 'oval', 'emerald', 'pear', 'radiant', 'cushion'];
+
+export const STANDARD_CFY_DIAMOND_TYPES = [
   'round-brilliant',
   'oval',
   'emerald',

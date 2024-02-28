@@ -1,4 +1,3 @@
-import { mobileOnly } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondDetailPage = styled.div`
@@ -19,16 +18,16 @@ const StyledDiamondDetailPage = styled.div`
 
   .modular-banner-container {
     .full-width-image-container {
-      ${mobileOnly(`
+      @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
         min-height: auto;
         margin-bottom: 2rem;
-      `)}
+      }
     }
     .text-container {
-      ${mobileOnly(`
+      @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
         max-width: 100% !important;
         margin: 0 auto 4rem;
-    `)}
+      }
     }
   }
 `;

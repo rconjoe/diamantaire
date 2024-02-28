@@ -9,10 +9,11 @@ const StyledDiamondCfyFilterShape = styled.div`
     text-align: center;
     line-height: 1.1;
     font-size: var(--font-size-xxxsmall);
-    margin: 2rem auto 1rem;
+    margin: 2rem auto;
 
     @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       font-size: var(--font-size-xsmall);
+      margin: 2rem auto 1.5rem;
     }
   }
 
@@ -20,12 +21,13 @@ const StyledDiamondCfyFilterShape = styled.div`
     width: 100%;
     display: block;
     text-align: center;
-    margin: 0 0 1rem;
+    margin: 0 0 0.5rem;
 
     p {
       margin: 0;
-      font-size: var(--font-size-xxsmall);
+      font-size: var(--font-size-xxxsmall);
       font-weight: var(--font-weight-normal);
+      text-transform: uppercase;
     }
 
     a {
@@ -39,7 +41,7 @@ const StyledDiamondCfyFilterShape = styled.div`
     }
   }
 
-  .box {
+  .popular {
     background: var(--color-lightest-grey);
     padding: 0 0 1rem;
   }
@@ -57,12 +59,16 @@ const StyledDiamondCfyFilterShape = styled.div`
     display: flex;
     padding: 1.5rem;
     gap: 1rem 0;
+
+    @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+      gap: 2rem 0;
+    }
   }
 
   .list-item {
     display: flex;
     flex-direction: column;
-    width: calc(100% / 5);
+    width: calc(100% / 6);
     gap: 1rem;
     cursor: pointer;
   }
@@ -71,7 +77,7 @@ const StyledDiamondCfyFilterShape = styled.div`
     display: block;
     text-align: center;
     margin: 0 auto;
-    max-width: 7.9rem;
+    max-width: 8rem;
     font-size: var(--font-size-xxxsmall);
     line-height: 1;
   }
