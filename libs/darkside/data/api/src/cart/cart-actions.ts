@@ -542,6 +542,7 @@ export const updateMultipleItemsQuantity = async ({
 export async function addERProductToCart({
   settingVariantId,
   settingAttributes,
+  overrideSettingQty,
   diamonds,
   hasEngraving,
   engravingText,
@@ -643,6 +644,7 @@ export async function addERProductToCart({
     groupedItems.push({
       variantId: settingVariantId,
       customAttributes: refinedSettingAttributes,
+      quantity: overrideSettingQty || 1,
     });
 
     if (hasEngraving) {
