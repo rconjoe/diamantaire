@@ -87,8 +87,6 @@ export function specGenerator({ configuration, productType, _t, alt_t, hasChildD
     specArray.push(`${_t('diamondSize')}: ${_t(diamondSize)}`);
   }
 
-  debugger;
-
   if (caratWeight && !isEngagementRing && parseFloat(caratWeight)) {
     const formattedCarat = getFormattedCarat(parseFloat(caratWeight), locale);
 
