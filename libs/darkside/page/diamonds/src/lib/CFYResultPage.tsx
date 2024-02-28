@@ -32,7 +32,7 @@ import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import {
   DIAMOND_VIDEO_BASE_URL,
-  POPULAR_CFY_DIAMOND_TYPES,
+  STANDARD_CFY_DIAMOND_TYPES,
   getFormattedCarat,
   getFormattedPrice,
   parseValidLocale,
@@ -156,7 +156,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const [loadPagination, setLoadPagination] = useState(0);
 
-  const isStandardShape = POPULAR_CFY_DIAMOND_TYPES.includes(diamondType);
+  const isStandardShape = STANDARD_CFY_DIAMOND_TYPES.includes(diamondType);
 
   const diamondTableInventoryLink = `/diamonds/inventory/` + (isStandardShape ? diamondType : '');
 

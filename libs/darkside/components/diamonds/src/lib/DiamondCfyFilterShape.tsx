@@ -10,7 +10,7 @@ import StyledDiamondCfyFilterShape from './DiamondCfyFilterShape.style';
 const DiamondCfyFilterShape = (props) => {
   const { locale, availableDiamondTypes, handleSelectShape } = props;
   const { data: { ctoDiamondTable } = {} } = useDiamondCfyData(locale);
-  const { diamondResultMatchViewAllCta, selectFromOurMostPopularShapes } = ctoDiamondTable;
+  const { diamondResultMatchViewAllCta, diamondSelectorTitle, diamondSelectorSubtitle } = ctoDiamondTable;
 
   const { _t } = useTranslations(locale, [humanNamesMapperType.DIAMOND_SHAPES]);
 
@@ -47,10 +47,14 @@ const DiamondCfyFilterShape = (props) => {
   return (
     <StyledDiamondCfyFilterShape>
       <Heading type="h2" className="title">
-        {selectFromOurMostPopularShapes}
+        {diamondSelectorTitle}
       </Heading>
       <div className="lists">
         <div className="list popular">
+          <div className="subtitle">
+            <p>{diamondSelectorSubtitle}</p>
+          </div>
+
           {popularShapes.map((v) => {
             const shape = diamondIconsMap[v.slug];
 
