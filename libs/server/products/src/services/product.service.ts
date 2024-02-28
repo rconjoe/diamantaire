@@ -1071,6 +1071,7 @@ export class ProductsService {
       ProductOption.SideStoneShape,
       ProductOption.BandStoneShape,
       ProductOption.HoopAccent,
+      ProductOption.EarringSize,
     ];
 
     // options which are always included as long as the "parent" option matches (make sure its also in OPTION_TYPES_ALWAYS_INCLUDED)
