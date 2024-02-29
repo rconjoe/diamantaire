@@ -193,6 +193,12 @@ export const chainLengthValues = [
   '8',
 ] as const;
 
+export const wristSize = [
+  'Small',
+  'Medium',
+  'Large'
+] as const;
+
 export const configurationTypes = {
   prongStyle: 'prongStyle',
   bandVersion: 'bandVersion',
@@ -220,6 +226,7 @@ export const configurationTypes = {
   earringSize: 'earringSize',
   caratWeight: 'caratWeight',
   chainLength: 'chainLength',
+  wristSize: 'wristSize',
 } as const;
 
 export const configurationOptionValues = {
@@ -249,6 +256,7 @@ export const configurationOptionValues = {
   [configurationTypes.earringSize]: earringSizeValues,
   [configurationTypes.caratWeight]: caratWeightValues,
   [configurationTypes.chainLength]: chainLengthValues,
+  [configurationTypes.wristSize]: wristSize,
 } as const;
 
 export const optionTypeOrder = [
@@ -277,6 +285,7 @@ export const optionTypeOrder = [
   configurationTypes.caratWeight,
   configurationTypes.chainLength,
   configurationTypes.diamondOrientation,
+  configurationTypes.wristSize,
 ] as const;
 
 export type prongStyle = (typeof prongStyleValues)[number];
@@ -305,6 +314,7 @@ export type diamondType = (typeof diamondTypeValues)[number];
 export type earringSize = (typeof earringSizeValues)[number];
 export type caratWeight = (typeof caratWeightValues)[number];
 export type ChainLength = (typeof chainLengthValues)[number];
+export type WristSize = (typeof wristSize)[number];
 
 export type OptionType = keyof typeof configurationOptionValues;
 export type OptionTypeValue = (typeof configurationOptionValues)[keyof typeof configurationOptionValues][number];
