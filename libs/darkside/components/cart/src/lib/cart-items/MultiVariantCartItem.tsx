@@ -390,7 +390,7 @@ const MultiVariantCartItem = ({
 
   const { countryCode } = parseValidLocale(locale);
 
-  // console.log('totes', totalPrice);
+  console.log('merchandise', merchandise);
 
   const diamondPrices = childProducts?.map((childProduct) => parseFloat(childProduct?.merchandise?.price?.amount) * 100);
 
@@ -448,7 +448,7 @@ const MultiVariantCartItem = ({
               <span>
                 {getFormattedPrice(
                   ((engraving ? parseFloat(engravingProduct?.cost?.totalAmount?.amount) : 0) +
-                    parseFloat(cost?.totalAmount?.amount) * quantity) *
+                    parseFloat(cost?.totalAmount?.amount) * 1) *
                     100,
                   locale,
                   true,
