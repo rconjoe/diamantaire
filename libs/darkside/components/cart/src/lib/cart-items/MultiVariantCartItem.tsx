@@ -11,6 +11,7 @@ import {
   simpleFormatPrice,
 } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
+import clsx from 'clsx';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
@@ -20,7 +21,6 @@ import styled from 'styled-components';
 import CartDiamondCertificate from './CartCertificate';
 import ChildProduct from './ChildProduct';
 import { CartItem } from '../types';
-import clsx from 'clsx';
 
 const MultiVariantCartItemStyles = styled.div`
   margin-bottom: 4rem;
@@ -308,7 +308,8 @@ const MultiVariantCartItem = ({
         {
           lineId: item.id,
           variantId: merchandise.id,
-          quantity: item.quantity - 1,
+          // Remove all of the quantity
+          quantity: 0,
           attributes: item.attributes,
         },
       ];
@@ -389,10 +390,9 @@ const MultiVariantCartItem = ({
 
   const { countryCode } = parseValidLocale(locale);
 
-  // console.log('totes', totalPrice);
-
   const diamondPrices = childProducts?.map((childProduct) => parseFloat(childProduct?.merchandise?.price?.amount) * 100);
 
+  // Combine all prices
   const tempTotalPrice =
     engraving && childProducts
       ? combinePricesOfMultipleProducts(
@@ -443,11 +443,12 @@ const MultiVariantCartItem = ({
         <div className="cart-item__content">
           <p className="setting-text">
             <strong>{info?.productCategory || productType}</strong>
+            {/* Line Item Price */}
             {(productType === 'Engagement Ring' || hasChildProduct) && (
               <span>
                 {getFormattedPrice(
                   ((engraving ? parseFloat(engravingProduct?.cost?.totalAmount?.amount) : 0) +
-                    parseFloat(cost?.totalAmount?.amount) * quantity) *
+                    parseFloat(cost?.totalAmount?.amount) * 1) *
                     100,
                   locale,
                   true,

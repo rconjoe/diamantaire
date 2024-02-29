@@ -24,6 +24,7 @@ export type LooseDiamondAttributeProps = {
 
 export type ERProductCartItemProps = {
   settingVariantId: string;
+  overrideSettingQty?: number;
   settingAttributes: {
     // Fulfillment
     _productType: string;
