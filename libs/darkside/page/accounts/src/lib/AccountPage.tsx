@@ -58,13 +58,9 @@ const AccountPage = () => {
         }),
       });
 
-      console.log('response', response);
-
       if (response.ok) {
         try {
           const json = await response.json();
-
-          console.log('json', json);
 
           setCurrentCustomer(json);
         } catch (error) {

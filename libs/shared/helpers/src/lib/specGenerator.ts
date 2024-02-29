@@ -16,14 +16,6 @@ type SpecGenerator = {
 };
 
 export function specGenerator({ configuration, productType, _t, alt_t, hasChildDiamond, locale }: SpecGenerator) {
-  console.log('spec gen params', {
-    configuration,
-    productType,
-    _t,
-    alt_t,
-    hasChildDiamond,
-    locale,
-  });
   const {
     diamondShape,
     diamondSize,

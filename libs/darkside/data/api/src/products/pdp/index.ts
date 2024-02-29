@@ -54,7 +54,6 @@ export async function getProductPage(productSlug, variantSlug) {
           process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : `http://localhost:4200`
         }/api/pdp/getPdpProduct?${qParams}`;
 
-  console.log('productReqUrl', productReqUrl);
   const response = await fetch(productReqUrl, {
     method: 'GET',
     headers: {
@@ -985,7 +984,6 @@ export async function fetchDatoProductVideoBlock(id: string, locale: string) {
 }
 
 export async function fetchDatoVariant(slug: string, productType: string, locale: string) {
-  console.log('fetchDatoVariant', slug, productType, locale);
   const datoData = await queryDatoGQL({
     query:
       productType === 'Engagement Ring' || productType === 'Wedding Band' ? DATO_VARIANT_QUERY : DATO_JEWELRY_VARIANT_QUERY,

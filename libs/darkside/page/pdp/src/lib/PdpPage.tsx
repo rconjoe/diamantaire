@@ -89,8 +89,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const { isMobile } = useContext(GlobalContext);
 
-  console.log('paramxxx', collectionSlug, productSlug);
-
   // General Data - Serverside
   const query = useProduct({ collectionSlug, productSlug });
 
