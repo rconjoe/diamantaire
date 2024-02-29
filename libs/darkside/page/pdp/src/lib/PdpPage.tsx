@@ -158,14 +158,13 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   let trioBlocksId = trioBlocks?.id;
 
   let accordionBlocksOverride = accordionBlocks;
+
   // Variant Specific Data
   const { shopifyCollectionId, productContent, configuration, price } = shopifyProductData;
 
   const configurations = shopifyProductData?.optionConfigs;
 
   const shopifyHandle = productContent?.shopifyProductHandle || productContent?.configuredProductOptionsInOrder;
-
-  console.log('shopifyProductData', shopifyProductData);
 
   let { data: additionalVariantData }: any = useProductVariant(
     shopifyHandle,
