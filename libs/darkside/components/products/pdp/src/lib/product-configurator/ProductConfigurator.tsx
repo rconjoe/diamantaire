@@ -8,7 +8,6 @@ import { useCartData, useProductIconList, useTranslations, useVariantInventory }
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   getCurrency,
-  getFormattedCarat,
   getFormattedPrice,
   parseValidLocale,
 } from '@diamantaire/shared/constants';

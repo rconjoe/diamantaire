@@ -26,6 +26,8 @@ const CONFIG_TYPE_ORDER = [
   'bandVersion',
   'value',
   'hoopAccent',
+  'domeWidth',
+  'wristSize',
 ];
 
 function getConfigTypeOrderPosition(configType, order = CONFIG_TYPE_ORDER) {
