@@ -382,6 +382,7 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
   font-size: 1.3rem;
   color: var(--color-black);
   cursor: pointer;
+  padding: 0 2rem;
   &.selected {
     border-color: var(--color-teal);
   }
