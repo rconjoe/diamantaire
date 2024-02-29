@@ -3,7 +3,7 @@ import { GoogleTagManager } from '@next/third-parties/google';
 import { useCookieConsentContext } from '@use-cookie-consent/react';
 
 const GTM_CONTAINER_ID = process.env.NEXT_PUBLIC_GTM_CONTAINER_ID;
-const isProd = process.env.NEXT_PUBLIC_VERCEL_ENV === 'production';
+const isProd = process.env.NEXT_PUBLIC_APP_ENV === 'production';
 const isDevEnabled = process.env.NEXT_PUBLIC_LOCAL_GTM === 'true'; // set locally in .env.local
 
 const GoogleTagManagerContainer = () => {
