@@ -59,7 +59,10 @@ const PageViewTracker = ({ productData, listPageData, isSummaryPage }: Props) =>
     const { pathname } = router;
     const productSlugSegmentPath = segments[segments.length - 1];
 
-    const isProductSlug = productSlugSegmentPath === '[productSlug]' || isSummaryPage;
+    const isProductSlug =
+      productSlugSegmentPath === '[productSlug]' ||
+      isSummaryPage ||
+      pathname === '/engagement-ring/[collectionSlug]/[productSlug]/[...productParams]';
     const isListPageSlug = productSlugSegmentPath === '[...plpSlug]' || pathname === '/customize/diamond-to-setting/[lotId]';
 
     if (isListPageSlug) {

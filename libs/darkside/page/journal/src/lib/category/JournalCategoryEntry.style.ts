@@ -127,6 +127,9 @@ export const JournalCategoryEntryContainer = styled.div<{ headerHeight: number }
       align-items: center;
       justify-content: center;
       margin-bottom: ${setSpace(6)};
+      > div {
+        max-width: 20rem !important;
+      }
     }
   }
 `;

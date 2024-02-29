@@ -28,6 +28,7 @@ export enum ProductOption {
   BandStyle = 'bandStyle',
   DiamondOrientation = 'diamondOrientation',
   BandStoneShape = 'bandStoneShape',
+  EarringSize = 'earringSize',
 }
 export const PRODUCT_DEFAULT_OPTIONS = {
   [ProductOption.DiamondType]: DiamondTypes.RoundBrilliant,

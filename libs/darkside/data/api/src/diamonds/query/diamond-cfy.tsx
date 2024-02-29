@@ -169,6 +169,8 @@ query ctoDiamondTable($locale: SiteLocale) {
     seeDetails
     selectedDiamondId
     vraiDiamondsInfo
+    nonStandardShapeAppointmentsBody
+    scheduleAnAppointment
     blocks {
       ... on ModularBlockWrapperRecord {
         _modelApiKey

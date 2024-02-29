@@ -18,6 +18,7 @@ type ModularTextOnlyBlockProps = {
   tabletAndUpButtonClass: string;
   titleStyle?: string;
   titleFont?: string;
+  subtitle?: string;
   copy?: string;
   additionalClass?: string;
   headingType?: string;
@@ -30,6 +31,7 @@ const ModularTextOnlyBlock = ({
   title,
   titleStyle,
   titleFont,
+  subtitle,
   darksideButtons,
   desktopCopy,
   mobileCopy,
@@ -56,6 +58,11 @@ const ModularTextOnlyBlock = ({
             >
               {title}
             </Heading>
+          )}
+          {subtitle && (
+            <div className="text-block__copy -blog subtitle">
+              <p>{subtitle}</p>
+            </div>
           )}
           {blogCopy && (
             <>

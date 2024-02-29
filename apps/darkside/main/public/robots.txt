@@ -7,47 +7,6 @@ Disallow: /customize/*
 Disallow: /diamonds/inventory/*/?limit*
 Disallow: /diamonds/results/*
 
-Disallow: /engagement-rings/round-brilliant-cut/*rose-gold
-Disallow: /engagement-rings/round-brilliant-cut/*white-gold
-Disallow: /engagement-rings/round-brilliant-cut/*yellow-gold
-Disallow: /engagement-rings/round-brilliant-cut/*platinum
-Disallow: /engagement-rings/oval-cut/*rose-gold
-Disallow: /engagement-rings/oval-cut/*white-gold
-Disallow: /engagement-rings/oval-cut/*yellow-gold
-Disallow: /engagement-rings/oval-cut/*platinum
-Disallow: /engagement-rings/emerald-cut/*rose-gold
-Disallow: /engagement-rings/emerald-cut/*white-gold
-Disallow: /engagement-rings/emerald-cut/*yellow-gold
-Disallow: /engagement-rings/emerald-cut/*platinum
-Disallow: /engagement-rings/pear-cut/*rose-gold
-Disallow: /engagement-rings/pear-cut/*white-gold
-Disallow: /engagement-rings/pear-cut/*yellow-gold
-Disallow: /engagement-rings/pear-cut/*platinum
-Disallow: /engagement-rings/cushion-cut/*rose-gold
-Disallow: /engagement-rings/cushion-cut/*white-gold
-Disallow: /engagement-rings/cushion-cut/*yellow-gold
-Disallow: /engagement-rings/cushion-cut/*platinum
-Disallow: /engagement-rings/radiant-cut/*rose-gold
-Disallow: /engagement-rings/radiant-cut/*white-gold
-Disallow: /engagement-rings/radiant-cut/*yellow-gold
-Disallow: /engagement-rings/radiant-cut/*platinum
-Disallow: /engagement-rings/marquise-cut/*rose-gold
-Disallow: /engagement-rings/marquise-cut/*white-gold
-Disallow: /engagement-rings/marquise-cut/*yellow-gold
-Disallow: /engagement-rings/marquise-cut/*platinum
-Disallow: /engagement-rings/trillion-cut/*rose-gold
-Disallow: /engagement-rings/trillion-cut/*white-gold
-Disallow: /engagement-rings/trillion-cut/*yellow-gold
-Disallow: /engagement-rings/trillion-cut/*platinum
-Disallow: /engagement-rings/asscher-cut/*rose-gold
-Disallow: /engagement-rings/asscher-cut/*white-gold
-Disallow: /engagement-rings/asscher-cut/*yellow-gold
-Disallow: /engagement-rings/asscher-cut/*platinum
-Disallow: /engagement-rings/princess-cut/*rose-gold
-Disallow: /engagement-rings/princess-cut/*white-gold
-Disallow: /engagement-rings/princess-cut/*yellow-gold
-Disallow: /engagement-rings/princess-cut/*platinum
-
 Sitemap: https://www.vrai.com/sitemap.xml
 
 # Google adsbot ignores robots.txt unless specifically named!

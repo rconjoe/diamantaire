@@ -1,4 +1,3 @@
-import { desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const pageGap = '5rem';
@@ -9,19 +8,19 @@ const StyledCFYResultPage = styled.div`
   margin: 0 auto;
   padding: 0 !important;
 
-  ${tabletAndUp(`
+  @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
     margin: 2rem auto;
-  `)};
+  }
 
   .page-row {
     width: 100%;
     display: flex;
     flex-direction: column;
 
-    ${tabletAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       gap: ${pageGap};
-      flex-direction: row;  
-    `)}
+      flex-direction: row;
+    }
   }
 
   .page-head {
@@ -32,9 +31,9 @@ const StyledCFYResultPage = styled.div`
     &.mobile-only {
       height: 2.7rem;
 
-      ${tabletAndUp(`
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         display: none;
-      `)}
+      }
     }
 
     * {
@@ -47,9 +46,9 @@ const StyledCFYResultPage = styled.div`
     display: flex;
     justify-content: flex-end;
 
-    ${tabletAndUp(`
-      width: calc(50% - (${pageGap} / 2))
-    `)}
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      width: calc(50% - (${pageGap} / 2));
+    }
   }
 
   .page-content {
@@ -58,21 +57,21 @@ const StyledCFYResultPage = styled.div`
     > .media {
       width: 100%;
 
-      ${desktopAndUp(`
-      width: 50rem;
-      height: 57rem;
-      `)}
+      @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+        width: 50rem;
+        height: 57rem;
+      }
 
       .swiper {
         width: 100%;
         padding: 0 0 8rem;
         height: calc(100vw + 8rem);
 
-        ${desktopAndUp(`
+        @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
           padding: 0;
           width: 50rem;
           height: 57rem;
-        `)}
+        }
       }
     }
 
@@ -121,10 +120,10 @@ const StyledCFYResultPage = styled.div`
     margin: 4rem 0 0;
     position: relative;
 
-    ${tabletAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       margin: 0;
       width: calc(50% - (${pageGap} / 2));
-    `)}
+    }
   }
 
   .page-aside {
@@ -145,9 +144,9 @@ const StyledCFYResultPage = styled.div`
     .subtitle * {
       font-size: var(--font-size-xsmall);
 
-      ${tabletAndUp(`
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         font-size: var(--font-size-medium);
-      `)};
+      }
     }
 
     .primary-price,
@@ -155,18 +154,18 @@ const StyledCFYResultPage = styled.div`
       margin: 0.25rem 0 0;
       font-size: var(--font-size-xsmall);
 
-      ${tabletAndUp(`
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         font-size: var(--font-size-xsmall);
-      `)};
+      }
 
       small {
         margin: 0;
         display: block;
         font-size: var(--font-size-xxxxsmall);
 
-        ${tabletAndUp(`
+        @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
           font-size: var(--font-size-xxxxsmall);
-        `)};
+        }
       }
     }
 
@@ -212,9 +211,20 @@ const StyledCFYResultPage = styled.div`
       margin: 2rem 0;
       gap: 1rem;
 
-      ${desktopAndUp(`
+      @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
         flex-direction: row;
-      `)}
+      }
+    }
+
+    .section-non-standard-shape {
+      margin: 2rem 0 0;
+
+      .info {
+        font-size: var(--font-size-xsmall);
+      }
+
+      button {
+      }
     }
   }
 
@@ -244,15 +254,15 @@ const StyledCFYResultPage = styled.div`
   .desktop-only {
     display: none;
 
-    ${desktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       display: block;
-    `)}
+    }
   }
 
   .mobile-only {
-    ${desktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       display: none;
-    `)}
+    }
   }
 `;
 

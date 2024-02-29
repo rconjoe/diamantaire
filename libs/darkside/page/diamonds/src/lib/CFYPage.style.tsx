@@ -1,4 +1,3 @@
-import { desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledCFYPage = styled.div`
@@ -8,18 +7,18 @@ const StyledCFYPage = styled.div`
   padding: 0;
   position: relative;
 
-  ${tabletAndUp(`
+  @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
     margin: 2rem auto;
-    flex-direction: row;  
-  `)}
+    flex-direction: row;
+  }
 
   .page-header {
     padding: 1rem 1.5rem 0;
     text-align: center;
 
-    ${tabletAndUp(`
-      padding: 0.5rem 3rem 0;
-    `)}
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      padding: 0 3rem;
+    }
 
     .title {
       font-size: var(--font-size-small);
@@ -27,10 +26,10 @@ const StyledCFYPage = styled.div`
       margin: 0 0 1.5rem;
       line-height: 1.1;
 
-      ${tabletAndUp(`
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         font-size: var(--font-size-large);
-        margin: 0 0 1.5rem;
-      `)}
+        margin: 0 0 1rem;
+      }
     }
 
     p {
@@ -39,34 +38,37 @@ const StyledCFYPage = styled.div`
       margin: 0 auto;
       width: 360px;
 
-      ${tabletAndUp(`
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         font-size: var(--font-size-xsmall);
         width: 55rem;
-      `)}
+      }
     }
   }
 
   .page-main {
     flex: 1;
 
-    // top: ${(props) => props.headerHeight + 20}px;
-
-    ${tabletAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       padding: 0 0 4rem;
-      // position: sticky;
+      position: sticky;
       align-self: flex-start;
-    `)}
+      top: 7.5rem;
+    }
   }
 
   .page-aside {
     width: 100%;
-    margin: 4rem 0 0;
+    margin: 1rem 0 0;
 
-    ${tabletAndUp(`
-    margin: 0;
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      margin: 0;
       width: 40rem;
       padding: 0 0 4rem;
-    `)}
+    }
+
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+      transform: translateX(-5.5rem);
+    }
   }
 
   .button-check-availability {
@@ -75,9 +77,9 @@ const StyledCFYPage = styled.div`
     position: relative;
     z-index: 1;
 
-    ${desktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       max-width: 30rem;
-    `)}
+    }
   }
 `;
 

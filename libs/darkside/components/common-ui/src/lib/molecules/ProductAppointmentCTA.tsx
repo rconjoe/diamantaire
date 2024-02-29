@@ -12,7 +12,8 @@ import styled from 'styled-components';
 import { SlideOut } from './SlideOut';
 
 const ProductAppointmentCTAStyles = styled.div`
-  margin: 1rem 0 2rem;
+  ${(props) => (props.withHiddenButton ? 'margin: 0;' : 'margin: 1rem 0 2rem;')};
+
   .appointment-button {
     &.outline {
       width: 100%;
@@ -31,6 +32,7 @@ const ProductAppointmentCTAStyles = styled.div`
         margin-right: 0.2rem;
       }
     }
+
     &.underline {
       width: 100%;
 
@@ -47,6 +49,7 @@ const ProductAppointmentCTAStyles = styled.div`
         display: none;
       }
     }
+
     &.with-hidden-button {
       display: none;
     }
@@ -197,7 +200,7 @@ const ProductAppointmentCTA = ({
   }
 
   return (
-    <ProductAppointmentCTAStyles>
+    <ProductAppointmentCTAStyles withHiddenButton={withHiddenButton}>
       <button
         className={clsx('appointment-button', type, { 'with-hidden-button': withHiddenButton })}
         onClick={() => setIsAppointmentSlideoutShowing(!isAppointmentSlideoutShowing)}
@@ -207,6 +210,7 @@ const ProductAppointmentCTA = ({
         </span>
         {ctaTitle}
       </button>
+
       <AnimatePresence>
         {isAppointmentSlideoutShowing && (
           <SlideOut

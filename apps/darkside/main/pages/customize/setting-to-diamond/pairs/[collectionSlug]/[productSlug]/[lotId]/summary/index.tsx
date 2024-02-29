@@ -447,6 +447,9 @@ const SettingToDiamondSummaryPage = () => {
 
   console.log('selectedSize', selectedSize);
 
+  // As of now, only toimoi and pairs end up on this page. We will have to expand this if other products end up here
+  const isToiMoi = router.query.collectionSlug.includes('toi-moi');
+
   const { productAdded } = useAnalytics();
 
   const sizeOptions = configurations?.[sizeOptionKey];
@@ -476,8 +479,6 @@ const SettingToDiamondSummaryPage = () => {
     isER ? 'engagement_ring_summary_page' : 'jewelry_summary_page',
     router.locale,
   );
-
-  console.log('blockpickerData', blockpickerData);
 
   const diamondImages = useMemo(() => {
     return isDiamondCFY
@@ -738,6 +739,7 @@ const SettingToDiamondSummaryPage = () => {
     await addERProductToCart({
       settingVariantId,
       settingAttributes,
+      overrideSettingQty: !isToiMoi ? 2 : 1,
       diamonds: diamondsToAdd,
       hasEngraving: engravingText ? true : false,
       engravingText,
@@ -761,7 +763,6 @@ const SettingToDiamondSummaryPage = () => {
       const formattedSettingPrice = getFormattedPrice(settingPrice, locale, true, true);
       const id = settingVariantId.split('/').pop();
       const totalAmount = getFormattedPrice(settingPrice + diamondPricesCombined, locale, true, true);
-
       // Setting product data
       const settingProduct = {
         id,
@@ -769,7 +770,7 @@ const SettingToDiamondSummaryPage = () => {
         price: formattedSettingPrice,
         category: pdpType,
         variant: variantProductTitle,
-        quantity: 1,
+        quantity: !isToiMoi ? 2 : 1,
         brand: 'VRAI',
         image_url: src || productContent?.assetStack?.[0]?.url,
         ...selectedConfiguration,
@@ -822,7 +823,7 @@ const SettingToDiamondSummaryPage = () => {
             item_category: pdpType,
             price: formattedSettingPrice,
             currency: currencyCode,
-            quantity: 1,
+            quantity: !isToiMoi ? 2 : 1,
             ...selectedConfiguration,
           },
           ...diamondProducts.map((diamond) => ({
