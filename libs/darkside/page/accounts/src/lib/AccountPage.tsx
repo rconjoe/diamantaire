@@ -38,8 +38,7 @@ const AccountPage = () => {
   useEffect(() => {
     if (!user) return;
 
-    // const email = user.emailAddresses?.[0]?.emailAddress || null;
-    const email = 'mjdorony2@gmail.com';
+    const email = user.emailAddresses?.[0]?.emailAddress || null;
 
     accountEmailCookie.set(email);
 
