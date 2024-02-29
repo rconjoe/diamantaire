@@ -1,9 +1,9 @@
+import { isProdEnv } from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import { GoogleTagManager } from '@next/third-parties/google';
 import { useCookieConsentContext } from '@use-cookie-consent/react';
 
 const GTM_CONTAINER_ID = process.env.NEXT_PUBLIC_GTM_CONTAINER_ID;
-const isProd = process.env.NEXT_PUBLIC_APP_ENV === 'production';
 const isDevEnabled = process.env.NEXT_PUBLIC_LOCAL_GTM === 'true'; // set locally in .env.local
 
 const GoogleTagManagerContainer = () => {
@@ -16,7 +16,7 @@ const GoogleTagManagerContainer = () => {
   // 3. User is in development environment and has enabled GTM
 
   const isEnabled =
-    (isProd && isUserInEu && consent?.statistics && consent?.marketing) || (!isUserInEu && isProd) || isDevEnabled;
+    (isProdEnv && isUserInEu && consent?.statistics && consent?.marketing) || (!isUserInEu && isProdEnv) || isDevEnabled;
 
   if (!isEnabled || !GTM_CONTAINER_ID) {
     return null;
