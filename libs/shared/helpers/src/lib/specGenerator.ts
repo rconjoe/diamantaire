@@ -38,6 +38,7 @@ export function specGenerator({ configuration, productType, _t, alt_t, hasChildD
     sideStoneCarat,
     sideStoneShape,
     size,
+    domeWidth,
   } = configuration || {};
 
   const specArray = [];
@@ -125,6 +126,10 @@ export function specGenerator({ configuration, productType, _t, alt_t, hasChildD
 
   if (earringSize) {
     specArray.push(`${_t('earringSize')}: ${alt_t(earringSize)}`);
+  }
+
+  if (domeWidth) {
+    specArray.push(`${_t('domeWidth')}: ${_t(domeWidth)}`);
   }
 
   if (productType === 'Necklace' && !chainLength) {
