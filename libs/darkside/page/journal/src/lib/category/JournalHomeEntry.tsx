@@ -74,7 +74,7 @@ const JournalHomeEntry = ({
         canonical={baseUrl + seoParam[languageCode] + asPath}
       />
       <JournalHeader showTitle={true} showNavLogo={false} categoriesToDisplay={blogConfiguration?.categoriesToDisplay} />
-      <div>
+      <div className="journal-container">
         {/* ------ LATEST STORIES list title block ------ */}
         <div className="journal-home__wrapper header-content">
           <div className="container-wrapper">
