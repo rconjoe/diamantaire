@@ -169,7 +169,7 @@ const MediaSlider = ({
           {assets?.map((asset, index) => {
             const { mimeType, customData } = asset || {};
             const { title: imageTitle } = asset;
-            const doesImageHavTitle = imageTitle && imageTitle.length > 0;
+            const doesImageHaveTitle = imageTitle && imageTitle.length > 0;
 
             if (customData?.bunny === 'true') return null;
 
@@ -192,7 +192,7 @@ const MediaSlider = ({
                   <div className="embla__slide" key={`mobile-pdp-slide-${index}`}>
                     <ShopifyImage image={asset} defaultAlt={title} />
 
-                    {doesImageHavTitle && (
+                    {doesImageHaveTitle && (
                       <p
                         className="overlay-text"
                         style={{
