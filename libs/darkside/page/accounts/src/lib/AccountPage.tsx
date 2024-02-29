@@ -38,7 +38,8 @@ const AccountPage = () => {
   useEffect(() => {
     if (!user) return;
 
-    const email = user.emailAddresses?.[0]?.emailAddress || null;
+    // const email = user.emailAddresses?.[0]?.emailAddress || null;
+    const email = 'mjdorony2@gmail.com';
 
     accountEmailCookie.set(email);
 
@@ -57,9 +58,13 @@ const AccountPage = () => {
         }),
       });
 
+      console.log('response', response);
+
       if (response.ok) {
         try {
           const json = await response.json();
+
+          console.log('json', json);
 
           setCurrentCustomer(json);
         } catch (error) {

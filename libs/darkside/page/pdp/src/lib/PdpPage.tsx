@@ -89,6 +89,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const { isMobile } = useContext(GlobalContext);
 
+  console.log('paramxxx', collectionSlug, productSlug);
+
   // General Data - Serverside
   const query = useProduct({ collectionSlug, productSlug });
 
@@ -164,6 +166,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const configurations = shopifyProductData?.optionConfigs;
 
   const shopifyHandle = productContent?.shopifyProductHandle || productContent?.configuredProductOptionsInOrder;
+
+  console.log('shopifyProductData', shopifyProductData);
 
   let { data: additionalVariantData }: any = useProductVariant(
     shopifyHandle,

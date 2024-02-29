@@ -4,7 +4,7 @@ import { GraphQLClient, Variables } from 'graphql-request';
 export function queryDatoGQL({
   query,
   variables,
-  includeDrafts,
+  // includeDrafts,
   excludeInvalid,
 }: {
   query: string;
@@ -21,17 +21,25 @@ export function queryDatoGQL({
 
   const environment = process.env['NEXT_PUBLIC_VERCEL_ENV	'] || 'development';
 
+  console.log('environment', environment);
+
   const headers: { [key: string]: string } = {
     authorization: `Bearer ` + process.env['NEXT_PUBLIC_DATOCMS_API_TOKEN'],
   };
 
-  if (includeDrafts) {
-    headers['X-Include-Drafts'] = (environment !== 'production').toString();
-  }
+  // if (includeDrafts) {
+  //   // headers['X-Include-Drafts'] = (environment !== 'production').toString();
+  // }
+
+  headers['X-Include-Drafts'] = 'true';
 
   if (excludeInvalid) {
     headers['X-Exclude-Invalid'] = 'true';
   }
+
+  const clientUrl = `https://graphql.datocms.com/${environment === 'production' ? '' : 'preview'}`;
+
+  console.log('client url', clientUrl);
 
   const client = new GraphQLClient(`https://graphql.datocms.com/${environment === 'production' ? '' : 'preview'}`, {
     headers,
