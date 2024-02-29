@@ -37,6 +37,9 @@ export function specGenerator({ configuration, productType, _t, alt_t, hasChildD
     hiddenHalo,
     sideStoneCarat,
     sideStoneShape,
+    size,
+    domeWidth,
+    wristSize,
   } = configuration || {};
 
   const specArray = [];
@@ -126,6 +129,14 @@ export function specGenerator({ configuration, productType, _t, alt_t, hasChildD
     specArray.push(`${_t('earringSize')}: ${alt_t(earringSize)}`);
   }
 
+  if (domeWidth) {
+    specArray.push(`${_t('domeWidth')}: ${_t(domeWidth)}`);
+  }
+
+  if (wristSize) {
+    specArray.push(`${_t('wristSize')}: ${_t(wristSize)}`);
+  }
+
   if (productType === 'Necklace' && !chainLength) {
     specArray.push(`${_t('chain length')}: 16-18"`);
   }
@@ -140,6 +151,12 @@ export function specGenerator({ configuration, productType, _t, alt_t, hasChildD
     specArray.push(`${_t('color')}: ${color}`);
     specArray.push(`${_t('clarity')}: ${clarity}`);
     specArray.push(`${_t('cut')}: ${_t(cut)}`);
+  }
+
+  // Bracelet specific
+
+  if (productType === 'Bracelet' && size) {
+    specArray.push(`${_t('size')}: ${size}`);
   }
 
   return specArray.join(';');

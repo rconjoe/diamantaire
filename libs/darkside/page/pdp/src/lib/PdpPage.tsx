@@ -158,6 +158,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   let trioBlocksId = trioBlocks?.id;
 
   let accordionBlocksOverride = accordionBlocks;
+
   // Variant Specific Data
   const { shopifyCollectionId, productContent, configuration, price } = shopifyProductData;
 
