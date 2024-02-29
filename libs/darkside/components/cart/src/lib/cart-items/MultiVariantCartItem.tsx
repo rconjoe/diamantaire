@@ -390,10 +390,9 @@ const MultiVariantCartItem = ({
 
   const { countryCode } = parseValidLocale(locale);
 
-  console.log('merchandise', merchandise);
-
   const diamondPrices = childProducts?.map((childProduct) => parseFloat(childProduct?.merchandise?.price?.amount) * 100);
 
+  // Combine all prices
   const tempTotalPrice =
     engraving && childProducts
       ? combinePricesOfMultipleProducts(
@@ -444,6 +443,7 @@ const MultiVariantCartItem = ({
         <div className="cart-item__content">
           <p className="setting-text">
             <strong>{info?.productCategory || productType}</strong>
+            {/* Line Item Price */}
             {(productType === 'Engagement Ring' || hasChildProduct) && (
               <span>
                 {getFormattedPrice(
