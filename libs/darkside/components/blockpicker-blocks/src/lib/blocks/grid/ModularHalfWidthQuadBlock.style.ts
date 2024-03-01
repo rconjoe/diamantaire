@@ -1,4 +1,4 @@
-import { setSpace, mobileOnly, customBPAndDown, BP_LG } from '@diamantaire/styles/darkside-styles';
+import { setSpace, mobileOnly, customBPAndDown, BP_LG, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 /**
@@ -60,8 +60,8 @@ export const ModularHalfWidthQuadBlockContainer = styled.div`
 
   .quad__image-tile-container {
     margin: 0;
-    padding: 0;
-
+    ${tabletAndUp('padding: 0 1.6rem;')}
+    
     // Ensure there is some margin below the first two ImageTiles
     &:nth-child(-n + 2) {
       margin-bottom: ${setSpace(1.5)};
@@ -69,8 +69,8 @@ export const ModularHalfWidthQuadBlockContainer = styled.div`
 
     // Ensure the last two ImageTiles align with the base of the image
     &:nth-last-child(-n + 2) {
-      align-self: end;
-      margin-bottom: -0.4rem; // This is to overcome the line-height spacing related to characters that go below the baseline.
+      ${tabletAndUp('align-self: end;')}
+      margin-bottom: -0.4rem;// This is to overcome the line-height spacing related to characters that go below the baseline.
     }
 
     // This sets the horizontal spacing on mobile

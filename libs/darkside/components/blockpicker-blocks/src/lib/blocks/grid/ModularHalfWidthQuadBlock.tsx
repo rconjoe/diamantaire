@@ -31,7 +31,7 @@ const ModularHalfWidthQuadBlock = (props: ModularHalfWidthQuadBlockProps) => {
     desktopImage,
     mobileImage,
   });
-
+  
   return (
     <ModularHalfWidthQuadBlockContainer className="container-wrapper" $imageAlignment={imageAlignment}>
       <div className={clsx('quad__image-quad-container')}>
@@ -46,7 +46,7 @@ const ModularHalfWidthQuadBlock = (props: ModularHalfWidthQuadBlockProps) => {
           {blocks.map((block, index) => {
             return (
               <div key={`${id}-${index}-${block.title}-container`} className="quad__image-tile-container">
-                <ImageTile key={`${id}-${index}-${block.title}`} {...block} />
+                <ImageTile key={`${id}-${index}-${block.title}`} {...block} ctaRoute={block.darksideButtons[0]?.ctaLinkUrl}/>
               </div>
             );
           })}
