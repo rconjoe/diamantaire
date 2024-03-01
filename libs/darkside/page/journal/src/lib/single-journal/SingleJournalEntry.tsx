@@ -21,7 +21,6 @@ const SingleJournalEntry = () => {
   const { seoTitle, seoDescription } = singleJournal || {};
 
   useEffect(() => {
-    console.log('data?.blogPost', data?.blogPost);
     setSingleJournal(data?.blogPost);
   }, [data]);
 
