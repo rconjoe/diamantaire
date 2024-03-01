@@ -1,5 +1,5 @@
 import { useTranslations, useVariantInventory } from '@diamantaire/darkside/data/hooks';
-import { getCurrency, parseValidLocale } from '@diamantaire/shared/constants';
+import { getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
 import { createLongProductTitle, replacePlaceholders } from '@diamantaire/shared/helpers';
 import { generateProductUrl } from '@diamantaire/shared-product';
 import { useRouter } from 'next/router';
@@ -85,11 +85,11 @@ const ProductSeo = ({
         material={metal}
         offers={[
           {
-            price: '119.99',
+            price: getFormattedPrice(shopifyProductData?.price, locale, true, true),
             priceCurrency: currency,
             itemCondition: 'https://schema.org/NewCondition',
             availability: `https://schema.org/${isInStock ? 'InStock' : 'OutOfStock'}`,
-            url: window.location.href,
+            url: typeof window !== 'undefined' && window.location.href,
             seller: {
               name: 'VRAI',
             },

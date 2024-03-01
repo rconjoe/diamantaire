@@ -80,7 +80,7 @@ const ModularAccordion = ({
 
   return (
     <ModularAccordionContainer className="container-wrapper">
-      <FAQPageJsonLd mainEntity={[...faqSchemaData]} />
+      <FAQPageJsonLd mainEntity={faqSchemaData} />
       <div
         className={clsx('acc__container', {
           '-with-image': hasImage,
