@@ -5,8 +5,18 @@ const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 const VideoAssetContainer = styled.div`
   aspect-ratio: 1/1;
   position: relative;
+
   video {
     object-fit: cover;
+  }
+
+  .overlay-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    text-align: center;
+    width: 100%;
   }
 `;
 
