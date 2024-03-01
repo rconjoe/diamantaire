@@ -108,7 +108,7 @@ const Breadcrumb = ({ breadcrumb, simple = false, lastItemBolded = true, spacing
             return (
               <li key={item?.path}>
                 <Link href={item?.path}>{item?.title}</Link>
-                {breadcrumb.length - 1 !== index && <span>/</span>}
+                {breadcrumb?.length - 1 !== index && <span>/</span>}
               </li>
             );
           })}
@@ -122,11 +122,11 @@ const Breadcrumb = ({ breadcrumb, simple = false, lastItemBolded = true, spacing
             <span>/</span>
           </li>
           {breadcrumb?.map((item, index) => {
-            const isLastItem = breadcrumb.length - 1 === index;
+            const isLastItem = breadcrumb?.length - 1 === index;
 
             const link =
               item?.link?.category && item?.link?.slugNew
-                ? `/${item?.link?.category}/${item.link.slugNew}`
+                ? `/${item?.link?.category}/${item?.link?.slugNew}`
                 : item?.link?.slug || item?.path;
             const name = item?.title?.trim() || item.name;
 
