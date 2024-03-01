@@ -137,7 +137,7 @@ export const pdpTypeSingleToPluralAsConst = {
   ['Gift Card']: 'Gift Cards',
 } as const;
 
-export const jewelryTypes = ['Necklace', 'Bracelet', 'Earrings'];
+export const jewelryTypes = ['Necklace', 'Bracelet', 'Earrings', 'Ring'];
 
 export const metalTypeAsConst = {
   platinum: 'Platinum',
