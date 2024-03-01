@@ -25,7 +25,7 @@ import { FilterValueProps } from '@diamantaire/shared-product';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetStaticPropsContext, GetStaticPropsResult, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
-import { NextSeo } from 'next-seo';
+import { NextSeo, WebPageJsonLd } from 'next-seo';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import styled from 'styled-components';
@@ -204,6 +204,14 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
         title={seoTitle}
         description={seoDescription}
         canonical={canonicalOverride ? canonicalOverride : baseUrl + seoParam[languageCode] + router.asPath}
+      />
+
+      <WebPageJsonLd
+        id={`${typeof window !== 'undefined' ? `${window.location.href}/#webpage` : ''}`}
+        url={`${typeof window !== 'undefined' ? window.location.href : ''}`}
+        name={seoTitle}
+        description={seoDescription}
+        isPartOf="https://www.vrai.com/#website"
       />
 
       <PageViewTracker listPageData={listPageData} />
