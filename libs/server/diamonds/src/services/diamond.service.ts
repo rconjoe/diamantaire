@@ -18,6 +18,7 @@ import { PaginateOptions, FilterQuery, AggregatePaginateResult } from 'mongoose'
 import { DiamondPlp, GetDiamondCheckoutDto, LowestPricedDto, ProductInventoryDto } from '../dto/diamond-checkout.dto';
 import { GetDiamondByLotIdDto, GetDiamondDto, GetDiamondByHandleDto } from '../dto/get-diamond.input';
 import { DiamondEntity } from '../entities/diamond.entity';
+import { SortBy, SortOption, SortOrder } from '../entities/sort-options.entity';
 import {
   DiamondProperty,
   caratFirstSortOrder,
@@ -40,12 +41,6 @@ import { ToiMoiDiamondsRepository } from '../repository/toimoi-diamonds.reposito
 
 const STAFF_PICKS_LABEL = 'staffPick';
 
-const DIAMOND_PROPERTY_ORDERS = {
-  cut: ['Excellent', 'Ideal', 'Ideal+Hearts'],
-  color: ['L', 'K', 'J', 'I', 'H', 'G', 'F', 'E', 'D'],
-  clarity: ['SI2', 'SI1', 'VS2', 'VS1', 'VVS2', 'VVS1'],
-}
-
 @Injectable()
 export class DiamondsService {
   private Logger = new Logger('DiamondsService');
@@ -57,6 +52,46 @@ export class DiamondsService {
     private readonly utils: UtilService,
   ) {}
 
+  assmebleSortKey(newSortOption: SortOption, defaultSort: SortOption[] ){
+    const finalOrder : SortOption[] = defaultSort.map((sortOption)=>  new SortOption(sortOption.sortBy, sortOption.sortOrder)); //deep copying the array
+    const elementWithSameKeyIndex = finalOrder.findIndex((sortOption) => sortOption.sortBy === newSortOption.sortBy);
+    const isElementPresent = elementWithSameKeyIndex !== -1;
+
+    if (isElementPresent) {
+      //If the first elemnt has changed than update its sortOrder
+      finalOrder.splice(elementWithSameKeyIndex, 1);
+    }
+    finalOrder.unshift(newSortOption);
+
+    return finalOrder;
+
+  }
+
+  generateMongoSortPayload(sortOptions: SortOption[]){
+    const fieldsStage = {$addFields: {}}
+    const sortingStage = {$sort : {}}
+    let hasFieldStage = false;
+
+    sortOptions.forEach(
+      (sortOption)=>{
+        const [fieldStage, sortStage] = sortOption.ToMongo();
+
+        if(fieldStage){
+          fieldsStage["$addFields"] = {...fieldsStage["$addFields"], ...fieldStage}
+          hasFieldStage=true;
+        }
+
+        sortingStage["$sort"] = {...sortingStage["$sort"], ...sortStage};
+      }
+
+    )
+    if (hasFieldStage){
+      return [fieldsStage, sortingStage];
+
+    }
+
+    return [sortingStage]
+  }
   /**
    * Get filtered diamond types with paginated results
    * @param {GetDiamondDto} input - paginated input (limit, page, sortby, sortorder)
@@ -93,20 +128,30 @@ export class DiamondsService {
       query['slug'] = 'diamonds';
     }
 
-    const stages: any = [{ $match: {...filteredQuery} }]
+    const stages: any[] = [{ $match: {...filteredQuery} }]
 
-    if(sortByKey){
-      if (!['priceMin', 'priceMax', 'caratMin', 'caratMax', 'price', 'carat'].includes(sortByKey)) {
-        stages.push({ $addFields: { [`${sortByKey}_order`]: { $indexOfArray: [DIAMOND_PROPERTY_ORDERS[sortByKey], `$${sortByKey}`] } }});
-        stages.push(
-          { $sort: { [`${sortByKey}_order`]: sortOrder === 'desc' ? -1 : 1 } }
-        )
-      }else {
-        stages.push(
-          { $sort: { [sortByKey]: sortOrder === 'desc' ? -1 : 1 } }
-        )
-      }
+    //SORTING
+    const COLOR_DESC = new SortOption(SortBy.COLOR, SortOrder.DESC);
+    const CARAT_DESC = new SortOption(SortBy.CARAT, SortOrder.DESC);
+    const PRICE_DESC = new SortOption(SortBy.PRICE, SortOrder.ASC);
+
+    const DEFAULT_SORTING_ORDER = [COLOR_DESC, CARAT_DESC, PRICE_DESC];
+
+    let finalOrder = DEFAULT_SORTING_ORDER;
+
+    if (sortByKey){
+      const requestedSortOption = new SortOption(SortBy[sortByKey.toUpperCase()], SortOrder[sortOrder.toUpperCase()]);
+
+      finalOrder = this.assmebleSortKey(requestedSortOption, DEFAULT_SORTING_ORDER);
     }
+
+    const [addFieldsStage, sortStage] = this.generateMongoSortPayload(finalOrder);
+
+    if(addFieldsStage){
+      stages.push(addFieldsStage);
+
+    }
+    stages.push(sortStage);
 
     const result = await this.diamondRepository.aggregatePaginate(stages, options);
 
