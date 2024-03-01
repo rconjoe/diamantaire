@@ -1,4 +1,5 @@
 import { convertPriceToUSD, getCurrencyFromLocale, getVat } from '@diamantaire/shared/constants';
+import { shouldDisplayVat } from '@diamantaire/shared/geolocation';
 import { getCountry } from '@diamantaire/shared/helpers';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
@@ -38,10 +39,9 @@ export async function getVRAIServerPlpData(
       const countryCode = getCountry(locale);
       const vat = getVat(countryCode);
 
-      const convertToUSD = locale !== 'en-US' && isPlpPriceRange && vat;
+      const convertToUSD = shouldDisplayVat(locale) && isPlpPriceRange && vat;
 
       const amountMinusVat = (amountInCents) => {
-
         const res = amountInCents / (1 + vat) / 100;
 
         return Math.round(res) * 100;
