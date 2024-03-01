@@ -16,7 +16,7 @@ type StandardPageSeoProps = {
   description?: string;
   noIndex?: boolean;
   noFollow?: boolean;
-  breadcrumb: {
+  breadcrumb?: {
     title?: string;
     name?: string;
     path: string;
