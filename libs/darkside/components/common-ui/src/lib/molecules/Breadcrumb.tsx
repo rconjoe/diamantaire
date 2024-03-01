@@ -73,7 +73,7 @@ const Breadcrumb = ({ breadcrumb, simple = false, lastItemBolded = true, spacing
       ? 'https://www.vrai.com'
       : 'http://localhost:4200';
 
-  const areThereBreadcrumbs = breadcrumb.length > 0 ? true : false;
+  const areThereBreadcrumbs = breadcrumb?.length > 0 ? true : false;
   const breadcrumbList = areThereBreadcrumbs
     ? [
         {
