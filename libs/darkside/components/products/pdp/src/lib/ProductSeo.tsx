@@ -76,7 +76,7 @@ const ProductSeo = ({
         description={metaDescription}
         canonical={baseUrl + seoParam[selectedLanguageCode] + generateProductUrl(productType, collectionSlug, productSlug)}
       />
-      {/* We need endpoints to full flush this out */}
+      {/* We need endpoints to fully flush this out */}
       <ProductJsonLd
         productName={metaTitle}
         images={seoImages}
