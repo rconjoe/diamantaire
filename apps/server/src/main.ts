@@ -76,19 +76,18 @@ async function bootstrap() {
     SwaggerModule.setup('docs', app, document);
   }
 
-  if (SENTRY_ENVS.includes(process.env.NODE_ENV)) {
-    Sentry.init({
-      environment: process.env.NODE_ENV,
-      dsn: configService.get<string>('app.sentryDsn'),
-      tracesSampleRate: 1.0,
-      profilesSampleRate: 1.0, // Profiling sample rate is relative to tracesSampleRate
-      integrations: [
-        // Add profiling integration to list of integrations
-        new ProfilingIntegration(),
-        new Sentry.Integrations.Http({ tracing: true }),
-      ],
-    });
-  }
+  Sentry.init({
+    environment: process.env.NODE_ENV,
+    dsn: configService.get<string>('app.sentryDsn'),
+    tracesSampleRate: 1.0,
+    profilesSampleRate: 1.0, // Profiling sample rate is relative to tracesSampleRate
+    integrations: [
+      // Add profiling integration to list of integrations
+      new ProfilingIntegration(),
+      new Sentry.Integrations.Http({ tracing: true }),
+    ],
+  });
+  
   await app.listen(configService.get('app.port'));
 
   Logger.log(`==========================================================`);

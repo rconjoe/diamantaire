@@ -245,6 +245,14 @@ const StyledOptionSelector = styled.div`
       gap: 2rem;
       min-height: 0;
     }
+
+    &.eternityStyle,
+    &.chainLength,
+    &.wristSize {
+      .option-item {
+        padding: 0 1rem;
+      }
+    }
   }
 `;
 

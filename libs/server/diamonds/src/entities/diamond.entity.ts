@@ -43,7 +43,7 @@ export class DiamondEntity extends AbstractDocument {
   @Prop({ type: String })
   dfCertificateUrl?: string;
 
-  @Prop()
+  @Prop({type: String})
   type?: string;
 
   @Prop({ type: Number })
