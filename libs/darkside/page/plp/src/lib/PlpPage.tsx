@@ -162,7 +162,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
     return {
       title: crumb.name,
-      path: isSimple ? `/${crumb.link.slug}` : `/${crumb?.link?.category}/${crumb?.link?.slugNew}`,
+      path: isSimple ? `/${crumb?.link?.slug}` : `/${crumb?.link?.category}/${crumb?.link?.slugNew}`,
     };
   });
 
