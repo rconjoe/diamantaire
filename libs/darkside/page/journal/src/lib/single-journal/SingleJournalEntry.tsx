@@ -4,7 +4,7 @@ import { useSingleJournal } from '@diamantaire/darkside/data/hooks';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { parseValidLocale } from '@diamantaire/shared/constants';
 import { useRouter } from 'next/router';
-import { NextSeo } from 'next-seo';
+import { ArticleJsonLd, NextSeo } from 'next-seo';
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { SingleJournalEntryStyles } from './SingleJourneyEntry.style';
@@ -21,6 +21,7 @@ const SingleJournalEntry = () => {
   const { seoTitle, seoDescription } = singleJournal || {};
 
   useEffect(() => {
+    console.log('data?.blogPost', data?.blogPost);
     setSingleJournal(data?.blogPost);
   }, [data]);
 
@@ -63,11 +64,30 @@ const SingleJournalEntry = () => {
   return (
     <SingleJournalEntryStyles>
       {seoTitle && seoDescription && (
-        <NextSeo
-          title={seoTitle}
-          description={seoDescription}
-          canonical={baseUrl + seoParam[languageCode] + router?.asPath}
-        />
+        <>
+          <NextSeo
+            title={seoTitle}
+            description={seoDescription}
+            canonical={baseUrl + seoParam[languageCode] + router?.asPath}
+          />
+
+          <ArticleJsonLd
+            useAppDir={false}
+            url={window.location.href}
+            title={seoTitle}
+            images={[singleJournal?.featuredImage?.url]}
+            datePublished="2015-02-05T08:00:00+08:00"
+            dateModified="2015-02-05T09:00:00+08:00"
+            authorName={[
+              {
+                name: singleJournal.author,
+              },
+            ]}
+            publisherName={singleJournal.author}
+            description={seoDescription}
+            isAccessibleForFree={true}
+          />
+        </>
       )}
 
       <div className="journal-entry__crumbs">{crumbs && <Breadcrumb breadcrumb={crumbs} simple={true} />}</div>

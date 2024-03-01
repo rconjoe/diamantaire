@@ -196,6 +196,8 @@ export const LIST_PAGE_DATO_SERVER_QUERY = gql`
         link {
           ... on ListPageRecord {
             slug
+            slugNew
+            category
             
           }
           ... on StandardPageRecord {

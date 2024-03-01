@@ -158,9 +158,11 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   };
 
   const refinedBreadcrumb = breadcrumb?.map((crumb) => {
+    const isSimple = !crumb?.link?.slugNew;
+
     return {
       title: crumb.name,
-      path: crumb?.link?.slug ? '/' + crumb.link.slug : '',
+      path: isSimple ? `/${crumb.link.slug}` : `/${crumb?.link?.category}/${crumb?.link?.slugNew}`,
     };
   });
 

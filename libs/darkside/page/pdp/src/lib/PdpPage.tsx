@@ -344,6 +344,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           productTitle={productTitle}
           metal={configuration?.metal}
           canonicalVars={shopifyProductData?.canonicalVariant}
+          assets={assetStack}
+          shopifyProductData={shopifyProductData}
         />
 
         <Script
