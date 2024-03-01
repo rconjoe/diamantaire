@@ -74,9 +74,5 @@ export const StyledDropHintModal = styled.div`
       margin: 2rem 0 0;
       font-size: var(--font-size-xxsmall);
     }
-
-    button {
-      text-transform: uppercase;
-    }
   }
 `;
