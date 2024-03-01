@@ -7,6 +7,9 @@ Disallow: /customize/*
 Disallow: /diamonds/inventory/*/?limit*
 Disallow: /diamonds/results/*
 
+Allow: /engagement-ring/*
+Allow: */engagement-ring/*
+
 Sitemap: https://www.vrai.com/sitemap.xml
 
 # Google adsbot ignores robots.txt unless specifically named!
