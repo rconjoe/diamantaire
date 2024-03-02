@@ -1,4 +1,5 @@
 import { BuilderFlowLoader } from '@diamantaire/darkside/components/builder-flows';
+import { PageViewTracker } from '@diamantaire/analytics';
 import {
   Heading,
   NeedTimeToThinkForm,
@@ -107,8 +108,6 @@ const SettingBuildStep = () => {
   const assetStack = productContent?.assetStack; // flatten array in normalization
   const variantId = shopifyProductData?.shopifyVariantId;
 
-  console.log('assetStack', assetStack);
-
   const pdpType: PdpTypePlural = shopifyProductData?.productType?.replace('Engagement Ring', 'Engagement Rings');
 
   const { data }: { data: any } = useProductDato(shopifyProductData?.collectionSlug as string, router.locale, pdpType);
@@ -149,8 +148,6 @@ const SettingBuildStep = () => {
     styles: shopifyProductData?.styles,
     productType: shopifyProductData?.productType,
   };
-
-  console.log('router?.query', router?.query);
 
   async function getSettingProduct() {
     const qParams = new URLSearchParams({
@@ -257,7 +254,7 @@ const SettingBuildStep = () => {
       }}
     >
       <NextSeo title={seoTitle} description={seoDescription} nofollow={true} noindex={true} />
-
+      <PageViewTracker productData={productData} />
       <div className="nav-title container-wrapper">
         <Heading type="h1" className="primary h2 text-center">
           <UIString>Complete your ring</UIString>

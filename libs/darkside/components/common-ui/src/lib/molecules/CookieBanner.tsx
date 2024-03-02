@@ -33,6 +33,16 @@ const CookieBannerStyles = styled.div`
       flex-direction: row;
       padding: 5rem 0;
     }
+
+    @media (min-width: ${({ theme }) => theme.sizes.xxl}) {
+      max-width: 100%;
+      padding: 0 10rem;
+    }
+
+    @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+      padding: 0;
+    }
+
     a {
       color: var(--color-teal);
     }
@@ -47,10 +57,21 @@ const CookieBannerStyles = styled.div`
   }
   .col-left {
     max-width: 520px;
+
+    @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+      margin: 2.5rem 3rem 2.5rem 3rem;
+    }
   }
   .col-right {
     display: flex;
     flex-direction: column;
+    @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+      margin: 0 3rem 2.5rem 3rem;
+
+      button {
+        font-size: var(--font-size-xxsmall);
+      }
+    }
   }
   .button-select button {
     font-size: var(--font-size-xxxsmall);
@@ -69,6 +90,12 @@ const CookieBannerStyles = styled.div`
   }
   .copy {
     margin: 2rem 0 2.5rem !important;
+
+    p {
+      @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+        font-size: var(--font-size-xxsmall);
+      }
+    }
   }
 `;
 
@@ -99,7 +126,7 @@ const CookieBanner = () => {
   const [showBanner, setShowBanner] = useState(false);
 
   const handleAcceptPrivacy = () => {
-    Cookies.set('didAcceptPrivacy', 'true');
+    Cookies.set('didAcceptPrivacy', 'true', { expires: 365 });
     setShowBanner(false);
   };
 

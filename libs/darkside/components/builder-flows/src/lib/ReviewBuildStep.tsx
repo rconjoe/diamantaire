@@ -573,6 +573,7 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
       productType,
       _t,
       hasChildDiamond: true,
+      locale,
     });
 
     const settingAttributes: ERProductCartItemProps['settingAttributes'] = {
@@ -614,6 +615,7 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
         configuration: { ...diamond },
         productType: 'Diamond',
         _t,
+        locale,
       });
       const diamondAttributes: ProductAddonDiamond['attributes'] = {
         _productTitle: diamond?.productTitle,

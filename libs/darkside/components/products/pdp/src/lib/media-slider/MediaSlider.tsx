@@ -21,6 +21,7 @@ const MediaSliderContainer = styled.div`
   ${media.medium`display: none;`}
 
   .embla__slide {
+    position: relative;
     display: flex;
 
     > div {
@@ -29,14 +30,26 @@ const MediaSliderContainer = styled.div`
       aspect-ratio: 1; /* Maintain a square aspect ratio */
       justify-content: center;
       align-items: center;
+
       img {
         flex: 1;
       }
+
       .image {
         object-fit: contain;
         height: auto; /* or a specific height if required */
       }
     }
+
+    .overlay-text {
+      display: block;
+      text-align: center;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      padding: 1rem;
+    }
+
     .hand {
       display: block;
       > div {
@@ -61,6 +74,7 @@ const MediaSliderContainer = styled.div`
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       display: none;
     }
+
     ul {
       display: flex;
       margin: 0;
@@ -68,6 +82,7 @@ const MediaSliderContainer = styled.div`
       list-style: none;
       justify-content: center;
       gap: 1rem;
+
       li {
         button {
           height: 0.5rem;
@@ -153,6 +168,8 @@ const MediaSlider = ({
         <div className="embla__container">
           {assets?.map((asset, index) => {
             const { mimeType, customData } = asset || {};
+            const { title: imageTitle } = asset;
+            const doesImageHaveTitle = imageTitle && imageTitle.length > 0;
 
             if (customData?.bunny === 'true') return null;
 
@@ -174,6 +191,17 @@ const MediaSlider = ({
                 return (
                   <div className="embla__slide" key={`mobile-pdp-slide-${index}`}>
                     <ShopifyImage image={asset} defaultAlt={title} />
+
+                    {doesImageHaveTitle && (
+                      <p
+                        className="overlay-text"
+                        style={{
+                          color: customData?.color || 'var(--color-black)',
+                        }}
+                      >
+                        {imageTitle}
+                      </p>
+                    )}
 
                     {index === 0 && productType === 'Engagement Ring' && (
                       <p>
@@ -197,6 +225,7 @@ const MediaSlider = ({
               }
             }
           })}
+
           {shouldDisplayDiamondHand ? (
             <div className="embla__slide">
               <div className="hand">

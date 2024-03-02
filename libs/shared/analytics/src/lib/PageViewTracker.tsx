@@ -56,11 +56,14 @@ const PageViewTracker = ({ productData, listPageData, isSummaryPage }: Props) =>
 
   function emitViewPageEvent(pageName: string) {
     const segments = router?.pathname.split('/').filter(Boolean);
-
+    const { pathname } = router;
     const productSlugSegmentPath = segments[segments.length - 1];
 
-    const isProductSlug = productSlugSegmentPath === '[productSlug]' || isSummaryPage;
-    const isListPageSlug = productSlugSegmentPath === '[...plpSlug]';
+    const isProductSlug =
+      productSlugSegmentPath === '[productSlug]' ||
+      isSummaryPage ||
+      pathname === '/engagement-ring/[collectionSlug]/[productSlug]/[...productParams]';
+    const isListPageSlug = productSlugSegmentPath === '[...plpSlug]' || pathname === '/customize/diamond-to-setting/[lotId]';
 
     if (isListPageSlug) {
       const { hero, productData: listpageProductData, category } = listPageData || {};
@@ -177,7 +180,7 @@ const PageViewTracker = ({ productData, listPageData, isSummaryPage }: Props) =>
     emitViewPageEvent(router.pathname);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [router.asPath]);
 
   return null; // This component doesn't render anything in the DOM
 };

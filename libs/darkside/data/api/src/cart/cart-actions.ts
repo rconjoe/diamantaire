@@ -1,3 +1,4 @@
+import { WEDDING_BAND_PRODUCT_TYPE } from '@diamantaire/shared/constants';
 import { getCountry, getFormattedShipByDate, getLanguage } from '@diamantaire/shared/helpers';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
 import { DEFAULT_BUILDER_ENGRAVING_FONT, ENGRAVING_FONT_RENDER_MAP } from '@diamantaire/styles/darkside-styles';
@@ -39,6 +40,12 @@ import { getEmailFromCookies } from '../clients';
 
 const endpoint = process.env['NEXT_PUBLIC_SHOPIFY_STOREFRONT_GRAPHQL_URI'];
 const key = process.env['NEXT_PUBLIC_SHOPIFY_STOREFRONT_API_TOKEN'];
+
+type GroupedItem = {
+  variantId: string;
+  customAttributes: Array<any>;
+  quantity?: number;
+};
 
 async function shopifyFetch<T>({
   cache = 'force-cache',
@@ -209,7 +216,6 @@ async function addToCart(
   cartId: string,
   lines: { merchandiseId: string; quantity: number; attributes?: AttributeInput[] }[],
 ): Promise<Cart> {
-  console.log('getttinggggg', lines);
   const res = await shopifyFetch<ShopifyAddToCartOperation>({
     query: addToCartMutation,
     variables: {
@@ -334,12 +340,15 @@ export function addJewelryProductToCart({
         value: engravingText,
       });
 
+      if (productType === WEDDING_BAND_PRODUCT_TYPE) {
+        refinedAttributes.push({
+          key: '_EngravingFont',
+          value: ENGRAVING_FONT_RENDER_MAP[DEFAULT_BUILDER_ENGRAVING_FONT],
+        });
+      }
+
       return addCustomizedItem(
         [
-          {
-            variantId: variantId,
-            customAttributes: refinedAttributes,
-          },
           {
             variantId: engravingVariantId,
             customAttributes: [
@@ -348,9 +357,17 @@ export function addJewelryProductToCart({
                 value: attributes.productAsset,
               },
               {
-                key: 'engravingText',
+                key: '_EngravingBack',
                 value: engravingText,
               },
+              ...(productType === WEDDING_BAND_PRODUCT_TYPE
+                ? [
+                    {
+                      key: '_EngravingFont',
+                      value: ENGRAVING_FONT_RENDER_MAP[DEFAULT_BUILDER_ENGRAVING_FONT],
+                    },
+                  ]
+                : []),
               {
                 key: '_hiddenProduct',
                 value: 'true',
@@ -364,6 +381,10 @@ export function addJewelryProductToCart({
                 value: 'true',
               },
             ],
+          },
+          {
+            variantId: variantId,
+            customAttributes: refinedAttributes,
           },
         ],
         locale,
@@ -458,12 +479,6 @@ export const updateItemQuantity = async ({
 }): Promise<string | undefined> => {
   const cartId = localStorage.getItem('cartId');
 
-  console.log('update preview', {
-    lineId,
-    variantId,
-    quantity,
-  });
-
   if (!cartId) {
     return 'Missing cart ID';
   }
@@ -527,13 +542,12 @@ export const updateMultipleItemsQuantity = async ({
 export async function addERProductToCart({
   settingVariantId,
   settingAttributes,
+  overrideSettingQty,
   diamonds,
   hasEngraving,
   engravingText,
   locale,
 }: ERProductCartItemProps) {
-  console.log('getting attr', settingAttributes);
-
   const engravingVariantId = createShopifyVariantId(12459937759298);
 
   let refinedSettingAttributes = Object.keys(settingAttributes)
@@ -606,7 +620,7 @@ export async function addERProductToCart({
   } else {
     // If there is a custom diamond, add the setting and the diamond
 
-    const groupedItems = diamonds.map((diamond) => {
+    const groupedItems: GroupedItem[] = diamonds.map((diamond) => {
       const refinedDiamondAttributes = Object.keys(diamond.attributes)
         .map((key) => {
           return {
@@ -630,6 +644,7 @@ export async function addERProductToCart({
     groupedItems.push({
       variantId: settingVariantId,
       customAttributes: refinedSettingAttributes,
+      quantity: overrideSettingQty || 1,
     });
 
     if (hasEngraving) {
@@ -695,7 +710,6 @@ const addCustomizedItem = async (
     | undefined,
   locale: string,
 ): Promise<string | undefined> => {
-  console.log('customized item getting', items);
   if (!items || items.length === 0) {
     return 'Missing product or diamond';
   }

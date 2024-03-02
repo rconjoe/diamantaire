@@ -1,6 +1,8 @@
 // The _spec attribute controls what details are shown on a per-line-item basis in cart + checkout
 //
 
+import { getFormattedCarat } from '@diamantaire/shared/constants';
+
 type SpecGenerator = {
   configuration: {
     [key: string]: any;
@@ -10,9 +12,10 @@ type SpecGenerator = {
   alt_t?: (key: string) => string;
   // Builder flow product indicator
   hasChildDiamond?: boolean;
+  locale?: string;
 };
 
-export function specGenerator({ configuration, productType, _t, alt_t, hasChildDiamond }: SpecGenerator) {
+export function specGenerator({ configuration, productType, _t, alt_t, hasChildDiamond, locale }: SpecGenerator) {
   const {
     diamondShape,
     diamondSize,
@@ -34,6 +37,9 @@ export function specGenerator({ configuration, productType, _t, alt_t, hasChildD
     hiddenHalo,
     sideStoneCarat,
     sideStoneShape,
+    size,
+    domeWidth,
+    wristSize,
   } = configuration || {};
 
   const specArray = [];
@@ -85,7 +91,9 @@ export function specGenerator({ configuration, productType, _t, alt_t, hasChildD
   }
 
   if (caratWeight && !isEngagementRing && parseFloat(caratWeight)) {
-    specArray.push(`${_t('carat weight')}: ${_t(caratWeight)}ct`);
+    const formattedCarat = getFormattedCarat(parseFloat(caratWeight), locale);
+
+    specArray.push(`${_t('carat weight')}: ${formattedCarat}ct`);
   }
 
   if (bandWidth) {
@@ -121,12 +129,20 @@ export function specGenerator({ configuration, productType, _t, alt_t, hasChildD
     specArray.push(`${_t('earringSize')}: ${alt_t(earringSize)}`);
   }
 
+  if (domeWidth) {
+    specArray.push(`${_t('domeWidth')}: ${_t(domeWidth)}`);
+  }
+
+  if (wristSize) {
+    specArray.push(`${_t('wristSize')}: ${_t(wristSize)}`);
+  }
+
   if (productType === 'Necklace' && !chainLength) {
     specArray.push(`${_t('chain length')}: 16-18"`);
   }
 
   // ER specific
-  if (isEngagementRing || productType === 'Wedding Band') {
+  if (isEngagementRing || productType === 'Wedding Band' || productType === 'Ring') {
     specArray.push(`${_t('ringSize')}: ${ringSize}`);
   }
 
@@ -134,7 +150,13 @@ export function specGenerator({ configuration, productType, _t, alt_t, hasChildD
   if (isDiamond) {
     specArray.push(`${_t('color')}: ${color}`);
     specArray.push(`${_t('clarity')}: ${clarity}`);
-    specArray.push(`${_t('cut')}: ${cut}`);
+    specArray.push(`${_t('cut')}: ${_t(cut)}`);
+  }
+
+  // Bracelet specific
+
+  if (productType === 'Bracelet' && size) {
+    specArray.push(`${_t('size')}: ${size}`);
   }
 
   return specArray.join(';');

@@ -158,6 +158,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   let trioBlocksId = trioBlocks?.id;
 
   let accordionBlocksOverride = accordionBlocks;
+
   // Variant Specific Data
   const { shopifyCollectionId, productContent, configuration, price } = shopifyProductData;
 
@@ -293,7 +294,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   // Doubles price if product is earrings pair
   const [shouldDoublePrice, setShouldDoublePrice] = useState<boolean>(
-    shopifyProductData?.productType.toLowerCase() === 'earrings' || null,
+    shopifyProductData?.productType?.toLowerCase() === 'earrings' || null,
   );
 
   // Engraving

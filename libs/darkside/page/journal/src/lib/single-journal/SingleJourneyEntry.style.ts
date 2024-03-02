@@ -7,5 +7,8 @@ export const SingleJournalEntryStyles = styled.div`
         padding-bottom: 2rem;
       }
     }
+    .text-block__title {
+      margin-top: 1.6rem;
+    }
   }
 `;

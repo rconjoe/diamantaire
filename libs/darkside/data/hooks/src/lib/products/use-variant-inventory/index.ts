@@ -1,3 +1,4 @@
+import { captureException } from '@sentry/nextjs';
 import { useEffect, useState, useRef } from 'react';
 
 export function useVariantInventory(variantId: string, trackInventory: boolean) {
@@ -20,12 +21,15 @@ export function useVariantInventory(variantId: string, trackInventory: boolean) 
           const reqUrl = `${BASE_URL}/api/products/inventory?${new URLSearchParams({ variantId: id }).toString()}`;
 
           const response = await fetch(reqUrl, { signal: abortController.current.signal });
-          const { inventoryQuantity, inventoryPolicy } = await response.json();
+          const jsonResponse = await response.json();
+
+          const { inventoryQuantity, inventoryPolicy } = jsonResponse
 
           setInStock(inventoryPolicy === 'continue' || inventoryQuantity > 0);
         } catch (error) {
           if (error instanceof Error && error.name !== 'AbortError') {
             console.error('Error fetching inventory:', error);
+            captureException(`Failed getting variant inventory. Payload: ${JSON.stringify(error)}`);
             setInStock(true); // Assume in stock if there's an error
           }
         } finally {
@@ -38,7 +42,6 @@ export function useVariantInventory(variantId: string, trackInventory: boolean) 
 
     // Extract numerical ID if variantId is in a URL format
     const numericalVariantId = variantId?.includes('gid') ? variantId?.split('/').pop() : variantId;
-
 
     // Reset isInStock based on trackInventory when variantId changes
     setInStock(!trackInventory);

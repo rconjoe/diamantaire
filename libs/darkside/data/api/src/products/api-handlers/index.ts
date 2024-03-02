@@ -6,8 +6,6 @@ import { vraiApiClient, shopifyAdminRestApi } from '../../clients';
 export const productsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { endpoint } = req.query;
 
-  console.log(endpoint, req.query);
-
   switch (endpoint) {
     case 'list': {
       productsByListHandler(req, res);
@@ -64,18 +62,33 @@ export const productsByListHandler = async (req: NextApiRequest, res: NextApiRes
 };
 
 export const productVariantInventoryHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const LOCATION_IDS = [
+    6986563650, // 731 S Spring St
+  ]
   const { variantId } = req.query;
 
   try {
-    const inventoryResponse = await shopifyAdminRestApi(
-      `/variants/${variantId}.json?fields=inventory_quantity,inventory_policy`,
+   
+    // Get variant inventory_item_id
+    const variantResponse = await shopifyAdminRestApi(
+      `/variants/${variantId}.json?fields=inventory_item_id,inventory_policy`,
     );
 
+    // Inventory Level
+    // https://shopify.dev/docs/api/admin-rest/2024-01/resources/inventorylevel
+    const inventoryItemId = variantResponse.variant.inventory_item_id;
+    const inventoryLevels = await shopifyAdminRestApi(
+      `/inventory_levels.json?location_ids=${LOCATION_IDS.join(',')}&inventory_item_ids=${inventoryItemId}`,
+    );
+
+    const inventoryData = inventoryLevels.inventory_levels.find(i => i.inventory_item_id === inventoryItemId);
+    const inventoryQuantity = inventoryData?.available ?? 1;
+    
     res.status(200).json({
-      inventoryQuantity: inventoryResponse?.variant?.inventory_quantity,
-      inventoryPolicy: inventoryResponse?.variant?.inventory_policy,
+      inventoryQuantity,
+      inventoryPolicy: variantResponse?.variant?.inventory_policy,
     });
-  } catch {
+  } catch(e) {
     // Assume it is in stock if request fails
     res.status(200).json({ inventoryQuantity: 1 });
   }

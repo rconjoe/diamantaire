@@ -1,10 +1,4 @@
-import {
-  DarksideButton,
-  Heading,
-  Markdown,
-  ProductAppointmentCTA,
-  UniLink,
-} from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Heading, ProductAppointmentCTA, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { useDiamondCfyData, useTranslations, humanNamesMapperType } from '@diamantaire/darkside/data/hooks';
 import { ALL_CFY_DIAMOND_TYPES, POPULAR_CFY_DIAMOND_TYPES } from '@diamantaire/shared/constants';
 import { getDiamondType } from '@diamantaire/shared/helpers';
@@ -16,12 +10,7 @@ import StyledDiamondCfyFilterShape from './DiamondCfyFilterShape.style';
 const DiamondCfyFilterShape = (props) => {
   const { locale, availableDiamondTypes, handleSelectShape } = props;
   const { data: { ctoDiamondTable } = {} } = useDiamondCfyData(locale);
-  const {
-    diamondResultMatchViewAllCta,
-    selectFromOurMostPopularShapes,
-    interestedInARareShape,
-    bookAnAppointmentWithADiamondExpert,
-  } = ctoDiamondTable;
+  const { diamondResultMatchViewAllCta, diamondSelectorTitle, diamondSelectorSubtitle } = ctoDiamondTable;
 
   const { _t } = useTranslations(locale, [humanNamesMapperType.DIAMOND_SHAPES]);
 
@@ -58,10 +47,14 @@ const DiamondCfyFilterShape = (props) => {
   return (
     <StyledDiamondCfyFilterShape>
       <Heading type="h2" className="title">
-        {selectFromOurMostPopularShapes}
+        {diamondSelectorTitle}
       </Heading>
       <div className="lists">
         <div className="list popular">
+          <div className="subtitle">
+            <p>{diamondSelectorSubtitle}</p>
+          </div>
+
           {popularShapes.map((v) => {
             const shape = diamondIconsMap[v.slug];
 
@@ -76,38 +69,29 @@ const DiamondCfyFilterShape = (props) => {
           })}
         </div>
 
+        <div className="list">
+          {regularShapes.map((v) => {
+            const shape = diamondIconsMap[v?.slug];
+
+            return (
+              shape && (
+                <div className="list-item" key={v.slug} title={_t(v.slug)} onClick={() => handleSelectShape(v)}>
+                  <div className="icon">
+                    <shape.icon />
+                  </div>
+                  <div className="name">{_t(v.slug)}</div>
+                </div>
+              )
+            );
+          })}
+        </div>
+
         <div className="cta">
           <UniLink route="/diamonds/inventory" className="link-view-all">
             <DarksideButton type="underline" colorTheme="teal">
               {diamondResultMatchViewAllCta}
             </DarksideButton>
           </UniLink>
-        </div>
-
-        <div className="box">
-          <Heading type="h2" className="title">
-            {interestedInARareShape}
-          </Heading>
-
-          <div ref={linkEl} className="subtitle">
-            <Markdown extraClass="subtitle">{bookAnAppointmentWithADiamondExpert}</Markdown>
-          </div>
-          <div className="list">
-            {regularShapes.map((v) => {
-              const shape = diamondIconsMap[v?.slug];
-
-              return (
-                shape && (
-                  <div className="list-item" key={v.slug} title={_t(v.slug)} onClick={getToAppointment}>
-                    <div className="icon">
-                      <shape.icon />
-                    </div>
-                    <div className="name">{_t(v.slug)}</div>
-                  </div>
-                )
-              );
-            })}
-          </div>
         </div>
       </div>
 

@@ -5,14 +5,8 @@ import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-contex
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { addERProductToCart, addJewelryProductToCart, addMiscProductToCart } from '@diamantaire/darkside/data/api';
 import { useCartData, useProductIconList, useTranslations, useVariantInventory } from '@diamantaire/darkside/data/hooks';
-import {
-  DIAMOND_TYPE_HUMAN_NAMES,
-  getCurrency,
-  getFormattedCarat,
-  getFormattedPrice,
-  parseValidLocale,
-} from '@diamantaire/shared/constants';
-import { specGenerator } from '@diamantaire/shared/helpers';
+import { DIAMOND_TYPE_HUMAN_NAMES, getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
+import { getFormattedShipByDate, specGenerator } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
@@ -197,13 +191,7 @@ function ProductConfigurator({
   };
 
   const ProductFeedCompleteYourRingButton = ({ ctaText, diamondsOverride }) => {
-    const { _t } = useTranslations(locale, ['DIAMOND_SHAPES', 'DIAMOND_CUTS']);
-
     if (!diamondsOverride || diamondsOverride.length === 0) return null;
-
-    const diamond = diamondsOverride[0];
-
-    const { color, carat, diamondType, clarity, cut } = diamond;
 
     return (
       <div
@@ -212,21 +200,6 @@ function ProductConfigurator({
           minHeight: '4.9rem',
         }}
       >
-        <p
-          style={{
-            marginBottom: '2rem',
-            fontSize: '1.7rem',
-          }}
-        >
-          <strong
-            style={{
-              fontWeight: '500',
-            }}
-          >
-            <UIString>centerstone</UIString>:
-          </strong>
-          {` ${_t(diamondType)}, ${getFormattedCarat(carat, locale)}ct, ${_t(color)}, ${clarity}, ${_t(cut)}`}
-        </p>
         <DarksideButton
           textSize="medium"
           onClick={() => {
@@ -333,6 +306,7 @@ function ProductConfigurator({
       {extraOptions && extraOptions.length > 0 && <ProductExtraInfo extraOptions={extraOptions} />}
       {(isEngraveable || hasSingleInitialEngraving) && isConfigurationComplete && !isBuilderFlowOpen && (
         <ProductEngraving
+          productType={additionalVariantData?.productType}
           engravingText={engravingText}
           setEngravingText={setEngravingText}
           hasSingleInitialEngraving={hasSingleInitialEngraving}
@@ -563,6 +537,7 @@ function AddToCartButton({
       productType,
       _t,
       alt_t: diamondShapesTranslations,
+      locale,
     });
 
     const metal = _t(
@@ -583,7 +558,7 @@ function AddToCartButton({
         feedId: variantId,
         _specs: specs,
         // This gets overwritten by updateShippingTimes in cart-actions
-        productIconListShippingCopy: 'Ready-to-ship. Ships by Fri, Dec 1',
+        productIconListShippingCopy: `${defaultAttributes?.shippingText} ${getFormattedShipByDate(shippingTime, locale)}`,
         productGroupKey,
         ringSize: selectedSize,
         shippingBusinessDays: shippingTime ? shippingTime.toString() : '',
@@ -635,7 +610,7 @@ function AddToCartButton({
         totalPriceOverride: shouldDoublePrice ? price.toString() : null,
         pdpUrl: window.location.href,
         shippingBusinessDays: shippingTime ? shippingTime.toString() : '',
-        productIconListShippingCopy: 'Ready-to-ship. Ships by Fri, Dec 1',
+        productIconListShippingCopy: `${defaultAttributes?.shippingText} ${getFormattedShipByDate(shippingTime, locale)}`,
       };
 
       let refinedVariantId = variantId;
@@ -720,6 +695,7 @@ function AddToCartButton({
   if (isFetching && trackInventory) {
     <Loader color="#000" />;
   }
+
   if (!isInStock && !isFetching) {
     return (
       <AddToCartButtonContainer>

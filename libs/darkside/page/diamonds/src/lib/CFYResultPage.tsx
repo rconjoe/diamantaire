@@ -5,6 +5,7 @@ import {
   Heading,
   HideTopBar,
   Markdown,
+  ProductAppointmentCTA,
   StickyElementWrapper,
   UIString,
 } from '@diamantaire/darkside/components/common-ui';
@@ -31,7 +32,7 @@ import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import {
   DIAMOND_VIDEO_BASE_URL,
-  POPULAR_CFY_DIAMOND_TYPES,
+  STANDARD_CFY_DIAMOND_TYPES,
   getFormattedCarat,
   getFormattedPrice,
   parseValidLocale,
@@ -53,7 +54,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { StyledCFYResultPage } from './CFYResultPage.style';
@@ -86,6 +87,8 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
     ctoDiamondResultPolishedByDateCopy,
     ctoDiamondResultPolishedDiamondImageCaption: caption360,
     productIconList,
+    nonStandardShapeAppointmentsBody,
+    scheduleAnAppointment,
   } = diamondCfyData;
 
   const { title: seoTitle = '', description: seoDesc = '' } = diamondCfyData?.seo || {};
@@ -153,7 +156,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const [loadPagination, setLoadPagination] = useState(0);
 
-  const isStandardShape = POPULAR_CFY_DIAMOND_TYPES.includes(diamondType);
+  const isStandardShape = STANDARD_CFY_DIAMOND_TYPES.includes(diamondType);
 
   const diamondTableInventoryLink = `/diamonds/inventory/` + (isStandardShape ? diamondType : '');
 
@@ -230,6 +233,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
       },
       productType: 'Diamond',
       _t,
+      locale,
     });
 
     const spriteImageUrl = generateDiamondSpriteImage({ diamondType });
@@ -279,6 +283,16 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
     // Translated in jsx
     text: isSettingFirstFlow ? 'Complete & Review Your Ring' : 'Choose & Add a setting',
+  };
+
+  const appointmentEl = useRef(null);
+
+  const getToAppointment = (e) => {
+    e.preventDefault();
+
+    const appointmentElement = appointmentEl.current?.querySelector('.appointment-button');
+
+    appointmentElement.click();
   };
 
   return (
@@ -394,39 +408,59 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                 />
               </div>
 
-              <div className="date">
-                <p>{formattedDate}</p>
-              </div>
+              {isStandardShape ? (
+                <>
+                  <div className="date">
+                    <p>{formattedDate}</p>
+                  </div>
 
-              <div className="links">
-                <Markdown
-                  options={{
-                    overrides: getOverrides(diamondTableInventoryLink, 'mkt-need-it-faster'),
-                  }}
-                >
-                  {ctoDiamondResultNeedItFaster}
-                </Markdown>
-              </div>
+                  <div className="links">
+                    <Markdown
+                      options={{
+                        overrides: getOverrides(diamondTableInventoryLink, 'mkt-need-it-faster'),
+                      }}
+                    >
+                      {ctoDiamondResultNeedItFaster}
+                    </Markdown>
+                  </div>
 
-              <div className="cta">
-                <StickyElementWrapper>
-                  <DarksideButton href={continueLink?.url}>
-                    <UIString>{continueLink?.text}</UIString>
-                  </DarksideButton>
-                </StickyElementWrapper>
+                  <div className="cta">
+                    <StickyElementWrapper>
+                      <DarksideButton href={continueLink?.url}>
+                        <UIString>{continueLink?.text}</UIString>
+                      </DarksideButton>
+                    </StickyElementWrapper>
 
-                <DarksideButton type="outline" onClick={() => handleAddLooseDiamondToCart()}>
-                  <UIString>Purchase without setting</UIString>
-                </DarksideButton>
-              </div>
+                    <DarksideButton type="outline" onClick={() => handleAddLooseDiamondToCart()}>
+                      <UIString>Purchase without setting</UIString>
+                    </DarksideButton>
+                  </div>
 
-              <div className="policy">
-                {shouldRenderReturnPolicy ? (
-                  <Markdown>{ctoDiamondResultFinalSaleNote || ''}</Markdown>
-                ) : (
-                  <Markdown>{ctoDiamondResultNote || ''}</Markdown>
-                )}
-              </div>
+                  <div className="policy">
+                    {shouldRenderReturnPolicy ? (
+                      <Markdown>{ctoDiamondResultFinalSaleNote || ''}</Markdown>
+                    ) : (
+                      <Markdown>{ctoDiamondResultNote || ''}</Markdown>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <div className="section-non-standard-shape">
+                  <div className="info">
+                    <strong>{nonStandardShapeAppointmentsBody}</strong>
+                  </div>
+
+                  <div className="cta">
+                    <StickyElementWrapper>
+                      <DarksideButton onClick={getToAppointment}>{scheduleAnAppointment}</DarksideButton>
+                    </StickyElementWrapper>
+                  </div>
+
+                  <div ref={appointmentEl} className="appointment">
+                    <ProductAppointmentCTA withHiddenButton={true} />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

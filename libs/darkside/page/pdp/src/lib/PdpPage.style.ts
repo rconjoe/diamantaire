@@ -30,6 +30,8 @@ export const PageContainerStyles = styled.div`
   }
   #breadcrumb {
     max-width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     ${pageMargin}
     ul {
       @media (max-width: ${({ theme }) => theme.sizes.tablet}) {

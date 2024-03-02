@@ -26,7 +26,7 @@ export function queryDatoGQL({
   };
 
   if (includeDrafts) {
-    headers['X-Include-Drafts'] = 'true';
+    headers['X-Include-Drafts'] = (environment !== 'production').toString();
   }
 
   if (excludeInvalid) {

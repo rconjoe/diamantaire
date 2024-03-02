@@ -98,15 +98,6 @@ export const DiamondPairActiveRow = ({
             <DiamondtableRowAccordion product={diamond1} productPair={diamond2} />
           </div>
 
-          <div className="row-info">
-            <ul>
-              <li>
-                <div className="label">{originLabel}:</div>
-                <div className="value">{originValue}</div>
-              </li>
-            </ul>
-          </div>
-
           <div className="row-cta">
             {isBuilderFlowOpen ? (
               <DarksideButton href={nextUrl}>

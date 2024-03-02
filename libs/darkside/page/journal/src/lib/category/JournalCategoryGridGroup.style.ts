@@ -49,6 +49,7 @@ export const JournalCategoryGridGroupStyles = styled.div`
       }
     }
   }
+
   .journal-category-grid__content-block-container {
     ${media.medium`display: flex;`}
     margin: 0 -10px;
@@ -63,6 +64,19 @@ export const JournalCategoryGridGroupStyles = styled.div`
       font-weight: 600;
       color: var(--color-teal);
       text-decoration: underline;
+
+      button {
+        margin-top: 0.8rem;
+      }
+    }
+
+    div { 
+      &.journal-item {
+        padding: 0 1.6rem;
+        @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+          padding: 1rem 0;
+        }
+      }
     }
   }
 `;

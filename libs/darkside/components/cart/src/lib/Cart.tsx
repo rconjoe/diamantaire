@@ -1,4 +1,4 @@
-import { FreezeBody, Loader, UIString } from '@diamantaire/darkside/components/common-ui';
+import { FreezeBody, Heading, Loader, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { updateItemQuantity } from '@diamantaire/darkside/data/api';
 import { useCartData, useCartInfo, useGlobalContext } from '@diamantaire/darkside/data/hooks';
@@ -19,8 +19,6 @@ const Cart = ({ closeCart }) => {
   const { locale } = useRouter();
 
   const { data: checkout, refetch } = useCartData(locale);
-
-  console.log('checkout', checkout);
 
   const updateGlobalContext = useContext(GlobalUpdateContext);
 
@@ -109,7 +107,8 @@ const Cart = ({ closeCart }) => {
       >
         <div className="cart__inner">
           <div className="cart__header">
-            <h2>{cartHeader}</h2>
+            <Heading type="h2">{cartHeader}</Heading>
+
             <div className="close">
               <button
                 onClick={() =>
@@ -122,11 +121,13 @@ const Cart = ({ closeCart }) => {
               </button>
             </div>
           </div>
+
           <div className="cart__items">
             <div className="cart__items-inner">
               <div className="gwp">
                 <CartGWP />
               </div>
+
               {checkout?.lines?.map((item) => {
                 const cartItemInfo = {
                   _productType: null,
@@ -184,7 +185,7 @@ const Cart = ({ closeCart }) => {
                 return (
                   <>
                     <p>{cartItemInfo._productType}</p>
-                    <h1>{item.merchandise.product.title}</h1>
+                    <Heading>{item.merchandise.product.title}</Heading>
                     <button
                       onClick={() =>
                         updateItemQuantity({

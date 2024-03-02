@@ -47,19 +47,19 @@ export async function getProductPage(productSlug, variantSlug) {
     id: variantSlug,
   }).toString();
 
-  const response = await fetch(
+  const productReqUrl =
     typeof window !== 'undefined'
       ? window.location.origin + `/api/pdp/getPdpProduct?${qParams}`
       : `${
           process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : `http://localhost:4200`
-        }/api/pdp/getPdpProduct?${qParams}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+        }/api/pdp/getPdpProduct?${qParams}`;
+
+  const response = await fetch(productReqUrl, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  )
+  })
     .then((res) => res.json())
     .then((res) => res)
     .catch((e) => {

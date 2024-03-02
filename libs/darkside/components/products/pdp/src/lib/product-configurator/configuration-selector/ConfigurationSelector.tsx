@@ -143,18 +143,24 @@ function ConfigurationSelector({
   function toggleOrientation() {
     let newOrientation;
 
-    if (selectedConfiguration?.diamondOrientation === 'horizontal') {
-      newOrientation = configurations['diamondOrientation'].find((option) => option.value !== 'horizontal');
-    } else {
-      newOrientation = configurations['diamondOrientation'].find((option) => option.value !== 'vertical');
-    }
+    // Don't change it if there's only one option
+    if (configurations?.['diamondOrientation']?.length > 1) {
+      if (selectedConfiguration?.diamondOrientation === 'horizontal') {
+        newOrientation = configurations['diamondOrientation'].find((option) => option.value !== 'horizontal');
+      } else {
+        newOrientation = configurations['diamondOrientation'].find((option) => option.value !== 'vertical');
+      }
 
-    setProductSlug(newOrientation?.id);
+      setProductSlug(newOrientation?.id);
+    }
   }
+
+  // For now, we will hide rotate if hidden halo is selected to prevent issues
+  const isVariantHiddenHalo = selectedConfiguration?.hiddenHalo === 'yes';
 
   return (
     <StyledConfigurationSelector>
-      {hasMultipleDiamondOrientations && (
+      {hasMultipleDiamondOrientations && !isVariantHiddenHalo && (
         <button className="rotate-toggle" onClick={() => toggleOrientation()}>
           {' '}
           <RotateIcon />
@@ -169,7 +175,7 @@ function ConfigurationSelector({
         if (disableVariantType?.includes(configurationType)) return null;
 
         // These are three-stone configurations that only have one option
-        const allowedSingleOptionTypes = ['sideStoneCarat', 'sideStoneShape', 'hiddenHalo', 'bandWidth'];
+        const allowedSingleOptionTypes = ['sideStoneCarat', 'sideStoneShape', 'hiddenHalo', 'bandWidth', 'domeWidth'];
 
         if (!options || (options.length <= 1 && !allowedSingleOptionTypes.includes(configurationType))) {
           return null;

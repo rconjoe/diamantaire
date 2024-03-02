@@ -110,6 +110,7 @@ const DiamondTableRow = ({
       },
       productType: 'Diamond',
       _t,
+      locale,
     });
 
     const diamondAttributes: LooseDiamondAttributeProps = {

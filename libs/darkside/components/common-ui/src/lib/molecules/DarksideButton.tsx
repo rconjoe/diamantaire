@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 const DarksideButtonStyles = styled.div`
   width: 100%;
+
   button {
     text-align: center;
     width: 100%;
@@ -37,6 +38,7 @@ const DarksideButtonStyles = styled.div`
         border-color: var(--color-black);
       }
     }
+
     &.color-theme--white {
       button {
         border: 0.2rem solid var(--color-white);
@@ -49,6 +51,7 @@ const DarksideButtonStyles = styled.div`
         }
       }
     }
+
     &.color-theme--teal {
       button {
         border: 0.2rem solid var(--color-teal);
@@ -61,6 +64,7 @@ const DarksideButtonStyles = styled.div`
         }
       }
     }
+
     &.color-theme--grey {
       button {
         border: 0.2rem solid var(--color-lightest-grey);
@@ -82,6 +86,7 @@ const DarksideButtonStyles = styled.div`
     button {
       background-color: transparent;
     }
+
     &.color-theme--oos {
       button {
         border: 0.1rem solid rgb(216, 214, 209);
@@ -91,6 +96,7 @@ const DarksideButtonStyles = styled.div`
         }
       }
     }
+
     &.color-theme--black {
       button {
         border: 0.1rem solid var(--color-black);
@@ -101,6 +107,7 @@ const DarksideButtonStyles = styled.div`
         }
       }
     }
+
     &.color-theme--white {
       button {
         border: 0.1rem solid var(--color-white);
@@ -111,6 +118,7 @@ const DarksideButtonStyles = styled.div`
         }
       }
     }
+
     &.m-color-theme--white {
       button {
         border: 0.1rem solid var(--color-white);
@@ -121,6 +129,7 @@ const DarksideButtonStyles = styled.div`
         }
       }
     }
+
     &.m-color-theme--black {
       @media (max-width: 767px) {
         button {
@@ -137,6 +146,7 @@ const DarksideButtonStyles = styled.div`
 
   &.button-style--underline {
     width: auto;
+
     button {
       width: auto;
       padding: 0;
@@ -155,6 +165,7 @@ const DarksideButtonStyles = styled.div`
         border-bottom: 0.1rem solid var(--color-teal);
       }
     }
+
     &.color-theme--white {
       button {
         color: var(--color-white);
@@ -174,7 +185,34 @@ const DarksideButtonStyles = styled.div`
         }
       }
     }
+
+    &.m-color-theme--black {
+      @media (max-width: 767px) {
+        button {
+          border-bottom: 0.1rem solid var(--color-black);
+          color: var(--color-black);
+
+          &:hover {
+            color: var(--color-black);
+          }
+        }
+      }
+    }
+
+    &.m-color-theme--white {
+      @media (max-width: 767px) {
+        button {
+          border-bottom: 0.1rem solid var(--color-white);
+          color: var(--color-white);
+
+          &:hover {
+            color: var(--color-white);
+          }
+        }
+      }
+    }
   }
+
   &.button-style--text-underline {
     width: auto;
     button {
@@ -194,37 +232,44 @@ const DarksideButtonStyles = styled.div`
         color: var(--color-teal);
       }
     }
+
     &.color-theme--white {
       button {
         color: var(--color-white);
       }
     }
   }
+
   &.text-size--small {
     button {
       font-size: var(--font-size-xxsmall);
     }
   }
+
   &.text-size--normal {
     button {
       font-size: var(--font-size-xsmall);
     }
   }
+
   &.text-size--medium {
     button {
       font-size: var(--font-size-xxsmall);
     }
   }
+
   &.font-weight--normal {
     button {
       font-weight: var(--font-weight-normal);
     }
   }
+
   &.font-weight--medium {
     button {
       font-weight: var(--font-weight-medium);
     }
   }
+
   &.font-weight--bold {
     button {
       font-weight: var(--font-weight-bold);
