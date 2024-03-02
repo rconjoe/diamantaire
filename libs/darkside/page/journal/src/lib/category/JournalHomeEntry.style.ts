@@ -53,10 +53,12 @@ export const JournalHomeEntryStyles = styled.div<{
     }
   }
   .journal-home__content-block-container {
-    ${media.medium`margin: 0 -1.6rem;display: flex;flex-wrap: wrap;`}
+    margin: 0 -1rem;
+    ${media.medium`display: flex;flex-wrap: wrap;`}
 
     > * {
       flex: 1 1 100%;
+      padding: 0 1rem;
       ${media.medium`flex: 0 0 33.33%;`}
     }
 

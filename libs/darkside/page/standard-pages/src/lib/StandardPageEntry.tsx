@@ -5,7 +5,6 @@
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 import { Breadcrumb } from '@diamantaire/darkside/components/common-ui';
 import clsx from 'clsx';
-import React from 'react';
 
 type StandardPageEntryProps = {
   page?: {

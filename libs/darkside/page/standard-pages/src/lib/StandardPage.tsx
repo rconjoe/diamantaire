@@ -38,7 +38,7 @@ const StandardPage = (props: StandardPageProps) => {
 
   return (
     <>
-      <StandardPageSeo title={seoTitle} description={seoDescription} />
+      <StandardPageSeo title={seoTitle} description={seoDescription} breadcrumb={page?.breadcrumb} />
 
       <StandardPageEntry
         page={page}

@@ -1,4 +1,4 @@
-import { contentBlockMargin, media } from '@diamantaire/styles/darkside-styles';
+import { contentBlockMargin } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import { stripIndent } from 'common-tags';
 import Script from 'next/script';

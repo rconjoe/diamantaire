@@ -10,7 +10,7 @@ TODO: Fetch meta image from dato instead of locally
 */
 
 import { useRouter } from 'next/router';
-import { DefaultSeo as DefaultNextSeo } from 'next-seo';
+import { DefaultSeo as DefaultNextSeo, OrganizationJsonLd } from 'next-seo';
 
 import defaultImage from '../public/default-seo.jpg';
 
@@ -46,7 +46,28 @@ const DefaultSeo = () => {
     ],
   };
 
-  return <DefaultNextSeo {...config} />;
+  return (
+    <>
+      <DefaultNextSeo {...config} />
+      <OrganizationJsonLd
+        name="VRAI"
+        url="https://www.vrai.com"
+        sameAs={[
+          'https://www.facebook.com/VRAIjewelry/',
+          'https://www.instagram.com/vraiofficial/',
+          'https://www.pinterest.com/vrai/',
+        ]}
+        id="https://www.vrai.com#organization"
+        logo="https://www.vrai.com/static/logo.svg"
+        contactPoint={[
+          {
+            contactType: 'Customer Service',
+            email: 'hello@vrai.com',
+          },
+        ]}
+      />
+    </>
+  );
 };
 
 export { DefaultSeo };
