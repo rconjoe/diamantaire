@@ -1,9 +1,17 @@
 import { useTranslations, useVariantInventory } from '@diamantaire/darkside/data/hooks';
-import { getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
+import {
+  combinePricesOfMultipleProducts,
+  getCurrency,
+  getFormattedPrice,
+  parseValidLocale,
+  simpleFormatPrice,
+} from '@diamantaire/shared/constants';
 import { createLongProductTitle, replacePlaceholders } from '@diamantaire/shared/helpers';
 import { generateProductUrl } from '@diamantaire/shared-product';
 import { useRouter } from 'next/router';
 import { NextSeo, ProductJsonLd } from 'next-seo';
+
+import { calculateFinalPrice } from './ProductPrice';
 
 const ProductSeo = ({
   seoFields,
@@ -15,6 +23,14 @@ const ProductSeo = ({
   canonicalVars,
   assets,
   shopifyProductData,
+  // We use this when we have multiple products that need to be priced together
+  pricesArray,
+  // We use the rest of these to match the price to what's being displayed on PDP with no engraving
+  // Engraving is a separate cost that is never included in the price of the product initially
+  lowestPricedDiamond,
+  quantity,
+  shouldDoublePrice,
+  price,
 }) => {
   const { seoTitle, seoDescription } = legacySeoFields || {};
   const { locale } = useRouter();
@@ -69,6 +85,14 @@ const ProductSeo = ({
     Boolean(shopifyProductData?.trackInventory),
   );
 
+  const basePrice = lowestPricedDiamond ? lowestPricedDiamond.price + price : price;
+
+  const finalPrice = calculateFinalPrice(basePrice / quantity, productType, shouldDoublePrice, false);
+
+  const refinedPrice = getFormattedPrice(finalPrice, locale, true, true, false, quantity);
+  // This is only for custom products (multiple products bundled together)
+  const pricesArrayFinalPrice = pricesArray && combinePricesOfMultipleProducts([...pricesArray], locale);
+
   return (
     <>
       <NextSeo
@@ -85,7 +109,7 @@ const ProductSeo = ({
         material={metal}
         offers={[
           {
-            price: getFormattedPrice(shopifyProductData?.price, locale, true, true),
+            price: pricesArray ? simpleFormatPrice(pricesArrayFinalPrice, locale) : refinedPrice,
             priceCurrency: currency,
             itemCondition: 'https://schema.org/NewCondition',
             availability: `https://schema.org/${isInStock ? 'InStock' : 'OutOfStock'}`,
