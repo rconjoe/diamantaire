@@ -1,5 +1,6 @@
 import { mobileOnly, pageMargin } from '@diamantaire/styles/darkside-styles';
 import Link from 'next/link';
+import { BreadcrumbJsonLd } from 'next-seo';
 import styled from 'styled-components';
 
 import { UIString } from './UIString';
@@ -67,6 +68,32 @@ type BreadcrumbProps = {
 };
 
 const Breadcrumb = ({ breadcrumb, simple = false, lastItemBolded = true, spacingType = 'default' }: BreadcrumbProps) => {
+  const baseUrl =
+    process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' || process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview'
+      ? 'https://www.vrai.com'
+      : 'http://localhost:4200';
+
+  const areThereBreadcrumbs = breadcrumb?.length > 0 ? true : false;
+  const breadcrumbList = areThereBreadcrumbs
+    ? [
+        {
+          position: 1,
+          name: 'Home',
+          item: baseUrl,
+        },
+      ]
+    : null;
+
+  if (areThereBreadcrumbs) {
+    breadcrumb?.map((crumb, index) => {
+      return breadcrumbList.push({
+        position: index + 2,
+        name: crumb.name,
+        item: `${baseUrl}${crumb?.link?.slug ? `/${crumb?.link?.slug}` : crumb?.path}`,
+      });
+    });
+  }
+
   return (
     <BreadcrumbStyles
       id="breadcrumb"
@@ -74,13 +101,14 @@ const Breadcrumb = ({ breadcrumb, simple = false, lastItemBolded = true, spacing
       lastItemBolded={lastItemBolded}
       spacingType={spacingType}
     >
+      <BreadcrumbJsonLd itemListElements={breadcrumbList} />
       {simple ? (
         <ul className="list-unstyled flex">
           {breadcrumb?.map((item, index) => {
             return (
               <li key={item?.path}>
                 <Link href={item?.path}>{item?.title}</Link>
-                {breadcrumb.length - 1 !== index && <span>/</span>}
+                {breadcrumb?.length - 1 !== index && <span>/</span>}
               </li>
             );
           })}
@@ -94,11 +122,11 @@ const Breadcrumb = ({ breadcrumb, simple = false, lastItemBolded = true, spacing
             <span>/</span>
           </li>
           {breadcrumb?.map((item, index) => {
-            const isLastItem = breadcrumb.length - 1 === index;
+            const isLastItem = breadcrumb?.length - 1 === index;
 
             const link =
               item?.link?.category && item?.link?.slugNew
-                ? `/${item?.link?.category}/${item.link.slugNew}`
+                ? `/${item?.link?.category}/${item?.link?.slugNew}`
                 : item?.link?.slug || item?.path;
             const name = item?.title?.trim() || item.name;
 

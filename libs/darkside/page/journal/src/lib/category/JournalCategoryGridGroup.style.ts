@@ -51,9 +51,11 @@ export const JournalCategoryGridGroupStyles = styled.div`
   }
 
   .journal-category-grid__content-block-container {
-    ${media.medium`margin: 0 -1.6rem; display: flex;`}
+    ${media.medium`display: flex;`}
+    margin: 0 -10px;
     > * {
       flex: 0 0 33.33%;
+      padding: 0 10px;
     }
 
     a,

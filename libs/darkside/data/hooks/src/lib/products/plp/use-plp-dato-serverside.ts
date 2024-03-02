@@ -31,6 +31,8 @@ type PlpDatoServersideProps = {
       name: string;
       link: {
         slug: string;
+        category: string;
+        slugNew: string;
       };
     }[];
     showHeroWithBanner: boolean;
