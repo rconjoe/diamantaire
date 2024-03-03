@@ -92,6 +92,7 @@ const ProductSeo = ({
   const refinedPrice = getFormattedPrice(finalPrice, locale, true, true, false, quantity);
   // This is only for custom products (multiple products bundled together)
   const pricesArrayFinalPrice = pricesArray && combinePricesOfMultipleProducts([...pricesArray], locale);
+  const priceAsString = pricesArray ? simpleFormatPrice(pricesArrayFinalPrice, locale) : refinedPrice
 
   return (
     <>
@@ -109,7 +110,7 @@ const ProductSeo = ({
         material={metal}
         offers={[
           {
-            price: pricesArray ? simpleFormatPrice(pricesArrayFinalPrice, locale) : refinedPrice,
+            price: parseFloat(priceAsString),
             priceCurrency: currency,
             itemCondition: 'https://schema.org/NewCondition',
             availability: `https://schema.org/${isInStock ? 'InStock' : 'OutOfStock'}`,
