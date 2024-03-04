@@ -4,7 +4,6 @@ import {
   getCurrency,
   getFormattedPrice,
   parseValidLocale,
-  simpleFormatPrice,
 } from '@diamantaire/shared/constants';
 import { createLongProductTitle, replacePlaceholders } from '@diamantaire/shared/helpers';
 import { generateProductUrl } from '@diamantaire/shared-product';
@@ -92,7 +91,7 @@ const ProductSeo = ({
   const refinedPrice = getFormattedPrice(finalPrice, locale, true, true, false, quantity);
   // This is only for custom products (multiple products bundled together)
   const pricesArrayFinalPrice = pricesArray && combinePricesOfMultipleProducts([...pricesArray], locale);
-  const priceAsString = pricesArray ? simpleFormatPrice(pricesArrayFinalPrice, locale) : refinedPrice
+  const simplePriceFormat = (pricesArrayFinalPrice/100).toFixed(2);
 
   return (
     <>
@@ -110,7 +109,7 @@ const ProductSeo = ({
         material={metal}
         offers={[
           {
-            price: parseFloat(priceAsString),
+            price: pricesArray ? simplePriceFormat : refinedPrice,
             priceCurrency: currency,
             itemCondition: 'https://schema.org/NewCondition',
             availability: `https://schema.org/${isInStock ? 'InStock' : 'OutOfStock'}`,
