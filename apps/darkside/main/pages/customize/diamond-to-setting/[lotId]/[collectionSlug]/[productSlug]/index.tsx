@@ -24,7 +24,7 @@ import {
 } from '@diamantaire/darkside/components/products/pdp';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { fetchDatoVariant } from '@diamantaire/darkside/data/api';
-import { useBuilderFlowSeo, useProductDato, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { useBuilderFlowSeo, useProductDato, useProductSkusVariants, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { ENGAGEMENT_RING_PRODUCT_TYPE, PdpTypePlural, parseValidLocale } from '@diamantaire/shared/constants';
@@ -34,9 +34,14 @@ import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
+import Script from 'next/script';
 import { NextSeo } from 'next-seo';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
+
+const LOAD_TANGIBLE_SCRIPT_LOCATION = ['en-US', 'en-GB'];
+const LOAD_TANGIBLE_SCRIPT_PRODUCT_TYPE = ['Wedding Band', 'Engagement Ring']
+const TANGIBLE_SCRIPT_URL = process.env['NEXT_PUBLIC_VERCEL_ENV'] === 'production' ? 'revision_1' : 'revision_2';
 
 const SettingBuildStepStyles = styled(motion.div)`
   padding: 2rem 0 20rem;
@@ -114,6 +119,8 @@ const SettingBuildStep = () => {
 
   const datoParentProductData: any = data?.engagementRingProduct;
 
+  const { data: variantsSkusProduct } = useProductSkusVariants(shopifyProductData?.collectionSlug);
+
   const {
     productDescription,
     bandWidth,
@@ -181,6 +188,7 @@ const SettingBuildStep = () => {
     setShopifyProductData(productResponse);
 
     // updateFlowData('ADD_PRODUCT', productResponse);
+    initializeVraiProductData(productResponse.sku);
 
     return productResponse;
   }
@@ -198,6 +206,12 @@ const SettingBuildStep = () => {
     _t,
   });
 
+  const initializeVraiProductData = (currentSKU) => {
+    window['vraiProduct'] = {
+      'currentSKU': currentSKU
+    }
+  }
+
   useEffect(() => {
     if (!builderProduct?.diamonds) return;
     // Calculate the total price
@@ -213,6 +227,13 @@ const SettingBuildStep = () => {
       getSettingProduct();
     }
   }, [router?.query?.productSlug, router?.query?.collectionSlug]);
+
+  useEffect(() => {
+    window['vraiProduct'] = {
+      'currentSKU': window['vraiProduct']?.currentSKU,
+      'variants': variantsSkusProduct
+    }
+  }, [variantsSkusProduct])
 
   // Need this here to not interefere with hooks
   if (isEmptyObject(shopifyProductData)) return null;
@@ -235,6 +256,10 @@ const SettingBuildStep = () => {
     },
   };
 
+  const loadTangibleScript = () => {
+    return LOAD_TANGIBLE_SCRIPT_LOCATION.includes(router.locale) && LOAD_TANGIBLE_SCRIPT_PRODUCT_TYPE.includes(shopifyProductData?.productType);
+  }
+
   return (
     <SettingBuildStepStyles
       key="setting-step-container"
@@ -249,6 +274,13 @@ const SettingBuildStep = () => {
         duration: 0.75,
       }}
     >
+      {loadTangibleScript() && (
+        <Script 
+            async 
+            src={`https://cdn.tangiblee.com/integration/5.0/managed/www.vrai.com/${TANGIBLE_SCRIPT_URL}/variation_original/tangiblee-bundle.min.js`}
+            strategy='afterInteractive'
+        />
+      )}
       <NextSeo title={seoTitle} description={seoDescription} nofollow={true} noindex={true} />
       <PageViewTracker productData={productData} />
       <div className="nav-title container-wrapper">
