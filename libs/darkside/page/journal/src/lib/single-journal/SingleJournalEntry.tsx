@@ -1,6 +1,6 @@
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 import { Breadcrumb } from '@diamantaire/darkside/components/common-ui';
-import { useSingleJournal } from '@diamantaire/darkside/data/hooks';
+import { useSingleJournal, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { parseValidLocale } from '@diamantaire/shared/constants';
 import { useRouter } from 'next/router';
@@ -18,6 +18,7 @@ const SingleJournalEntry = () => {
   const slug = router.query.slug;
   const data = useSingleJournal(locale, slug);
   const [singleJournal, setSingleJournal] = useState<any>(data?.blogPost);
+  const { _t } = useTranslations(locale);
 
   const { countryCode: selectedCountryCode } = parseValidLocale(locale);
 
@@ -26,20 +27,20 @@ const SingleJournalEntry = () => {
   useEffect(() => {
     setSingleJournal(data?.blogPost);
   }, [data]);
-  
+
   const crumbs = useMemo(
     () => [
       {
-        title: 'Home',
+        title: _t('Home'),
         path: '/',
       },
       {
-        title: 'Journal',
+        title: _t('Journal'),
         path: JOURNAL_PATH,
       },
       {
-        title: singleJournal?.category?.copy || "",
-        path: `${JOURNAL_PATH}/${singleJournal?.category?.key || ""}`,
+        title: singleJournal?.category?.copy || '',
+        path: `${JOURNAL_PATH}/${singleJournal?.category?.key || ''}`,
       },
       {
         title: singleJournal?.title,
@@ -97,7 +98,7 @@ const SingleJournalEntry = () => {
         const { id, _modelApiKey } = contentBlockData;
 
         if (contentBlockData?.title) {
-          contentBlockData.subtitle = generateSubheading(data?.blogPost)
+          contentBlockData.subtitle = generateSubheading(data?.blogPost);
         }
 
         return (
