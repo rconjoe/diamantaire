@@ -32,6 +32,7 @@ type ModularBannerBlockProps = {
   desktopImage: DatoImageType;
   mobileImage: DatoImageType;
   textBlockAlignment: string;
+  textAlign: string;
   desktopImageName: string;
   mobileImageName: string;
   isFullWidth: boolean;
@@ -67,6 +68,7 @@ const ModularBannerBlock = (props) => {
     desktopImage,
     mobileImage,
     textBlockAlignment,
+    textAlign,
     isFullWidth = true,
     textColor,
     isTextBlockWide,
@@ -114,7 +116,9 @@ const ModularBannerBlock = (props) => {
   );
 
   return (
-    <BannerWrapper>
+    <BannerWrapper
+      textAlign={textAlign}
+    >
       <div
         className={clsx(
           {

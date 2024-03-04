@@ -8,6 +8,10 @@ import {
 } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
+interface Props {
+  textAlign: string;
+}
+
 export const FullWidthImageContainer = styled.div`
   width: 100%;
   max-width: 144rem;
@@ -64,7 +68,7 @@ export const HalfWidthImageContainer = styled.div`
   }
 `;
 
-export const BannerWrapper = styled.div`
+export const BannerWrapper = styled.div<Props>`
   position: relative;
   width: 100%;
   max-width: 144rem;
@@ -83,6 +87,11 @@ export const BannerWrapper = styled.div`
   &.-full-screen {
     max-width: 100%;
   }
+
+  .text-container {
+    text-align: ${(props) => props?.textAlign};
+  }
+
   .special_shapes & {
     margin: 0 auto !important;
   }
