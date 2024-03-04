@@ -18,3 +18,4 @@ export * from './standard-page';
 export * from './template';
 export * from './utils';
 export * from './wishlist';
+export * from './internal-checkout';

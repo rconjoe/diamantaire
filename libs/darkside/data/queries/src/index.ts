@@ -15,6 +15,7 @@ import {
 } from './diamonds';
 import { emailPopup } from './email-popup';
 import { humanNameMappers } from './human-names-mapper';
+import { internalCheckout } from './internal-checkout';
 import { journal } from './journal';
 import { plpListPage, productBlocks, productPage } from './products';
 import { showrooms } from './showrooms';
@@ -46,6 +47,7 @@ export const queries = mergeQueryKeys(
   wishlist,
   builderFlow,
   lowestPriceDiamond,
+  internalCheckout,
 );
 
 export type DiamondCtoKeys = inferQueryKeys<typeof diamondCto>;
@@ -70,3 +72,4 @@ export type CookieBannerKeys = inferQueryKeys<typeof cookieBanner>;
 export type EmailPopupKeys = inferQueryKeys<typeof emailPopup>;
 export type wishlistKeys = inferQueryKeys<typeof wishlist>;
 export type LowestPriceDiamondKeys = inferQueryKeys<typeof lowestPriceDiamond>;
+export type InternalCheckoutKeys = inferQueryKeys<typeof internalCheckout>;
