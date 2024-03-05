@@ -6,3 +6,4 @@ export * from './request-helpers';
 export * from './hubspotApiClient';
 export * from './client-api';
 export * from './hubspotCookie';
+export * from './vraiAdminApiClient';
