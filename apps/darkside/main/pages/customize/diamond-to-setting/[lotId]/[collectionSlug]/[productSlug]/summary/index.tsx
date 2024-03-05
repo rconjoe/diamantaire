@@ -552,6 +552,10 @@ const ReviewBuildStep = ({ settingSlugs }) => {
 
   const handleSizeChange = useCallback((option: OptionItemProps) => {
     // setSelectVariantId(option.id);
+    if (option?.value) {
+      router.query['ringSize'] = option.value;
+      router.push(router);
+    }
     setSelectedSize(option);
   }, []);
 
