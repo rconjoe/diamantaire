@@ -1,9 +1,11 @@
+import { CartItemsList } from '@diamantaire/darkside/components/cart';
 import { useInternalCheckout } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/global';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 interface InternalCheckoutPageProps {
   locale: string;
@@ -27,51 +29,74 @@ const InternalCheckoutPage = () => {
     }
   }, [attributionData]);
 
-  const handleCreateSalesOrder = async (e) => {
-    e.preventDefault();
-    // Logic to handle form submission...
+  const handleCreateSalesOrder = async () => {
+    // Prepare the data for your draft order creation
+    // This includes both cart items and sales attribution details
+    const draftOrderData = {
+      // Include necessary attributes from cartData and selections from sales attribution
+      note: cartData?.note,
+      buyerIdentity: cartData?.buyerIdentity,
+      lines: cartData?.lines,
+      // Add any other necessary details for order creation
+    };
+
+    // Fetch call to create the draft order
+    console.log('Creating draft order with:', draftOrderData);
+    // Implement the fetch call
   };
 
   if (isLoading) return <div>Loading...</div>;
 
+  const InternalCheckoutStyles = styled.div`
+    .wrapper {
+      display: flex;
+    }
+  `;
+
   return (
-    <div>
+    <InternalCheckoutStyles>
       <h2>Create Draft Order</h2>
       <form onSubmit={handleCreateSalesOrder}>
-        {/* Sales Channel Select */}
-        <label htmlFor="sales_channel">Sales Channel:</label>
-        <select id="sales_channel" value={selectedChannel} onChange={(e) => setSelectedChannel(e.target.value)}>
-          {attributionData?.salesChannels.map((channel) => (
-            <option key={channel.name} value={channel.name}>
-              {channel.name}
-            </option>
-          ))}
-        </select>
+        <div className="wrapper">
+          <div>
+            {/* Sales Channel Select */}
+            <label htmlFor="sales_channel">Sales Channel:</label>
+            <select id="sales_channel" value={selectedChannel} onChange={(e) => setSelectedChannel(e.target.value)}>
+              {attributionData?.salesChannels.map((channel) => (
+                <option key={channel.name} value={channel.name}>
+                  {channel.name}
+                </option>
+              ))}
+            </select>
 
-        {/* Location Select */}
-        <label htmlFor="location">Location:</label>
-        <select id="location" value={selectedLocation} onChange={(e) => setSelectedLocation(e.target.value)}>
-          {attributionData?.salesLocations.map((location) => (
-            <option key={location.name} value={location.name}>
-              {location.name}
-            </option>
-          ))}
-        </select>
+            {/* Location Select */}
+            <label htmlFor="location">Location:</label>
+            <select id="location" value={selectedLocation} onChange={(e) => setSelectedLocation(e.target.value)}>
+              {attributionData?.salesLocations.map((location) => (
+                <option key={location.name} value={location.name}>
+                  {location.name}
+                </option>
+              ))}
+            </select>
 
-        {/* Sales Person Select */}
-        <label htmlFor="sales_person">Sales Person:</label>
-        <select id="sales_person" value={selectedSalesPerson} onChange={(e) => setSelectedSalesPerson(e.target.value)}>
-          {attributionData?.salesReps.map((rep) => (
-            <option key={rep.name} value={rep.name}>
-              {rep.name} : {rep.salesId}
-            </option>
-          ))}
-        </select>
-
+            {/* Sales Person Select */}
+            <label htmlFor="sales_person">Sales Person:</label>
+            <select id="sales_person" value={selectedSalesPerson} onChange={(e) => setSelectedSalesPerson(e.target.value)}>
+              {attributionData?.salesReps.map((rep) => (
+                <option key={rep.name} value={rep.name}>
+                  {rep.name} : {rep.salesId}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <CartItemsList />
+          </div>
+        </div>
         <button type="submit">Create Draft Order</button>
       </form>
       {/* Additional JSX for displaying errors, draft order details, etc. */}
-    </div>
+    </InternalCheckoutStyles>
   );
 };
 
