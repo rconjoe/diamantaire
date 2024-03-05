@@ -1,4 +1,4 @@
-import { convertPriceToUSD, countryCodesWithVat, getCurrencyFromLocale, getVat } from '@diamantaire/shared/constants';
+import { convertPriceToUSD, getCurrencyFromLocale, getVat } from '@diamantaire/shared/constants';
 import { getCountry } from '@diamantaire/shared/helpers';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
@@ -39,7 +39,9 @@ export async function getVRAIServerPlpData(
       const vat = getVat(countryCode);
       const code = locale.split('-').pop();
 
-      const convertToUSD = countryCodesWithVat.includes(code) && isPlpPriceRange && vat;
+      const convertToUSD = code !== 'US' && isPlpPriceRange;
+
+      const convertToUSDMinusVat = convertToUSD && vat;
 
       const amountMinusVat = (amountInCents) => {
         const res = amountInCents / (1 + vat) / 100;
@@ -48,11 +50,19 @@ export async function getVRAIServerPlpData(
       };
 
       if (min) {
-        acc['priceMin'] = convertToUSD ? amountMinusVat(convertPriceToUSD(min, currency)) + 1 : min;
+        acc['priceMin'] = convertToUSD
+          ? convertToUSDMinusVat
+            ? amountMinusVat(convertPriceToUSD(min, currency)) + 1
+            : convertPriceToUSD(min, currency) + 1
+          : min;
       }
 
       if (max) {
-        acc['priceMax'] = convertToUSD ? amountMinusVat(convertPriceToUSD(max, currency)) - 1 : max;
+        acc['priceMax'] = convertToUSD
+          ? convertToUSDMinusVat
+            ? amountMinusVat(convertPriceToUSD(max, currency)) - 1
+            : convertPriceToUSD(max, currency) - 1
+          : max;
       }
     } else if (key === 'metal') {
       acc[key] = value?.join(',').toString() || value;
