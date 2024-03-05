@@ -16,7 +16,7 @@ const ReviewVariantSelector = ({
   const { locale } = useRouter();
   const { _t } = useTranslations(locale, [
     humanNamesMapperType.BAND_WIDTH_LABEL_HUMAN_NAMES,
-    humanNamesMapperType.METALS_IN_HUMAN_NAMES_WITH_DEFAULT_GOLD_PURITIES,
+    humanNamesMapperType.METALS_IN_HUMAN_NAMES,
     humanNamesMapperType.BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES,
     humanNamesMapperType.OPTION_NAMES,
     humanNamesMapperType.HIDDEN_HALO_HUMAN_NAMES,
@@ -24,11 +24,18 @@ const ReviewVariantSelector = ({
     humanNamesMapperType.CARAT_WEIGHT_HUMAN_NAMES,
   ]);
 
+  const goldPurity = selectedConfiguration['goldPurity'];
+  let value = _t(selectedConfiguration[selector]);
+
+  if ( selector === 'metal' && goldPurity) {
+    value = `${goldPurity} ${value}`;
+  }
+
   return (
     <li>
       <span className="label">{_t(selector)}:</span>
       <span className="value">
-        {_t(selectedConfiguration[selector])}
+        {value}
         {selector === 'sideStoneCarat' ? 'ct' : ''}
       </span>
       <span className="toggle">
