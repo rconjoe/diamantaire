@@ -1,13 +1,12 @@
 import { sendHubspotForm } from '@diamantaire/darkside/data/api';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { FORM_SUBSCRIPTION_SOURCE_NAME, HUBSPOT_DROP_A_HINT_FORM_ID } from '@diamantaire/shared/constants';
-import { getCountry } from '@diamantaire/shared/helpers';
+import { getCountry, getTextFromHTML } from '@diamantaire/shared/helpers';
 import * as EmailValidator from 'email-validator';
 import { useState } from 'react';
 
 import { DarksideButton } from './DarksideButton';
 import { StyledDropHintModal } from './DropHintModal.style';
-import { Markdown } from './Markdown';
 import { Modal } from './Modal';
 import { UIString } from './UIString';
 
@@ -119,7 +118,9 @@ const DropHintModal: React.FC<DropHintModalProps> = ({ title, subtitle, onClose,
     const { inlineMessage } = payload || {};
 
     if (inlineMessage) {
-      setResponse(inlineMessage);
+      const textFromResponse = getTextFromHTML(inlineMessage);
+
+      setResponse(textFromResponse);
 
       setFormData(defaultData);
     } else {
@@ -188,7 +189,7 @@ const DropHintModal: React.FC<DropHintModalProps> = ({ title, subtitle, onClose,
 
         {response && (
           <div className="form-response">
-            <Markdown withStyles={false}>{response}</Markdown>
+            <UIString>{response}</UIString>
           </div>
         )}
       </Modal>
