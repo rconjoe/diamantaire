@@ -148,6 +148,10 @@ function ProductConfigurator({
   }, [requiresCustomDiamond, selectedVariantId]);
 
   const handleSizeChange = useCallback((option: OptionItemProps) => {
+    if (option?.value) {
+      router.query['ringSize'] = option.value;
+      router.push(router);
+    }
     setSelectVariantId(option.id);
     setSelectedSize(option.value);
   }, []);
