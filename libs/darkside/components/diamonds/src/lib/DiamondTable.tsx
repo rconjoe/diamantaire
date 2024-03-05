@@ -364,8 +364,9 @@ const DiamondTable = (props: DiamondTableProps) => {
   });
 
   const shouldShowCFYPromo =
-    !settingProductType ||
-    (settingProductType === 'Engagement Ring' && !asPath.includes('toi-moi') && !asPath.includes('pairs'));
+    table.getRowModel().rows.length >= 20 &&
+    (!settingProductType ||
+      (settingProductType === 'Engagement Ring' && !asPath.includes('toi-moi') && !asPath.includes('pairs')));
 
   // ELEMENTS HEIGHT (used for sticky and scroll)
   const tableHeadHeight = tableHead?.current?.offsetHeight || 0;
