@@ -17,9 +17,13 @@ export type InternalCheckoutProps = {
 };
 
 export function useInternalCheckout(): UseQueryResult<InternalCheckoutProps, unknown> {
-  return useQuery({
-    ...queries.internalCheckout.content(),
-  });
-}
+  const { queryKey, queryFn } = queries.internalCheckout.content();
+  const wrappedQueryFn = (context) => {
+    const wrappedContext = { ...context, signal: new AbortController().signal, meta: {} };
 
+    return queryFn(wrappedContext);
+  };
+
+  return useQuery(queryKey, wrappedQueryFn);
+}
 export default useInternalCheckout;
