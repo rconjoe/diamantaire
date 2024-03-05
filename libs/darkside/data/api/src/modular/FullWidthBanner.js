@@ -60,7 +60,8 @@ const FullWidthBanner = `
     ctaButtonType
     isTextBlockWide
     textColor
-    textBlockAlignment
+    textBlockAlignment,
+    textAlign,
     ctaCopy2
     ctaRoute2
     ctaButtonType2

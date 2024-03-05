@@ -447,7 +447,7 @@ async function getAllData(){
   const pages = [standardPageUrls.join('\n'), journalCategoryUrls.join('\n'), journalPageUrls.join('\n'), plpPageUrls.join('\n'), pdpUrls.join('\n')].join('\n\n');
   const siteMapData = `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n\n${pages}</urlset>`;
 
-  generateXML(siteMapData, './files/sitemap.xml');
+  generateXML(siteMapData, './apps/darkside/main/pages/public/sitemap.xml');
 }
 
 export async function generateXML(data: string, filename: string) {

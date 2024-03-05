@@ -1,5 +1,7 @@
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { mobileOnly, pageMargin } from '@diamantaire/styles/darkside-styles';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { BreadcrumbJsonLd } from 'next-seo';
 import styled from 'styled-components';
 
@@ -68,6 +70,10 @@ type BreadcrumbProps = {
 };
 
 const Breadcrumb = ({ breadcrumb, simple = false, lastItemBolded = true, spacingType = 'default' }: BreadcrumbProps) => {
+  const { locale } = useRouter();
+
+  const { _t } = useTranslations(locale);
+
   const baseUrl =
     process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' || process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview'
       ? 'https://www.vrai.com'
@@ -78,7 +84,7 @@ const Breadcrumb = ({ breadcrumb, simple = false, lastItemBolded = true, spacing
     ? [
         {
           position: 1,
-          name: 'Home',
+          name: _t('Home'),
           item: baseUrl,
         },
       ]
@@ -86,11 +92,14 @@ const Breadcrumb = ({ breadcrumb, simple = false, lastItemBolded = true, spacing
 
   if (areThereBreadcrumbs) {
     breadcrumb?.map((crumb, index) => {
-      return breadcrumbList.push({
-        position: index + 2,
-        name: crumb.name,
-        item: `${baseUrl}${crumb?.link?.slug ? `/${crumb?.link?.slug}` : crumb?.path}`,
-      });
+      // skip homepage since its added manually
+      if(index > 0){
+        return breadcrumbList.push({
+          position: index + 1, // adjust from 0 index
+          name: crumb.title,
+          item: `${baseUrl}${crumb?.link?.slug ? `/${crumb?.link?.slug}` : crumb?.path}`,
+        });
+      }
     });
   }
 
