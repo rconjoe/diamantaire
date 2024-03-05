@@ -93,21 +93,46 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
   useEffect(() => {
     const shape = selectedDiamondType?.slug || null;
 
+    const collectionSlug = builderProduct?.product?.collectionSlug || router?.query?.collectionSlug;
+
+    const productSlug = builderProduct?.product?.productSlug || router?.query?.productSlug;
+
+    console.log(`collectionSlug`, collectionSlug);
+    console.log(`productSlug`, productSlug);
+
     if (shape && productRoute !== `/diamonds/results/${shape}?carat=${selectedCarat}`) {
       setProductRoute(
         `/diamonds/results/${shape}?carat=${selectedCarat}${
           router?.query?.collectionSlug && router?.query?.productSlug
-            ? `&collectionSlug=${builderProduct?.product?.collectionSlug || router?.query?.collectionSlug}&productSlug=${
-                builderProduct?.product?.productSlug || router?.query?.productSlug
-              }`
+            ? `&collectionSlug=${collectionSlug}&productSlug=${productSlug}`
             : ''
         }`,
       );
-      router.push(getCFYShallowRoute({ carat: selectedCarat, diamondType: shape }, 'diamondCfy', router), undefined, {
-        shallow: true,
-      });
+
+      router.replace(
+        getCFYShallowRoute(
+          {
+            diamondType: shape,
+            carat: selectedCarat,
+            ...(collectionSlug ? { collectionSlug } : {}),
+            ...(productSlug ? { productSlug } : {}),
+          },
+          'diamondCfy',
+          router,
+        ),
+        undefined,
+        {
+          shallow: true,
+        },
+      );
     } else if (!shape) {
-      router.push('/diamonds', undefined, { shallow: true });
+      if (collectionSlug && productSlug) {
+        router.replace(`/diamonds?collectionSlug=${collectionSlug}&productSlug=${productSlug}`, undefined, {
+          shallow: true,
+        });
+      } else {
+        router.replace('/diamonds', undefined, { shallow: true });
+      }
     }
   }, [selectedCarat, selectedDiamondType]);
 

@@ -288,7 +288,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
     text: isSettingFirstFlow ? 'Complete & Review Your Ring' : 'Choose & Add a setting',
   };
 
-  const productQuery = useProduct({ collectionSlug: collectionSlug.toString(), productSlug: productSlug?.toString() });
+  const productQuery = useProduct({ collectionSlug: collectionSlug?.toString(), productSlug: productSlug?.toString() });
 
   const { data: { productType = '' } = {} } = productQuery || {};
 
