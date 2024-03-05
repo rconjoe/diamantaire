@@ -600,15 +600,22 @@ export class DiamondsService {
     const filteredQuery = this.optionalDiamondsQuery(input);
 
     const sortBy = input.sortBy || 'carat';
-    const sortOrder = input.sortOrder && input.sortOrder === 'desc' ? -1 : 1;
+    const sortOrder = input.sortOrder || 'desc';
+    const COLOR_ASC = new SortOption(SortBy.COLOR, SortOrder.ASC);
+    const CARAT_DESC = new SortOption(SortBy.CARAT, SortOrder.DESC);
+
+    const DEFAULT_SORTING_ORDER = [COLOR_ASC, CARAT_DESC];
+    const requestedSortOption = new SortOption(SortBy[sortBy.toUpperCase()], SortOrder[sortOrder.toUpperCase()]);
+
+    const finalOrder = this.assmebleSortKey(requestedSortOption, DEFAULT_SORTING_ORDER);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [addFieldsStage, sortStage] = this.generateMongoSortPayload(finalOrder); // Shouldn't the add field stage be used here?
 
     const paginateOptions: PaginateOptions = {
       limit: input.limit || 5,
       page: input.page || 1,
-      sort: {
-        [sortBy]: sortOrder,
-      },
       customLabels: DIAMOND_PAGINATED_LABELS,
+      ...sortStage
     };
 
     const availablePropertyValuesCacheKey = `toi-moi-diamonds-available-filters`;
@@ -715,15 +722,23 @@ export class DiamondsService {
     const filteredQuery = this.optionalDiamondsQuery(input);
 
     const sortBy = input.sortBy || 'carat';
-    const sortOrder = input.sortOrder && input.sortOrder === 'desc' ? -1 : 1;
+    const sortOrder = input.sortOrder || 'desc';
+
+    const COLOR_ASC = new SortOption(SortBy.COLOR, SortOrder.ASC);
+    const CARAT_DESC = new SortOption(SortBy.CARAT, SortOrder.DESC);
+
+    const DEFAULT_SORTING_ORDER = [COLOR_ASC, CARAT_DESC];
+
+    const requestedSortOption = new SortOption(SortBy[sortBy.toUpperCase()], SortOrder[sortOrder.toUpperCase()]);
+    const finalOrder = this.assmebleSortKey(requestedSortOption, DEFAULT_SORTING_ORDER);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [addFieldsStage, sortStage] = this.generateMongoSortPayload(finalOrder); // Shouldn't the add field stage be used here?
 
     const paginateOptions: PaginateOptions = {
       limit: input.limit || 5,
       page: input.page || 1,
-      sort: {
-        [sortBy]: sortOrder,
-      },
       customLabels: DIAMOND_PAGINATED_LABELS,
+      ...sortStage,
     };
 
     const availablePropertyValuesCacheKey = `diamond-pairs-property-values-${input.diamondType ? input.diamondType : ''}}`;
