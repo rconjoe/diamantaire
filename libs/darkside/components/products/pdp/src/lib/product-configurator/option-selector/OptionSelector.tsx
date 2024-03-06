@@ -51,6 +51,11 @@ const StyledOptionSelector = styled.div`
   &.diamondType {
     width: 100%;
   }
+  &.value {
+    @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+      width: 100%;
+    }
+  }
   .selector-label {
     display: flex;
     flex-direction: row;
@@ -248,9 +253,16 @@ const StyledOptionSelector = styled.div`
 
     &.eternityStyle,
     &.chainLength,
-    &.wristSize {
+    &.wristSize,
+    &.value {
       .option-item {
         padding: 0 1rem;
+      }
+    }
+
+    &.value {
+      @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+        overflow: scroll;
       }
     }
   }
@@ -289,7 +301,7 @@ function OptionSelector({
 
   const { _t } = useTranslations(locale);
   const language = getLanguage(locale);
-  const { _t: translateOptionNames } = useTranslations(locale, [humanNamesMapperType.OPTION_NAMES]);
+  const { _t: translateOptionNames } = useTranslations(locale, [humanNamesMapperType.OPTION_NAMES, humanNamesMapperType.UI_STRINGS_2]);
 
   const diamondSliderOptions: any = {
     loop: false,
