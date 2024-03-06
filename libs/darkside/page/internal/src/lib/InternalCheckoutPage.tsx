@@ -8,7 +8,6 @@ import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { vraiAdminApiClient } from '@diamantaire/darkside/data/api';
 import styled from 'styled-components';
 
 interface InternalCheckoutPageProps {
@@ -26,6 +25,7 @@ const InternalCheckoutPage = () => {
   const [selectedLocation, setSelectedLocation] = useState('');
   const [selectedSalesPerson, setSelectedSalesPerson] = useState('');
   const [result, setResult] = useState('');
+  const [error, setError] = useState(null);
 
   // Initialize selection when data is loaded
   useEffect(() => {
@@ -38,8 +38,7 @@ const InternalCheckoutPage = () => {
 
   const handleCreateSalesOrder = async (event: React.FormEvent) => {
     event.preventDefault();
-    // Prepare the data for your draft order creation
-    // This includes both cart items and sales attribution details
+
     const variables = normalizeVariablesForDraftOrder({
       checkout,
       selectedChannel,
@@ -47,10 +46,7 @@ const InternalCheckoutPage = () => {
       selectedSalesPerson,
     });
 
-    // Fetch call to create the draft order
-    console.log('Creating draft order with:', variables);
-    // Implement the fetch call
-    createDraftOrder({ variables, setResult });
+    createDraftOrder({ variables, setResult, setError });
   };
 
   if (isLoading) return <div>Loading...</div>;
@@ -82,6 +78,19 @@ const InternalCheckoutPage = () => {
       }
       button {
         margin-top: 2rem;
+      }
+    }
+    .result {
+      margin: 20px 0;
+      background-color: #e5ffe1;
+      border: 1px solid var(--color-teal);
+      padding: 20px;
+      & a {
+        color: blue;
+        text-decoration: underline;
+      }
+      & a:hover {
+        font-style: none;
       }
     }
   `;
@@ -122,16 +131,32 @@ const InternalCheckoutPage = () => {
               ))}
             </select>
             <DarksideButton buttonType="submit">Create Draft Order</DarksideButton>
-            {/* {result && (
-              <div>
-                <h3>Draft Order Created</h3>
+            {result && (
+              <div className="result">
+                <h3>Draft Order Created {new Date(result?.createdAt).toLocaleDateString()}</h3>
                 <p>
-                  <a href={`https://vo-live.myshopify.com/admin/draft_orders/${result.id}`} target="_blank" rel="noreferrer">
+                  <a
+                    href={`https://admin.shopify.com/store/vo-live/draft_orders/${result?.id?.split('/').pop()}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     View Draft Order
                   </a>
                 </p>
+                {result?.invoiceUrl && (
+                  <>
+                    <h3>or View Checkout Page</h3>
+
+                    <p>
+                      <a href={result?.invoiceUrl} target="_blank" rel="noreferrer">
+                        View Checkout Page
+                      </a>
+                    </p>
+                  </>
+                )}
               </div>
-            )} */}
+            )}
+            {error && <div className="error-message">{error}</div>}
           </div>
           <div className="col">
             <h2>Create Draft Order</h2>
@@ -200,33 +225,29 @@ export const normalizeVariablesForDraftOrder = ({ checkout, selectedChannel, sel
 
   return variables;
 };
-const CREATE_DRAFT_ORDER_MUTATION = `
-  mutation draftOrderCreate($input: DraftOrderInput!) {
-    draftOrderCreate(input: $input) {
-      draftOrder {
-        id
-        invoiceUrl
-      }
-      userErrors {
-        field
-        message
-      }
-    }
-  }
-`;
 
-export const createDraftOrder = async ({ variables, setResult }) => {
+export const createDraftOrder = async ({ variables, setResult, setError }) => {
+  const BASE_URL = `${process.env['NEXT_PUBLIC_PROTOCOL']}${process.env['NEXT_PUBLIC_VERCEL_URL']}`;
+  const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
+
   try {
-    const response = await vraiAdminApiClient.post('', {
-      query: CREATE_DRAFT_ORDER_MUTATION,
-      variables: variables,
+    const response = await fetch(`${baseUrl}/api/shopify/create-draft-order`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(variables),
     });
-    console.log({ response });
-    console.log('Draft order created:', response.data);
-    setResult(response.data); // Pass the response data to the setResult callback function
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    setResult(data);
   } catch (error) {
+    setError('An error occurred while creating the draft order. Please try again.');
     console.error('Error creating draft order:', error);
-    // Optional: Pass error to setResult or handle error differently
-    setResult({ error: error.message });
   }
 };
