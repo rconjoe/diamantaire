@@ -52,7 +52,7 @@ export class DiamondsService {
     private readonly utils: UtilService,
   ) {}
 
-  assmebleSortKey(newSortOption: SortOption, defaultSort: SortOption[] ){
+  appendSortOption(newSortOption: SortOption, defaultSort: SortOption[] ){
     const finalOrder : SortOption[] = defaultSort.map((sortOption)=>  new SortOption(sortOption.sortBy, sortOption.sortOrder)); //deep copying the array
     const elementWithSameKeyIndex = finalOrder.findIndex((sortOption) => sortOption.sortBy === newSortOption.sortBy);
     const isElementPresent = elementWithSameKeyIndex !== -1;
@@ -142,7 +142,7 @@ export class DiamondsService {
     if (sortByKey){
       const requestedSortOption = new SortOption(SortBy[sortByKey.toUpperCase()], SortOrder[sortOrder.toUpperCase()]);
 
-      finalOrder = this.assmebleSortKey(requestedSortOption, DEFAULT_SORTING_ORDER);
+      finalOrder = this.appendSortOption(requestedSortOption, DEFAULT_SORTING_ORDER);
     }
 
     const [addFieldsStage, sortStage] = this.generateMongoSortPayload(finalOrder);
@@ -607,16 +607,22 @@ export class DiamondsService {
     const DEFAULT_SORTING_ORDER = [COLOR_ASC, CARAT_DESC];
     const requestedSortOption = new SortOption(SortBy[sortBy.toUpperCase()], SortOrder[sortOrder.toUpperCase()]);
 
-    const finalOrder = this.assmebleSortKey(requestedSortOption, DEFAULT_SORTING_ORDER);
+    const finalOrder = this.appendSortOption(requestedSortOption, DEFAULT_SORTING_ORDER);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [addFieldsStage, sortStage] = this.generateMongoSortPayload(finalOrder); // Shouldn't the add field stage be used here?
+    const [addFieldsStage, sortStage] = this.generateMongoSortPayload(finalOrder);
 
     const paginateOptions: PaginateOptions = {
       limit: input.limit || 5,
       page: input.page || 1,
       customLabels: DIAMOND_PAGINATED_LABELS,
-      ...sortStage
     };
+    const stages : any[] = [{ $match: {...filteredQuery} }];
+
+    if (addFieldsStage){
+      stages.push(addFieldsStage);
+    }
+
+    stages.push(sortStage);
 
     const availablePropertyValuesCacheKey = `toi-moi-diamonds-available-filters`;
     const cachedData = await this.utils.memGet(availablePropertyValuesCacheKey);
@@ -649,13 +655,13 @@ export class DiamondsService {
     }
 
     try {
-      const diamondPairCacheKey = `toimoi-diamonds-${JSON.stringify(filteredQuery)}-${JSON.stringify(paginateOptions)}`;
+      const diamondPairCacheKey = `toimoi-diamonds-${JSON.stringify(stages)}-${JSON.stringify(paginateOptions)}`;
       const cachedDiamondPairs = await this.utils.memGet(diamondPairCacheKey);
 
       if (cachedDiamondPairs) {
         return cachedDiamondPairs;
       } else {
-        const result = await this.toimoiDiamonds.paginate(filteredQuery, paginateOptions);
+        const result = await this.toimoiDiamonds.aggregatePaginate(stages, paginateOptions);
         const response = {
           ...result,
           ranges: availablePropertyValues,
@@ -730,16 +736,22 @@ export class DiamondsService {
     const DEFAULT_SORTING_ORDER = [COLOR_ASC, CARAT_DESC];
 
     const requestedSortOption = new SortOption(SortBy[sortBy.toUpperCase()], SortOrder[sortOrder.toUpperCase()]);
-    const finalOrder = this.assmebleSortKey(requestedSortOption, DEFAULT_SORTING_ORDER);
+    const finalOrder = this.appendSortOption(requestedSortOption, DEFAULT_SORTING_ORDER);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [addFieldsStage, sortStage] = this.generateMongoSortPayload(finalOrder); // Shouldn't the add field stage be used here?
+    const [addFieldsStage, sortStage] = this.generateMongoSortPayload(finalOrder);
 
     const paginateOptions: PaginateOptions = {
       limit: input.limit || 5,
       page: input.page || 1,
       customLabels: DIAMOND_PAGINATED_LABELS,
-      ...sortStage,
     };
+    const stages : any[] = [{ $match: {...filteredQuery} }];
+
+    if (addFieldsStage){
+      stages.push(addFieldsStage);
+    }
+
+    stages.push(sortStage);
 
     const availablePropertyValuesCacheKey = `diamond-pairs-property-values-${input.diamondType ? input.diamondType : ''}}`;
     const cachedData = await this.utils.memGet(availablePropertyValuesCacheKey);
@@ -772,13 +784,13 @@ export class DiamondsService {
     }
 
     try {
-      const diamondPairCacheKey = `diamond-pairs-${JSON.stringify(filteredQuery)}-${JSON.stringify(paginateOptions)}`;
+      const diamondPairCacheKey = `diamond-pairs-${JSON.stringify(stages)}-${JSON.stringify(paginateOptions)}`;
       const cachedDiamondPairs = await this.utils.memGet(diamondPairCacheKey);
 
       if (cachedDiamondPairs) {
         return cachedDiamondPairs;
       } else {
-        const result = await this.diamondPairs.paginate(filteredQuery, paginateOptions);
+        const result = await this.diamondPairs.aggregatePaginate(stages, paginateOptions);
         const response = {
           ...result,
           ranges: availablePropertyValues,

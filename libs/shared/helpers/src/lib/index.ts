@@ -31,3 +31,4 @@ export * from './goToCheckoutUrl';
 export * from './getCurrentUrl';
 export * from './cacheHelpers';
 export * from './generatePdpAssetAltTag';
+export * from './getTextFromHTML'

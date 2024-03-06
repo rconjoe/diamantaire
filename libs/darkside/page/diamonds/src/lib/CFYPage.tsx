@@ -64,6 +64,7 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
   let { title: seoTitle = '', description: seoDesc = '' } = ctoDiamondTable?.seo || {};
 
   seoTitle = replacePlaceholders(seoTitle, ['%%product_name%%'], [getDiamondType(diamondType)?.title || '']) as string;
+
   seoDesc = replacePlaceholders(seoDesc, ['%%product_name%%'], [getDiamondType(diamondType)?.title || '']) as string;
 
   const handleSelectShape = (value) => {
@@ -96,9 +97,6 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
     const collectionSlug = builderProduct?.product?.collectionSlug || router?.query?.collectionSlug;
 
     const productSlug = builderProduct?.product?.productSlug || router?.query?.productSlug;
-
-    console.log(`collectionSlug`, collectionSlug);
-    console.log(`productSlug`, productSlug);
 
     if (shape && productRoute !== `/diamonds/results/${shape}?carat=${selectedCarat}`) {
       setProductRoute(
@@ -135,6 +133,10 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
       }
     }
   }, [selectedCarat, selectedDiamondType]);
+
+  useEffect(() => {
+    setSelectedCarat(3);
+  }, [selectedDiamondType]);
 
   return (
     <>

@@ -17,7 +17,6 @@ import {
   DiamondPlan,
   DiamondRough,
 } from '@diamantaire/darkside/components/diamonds';
-import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { LooseDiamondAttributeProps, addLooseDiamondToCart } from '@diamantaire/darkside/data/api';
@@ -55,6 +54,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
+import { NextSeo } from 'next-seo';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -310,7 +310,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
       <Script src="https://cdn.jsdelivr.net/npm/spritespin@4.1.0/release/spritespin.min.js" strategy={'beforeInteractive'} />
 
-      <StandardPageSeo title={seoTitle} description={seoDesc} />
+      <NextSeo title={seoTitle} description={seoDesc} nofollow={true} noindex={true} />
 
       <StyledCFYResultPage className="container-wrapper">
         <div className="page-row">
