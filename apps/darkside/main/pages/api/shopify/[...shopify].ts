@@ -8,6 +8,7 @@ const CREATE_DRAFT_ORDER_MUTATION = `
         id
         invoiceUrl
         createdAt
+        name
       }
       userErrors {
         field

@@ -9,6 +9,7 @@ import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { AppliedDiscount } from './AppliedDiscount';
 
 interface InternalCheckoutPageProps {
   locale: string;
@@ -26,6 +27,7 @@ const InternalCheckoutPage = () => {
   const [selectedSalesPerson, setSelectedSalesPerson] = useState('');
   const [result, setResult] = useState('');
   const [error, setError] = useState(null);
+  const [discount, setDiscount] = useState({ value: 0, valueType: 'FIXED_AMOUNT' });
 
   // Initialize selection when data is loaded
   useEffect(() => {
@@ -133,7 +135,9 @@ const InternalCheckoutPage = () => {
             <DarksideButton buttonType="submit">Create Draft Order</DarksideButton>
             {result && (
               <div className="result">
-                <h3>Draft Order Created {new Date(result?.createdAt).toLocaleDateString()}</h3>
+                <h3>
+                  Draft Order {result?.name} Created {new Date(result?.createdAt).toLocaleDateString()}
+                </h3>
                 <p>
                   <a
                     href={`https://admin.shopify.com/store/vo-live/draft_orders/${result?.id?.split('/').pop()}`}
@@ -167,7 +171,6 @@ const InternalCheckoutPage = () => {
           </div>
         </div>
       </form>
-      {/* Additional JSX for displaying errors, draft order details, etc. */}
     </InternalCheckoutStyles>
   );
 };
