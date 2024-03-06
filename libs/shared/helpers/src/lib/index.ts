@@ -17,6 +17,7 @@ export * from './isCountrySupported';
 export * from './isCurrentTimeWithinInterval';
 export * from './isEmptyObject';
 export * from './mapShapeToSeoTitle';
+export * from './markdownToPlainText';
 export * from './normalizeDatoNumberedContent';
 export * from './object-transformations';
 export * from './products';
@@ -30,3 +31,4 @@ export * from './goToCheckoutUrl';
 export * from './getCurrentUrl';
 export * from './cacheHelpers';
 export * from './generatePdpAssetAltTag';
+export * from './getTextFromHTML'

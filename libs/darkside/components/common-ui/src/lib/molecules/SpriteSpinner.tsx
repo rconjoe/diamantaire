@@ -7,12 +7,16 @@ declare const window: any;
 
 const SpritSpinnerContainer = styled.div`
   position: relative;
-  width: 100%;
   height: 100%;
+  width: auto !important;
 
   .spritespin-canvas {
-    width: 100%;
     height: 100%;
+    width: auto !important;
+
+    position: absolute;
+    left: 50% !important;
+    transform: translateX(-50%);
   }
 
   .spritespin-instance {

@@ -99,6 +99,7 @@ const ProductDescription = ({
   // Product Spec - These are the locale-based labels for the product
 
   const { data } = useProductSpec(productSpecId, locale) as ProductSpecProps;
+
   const labels = data?.productSpecLabelCollection?.labels || [];
 
   const combinedAttributes = { ...productAttributes, ...variantAttributes };
@@ -115,6 +116,7 @@ const ProductDescription = ({
   };
 
   const jewelryProductSpecs = createSpecList(PRODUCT_SPEC_NAMES);
+
   const diamondSpecs = createSpecList(DIAMOND_SPEC_NAMES);
 
   // These are included at the variant level
@@ -210,7 +212,7 @@ const ProductDescription = ({
     description && (
       <ProductDescriptionContainer>
         <Heading type="h2" className="details-title">
-          {title && locale !== 'en-US' ? title + ' Details' : title ? title + ' Design' : 'Details'}
+          {title && locale !== 'en-US' ? title + ' ' + _t('Details') : title ? title + ' ' + _t('Design') : _t('Details')}
         </Heading>
 
         {pdpSubTitle !== '' ? (

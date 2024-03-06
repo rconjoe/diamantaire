@@ -5,13 +5,7 @@ import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-contex
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { addERProductToCart, addJewelryProductToCart, addMiscProductToCart } from '@diamantaire/darkside/data/api';
 import { useCartData, useProductIconList, useTranslations, useVariantInventory } from '@diamantaire/darkside/data/hooks';
-import {
-  DIAMOND_TYPE_HUMAN_NAMES,
-  getCurrency,
-  getFormattedCarat,
-  getFormattedPrice,
-  parseValidLocale,
-} from '@diamantaire/shared/constants';
+import { DIAMOND_TYPE_HUMAN_NAMES, getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
 import { getFormattedShipByDate, specGenerator } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { AnimatePresence } from 'framer-motion';
@@ -154,6 +148,10 @@ function ProductConfigurator({
   }, [requiresCustomDiamond, selectedVariantId]);
 
   const handleSizeChange = useCallback((option: OptionItemProps) => {
+    if (option?.value) {
+      router.query['ringSize'] = option.value;
+      router.push(router);
+    }
     setSelectVariantId(option.id);
     setSelectedSize(option.value);
   }, []);
@@ -197,13 +195,7 @@ function ProductConfigurator({
   };
 
   const ProductFeedCompleteYourRingButton = ({ ctaText, diamondsOverride }) => {
-    const { _t } = useTranslations(locale, ['DIAMOND_SHAPES', 'DIAMOND_CUTS']);
-
     if (!diamondsOverride || diamondsOverride.length === 0) return null;
-
-    const diamond = diamondsOverride[0];
-
-    const { color, carat, diamondType, clarity, cut } = diamond;
 
     return (
       <div
@@ -212,21 +204,6 @@ function ProductConfigurator({
           minHeight: '4.9rem',
         }}
       >
-        <p
-          style={{
-            marginBottom: '2rem',
-            fontSize: '1.7rem',
-          }}
-        >
-          <strong
-            style={{
-              fontWeight: '500',
-            }}
-          >
-            <UIString>centerstone</UIString>:
-          </strong>
-          {` ${_t(diamondType)}, ${getFormattedCarat(carat, locale)}ct, ${_t(color)}, ${clarity}, ${_t(cut)}`}
-        </p>
         <DarksideButton
           textSize="medium"
           onClick={() => {

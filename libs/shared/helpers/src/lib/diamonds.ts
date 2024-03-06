@@ -11,7 +11,7 @@ import {
   DIAMOND_TABLE_VALID_SORT_ORDER,
   DIAMOND_TYPE_HUMAN_NAMES,
   DIAMOND_TYPE_INTERNAL_NAMES,
-  DIAMOND_VALID_QUERIES,
+  DIAMOND_TABLE_DEFAULT_VALID_QUERIES,
 } from '@diamantaire/shared/constants';
 import { diamondRouteCfy, diamondRouteCfyResult, diamondRoutePlp } from '@diamantaire/shared/routes';
 
@@ -77,7 +77,7 @@ export const getDiamondIdFromSlug = (slug: string) => {
  */
 
 export const getDiamondOptionsFromUrl = (query, page) => {
-  const validQueryType = [...DIAMOND_VALID_QUERIES];
+  const validQueryType = [...DIAMOND_TABLE_DEFAULT_VALID_QUERIES];
 
   const getOptionsFromFacetedNav = (data: string[]) => {
     const obj: {
@@ -123,7 +123,7 @@ export const getDiamondOptionsFromUrl = (query, page) => {
         }
 
         // page and limit sanity checks
-        if (DIAMOND_VALID_QUERIES.includes(k)) {
+        if (DIAMOND_TABLE_DEFAULT_VALID_QUERIES.includes(k)) {
           const num = parseFloat(data[k]);
 
           if (typeof num !== 'number') {
@@ -188,7 +188,7 @@ export const getDiamondShallowRoute = (options: { diamondType?: string }, overri
     return [...arr];
   }, []);
 
-  const defaultQueries = [...DIAMOND_VALID_QUERIES];
+  const defaultQueries = [...DIAMOND_TABLE_DEFAULT_VALID_QUERIES];
 
   if (pathsAsParams) {
     defaultQueries.push('cut');

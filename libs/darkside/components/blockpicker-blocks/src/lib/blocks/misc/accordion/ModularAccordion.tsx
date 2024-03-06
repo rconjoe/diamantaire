@@ -1,7 +1,9 @@
 import { Markdown, DatoImage, DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { markdownToPlainText } from '@diamantaire/shared/helpers';
 import { DatoImageType, DatoDarksideButtonProps } from '@diamantaire/shared/types';
 import { Accordion } from '@reach/accordion';
 import clsx from 'clsx';
+import { FAQPageJsonLd } from 'next-seo';
 import { useState } from 'react';
 
 import { ModularAccordionContainer } from './ModularAccordion.style';
@@ -67,8 +69,18 @@ const ModularAccordion = ({
     setIndice(indice === value ? null : value);
   };
 
+  const faqSchemaData = [];
+
+  accordionItems?.map((item) => {
+    return faqSchemaData.push({
+      questionName: item.title,
+      acceptedAnswerText: markdownToPlainText(item.copy),
+    });
+  });
+
   return (
     <ModularAccordionContainer className="container-wrapper">
+      <FAQPageJsonLd mainEntity={faqSchemaData} />
       <div
         className={clsx('acc__container', {
           '-with-image': hasImage,

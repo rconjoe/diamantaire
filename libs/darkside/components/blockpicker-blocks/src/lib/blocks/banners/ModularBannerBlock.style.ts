@@ -8,6 +8,10 @@ import {
 } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
+interface Props {
+  textAlign: string;
+}
+
 export const FullWidthImageContainer = styled.div`
   width: 100%;
   max-width: 144rem;
@@ -64,7 +68,7 @@ export const HalfWidthImageContainer = styled.div`
   }
 `;
 
-export const BannerWrapper = styled.div`
+export const BannerWrapper = styled.div<Props>`
   position: relative;
   width: 100%;
   max-width: 144rem;
@@ -84,12 +88,10 @@ export const BannerWrapper = styled.div`
     max-width: 100%;
   }
 
-  // hack to fix extra space below desktop banner image
-  .image {
-    ${tabletAndUp(`
-      aspect-ratio: 3 !important;
-    `)}
+  .text-container {
+    text-align: ${(props) => props?.textAlign};
   }
+
   .special_shapes & {
     margin: 0 auto !important;
   }

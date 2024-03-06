@@ -92,7 +92,9 @@ const AccountOrders = ({ customer }: { customer: AccountCustomer }) => {
 
       if (response.ok) {
         try {
-          return await response.json();
+          const json = await response.json();
+
+          return json;
         } catch (error) {
           console.error('Error parsing JSON:', error);
 

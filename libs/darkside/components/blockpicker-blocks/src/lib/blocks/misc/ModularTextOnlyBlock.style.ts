@@ -205,6 +205,10 @@ export const ModularTextOnlyBlockContainer = styled.div`
       max-width: none;
     }
 
+    &.subtitle {
+      width: 100%;
+    }
+
     &.-blog {
       color: #7c7c7c;
       font-size: 1.7rem;

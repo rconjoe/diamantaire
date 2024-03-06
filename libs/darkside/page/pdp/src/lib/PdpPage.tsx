@@ -158,6 +158,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   let trioBlocksId = trioBlocks?.id;
 
   let accordionBlocksOverride = accordionBlocks;
+
   // Variant Specific Data
   const { shopifyCollectionId, productContent, configuration, price } = shopifyProductData;
 
@@ -344,6 +345,13 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           productTitle={productTitle}
           metal={configuration?.metal}
           canonicalVars={shopifyProductData?.canonicalVariant}
+          assets={assetStack}
+          shopifyProductData={shopifyProductData}
+          price={totalPrice}
+          shouldDoublePrice={shouldDoublePrice}
+          lowestPricedDiamond={lowestPricedDiamond}
+          quantity={shouldDoublePrice ? 2 : 1}
+          pricesArray={(shouldDoublePrice && Array.from(Array(2)).map(() => totalPrice)) || null}
         />
 
         <Script

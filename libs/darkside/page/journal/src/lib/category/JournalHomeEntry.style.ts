@@ -5,6 +5,16 @@ export const JournalHomeEntryStyles = styled.div<{
   headerHeight: number;
 }>`
   padding-top: ${(props) => props.headerHeight + 'px'};
+  padding-bottom: 4rem;
+
+  .journal-container {
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      padding: 2.4rem;
+    }
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+      padding: 0;
+    }
+  }
 
   .journal-home__wrapper {
     margin-top: ${setSpace(4)};
@@ -43,10 +53,12 @@ export const JournalHomeEntryStyles = styled.div<{
     }
   }
   .journal-home__content-block-container {
-    ${media.medium`margin: 0 -1.6rem;display: flex;flex-wrap: wrap;`}
+    margin: 0 -1rem;
+    ${media.medium`display: flex;flex-wrap: wrap;`}
 
     > * {
       flex: 1 1 100%;
+      padding: 0 1rem;
       ${media.medium`flex: 0 0 33.33%;`}
     }
 
@@ -56,6 +68,17 @@ export const JournalHomeEntryStyles = styled.div<{
       font-weight: 600;
       color: var(--color-teal);
       text-decoration: underline;
+
+      button {
+        margin-top: 0.8rem;
+      }
+    }
+  
+    .journal-item {
+      padding: 0 1.6rem;
+      @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+        padding: 1rem 0;
+      }
     }
 
     ${tabletAndUp(`
