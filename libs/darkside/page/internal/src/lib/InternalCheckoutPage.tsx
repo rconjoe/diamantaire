@@ -9,11 +9,16 @@ import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AppliedDiscount } from './AppliedDiscount';
 
 interface InternalCheckoutPageProps {
   locale: string;
   dehydratedState: DehydratedState;
+}
+interface Result {
+  name: string;
+  createdAt: string;
+  id: string;
+  invoiceUrl: string;
 }
 
 const InternalCheckoutPage = () => {
@@ -25,7 +30,7 @@ const InternalCheckoutPage = () => {
   const [selectedChannel, setSelectedChannel] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('');
   const [selectedSalesPerson, setSelectedSalesPerson] = useState('');
-  const [result, setResult] = useState('');
+  const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState(null);
 
   // Initialize selection when data is loaded
