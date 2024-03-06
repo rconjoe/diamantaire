@@ -233,8 +233,6 @@ InternalCheckoutPage.getTemplate = getTemplate;
 async function getServerSideProps(
   context: GetServerSidePropsContext,
 ): Promise<GetServerSidePropsResult<InternalCheckoutPageProps>> {
-  context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
-
   const { locale } = context;
 
   const internalCheckoutQuery = queries.internalCheckout.content();
