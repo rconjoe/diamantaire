@@ -189,12 +189,13 @@ const ProductDescription = ({
     }
   };
 
+  const goldPurity = selectedConfiguration?.goldPurity ?? '';
   const generatedSubTitle =
     title +
     ' ' +
     styles?.[0] +
     ' ring in ' +
-    selectedConfiguration?.goldPurity +
+    goldPurity +
     ' ' +
     METALS_IN_HUMAN_NAMES[selectedConfiguration?.metal]?.toLowerCase() +
     ' ' +
