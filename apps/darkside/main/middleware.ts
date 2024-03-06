@@ -225,9 +225,9 @@ export default async function middleware(request: NextRequest, _event: NextFetch
     res.cookies?.set('geo', JSON.stringify(geo));
   }
 
-  if (url.pathname.startsWith('/internal/checkout')) {
-    return basicAuthCheck(request) || NextResponse.next();
-  }
+  // if (url.pathname.startsWith('/internal/checkout')) {
+  //   return basicAuthCheck(request) || NextResponse.next();
+  // }
 
   // exclude API and Next.js internal routes
   if (!url.pathname.startsWith('/api') && !url.pathname.startsWith('/_next')) {
