@@ -364,9 +364,8 @@ const DiamondTable = (props: DiamondTableProps) => {
   });
 
   const shouldShowCFYPromo =
-    table.getRowModel().rows.length >= 20 &&
-    (!settingProductType ||
-      (settingProductType === 'Engagement Ring' && !asPath.includes('toi-moi') && !asPath.includes('pairs')));
+    !settingProductType ||
+    (settingProductType === 'Engagement Ring' && !asPath.includes('toi-moi') && !asPath.includes('pairs'));
 
   // ELEMENTS HEIGHT (used for sticky and scroll)
   const tableHeadHeight = tableHead?.current?.offsetHeight || 0;
@@ -385,6 +384,8 @@ const DiamondTable = (props: DiamondTableProps) => {
       options={options}
     />
   );
+
+  const tableRows = table.getRowModel().rows || [];
 
   return isTableView ? (
     <StyledDiamondTable
@@ -426,7 +427,7 @@ const DiamondTable = (props: DiamondTableProps) => {
 
         {/* TABLE BODY */}
         <div ref={tableBody} className="vo-table-body">
-          {table.getRowModel().rows.map((row, idx) => {
+          {tableRows.map((row, idx) => {
             const active = activeRow?.id === row.id;
             let diamonds;
 
@@ -437,7 +438,7 @@ const DiamondTable = (props: DiamondTableProps) => {
 
             return (
               <Fragment key={row.id}>
-                {idx === 10 && shouldShowCFYPromo && cfyPromoCard}
+                {shouldShowCFYPromo && idx === 10 && tableRows.length >= 20 && cfyPromoCard}
 
                 <div
                   className={clsx('vo-table-row', {
