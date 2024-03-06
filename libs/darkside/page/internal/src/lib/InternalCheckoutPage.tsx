@@ -1,19 +1,21 @@
 import { CartItemsList } from '@diamantaire/darkside/components/cart';
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { useInternalCheckout, useCartData } from '@diamantaire/darkside/data/hooks';
-import { queries } from '@diamantaire/darkside/data/queries';
+// import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/global';
 import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
-import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
-import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import // DehydratedState,
+// QueryClient, dehydrate
+'@tanstack/react-query';
+// import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-interface InternalCheckoutPageProps {
-  locale: string;
-  dehydratedState: DehydratedState;
-}
+// interface InternalCheckoutPageProps {
+//   locale: string;
+//   dehydratedState: DehydratedState;
+// }
 interface Result {
   name: string;
   createdAt: string;
