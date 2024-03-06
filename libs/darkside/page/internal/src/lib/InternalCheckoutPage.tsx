@@ -23,11 +23,10 @@ interface Result {
 
 const InternalCheckoutPage = () => {
   const { locale } = useRouter();
-  console.log('locale', locale);
+
   const { data: { internalCheckout: attributionData } = {}, isLoading } = useInternalCheckout();
   const { data: checkout } = useCartData(locale);
-  console.log('attributionData', attributionData);
-  console.log('checkout', checkout);
+
   // Local state for the selected options
   const [selectedChannel, setSelectedChannel] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('');
@@ -42,10 +41,12 @@ const InternalCheckoutPage = () => {
     const storedLocation = localStorage.getItem('selectedLocation');
     const storedSalesPerson = localStorage.getItem('selectedSalesPerson');
 
-    setSelectedChannel(storedChannel || attributionData?.salesChannels?.[0]?.name || '');
-    setSelectedLocation(storedLocation || attributionData?.salesLocations?.[0]?.name || '');
+    setSelectedChannel(storedChannel || (attributionData && attributionData?.salesChannels?.[0]?.name) || '');
+    setSelectedLocation(storedLocation || (attributionData && attributionData?.salesLocations?.[0]?.name) || '');
     setSelectedSalesPerson(
-      storedSalesPerson || `${attributionData?.salesReps[0]?.name} : ${attributionData?.salesReps[0]?.salesId}` || '',
+      storedSalesPerson ||
+        (attributionData && `${attributionData?.salesReps[0]?.name} : ${attributionData?.salesReps[0]?.salesId}`) ||
+        '',
     );
   }, [attributionData]);
 
