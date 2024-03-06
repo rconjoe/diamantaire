@@ -25,9 +25,11 @@ interface Result {
 
 const InternalCheckoutPage = () => {
   const { locale } = useRouter();
+  console.log('locale', locale);
   const { data: { internalCheckout: attributionData } = {}, isLoading } = useInternalCheckout();
   const { data: checkout } = useCartData(locale);
-
+  console.log('attributionData', attributionData);
+  console.log('checkout', checkout);
   // Local state for the selected options
   const [selectedChannel, setSelectedChannel] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('');
