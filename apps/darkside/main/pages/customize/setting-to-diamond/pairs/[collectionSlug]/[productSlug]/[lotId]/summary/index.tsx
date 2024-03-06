@@ -664,6 +664,7 @@ const SettingToDiamondSummaryPage = () => {
       hasChildDiamond: true,
       locale,
     });
+    const formattedShippingTime = getFormattedShipByDate(shippingTime, locale);
 
     const settingAttributes: ERProductCartItemProps['settingAttributes'] = {
       _productType: productType,
@@ -672,7 +673,7 @@ const SettingToDiamondSummaryPage = () => {
       productAsset: image?.src,
       _productAssetObject: JSON.stringify(image),
       _productTitle: productTitle,
-      productIconListShippingCopy: `${_t(shippingText)} ${getFormattedShipByDate(shippingTime, locale)}`,
+      productIconListShippingCopy: `${_t(shippingText)} ${formattedShippingTime}`,
       pdpUrl: window.location.href,
       shippingText: _t(shippingText),
       feedId: settingVariantId,
