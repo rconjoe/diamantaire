@@ -98,12 +98,10 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
 
     const productSlug = builderProduct?.product?.productSlug || router?.query?.productSlug;
 
-    if (shape && productRoute !== `/diamonds/results/${shape}?carat=${selectedCarat}`) {
+    if (shape) {
       setProductRoute(
         `/diamonds/results/${shape}?carat=${selectedCarat}${
-          router?.query?.collectionSlug && router?.query?.productSlug
-            ? `&collectionSlug=${collectionSlug}&productSlug=${productSlug}`
-            : ''
+          collectionSlug && productSlug ? `&collectionSlug=${collectionSlug}&productSlug=${productSlug}` : ''
         }`,
       );
 
@@ -112,8 +110,8 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
           {
             diamondType: shape,
             carat: selectedCarat,
-            ...(collectionSlug ? { collectionSlug } : {}),
             ...(productSlug ? { productSlug } : {}),
+            ...(collectionSlug ? { collectionSlug } : {}),
           },
           'diamondCfy',
           router,
@@ -123,20 +121,42 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
           shallow: true,
         },
       );
-    } else if (!shape) {
+    } else {
       if (collectionSlug && productSlug) {
-        router.replace(`/diamonds?collectionSlug=${collectionSlug}&productSlug=${productSlug}`, undefined, {
+        router.push(`/diamonds?collectionSlug=${collectionSlug}&productSlug=${productSlug}`, undefined, {
           shallow: true,
         });
       } else {
-        router.replace('/diamonds', undefined, { shallow: true });
+        router.push('/diamonds', undefined, { shallow: true });
       }
     }
   }, [selectedCarat, selectedDiamondType]);
 
   useEffect(() => {
-    setSelectedCarat(3);
+    if (selectedDiamondType) setSelectedCarat(3);
   }, [selectedDiamondType]);
+
+  const handleBackButton = () => {
+    console.log(`window.location.pathname`, window.location.pathname);
+
+    if (window.location.pathname === '/diamonds') {
+      setSelectedDiamondType(null);
+    } else {
+      const slug = window.location.pathname.split('/').pop();
+
+      const diamondType = getDiamondType(slug);
+
+      setSelectedDiamondType(diamondType);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('popstate', handleBackButton);
+
+    return () => {
+      window.removeEventListener('popstate', handleBackButton);
+    };
+  }, []);
 
   return (
     <>
