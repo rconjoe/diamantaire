@@ -55,7 +55,12 @@ import {
   parseValidLocale,
   pdpTypeSingleToPluralAsConst,
 } from '@diamantaire/shared/constants';
-import { generateDiamondSpriteImage, generateDiamondSpriteUrl, specGenerator } from '@diamantaire/shared/helpers';
+import {
+  generateDiamondSpriteImage,
+  generateDiamondSpriteUrl,
+  getFormattedShipByDate,
+  specGenerator,
+} from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
@@ -667,7 +672,7 @@ const SettingToDiamondSummaryPage = () => {
       productAsset: image?.src,
       _productAssetObject: JSON.stringify(image),
       _productTitle: productTitle,
-      productIconListShippingCopy: 'temp',
+      productIconListShippingCopy: `${_t(shippingText)} ${getFormattedShipByDate(shippingTime, locale)}`,
       pdpUrl: window.location.href,
       shippingText: _t(shippingText),
       feedId: settingVariantId,
@@ -693,6 +698,7 @@ const SettingToDiamondSummaryPage = () => {
 
     // 4. Create custom attributes for the diamond
     // const isPair = router?.asPath.includes('pair');
+    const shippingTextDiamondAttribute = isDiamondCFY ? cutForYouShippingText : _t(shippingText);
 
     const diamondsToAdd = diamonds.map((diamond, index) => {
       const diamondSpecs = specGenerator({
@@ -723,8 +729,8 @@ const SettingToDiamondSummaryPage = () => {
         _specs: diamondSpecs,
         _productType: 'Diamond',
         _productTypeTranslated: _t('Diamond'),
-        shippingText: isDiamondCFY ? cutForYouShippingText : _t(shippingText),
-        productIconListShippingCopy: 'temp',
+        shippingText: shippingTextDiamondAttribute,
+        productIconListShippingCopy: `${shippingTextDiamondAttribute} ${formattedShippingTime}`,
         pdpUrl: window.location.href,
         shippingBusinessDays: isDiamondCFY ? cfyShippingTime?.toString() : shippingTime?.toString(),
       };

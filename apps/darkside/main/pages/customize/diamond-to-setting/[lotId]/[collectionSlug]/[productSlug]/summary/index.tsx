@@ -644,7 +644,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
     }
 
     // 3. Create custom attributes for the setting
-
+    const formattedShippingTime = getFormattedShipByDate(shippingTime, locale);
     const erMetal = (goldPurity ? goldPurity + ' ' : '') + _t(builderProduct?.product?.configuration?.metal);
 
     const refinedBandAccent =
@@ -670,7 +670,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
       productAsset: image?.src,
 
       _productTitle: productTitle,
-      productIconListShippingCopy: 'temp',
+      productIconListShippingCopy: `${_t(shippingText)} ${formattedShippingTime}`,
       pdpUrl: window.location.href,
       shippingText: _t(shippingText),
       feedId: settingVariantId,
@@ -696,7 +696,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
 
     // 4. Create custom attributes for the diamond
     // const isPair = router?.asPath.includes('pair');
-
+    const shippingTextDiamondAttribute = isDiamondCFY ? cutForYouShippingText : _t(shippingText);
     const diamondsToAdd = diamonds.map((diamond, index) => {
       const diamondSpecs = specGenerator({
         configuration: { ...diamond, caratWeight: diamond?.carat },
@@ -721,8 +721,8 @@ const ReviewBuildStep = ({ settingSlugs }) => {
         _specs: diamondSpecs,
         _productType: 'Diamond',
         _productTypeTranslated: _t('Diamond'),
-        shippingText: isDiamondCFY ? cutForYouShippingText : _t(shippingText),
-        productIconListShippingCopy: 'temp',
+        shippingText: shippingTextDiamondAttribute,
+        productIconListShippingCopy: `${shippingTextDiamondAttribute} ${formattedShippingTime}`,
         pdpUrl: window.location.href,
         shippingBusinessDays: isDiamondCFY ? cfyShippingTime?.toString() : shippingTime?.toString(),
         _productAssetObject: JSON.stringify({
