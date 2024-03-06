@@ -27,16 +27,27 @@ const InternalCheckoutPage = () => {
   const [selectedSalesPerson, setSelectedSalesPerson] = useState('');
   const [result, setResult] = useState('');
   const [error, setError] = useState(null);
-  const [discount, setDiscount] = useState({ value: 0, valueType: 'FIXED_AMOUNT' });
 
   // Initialize selection when data is loaded
+  // Load from local storage or use default values
   useEffect(() => {
-    if (attributionData) {
-      setSelectedChannel(attributionData.salesChannels[0]?.name || '');
-      setSelectedLocation(attributionData.salesLocations[0]?.name || '');
-      setSelectedSalesPerson(`${attributionData.salesReps[0]?.name} : ${attributionData.salesReps[0]?.salesId}` || '');
-    }
+    const storedChannel = localStorage.getItem('selectedChannel');
+    const storedLocation = localStorage.getItem('selectedLocation');
+    const storedSalesPerson = localStorage.getItem('selectedSalesPerson');
+
+    setSelectedChannel(storedChannel || attributionData.salesChannels[0]?.name || '');
+    setSelectedLocation(storedLocation || attributionData.salesLocations[0]?.name || '');
+    setSelectedSalesPerson(
+      storedSalesPerson || `${attributionData.salesReps[0]?.name} : ${attributionData.salesReps[0]?.salesId}` || '',
+    );
   }, [attributionData]);
+
+  // Update local storage whenever selections change
+  useEffect(() => {
+    localStorage.setItem('selectedChannel', selectedChannel);
+    localStorage.setItem('selectedLocation', selectedLocation);
+    localStorage.setItem('selectedSalesPerson', selectedSalesPerson);
+  }, [selectedChannel, selectedLocation, selectedSalesPerson]);
 
   const handleCreateSalesOrder = async (event: React.FormEvent) => {
     event.preventDefault();
