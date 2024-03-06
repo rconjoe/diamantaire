@@ -230,30 +230,33 @@ const InternalCheckoutPage = () => {
 
 InternalCheckoutPage.getTemplate = getTemplate;
 
-async function getServerSideProps(
-  context: GetServerSidePropsContext,
-): Promise<GetServerSidePropsResult<InternalCheckoutPageProps>> {
-  const { locale } = context;
+// async function getServerSideProps(
+//   context: GetServerSidePropsContext,
+// ): Promise<GetServerSidePropsResult<InternalCheckoutPageProps>> {
+//   const { locale } = context;
 
-  const internalCheckoutQuery = queries.internalCheckout.content();
+//   const internalCheckoutQuery = queries.internalCheckout.content();
 
-  const queryClient = new QueryClient();
+//   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(internalCheckoutQuery);
+//   await queryClient.prefetchQuery(internalCheckoutQuery);
 
-  const dehydratedState = dehydrate(queryClient);
+//   const dehydratedState = dehydrate(queryClient);
 
-  const props: InternalCheckoutPageProps = {
-    locale,
-    dehydratedState,
-  };
+//   const props: InternalCheckoutPageProps = {
+//     locale,
+//     dehydratedState,
+//   };
 
-  return {
-    props,
-  };
-}
+//   return {
+//     props,
+//   };
+// }
 
-export { InternalCheckoutPage, getServerSideProps as getServerSidePropsInternalCheckoutPage };
+export {
+  InternalCheckoutPage,
+  //getServerSideProps as getServerSidePropsInternalCheckoutPage
+};
 
 export default InternalCheckoutPage;
 
