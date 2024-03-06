@@ -106,6 +106,29 @@ const InternalCheckoutPage = () => {
         font-style: none;
       }
     }
+    .active-attribution {
+      background-color: #f7f7f7; /* Light gray background */
+      border: 1px solid #ddd; /* Light gray border */
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+      h3 {
+        margin-top: 0;
+        color: #333;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      li {
+        margin-bottom: 10px;
+        font-size: 16px;
+        color: #666;
+      }
+      strong {
+        color: #000;
+      }
+    }
   `;
 
   return (
@@ -113,6 +136,20 @@ const InternalCheckoutPage = () => {
       <form onSubmit={handleCreateSalesOrder}>
         <div className="wrapper">
           <div className="sales-attribution col">
+            <div className="active-attribution">
+              <h3>Active Attribution</h3>
+              <ul>
+                <li>
+                  <strong>Sales Channel:</strong> {selectedChannel}
+                </li>
+                <li>
+                  <strong>Location:</strong> {selectedLocation}
+                </li>
+                <li>
+                  <strong>Sales Person:</strong> {selectedSalesPerson}
+                </li>
+              </ul>
+            </div>
             <h2>Sales Attribution</h2>
             {/* Sales Channel Select */}
             <label htmlFor="sales_channel">Sales Channel:</label>
