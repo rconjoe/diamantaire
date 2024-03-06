@@ -1,21 +1,19 @@
 import { CartItemsList } from '@diamantaire/darkside/components/cart';
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { useInternalCheckout, useCartData } from '@diamantaire/darkside/data/hooks';
-// import { queries } from '@diamantaire/darkside/data/queries';
+import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/global';
 import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
-import // DehydratedState,
-// QueryClient, dehydrate
-'@tanstack/react-query';
-// import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
+import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-// interface InternalCheckoutPageProps {
-//   locale: string;
-//   dehydratedState: DehydratedState;
-// }
+interface InternalCheckoutPageProps {
+  locale: string;
+  dehydratedState: DehydratedState;
+}
 interface Result {
   name: string;
   createdAt: string;
@@ -44,10 +42,10 @@ const InternalCheckoutPage = () => {
     const storedLocation = localStorage.getItem('selectedLocation');
     const storedSalesPerson = localStorage.getItem('selectedSalesPerson');
 
-    setSelectedChannel(storedChannel || attributionData.salesChannels[0]?.name || '');
-    setSelectedLocation(storedLocation || attributionData.salesLocations[0]?.name || '');
+    setSelectedChannel(storedChannel || attributionData?.salesChannels?.[0]?.name || '');
+    setSelectedLocation(storedLocation || attributionData?.salesLocations?.[0]?.name || '');
     setSelectedSalesPerson(
-      storedSalesPerson || `${attributionData.salesReps[0]?.name} : ${attributionData.salesReps[0]?.salesId}` || '',
+      storedSalesPerson || `${attributionData?.salesReps[0]?.name} : ${attributionData?.salesReps[0]?.salesId}` || '',
     );
   }, [attributionData]);
 
@@ -234,37 +232,38 @@ const InternalCheckoutPage = () => {
 
 InternalCheckoutPage.getTemplate = getTemplate;
 
-// async function getServerSideProps(
-//   context: GetServerSidePropsContext,
-// ): Promise<GetServerSidePropsResult<InternalCheckoutPageProps>> {
-//   const { locale } = context;
+async function getServerSideProps(
+  context: GetServerSidePropsContext,
+): Promise<GetServerSidePropsResult<InternalCheckoutPageProps>> {
+  const { locale } = context;
 
-//   const internalCheckoutQuery = queries.internalCheckout.content();
+  const internalCheckoutQuery = queries.internalCheckout.content();
 
-//   const queryClient = new QueryClient();
+  const queryClient = new QueryClient();
 
-//   await queryClient.prefetchQuery(internalCheckoutQuery);
+  await queryClient.prefetchQuery(internalCheckoutQuery);
 
-//   const dehydratedState = dehydrate(queryClient);
+  const dehydratedState = dehydrate(queryClient);
+  console.log('dehydratedState', dehydratedState);
+  const props: InternalCheckoutPageProps = {
+    locale,
+    dehydratedState,
+  };
 
-//   const props: InternalCheckoutPageProps = {
-//     locale,
-//     dehydratedState,
-//   };
+  return {
+    props,
+  };
+}
 
-//   return {
-//     props,
-//   };
-// }
-
-export {
-  InternalCheckoutPage,
-  //getServerSideProps as getServerSidePropsInternalCheckoutPage
-};
+export { InternalCheckoutPage, getServerSideProps as getServerSidePropsInternalCheckoutPage };
 
 export default InternalCheckoutPage;
 
 export const normalizeVariablesForDraftOrder = ({ checkout, selectedChannel, selectedLocation, selectedSalesPerson }) => {
+  if (!checkout) {
+    throw new Error('No checkout data provided');
+  }
+
   const lineItems = checkout.lines.map((line) => ({
     variantId: line.merchandise.id,
     quantity: line.quantity,
