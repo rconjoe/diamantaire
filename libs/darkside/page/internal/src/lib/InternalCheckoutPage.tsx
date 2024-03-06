@@ -243,7 +243,7 @@ async function getServerSideProps(
 
   await queryClient.prefetchQuery(internalCheckoutQuery);
 
-  const dehydratedState = JSON.parse(JSON.stringify(dehydrate(queryClient)));
+  const dehydratedState = dehydrate(queryClient);
 
   const props: InternalCheckoutPageProps = {
     locale,
