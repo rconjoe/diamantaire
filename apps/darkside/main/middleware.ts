@@ -225,6 +225,10 @@ export default async function middleware(request: NextRequest, _event: NextFetch
     res.cookies?.set('geo', JSON.stringify(geo));
   }
 
+  if (url.pathname.startsWith('/internal/checkout')) {
+    return basicAuthCheck(request) || NextResponse.next();
+  }
+
   // exclude API and Next.js internal routes
   if (!url.pathname.startsWith('/api') && !url.pathname.startsWith('/_next')) {
     let localRedirectDestination = await kv.hget<string>('redirects', url.pathname);
@@ -318,3 +322,24 @@ export default async function middleware(request: NextRequest, _event: NextFetch
 export const config = {
   matcher: ['/((?!.*\\..*|_next).*)', '/(api|trpc)(.*)', '/'],
 };
+
+export function basicAuthCheck(req) {
+  const basicAuth = req.headers.get('authorization');
+
+  if (basicAuth) {
+    const auth = basicAuth.split(' ')[1];
+    const [login, password] = Buffer.from(auth, 'base64').toString().split(':');
+
+    if (login === 'vrai' && password === 'ethicaldiamonds') {
+      return; // Authentication successful
+    }
+  }
+
+  // Request authentication if not authenticated
+  return new Response('Authentication required', {
+    status: 401,
+    headers: {
+      'WWW-Authenticate': 'Basic realm="Secure Area"',
+    },
+  });
+}

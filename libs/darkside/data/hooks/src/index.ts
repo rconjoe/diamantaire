@@ -23,6 +23,7 @@ export * from './lib/use-cart-gwp';
 export * from './lib/use-top-bar-gwp';
 export * from './lib/use-plp-gwp';
 export * from './lib/use-builder-flow-seo';
+export * from './lib/use-internal-checkout';
 
 // products
 export * from './lib/products/use-product';
