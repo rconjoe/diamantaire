@@ -149,8 +149,17 @@ function ProductConfigurator({
 
   const handleSizeChange = useCallback((option: OptionItemProps) => {
     if (option?.value) {
-      router.query['ringSize'] = option.value;
-      router.push(router);
+      router.push({
+        pathname: window?.location?.pathname,
+        query: {
+            ringSize: option.value
+          }
+        },
+        undefined,
+        {
+          shallow: true
+        }
+      )
     }
     setSelectVariantId(option.id);
     setSelectedSize(option.value);
