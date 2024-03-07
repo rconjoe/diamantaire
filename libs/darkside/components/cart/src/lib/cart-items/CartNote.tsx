@@ -64,117 +64,75 @@ const CartNoteStyles = styled.div`
   }
 `;
 
-const CartNote = ({ actions }) => {
+const CartNote = () => {
   const { locale } = useRouter();
   const { data: checkout, refetch } = useCartData(locale);
-  const [isGiftNoteOpen, setIsGiftNoteOpen] = useState(false);
-  const [giftNoteText, setGiftNoteText] = useState(checkout?.note);
-  const [orderHasNote, setOrderHasNote] = useState(checkout?.note ? true : false);
-  const [giftNoteInputText, setGiftNoteInputText] = useState(checkout?.note);
-
   const noteVariantId = createShopifyVariantId(40638483660893);
 
-  async function toggleGiftNote() {
-    setGiftNoteText(giftNoteInputText);
-    setIsGiftNoteOpen(false);
-    const doesUserHaveNoteInCart = checkout?.lines?.find((line) => line?.merchandise?.id === noteVariantId);
+  const [isGiftNoteOpen, setIsGiftNoteOpen] = useState(false);
+  const [giftNoteText, setGiftNoteText] = useState('');
+  const [giftNoteInputText, setGiftNoteInputText] = useState('');
 
-    if (giftNoteInputText?.length > 0) {
-      setOrderHasNote(true);
-    } else {
-      setOrderHasNote(false);
-    }
+  useEffect(() => {
+    const noteLineItem = checkout?.lines?.find((line) => line.merchandise.id === noteVariantId);
+    const noteText = noteLineItem?.attributes.find((attr) => attr.key === 'note')?.value || '';
 
-    if (doesUserHaveNoteInCart && giftNoteStatus !== actions?.remove) {
-      const updatedAttributes = {
-        _hiddenProduct: 'true',
-        note: giftNoteInputText,
-      };
+    setGiftNoteText(noteText);
+    setGiftNoteInputText(noteText);
+  }, [checkout]);
 
-      const refinedAttributes = Object.keys(updatedAttributes)
-        .map((key) => {
-          return {
-            key,
-            value: updatedAttributes[key],
-          };
-        })
-        .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
+  const handleGiftNoteAction = async () => {
+    const existingNoteLineItem = checkout?.lines?.find((line) => line.merchandise.id === noteVariantId);
 
-      return await updateMultipleItemsQuantity({
+    if (giftNoteInputText && existingNoteLineItem) {
+      // Update existing note
+      const updatePayload = {
         items: [
           {
-            lineId: doesUserHaveNoteInCart.id,
-            variantId: doesUserHaveNoteInCart.merchandise.id,
-            quantity: 1,
-            attributes: refinedAttributes,
+            lineId: existingNoteLineItem.id,
+            variantId: noteVariantId,
+            quantity: 1, // Assuming quantity remains constant for a note
+            attributes: [{ key: 'note', value: giftNoteInputText }], // Update the note text
           },
         ],
-      }).then(() => refetch());
-    } else if (doesUserHaveNoteInCart && giftNoteStatus === actions?.remove) {
-      return await removeNoteFromOrder(doesUserHaveNoteInCart).then(() => refetch());
+      };
+
+      await updateMultipleItemsQuantity(updatePayload);
+    } else if (giftNoteInputText && !existingNoteLineItem) {
+      // Add new note if it doesn't exist
+      const addPayload = {
+        variantId: noteVariantId,
+        customAttributes: [{ key: 'note', value: giftNoteInputText }],
+      };
+
+      await addItemToCart(addPayload);
+    } else if (!giftNoteInputText && existingNoteLineItem) {
+      // Delete note if input is empty and note exists
+      await updateMultipleItemsQuantity({
+        items: [
+          {
+            lineId: existingNoteLineItem.id,
+            variantId: noteVariantId,
+            quantity: 0,
+            attributes: existingNoteLineItem.attributes,
+          },
+        ],
+      });
     }
-  }
+
+    refetch();
+    setIsGiftNoteOpen(false); // Close the input area after action
+  };
+
   const textAreaRef = useRef(null);
 
   useEffect(() => {
     textAreaRef?.current?.focus();
   }, []);
 
-  const giftNoteStatus =
-    giftNoteInputText?.length > 0 && giftNoteText?.length > 0
-      ? actions?.update
-      : !giftNoteText
-      ? actions?.add
-      : giftNoteInputText?.length === 0 && giftNoteText?.length > 0
-      ? actions?.remove
-      : '';
-
-  async function removeNoteFromOrder(item) {
-    return await updateMultipleItemsQuantity({
-      items: [
-        {
-          lineId: item.id,
-          variantId: item.merchandise.id,
-          quantity: 0,
-          attributes: item.attributes,
-        },
-      ],
-    }).then(() => refetch());
-  }
-
-  // Check if user has gift note
-  useEffect(() => {
-    async function checkForCartNote() {
-      if (!checkout) return null;
-
-      const doesUserHaveNoteInCart = checkout?.lines?.find((line) => line?.merchandise?.id === noteVariantId);
-
-      if (orderHasNote && !doesUserHaveNoteInCart) {
-        const attributes = {
-          _hiddenProduct: 'true',
-          note: giftNoteText,
-        };
-        const refinedAttributes = Object.keys(attributes)
-          .map((key) => {
-            return {
-              key,
-              value: attributes[key],
-            };
-          })
-          .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
-
-        await addItemToCart({ variantId: noteVariantId, customAttributes: refinedAttributes }).then(() => refetch());
-      } else if (!orderHasNote && doesUserHaveNoteInCart) {
-        await removeNoteFromOrder(doesUserHaveNoteInCart).then(() => refetch());
-      }
-    }
-
-    checkForCartNote();
-  }, [checkout, orderHasNote]);
-
   return (
     <CartNoteStyles>
-      {orderHasNote ? (
+      {giftNoteText ? (
         <div className="cart-note-with-note">
           <div className="title">
             <p>
@@ -189,24 +147,22 @@ const CartNote = ({ actions }) => {
           </div>
         </div>
       ) : (
-        <div className="cart-subtotal__gift-note">
-          <div className="gift-note-toggle-text">
-            <button className="gift-note-toggle" onClick={() => setIsGiftNoteOpen(!isGiftNoteOpen)}>
-              {giftNoteStatus}
-            </button>{' '}
-            <span>
-              (<UIString>optional</UIString>)
-            </span>
+        !isGiftNoteOpen && (
+          <div className="cart-subtotal__gift-note">
+            <button className="gift-note-toggle" onClick={() => setIsGiftNoteOpen(true)}>
+              <UIString>Add Gift Note</UIString>
+            </button>
           </div>
-        </div>
+        )
       )}
-
       {isGiftNoteOpen && (
         <div className="cart-note-input">
           <textarea ref={textAreaRef} value={giftNoteInputText} onChange={(e) => setGiftNoteInputText(e.target.value)} />
           <ul className="flex list-unstyled align-center">
             <li>
-              <DarksideButton onClick={() => toggleGiftNote()}>{giftNoteStatus}</DarksideButton>
+              <DarksideButton onClick={handleGiftNoteAction}>
+                <UIString>{giftNoteInputText ? 'Save Note' : 'Delete Note'}</UIString>
+              </DarksideButton>
             </li>
             <li>
               <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsGiftNoteOpen(false)}>
