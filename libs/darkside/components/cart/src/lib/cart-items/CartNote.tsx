@@ -1,6 +1,6 @@
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { addItemToCart, updateMultipleItemsQuantity } from '@diamantaire/darkside/data/api';
-import { useCartData } from '@diamantaire/darkside/data/hooks';
+import { useCartData, useCartInfo } from '@diamantaire/darkside/data/hooks';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
@@ -67,6 +67,11 @@ const CartNoteStyles = styled.div`
 const CartNote = () => {
   const { locale } = useRouter();
   const { data: checkout, refetch } = useCartData(locale);
+  const { data: { cart: cartData } = {} } = useCartInfo(locale);
+
+  const { pageCopy: cartCopy } = cartData || {};
+  const { addNoteOptionCta, updateNoteOptionCta, removeNoteOptionCta } = cartCopy?.[0] || {};
+
   const noteVariantId = createShopifyVariantId(40638483660893);
 
   const [isGiftNoteOpen, setIsGiftNoteOpen] = useState(false);
@@ -130,6 +135,8 @@ const CartNote = () => {
     textAreaRef?.current?.focus();
   }, []);
 
+  const hasExistingNoteLineItem = checkout?.lines?.find((line) => line.merchandise.id === noteVariantId);
+
   return (
     <CartNoteStyles>
       {giftNoteText ? (
@@ -147,13 +154,14 @@ const CartNote = () => {
           </div>
         </div>
       ) : (
-        !isGiftNoteOpen && (
-          <div className="cart-subtotal__gift-note">
-            <button className="gift-note-toggle" onClick={() => setIsGiftNoteOpen(true)}>
-              <UIString>Add Gift Note</UIString>
-            </button>
-          </div>
-        )
+        <div className="cart-subtotal__gift-note gift-note-toggle-text">
+          <button className="gift-note-toggle" onClick={() => setIsGiftNoteOpen(true)}>
+            {addNoteOptionCta}
+          </button>{' '}
+          <span>
+            (<UIString>optional</UIString>)
+          </span>
+        </div>
       )}
       {isGiftNoteOpen && (
         <div className="cart-note-input">
@@ -161,7 +169,11 @@ const CartNote = () => {
           <ul className="flex list-unstyled align-center">
             <li>
               <DarksideButton onClick={handleGiftNoteAction}>
-                <UIString>{giftNoteInputText ? 'Save Note' : 'Delete Note'}</UIString>
+                {hasExistingNoteLineItem
+                  ? giftNoteInputText
+                    ? updateNoteOptionCta
+                    : removeNoteOptionCta
+                  : addNoteOptionCta}
               </DarksideButton>
             </li>
             <li>
