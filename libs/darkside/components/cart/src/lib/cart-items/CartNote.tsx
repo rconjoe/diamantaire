@@ -89,44 +89,54 @@ const CartNote = () => {
   const handleGiftNoteAction = async () => {
     const existingNoteLineItem = checkout?.lines?.find((line) => line.merchandise.id === noteVariantId);
 
-    if (giftNoteInputText && existingNoteLineItem) {
-      // Update existing note
-      const updatePayload = {
-        items: [
-          {
-            lineId: existingNoteLineItem.id,
-            variantId: noteVariantId,
-            quantity: 1, // Assuming quantity remains constant for a note
-            attributes: [{ key: 'note', value: giftNoteInputText }], // Update the note text
-          },
-        ],
-      };
+    try {
+      if (giftNoteInputText) {
+        const attributes = [
+          { key: '_hiddenProduct', value: 'true' },
+          { key: 'note', value: giftNoteInputText },
+        ];
 
-      await updateMultipleItemsQuantity(updatePayload);
-    } else if (giftNoteInputText && !existingNoteLineItem) {
-      // Add new note if it doesn't exist
-      const addPayload = {
-        variantId: noteVariantId,
-        customAttributes: [{ key: 'note', value: giftNoteInputText }],
-      };
-
-      await addItemToCart(addPayload);
-    } else if (!giftNoteInputText && existingNoteLineItem) {
-      // Delete note if input is empty and note exists
-      await updateMultipleItemsQuantity({
-        items: [
-          {
-            lineId: existingNoteLineItem.id,
+        if (existingNoteLineItem) {
+          // Update existing note
+          await updateMultipleItemsQuantity({
+            items: [
+              {
+                lineId: existingNoteLineItem.id,
+                variantId: noteVariantId,
+                quantity: 1,
+                attributes: attributes,
+              },
+            ],
+          });
+        } else {
+          // Add new note if it doesn't exist
+          await addItemToCart({
             variantId: noteVariantId,
-            quantity: 0,
-            attributes: existingNoteLineItem.attributes,
-          },
-        ],
-      });
+            customAttributes: attributes,
+          });
+        }
+      } else if (!giftNoteInputText && existingNoteLineItem) {
+        // Delete note if input is empty and note exists
+
+        await updateMultipleItemsQuantity({
+          items: [
+            {
+              lineId: existingNoteLineItem.id,
+              variantId: noteVariantId,
+              quantity: 0,
+              attributes: existingNoteLineItem.attributes,
+            },
+          ],
+        });
+      }
+
+      refetch();
+    } catch (error) {
+      console.error('Failed to update the gift note:', error);
+      // Handle error (e.g., show error message to user)
     }
 
-    refetch();
-    setIsGiftNoteOpen(false); // Close the input area after action
+    setIsGiftNoteOpen(false);
   };
 
   const textAreaRef = useRef(null);
