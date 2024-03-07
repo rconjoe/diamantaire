@@ -1,4 +1,4 @@
-import { CartItemsList } from '@diamantaire/darkside/components/cart';
+import { CartItemsList, CartNote } from '@diamantaire/darkside/components/cart';
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { useInternalCheckout, useCartData } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
@@ -266,6 +266,7 @@ const InternalCheckoutPage = () => {
             <p>You can create a draft order from the the items currently on your cart on www.vrai.com (on this device).</p>
 
             <CartItemsList />
+            <CartNote />
           </div>
         </div>
       </form>
