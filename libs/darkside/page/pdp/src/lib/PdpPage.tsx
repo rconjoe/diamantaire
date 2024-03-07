@@ -264,13 +264,17 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const isWeddingBand = shopifyProductData?.productType === 'Wedding Band';
   const diamondTypeFromConfiguration = configuration?.diamondType;
   const caratWeightFromConfiguration = configuration?.caratWeight;
+  const shouldDisplayCheapestDiamond =
+    !!diamondTypeFromConfiguration && isProductJewelry && caratWeightFromConfiguration === 'other';
+
   const { data: lowestPricedDiamond } = useDiamondLowestPriceByDiamondType(
     { diamondType: diamondTypeFromConfiguration },
     {
-      enabled: !!diamondTypeFromConfiguration && isProductJewelry && caratWeightFromConfiguration === 'other',
+      enabled: shouldDisplayCheapestDiamond,
     },
   );
 
+  const displayedLowestPricedDiamond = shouldDisplayCheapestDiamond ? lowestPricedDiamond : null;
   const breadcrumbTitle = pdpTypeSingleToPluralAsConst[shopifyProductData?.productType] || shopifyProductData?.productType;
   const breadcrumb = [
     // First option is just for jewelry, and it won't show title is null
@@ -349,7 +353,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           shopifyProductData={shopifyProductData}
           price={totalPrice}
           shouldDoublePrice={shouldDoublePrice}
-          lowestPricedDiamond={lowestPricedDiamond}
+          lowestPricedDiamond={displayedLowestPricedDiamond}
           quantity={shouldDoublePrice ? 2 : 1}
           pricesArray={(shouldDoublePrice && Array.from(Array(2)).map(() => totalPrice)) || null}
         />
@@ -410,7 +414,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 shouldDoublePrice={shouldDoublePrice}
                 productType={shopifyProductData?.productType}
                 engravingText={engravingText}
-                lowestPricedDiamond={lowestPricedDiamond}
+                lowestPricedDiamond={displayedLowestPricedDiamond}
                 pricesArray={(shouldDoublePrice && Array.from(Array(2)).map(() => totalPrice)) || null}
               />
 

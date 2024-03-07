@@ -1,6 +1,6 @@
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { addItemToCart, updateMultipleItemsQuantity } from '@diamantaire/darkside/data/api';
-import { useCartData } from '@diamantaire/darkside/data/hooks';
+import { useCartData, useCartInfo } from '@diamantaire/darkside/data/hooks';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
@@ -64,117 +64,92 @@ const CartNoteStyles = styled.div`
   }
 `;
 
-const CartNote = ({ actions }) => {
+const CartNote = () => {
   const { locale } = useRouter();
   const { data: checkout, refetch } = useCartData(locale);
-  const [isGiftNoteOpen, setIsGiftNoteOpen] = useState(false);
-  const [giftNoteText, setGiftNoteText] = useState(checkout?.note);
-  const [orderHasNote, setOrderHasNote] = useState(checkout?.note ? true : false);
-  const [giftNoteInputText, setGiftNoteInputText] = useState(checkout?.note);
+  const { data: { cart: cartData } = {} } = useCartInfo(locale);
+
+  const { pageCopy: cartCopy } = cartData || {};
+  const { addNoteOptionCta, updateNoteOptionCta, removeNoteOptionCta } = cartCopy?.[0] || {};
 
   const noteVariantId = createShopifyVariantId(40638483660893);
 
-  async function toggleGiftNote() {
-    setGiftNoteText(giftNoteInputText);
+  const [isGiftNoteOpen, setIsGiftNoteOpen] = useState(false);
+  const [giftNoteText, setGiftNoteText] = useState('');
+  const [giftNoteInputText, setGiftNoteInputText] = useState('');
+
+  useEffect(() => {
+    const noteLineItem = checkout?.lines?.find((line) => line.merchandise.id === noteVariantId);
+    const noteText = noteLineItem?.attributes.find((attr) => attr.key === 'note')?.value || '';
+
+    setGiftNoteText(noteText);
+    setGiftNoteInputText(noteText);
+  }, [checkout]);
+
+  const handleGiftNoteAction = async () => {
+    const existingNoteLineItem = checkout?.lines?.find((line) => line.merchandise.id === noteVariantId);
+
+    try {
+      if (giftNoteInputText) {
+        const attributes = [
+          { key: '_hiddenProduct', value: 'true' },
+          { key: 'note', value: giftNoteInputText },
+        ];
+
+        if (existingNoteLineItem) {
+          // Update existing note
+          await updateMultipleItemsQuantity({
+            items: [
+              {
+                lineId: existingNoteLineItem.id,
+                variantId: noteVariantId,
+                quantity: 1,
+                attributes: attributes,
+              },
+            ],
+          });
+        } else {
+          // Add new note if it doesn't exist
+          await addItemToCart({
+            variantId: noteVariantId,
+            customAttributes: attributes,
+          });
+        }
+      } else if (!giftNoteInputText && existingNoteLineItem) {
+        // Delete note if input is empty and note exists
+
+        await updateMultipleItemsQuantity({
+          items: [
+            {
+              lineId: existingNoteLineItem.id,
+              variantId: noteVariantId,
+              quantity: 0,
+              attributes: existingNoteLineItem.attributes,
+            },
+          ],
+        });
+      }
+
+      refetch();
+    } catch (error) {
+      console.error('Failed to update the gift note:', error);
+      // Handle error (e.g., show error message to user)
+    }
+
     setIsGiftNoteOpen(false);
-    const doesUserHaveNoteInCart = checkout?.lines?.find((line) => line?.merchandise?.id === noteVariantId);
+  };
 
-    if (giftNoteInputText?.length > 0) {
-      setOrderHasNote(true);
-    } else {
-      setOrderHasNote(false);
-    }
-
-    if (doesUserHaveNoteInCart && giftNoteStatus !== actions?.remove) {
-      const updatedAttributes = {
-        _hiddenProduct: 'true',
-        note: giftNoteInputText,
-      };
-
-      const refinedAttributes = Object.keys(updatedAttributes)
-        .map((key) => {
-          return {
-            key,
-            value: updatedAttributes[key],
-          };
-        })
-        .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
-
-      return await updateMultipleItemsQuantity({
-        items: [
-          {
-            lineId: doesUserHaveNoteInCart.id,
-            variantId: doesUserHaveNoteInCart.merchandise.id,
-            quantity: 1,
-            attributes: refinedAttributes,
-          },
-        ],
-      }).then(() => refetch());
-    } else if (doesUserHaveNoteInCart && giftNoteStatus === actions?.remove) {
-      return await removeNoteFromOrder(doesUserHaveNoteInCart).then(() => refetch());
-    }
-  }
   const textAreaRef = useRef(null);
 
   useEffect(() => {
     textAreaRef?.current?.focus();
   }, []);
 
-  const giftNoteStatus =
-    giftNoteInputText?.length > 0 && giftNoteText?.length > 0
-      ? actions?.update
-      : !giftNoteText
-      ? actions?.add
-      : giftNoteInputText?.length === 0 && giftNoteText?.length > 0
-      ? actions?.remove
-      : '';
-
-  async function removeNoteFromOrder(item) {
-    return await updateMultipleItemsQuantity({
-      items: [
-        {
-          lineId: item.id,
-          variantId: item.merchandise.id,
-          quantity: 0,
-          attributes: item.attributes,
-        },
-      ],
-    }).then(() => refetch());
-  }
-
-  // Check if user has gift note
-  useEffect(() => {
-    async function checkForCartNote() {
-      if (!checkout) return null;
-
-      const doesUserHaveNoteInCart = checkout?.lines?.find((line) => line?.merchandise?.id === noteVariantId);
-
-      if (orderHasNote && !doesUserHaveNoteInCart) {
-        const attributes = {
-          _hiddenProduct: 'true',
-          note: giftNoteText,
-        };
-        const refinedAttributes = Object.keys(attributes)
-          .map((key) => {
-            return {
-              key,
-              value: attributes[key],
-            };
-          })
-          .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
-
-        await addItemToCart({ variantId: noteVariantId, customAttributes: refinedAttributes }).then(() => refetch());
-      } else if (!orderHasNote && doesUserHaveNoteInCart) {
-        await removeNoteFromOrder(doesUserHaveNoteInCart).then(() => refetch());
-      }
-    }
-
-    checkForCartNote();
-  }, [checkout, orderHasNote]);
+  const hasExistingNoteLineItem = checkout?.lines?.find((line) => line.merchandise.id === noteVariantId);
 
   return (
     <CartNoteStyles>
-      {orderHasNote ? (
+      {giftNoteText ? (
         <div className="cart-note-with-note">
           <div className="title">
             <p>
@@ -189,24 +164,27 @@ const CartNote = ({ actions }) => {
           </div>
         </div>
       ) : (
-        <div className="cart-subtotal__gift-note">
-          <div className="gift-note-toggle-text">
-            <button className="gift-note-toggle" onClick={() => setIsGiftNoteOpen(!isGiftNoteOpen)}>
-              {giftNoteStatus}
-            </button>{' '}
-            <span>
-              (<UIString>optional</UIString>)
-            </span>
-          </div>
+        <div className="cart-subtotal__gift-note gift-note-toggle-text">
+          <button className="gift-note-toggle" onClick={() => setIsGiftNoteOpen(true)}>
+            {addNoteOptionCta}
+          </button>{' '}
+          <span>
+            (<UIString>optional</UIString>)
+          </span>
         </div>
       )}
-
       {isGiftNoteOpen && (
         <div className="cart-note-input">
           <textarea ref={textAreaRef} value={giftNoteInputText} onChange={(e) => setGiftNoteInputText(e.target.value)} />
           <ul className="flex list-unstyled align-center">
             <li>
-              <DarksideButton onClick={() => toggleGiftNote()}>{giftNoteStatus}</DarksideButton>
+              <DarksideButton onClick={handleGiftNoteAction}>
+                {hasExistingNoteLineItem
+                  ? giftNoteInputText
+                    ? updateNoteOptionCta
+                    : removeNoteOptionCta
+                  : addNoteOptionCta}
+              </DarksideButton>
             </li>
             <li>
               <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsGiftNoteOpen(false)}>
@@ -220,4 +198,5 @@ const CartNote = ({ actions }) => {
   );
 };
 
+export { CartNote };
 export default CartNote;
