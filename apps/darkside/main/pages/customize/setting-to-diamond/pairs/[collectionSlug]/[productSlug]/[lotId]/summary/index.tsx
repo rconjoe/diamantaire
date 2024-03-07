@@ -450,8 +450,6 @@ const SettingToDiamondSummaryPage = () => {
     isSelected?: boolean;
   }>(configurations?.ringSize?.filter((item) => item.value === '5')[0] || '5');
 
-  console.log('selectedSize', selectedSize);
-
   // As of now, only toimoi and pairs end up on this page. We will have to expand this if other products end up here
   const isToiMoi = router.query.collectionSlug.includes('toi-moi');
 
@@ -477,8 +475,6 @@ const SettingToDiamondSummaryPage = () => {
 
   const isDiamondCFY = diamonds?.filter((diamond) => diamond?.slug === 'cto-diamonds').length > 0;
   const isER = shopifyProductData?.productType === 'Engagement Ring';
-
-  console.log('isDiamondCFY', isDiamondCFY);
 
   const { data: blockpickerData }: any = useStandardPage(
     isER ? 'engagement_ring_summary_page' : 'jewelry_summary_page',
@@ -512,8 +508,6 @@ const SettingToDiamondSummaryPage = () => {
   const pdpType: PdpTypePlural = customJewelryPdpTypes.includes(product?.productType)
     ? 'Jewelry'
     : pdpTypeSingleToPluralAsConst[shopifyProductData?.productType];
-
-  console.log('pdpType', pdpType);
 
   const { data }: { data: any } = useProductDato(collectionSlug as string, locale, pdpType);
 
@@ -581,17 +575,14 @@ const SettingToDiamondSummaryPage = () => {
     const { payload, type } = action;
     const { typeId, value } = payload;
 
-    console.log('configOptionsReducer', { state, action });
-
     switch (type) {
       case 'option-change':
         return { ...state, [typeId]: value };
     }
   }
 
+  // eslint-disable-next-line unused-imports/no-unused-vars
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
-
-  console.log('configState', configState);
 
   const productIconListTypeOverride =
     additionalVariantData?.productIconList?.productType ||
@@ -762,7 +753,6 @@ const SettingToDiamondSummaryPage = () => {
     });
 
     // TODO: Add Sentry Loggin
-    console.log({ product });
     if (Array.isArray(diamonds) && diamonds.length > 0) {
       // Extract setting information
       const {
@@ -905,9 +895,8 @@ const SettingToDiamondSummaryPage = () => {
     },
   ];
 
+  // eslint-disable-next-line unused-imports/no-unused-vars
   function handleBuilderFlowVariantChange(option: OptionItemProps, configurationType) {
-    console.log({ configurationType, option });
-
     if (router.asPath.includes('setting-to-diamond')) {
       const newUrl = `/customize/setting-to-diamond/${router.asPath.includes('/pairs/') ? 'pairs/' : ''}${
         router.query.collectionSlug
@@ -950,8 +939,11 @@ const SettingToDiamondSummaryPage = () => {
   }, [emblaApi]);
 
   const isWindowDefined = typeof window !== 'undefined';
-
-  const totalPriceInCents = Math.ceil(parseFloat(shopifyProductData?.price)) + Math.ceil(diamondPricesCombined);
+  const { isSoldAsDouble, price } = shopifyProductData || {};
+  const basePriceInCents = Math.ceil(parseFloat(price));
+  const totalPriceInCents = isSoldAsDouble
+    ? basePriceInCents * 2 + Math.ceil(diamondPricesCombined)
+    : basePriceInCents + Math.ceil(diamondPricesCombined);
 
   const diamondHandCaption = builderProduct?.diamonds?.map((diamond) => diamond?.carat?.toString() + 'ct').join(' | ');
 
@@ -1179,8 +1171,8 @@ const SettingToDiamondSummaryPage = () => {
                   shouldDoublePrice={false}
                   productType={shopifyProductData?.productType}
                   engravingText={engravingText}
-                  quantity={shopifyProductData?.isSoldAsDouble ? 2 : 1}
-                  pricesArray={[shopifyProductData?.price, ...diamondPrice]}
+                  quantity={isSoldAsDouble ? 2 : 1}
+                  pricesArray={isSoldAsDouble ? [price, price, ...diamondPrice] : [price, ...diamondPrice]}
                 />
               )}
             </div>
