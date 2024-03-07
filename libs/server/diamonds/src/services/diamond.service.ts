@@ -68,29 +68,18 @@ export class DiamondsService {
   }
 
   generateMongoSortPayload(sortOptions: SortOption[]){
-    const fieldsStage = {$addFields: {}}
     const sortingStage = {$sort : {}}
-    let hasFieldStage = false;
 
     sortOptions.forEach(
       (sortOption)=>{
-        const [fieldStage, sortStage] = sortOption.ToMongo();
-
-        if(fieldStage){
-          fieldsStage["$addFields"] = {...fieldsStage["$addFields"], ...fieldStage}
-          hasFieldStage=true;
-        }
+        const  sortStage = sortOption.ToMongo();
 
         sortingStage["$sort"] = {...sortingStage["$sort"], ...sortStage};
       }
 
     )
-    if (hasFieldStage){
-      return [fieldsStage, sortingStage];
 
-    }
-
-    return [sortingStage]
+    return sortingStage
   }
   /**
    * Get filtered diamond types with paginated results
@@ -107,11 +96,27 @@ export class DiamondsService {
 
     sortByObj[sortByKey] = sortOrder; // sortby any key
 
+    //SORTING
+    const COLOR_DESC = new SortOption(SortBy.COLOR, SortOrder.DESC);
+    const CARAT_DESC = new SortOption(SortBy.CARAT, SortOrder.DESC);
+    const PRICE_DESC = new SortOption(SortBy.PRICE, SortOrder.ASC);
+
+    const DEFAULT_SORTING_ORDER = [COLOR_DESC, CARAT_DESC, PRICE_DESC];
+
+    let finalOrder = DEFAULT_SORTING_ORDER;
+
+    if (sortByKey){
+      const requestedSortOption = new SortOption(SortBy[sortByKey.toUpperCase()], SortOrder[sortOrder.toUpperCase()]);
+
+      finalOrder = this.appendSortOption(requestedSortOption, DEFAULT_SORTING_ORDER);
+    }
+    const sortStage = this.generateMongoSortPayload(finalOrder);
     const options: PaginateOptions = {
       limit: input.limit || 20,
       page: input.page || 1,
       // sort: sortByObj,
       customLabels: DIAMOND_PAGINATED_LABELS,
+      sort : sortStage["$sort"]
     };
 
     const filteredQuery = this.optionalDiamondQuery(input);
@@ -128,32 +133,7 @@ export class DiamondsService {
       query['slug'] = 'diamonds';
     }
 
-    const stages: any[] = [{ $match: {...filteredQuery} }]
-
-    //SORTING
-    const COLOR_DESC = new SortOption(SortBy.COLOR, SortOrder.DESC);
-    const CARAT_DESC = new SortOption(SortBy.CARAT, SortOrder.DESC);
-    const PRICE_DESC = new SortOption(SortBy.PRICE, SortOrder.ASC);
-
-    const DEFAULT_SORTING_ORDER = [COLOR_DESC, CARAT_DESC, PRICE_DESC];
-
-    let finalOrder = DEFAULT_SORTING_ORDER;
-
-    if (sortByKey){
-      const requestedSortOption = new SortOption(SortBy[sortByKey.toUpperCase()], SortOrder[sortOrder.toUpperCase()]);
-
-      finalOrder = this.appendSortOption(requestedSortOption, DEFAULT_SORTING_ORDER);
-    }
-
-    const [addFieldsStage, sortStage] = this.generateMongoSortPayload(finalOrder);
-
-    if(addFieldsStage){
-      stages.push(addFieldsStage);
-
-    }
-    stages.push(sortStage);
-
-    const result = await this.diamondRepository.aggregatePaginate(stages, options);
+    const result = await this.diamondRepository.paginate(filteredQuery, options);
 
     /* DATA RANGES : used for filters */
     let dataRanges: any = {};
@@ -601,28 +581,26 @@ export class DiamondsService {
 
     const sortBy = input.sortBy || 'carat';
     const sortOrder = input.sortOrder || 'desc';
-    const COLOR_ASC = new SortOption(SortBy.COLOR, SortOrder.ASC);
+    const COLOR_DESC = new SortOption(SortBy.COLOR, SortOrder.DESC);
     const CARAT_DESC = new SortOption(SortBy.CARAT, SortOrder.DESC);
 
-    const DEFAULT_SORTING_ORDER = [COLOR_ASC, CARAT_DESC];
+    const DEFAULT_SORTING_ORDER = [COLOR_DESC, CARAT_DESC];
     const requestedSortOption = new SortOption(SortBy[sortBy.toUpperCase()], SortOrder[sortOrder.toUpperCase()]);
 
     const finalOrder = this.appendSortOption(requestedSortOption, DEFAULT_SORTING_ORDER);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [addFieldsStage, sortStage] = this.generateMongoSortPayload(finalOrder);
+    const sortStage = this.generateMongoSortPayload(finalOrder);
 
     const paginateOptions: PaginateOptions = {
       limit: input.limit || 5,
       page: input.page || 1,
       customLabels: DIAMOND_PAGINATED_LABELS,
+      sort: sortStage["$sort"]
     };
-    const stages : any[] = [{ $match: {...filteredQuery} }];
 
-    if (addFieldsStage){
-      stages.push(addFieldsStage);
-    }
+    console.log(paginateOptions)
+    console.log(filteredQuery)
 
-    stages.push(sortStage);
 
     const availablePropertyValuesCacheKey = `toi-moi-diamonds-available-filters`;
     const cachedData = await this.utils.memGet(availablePropertyValuesCacheKey);
@@ -655,13 +633,13 @@ export class DiamondsService {
     }
 
     try {
-      const diamondPairCacheKey = `toimoi-diamonds-${JSON.stringify(stages)}-${JSON.stringify(paginateOptions)}`;
+      const diamondPairCacheKey = `toimoi-diamonds-${JSON.stringify(filteredQuery)}-${JSON.stringify(paginateOptions)}`;
       const cachedDiamondPairs = await this.utils.memGet(diamondPairCacheKey);
 
       if (cachedDiamondPairs) {
         return cachedDiamondPairs;
       } else {
-        const result = await this.toimoiDiamonds.aggregatePaginate(stages, paginateOptions);
+        const result = await this.toimoiDiamonds.paginate(filteredQuery, paginateOptions);
         const response = {
           ...result,
           ranges: availablePropertyValues,
@@ -730,28 +708,23 @@ export class DiamondsService {
     const sortBy = input.sortBy || 'carat';
     const sortOrder = input.sortOrder || 'desc';
 
-    const COLOR_ASC = new SortOption(SortBy.COLOR, SortOrder.ASC);
+    const COLOR_DESC = new SortOption(SortBy.COLOR, SortOrder.DESC);
     const CARAT_DESC = new SortOption(SortBy.CARAT, SortOrder.DESC);
 
-    const DEFAULT_SORTING_ORDER = [COLOR_ASC, CARAT_DESC];
+    const DEFAULT_SORTING_ORDER = [COLOR_DESC, CARAT_DESC];
 
     const requestedSortOption = new SortOption(SortBy[sortBy.toUpperCase()], SortOrder[sortOrder.toUpperCase()]);
     const finalOrder = this.appendSortOption(requestedSortOption, DEFAULT_SORTING_ORDER);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [addFieldsStage, sortStage] = this.generateMongoSortPayload(finalOrder);
+    const sortStage = this.generateMongoSortPayload(finalOrder);
 
     const paginateOptions: PaginateOptions = {
       limit: input.limit || 5,
       page: input.page || 1,
       customLabels: DIAMOND_PAGINATED_LABELS,
+      sort : sortStage["$sort"]
+
     };
-    const stages : any[] = [{ $match: {...filteredQuery} }];
-
-    if (addFieldsStage){
-      stages.push(addFieldsStage);
-    }
-
-    stages.push(sortStage);
 
     const availablePropertyValuesCacheKey = `diamond-pairs-property-values-${input.diamondType ? input.diamondType : ''}}`;
     const cachedData = await this.utils.memGet(availablePropertyValuesCacheKey);
@@ -784,13 +757,13 @@ export class DiamondsService {
     }
 
     try {
-      const diamondPairCacheKey = `diamond-pairs-${JSON.stringify(stages)}-${JSON.stringify(paginateOptions)}`;
+      const diamondPairCacheKey = `diamond-pairs-${JSON.stringify(filteredQuery)}-${JSON.stringify(paginateOptions)}`;
       const cachedDiamondPairs = await this.utils.memGet(diamondPairCacheKey);
 
       if (cachedDiamondPairs) {
         return cachedDiamondPairs;
       } else {
-        const result = await this.diamondPairs.aggregatePaginate(stages, paginateOptions);
+        const result = await this.diamondPairs.paginate(filteredQuery, paginateOptions);
         const response = {
           ...result,
           ranges: availablePropertyValues,
