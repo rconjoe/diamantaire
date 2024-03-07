@@ -198,4 +198,5 @@ const CartNote = () => {
   );
 };
 
+export { CartNote };
 export default CartNote;

@@ -1,11 +1,10 @@
-import { CartItemsList } from '@diamantaire/darkside/components/cart';
+import { CartItemsList, CartNote } from '@diamantaire/darkside/components/cart';
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { useInternalCheckout, useCartData } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/global';
 import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
-import CartNote from 'libs/darkside/components/cart/src/lib/cart-items/CartNote';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
