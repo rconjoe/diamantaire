@@ -154,6 +154,7 @@ const MultiVariantCartItem = ({
 
   const { productRemoved } = useAnalytics();
   const { attributes, merchandise, cost, quantity } = item;
+
   const price = merchandise?.price?.amount;
   const currency = merchandise?.price?.currencyCode;
   const id = merchandise.id.split('/').pop();
@@ -386,7 +387,7 @@ const MultiVariantCartItem = ({
   }
 
   // Use this for calculating total, not the single line item price
-  const initPrice = parseFloat(merchandise?.price?.amount) * 100;
+  const initPrice = parseFloat(merchandise?.price?.amount) * 100 * (item?.quantity || 1); // earrings can be 2;
 
   const { countryCode } = parseValidLocale(locale);
 
