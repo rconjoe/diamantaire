@@ -560,8 +560,17 @@ const SettingToDiamondSummaryPage = () => {
   const handleSizeChange = useCallback((option: OptionItemProps) => {
     // setSelectVariantId(option.id);
     if (option?.value) {
-      router.query['ringSize'] = option.value;
-      router.push(router);
+      router.push({
+        pathname: window?.location?.pathname,
+        query: {
+            ringSize: option.value
+          }
+        },
+        undefined,
+        {
+          shallow: true
+        }
+      )
     }
     setSelectedSize(option);
   }, []);
@@ -878,15 +887,15 @@ const SettingToDiamondSummaryPage = () => {
     if (router.asPath.includes('setting-to-diamond')) {
       const newUrl = `/customize/setting-to-diamond/${router.query.collectionSlug}/${option?.id}/${builderProduct?.diamonds
         ?.map((diamond) => diamond?.lotId)
-        .join('/')}/summary`;
+        .join('/')}/summary${window?.location?.search}`;
 
       return router.replace(newUrl);
     } else {
       const newUrl = `/customize/diamond-to-setting/${builderProduct?.diamonds
         ?.map((diamond) => diamond?.lotId)
-        .join('/')}/${router.query.collectionSlug}/${option?.id}/summary`;
+        .join('/')}/${router.query.collectionSlug}/${option?.id}/summary${window?.location?.search}`;
 
-      router.replace(newUrl);
+      return router.replace(newUrl);
     }
   }
 
