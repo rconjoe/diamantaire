@@ -1,6 +1,5 @@
 import { FreezeBody, Heading, Loader, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
-import { updateItemQuantity } from '@diamantaire/darkside/data/api';
 import { useCartData, useCartInfo, useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice, getVat, parseValidLocale } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
@@ -9,9 +8,8 @@ import { useRouter } from 'next/router';
 import { useContext, useEffect } from 'react';
 
 import CartFooter from './cart-items/CartFooter';
+import CartItemsList from './cart-items/CartItemsList';
 import CartNote from './cart-items/CartNote';
-import MultiVariantCartItem from './cart-items/MultiVariantCartItem';
-import SingleVariantCartItem from './cart-items/SingleVariantCartItem';
 import { CartOverlay, CartStyles } from './Cart.style';
 import CartGWP from './CartGWP';
 
@@ -30,20 +28,7 @@ const Cart = ({ closeCart }) => {
 
   const { data: { cart: cartData } = {} } = useCartInfo(router.locale);
 
-  const { pageCopy: cartCopy, certificates, cartItemDetails } = cartData || {};
-
-  const singleVariantProductTypes = [
-    'Necklace',
-    'Bracelet',
-    'Engagement Ring',
-    'Wedding Band',
-    'Earrings',
-    'Diamonds',
-    'Diamond',
-    'Ring',
-    'Gift Card',
-    'Ring Sizer',
-  ];
+  const { pageCopy: cartCopy } = cartData || {};
 
   const {
     cartHeader,
@@ -128,81 +113,7 @@ const Cart = ({ closeCart }) => {
                 <CartGWP />
               </div>
 
-              {checkout?.lines?.map((item) => {
-                const cartItemInfo = {
-                  _productType: null,
-                  childProduct: null,
-                };
-
-                const childProductAttribute = item.attributes?.find((attr) => attr.key === 'childProduct');
-                const engravingProductAttribute = item.attributes?.find((attr) => attr.key === 'engravingProduct');
-                const isHiddenProduct = item.attributes?.find((attr) => attr.key === '_hiddenProduct');
-
-                const hasChildProduct =
-                  (childProductAttribute &&
-                    childProductAttribute?.value !== null &&
-                    JSON.parse(childProductAttribute?.value).behavior !== 'duplicate') ||
-                  (engravingProductAttribute &&
-                    engravingProductAttribute?.value !== null &&
-                    JSON.parse(engravingProductAttribute?.value).behavior !== 'duplicate');
-
-                item.attributes?.map((attr) => {
-                  cartItemInfo[attr.key] = attr.value;
-                });
-
-                // We don't show any child products in this loop, only in the multi-variant cart item
-                if (item.attributes.find((item) => item.key === 'isChildProduct') || isHiddenProduct) {
-                  return null;
-                }
-
-                if (hasChildProduct) {
-                  // Builder Products
-                  return (
-                    <MultiVariantCartItem
-                      item={item}
-                      info={cartItemInfo}
-                      updateItemQuantity={updateItemQuantity}
-                      key={`cart-item-${item.id}`}
-                      certificate={certificates?.[0]}
-                      hasChildProduct={hasChildProduct}
-                    />
-                  );
-                } else if (singleVariantProductTypes.includes(cartItemInfo._productType)) {
-                  // Non-Builder Products + Paired Earing Products
-                  return (
-                    <SingleVariantCartItem
-                      item={item}
-                      info={cartItemInfo}
-                      updateItemQuantity={updateItemQuantity}
-                      cartItemDetails={cartItemDetails}
-                      key={`cart-item-${item.id}`}
-                      certificate={certificates?.[0]}
-                    />
-                  );
-                }
-
-                // Temp fallback while we QA
-                return (
-                  <>
-                    <p>{cartItemInfo._productType}</p>
-                    <Heading>{item.merchandise.product.title}</Heading>
-                    <button
-                      onClick={() =>
-                        updateItemQuantity({
-                          lineId: item.id,
-                          variantId: item.merchandise.id,
-                          quantity: item.quantity - 1,
-                          attributes: item.attributes,
-                        })
-                      }
-                    >
-                      {' '}
-                      remove
-                    </button>
-                  </>
-                );
-              })}
-
+              <CartItemsList />
               {isCartEmpty && !isCartLoading ? (
                 <div className="cart-empty-message">
                   <p>

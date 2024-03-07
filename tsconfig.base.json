@@ -145,6 +145,9 @@
       "@diamantaire/feedutils": [
         "libs/feedutils/src/index.ts"
       ],
+      "@diamantaire/internal": [
+        "libs/darkside/page/internal/src/index.ts"
+      ],
       "@diamantaire/nx-core": [
         "libs/nx/core/src/index.ts"
       ],

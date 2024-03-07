@@ -56,7 +56,7 @@ import {
   parseValidLocale,
   pdpTypeSingleToPluralAsConst,
 } from '@diamantaire/shared/constants';
-import { generateDiamondSpriteImage, specGenerator } from '@diamantaire/shared/helpers';
+import { generateDiamondSpriteImage, getFormattedShipByDate, specGenerator } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
@@ -560,8 +560,17 @@ const SettingToDiamondSummaryPage = () => {
   const handleSizeChange = useCallback((option: OptionItemProps) => {
     // setSelectVariantId(option.id);
     if (option?.value) {
-      router.query['ringSize'] = option.value;
-      router.push(router);
+      router.push({
+        pathname: window?.location?.pathname,
+        query: {
+            ringSize: option.value
+          }
+        },
+        undefined,
+        {
+          shallow: true
+        }
+      )
     }
     setSelectedSize(option);
   }, []);
@@ -646,6 +655,8 @@ const SettingToDiamondSummaryPage = () => {
 
     // 3. Create custom attributes for the setting
 
+    const formattedShippingTime = getFormattedShipByDate(shippingTime, locale);
+
     const erMetal = (goldPurity ? goldPurity + ' ' : '') + _t(builderProduct?.product?.configuration?.metal);
 
     const refinedBandAccent =
@@ -671,7 +682,7 @@ const SettingToDiamondSummaryPage = () => {
       productAsset: image?.src,
       _productAssetObject: JSON.stringify(image),
       _productTitle: productTitle,
-      productIconListShippingCopy: 'temp',
+      productIconListShippingCopy: `${_t(shippingText)} ${formattedShippingTime}`,
       pdpUrl: window.location.href,
       shippingText: _t(shippingText),
       feedId: settingVariantId,
@@ -697,6 +708,7 @@ const SettingToDiamondSummaryPage = () => {
 
     // 4. Create custom attributes for the diamond
     // const isPair = router?.asPath.includes('pair');
+    const shippingTextDiamondAttribute = isDiamondCFY ? cutForYouShippingText : _t(shippingText);
 
     const diamondsToAdd = diamonds.map((diamond, index) => {
       const diamondSpecs = specGenerator({
@@ -728,8 +740,8 @@ const SettingToDiamondSummaryPage = () => {
         _specs: diamondSpecs,
         _productType: 'Diamond',
         _productTypeTranslated: _t('Diamond'),
-        shippingText: isDiamondCFY ? cutForYouShippingText : _t(shippingText),
-        productIconListShippingCopy: 'temp',
+        shippingText: shippingTextDiamondAttribute,
+        productIconListShippingCopy: `${shippingTextDiamondAttribute} ${formattedShippingTime}`,
         pdpUrl: window.location.href,
         shippingBusinessDays: isDiamondCFY ? cfyShippingTime?.toString() : shippingTime?.toString(),
       };
@@ -875,15 +887,15 @@ const SettingToDiamondSummaryPage = () => {
     if (router.asPath.includes('setting-to-diamond')) {
       const newUrl = `/customize/setting-to-diamond/${router.query.collectionSlug}/${option?.id}/${builderProduct?.diamonds
         ?.map((diamond) => diamond?.lotId)
-        .join('/')}/summary`;
+        .join('/')}/summary${window?.location?.search}`;
 
       return router.replace(newUrl);
     } else {
       const newUrl = `/customize/diamond-to-setting/${builderProduct?.diamonds
         ?.map((diamond) => diamond?.lotId)
-        .join('/')}/${router.query.collectionSlug}/${option?.id}/summary`;
+        .join('/')}/${router.query.collectionSlug}/${option?.id}/summary${window?.location?.search}`;
 
-      router.replace(newUrl);
+      return router.replace(newUrl);
     }
   }
 
