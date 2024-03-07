@@ -5,6 +5,7 @@ import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/global';
 import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
+import CartNote from 'libs/darkside/components/cart/src/lib/cart-items/CartNote';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -224,6 +225,7 @@ const InternalCheckoutPage = () => {
             <p>You can create a draft order from the the items currently on your cart on www.vrai.com (on this device).</p>
 
             <CartItemsList />
+            <CartNote />
           </div>
         </div>
       </form>
