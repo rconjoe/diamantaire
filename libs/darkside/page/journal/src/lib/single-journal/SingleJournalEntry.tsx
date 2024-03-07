@@ -64,6 +64,8 @@ const SingleJournalEntry = () => {
       ? 'https://www.vrai.com'
       : 'http://localhost:4200';
 
+  const pageUrl = baseUrl + seoParam[languageCode] + router?.asPath;
+
   return (
     <SingleJournalEntryStyles>
       {seoTitle && seoDescription && (
@@ -71,12 +73,12 @@ const SingleJournalEntry = () => {
           <NextSeo
             title={seoTitle}
             description={seoDescription}
-            canonical={baseUrl + seoParam[languageCode] + router?.asPath}
+            canonical={pageUrl}
           />
 
           <ArticleJsonLd
             useAppDir={false}
-            url={window.location.href}
+            url={pageUrl}
             title={seoTitle}
             images={[singleJournal?.featuredImage?.url]}
             datePublished="2015-02-05T08:00:00+08:00"

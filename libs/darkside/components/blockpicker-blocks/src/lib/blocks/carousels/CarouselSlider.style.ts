@@ -142,7 +142,7 @@ export const CarouselSliderContainer = styled.div`
     &.arrow-left {
       left: 0;
       ${tabletAndUp(`
-        left: -20px;
+        left: -15px;
       `)}
     }
 
@@ -151,7 +151,7 @@ export const CarouselSliderContainer = styled.div`
 
       ${tabletAndUp(`
         right: 0;
-        right: -20px;
+        right: -15px;
       `)}
     }
   }

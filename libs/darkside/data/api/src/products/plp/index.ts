@@ -34,27 +34,35 @@ export async function getVRAIServerPlpData(
   const optionsQuery = Object.entries(filterOptions).reduce((acc, [key, value]: [string, any]) => {
     if (key === 'price') {
       const { min, max, isPlpPriceRange } = value;
-
-      const convertToUSD = locale !== 'en-US' && isPlpPriceRange;
-
       const currency = getCurrencyFromLocale(locale);
-
       const countryCode = getCountry(locale);
+      const vat = getVat(countryCode);
+      const code = locale.split('-').pop();
+
+      const convertToUSD = code !== 'US' && isPlpPriceRange;
+
+      const convertToUSDMinusVat = convertToUSD && vat;
 
       const amountMinusVat = (amountInCents) => {
-        const vat = getVat(countryCode);
-
         const res = amountInCents / (1 + vat) / 100;
 
         return Math.round(res) * 100;
       };
 
       if (min) {
-        acc['priceMin'] = convertToUSD ? amountMinusVat(convertPriceToUSD(min, currency)) + 1 : min;
+        acc['priceMin'] = convertToUSD
+          ? convertToUSDMinusVat
+            ? amountMinusVat(convertPriceToUSD(min, currency)) + 1
+            : convertPriceToUSD(min, currency) + 1
+          : min;
       }
 
       if (max) {
-        acc['priceMax'] = convertToUSD ? amountMinusVat(convertPriceToUSD(max, currency)) - 1 : max;
+        acc['priceMax'] = convertToUSD
+          ? convertToUSDMinusVat
+            ? amountMinusVat(convertPriceToUSD(max, currency)) - 1
+            : convertPriceToUSD(max, currency) - 1
+          : max;
       }
     } else if (key === 'metal') {
       acc[key] = value?.join(',').toString() || value;
@@ -143,7 +151,7 @@ export function usePlpVRAIProducts(category, slug, filterOptions, pageOptions, l
           return lastPage.paginator.nextPage;
         } else {
           // Return false means no next page
-          return false;
+          return undefined;
         }
       },
     },
@@ -165,7 +173,7 @@ export function useDiamondPlpProducts(slug, pageParamInit = 1, options) {
           return lastPage.paginator.nextPage;
         } else {
           // Return false means no next page
-          return false;
+          return undefined;
         }
       },
     },
@@ -196,7 +204,6 @@ export const LIST_PAGE_DATO_SERVER_QUERY = gql`
             slug
             slugNew
             category
-            
           }
           ... on StandardPageRecord {
             slug
