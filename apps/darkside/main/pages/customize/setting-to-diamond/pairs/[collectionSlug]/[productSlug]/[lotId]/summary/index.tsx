@@ -581,8 +581,7 @@ const SettingToDiamondSummaryPage = () => {
     }
   }
 
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
+  const [, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
 
   const productIconListTypeOverride =
     additionalVariantData?.productIconList?.productType ||
@@ -895,8 +894,7 @@ const SettingToDiamondSummaryPage = () => {
     },
   ];
 
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  function handleBuilderFlowVariantChange(option: OptionItemProps, configurationType) {
+  function handleBuilderFlowVariantChange(option: OptionItemProps) {
     if (router.asPath.includes('setting-to-diamond')) {
       const newUrl = `/customize/setting-to-diamond/${router.asPath.includes('/pairs/') ? 'pairs/' : ''}${
         router.query.collectionSlug
