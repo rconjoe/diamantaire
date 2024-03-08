@@ -33,7 +33,7 @@ const ProductSeo = ({
   price,
 }) => {
   const { seoTitle, seoDescription } = legacySeoFields || {};
-  const { locale, defaultLocale, asPath } = useRouter();
+  const { locale, defaultLocale } = useRouter();
   const { languageCode: selectedLanguageCode } = parseValidLocale(locale);
   const { _t } = useTranslations(locale);
 
@@ -62,13 +62,6 @@ const ProductSeo = ({
 
   metaDescription = replacePlaceholders(metaDescription, ['%%product_type%%'], [productType]).toString();
   metaDescription = replacePlaceholders(metaDescription, ['%%diamond_type%%'], [diamondType]).toString();
-
-  const seoParam = {
-    en: '',
-    es: '/en-ES/',
-    fr: '/fr-FR/',
-    de: '/de-DE/',
-  };
 
   const baseUrl =
     process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' || process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview'

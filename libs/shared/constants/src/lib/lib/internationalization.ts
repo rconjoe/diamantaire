@@ -726,34 +726,31 @@ export function generateLanguageAlternates({ baseUrl = 'https://www.vrai.com', c
   const languageAlternates = [];
 
   // Add x-default at the beginning to always include it pointing to the base URL
-  const normalizedPath = currentPath === '/' ? '' : currentPath; // Avoid double slashes for homepage
   languageAlternates.push({ hrefLang: 'x-default', href: baseUrl + currentPath });
 
-  // Adjusted to dynamically append currentPath, ensuring it doesn't duplicate slashes
-  const appendPath = (baseUrl, path) => `${baseUrl}${path === '/' ? '/' : path}`;
-
   const generalCases = {
-    en: appendPath(baseUrl, ''), // Directly set to baseUrl for "en", removing the appendPath function here
-    es: appendPath(baseUrl, '/es-ES'), // Spanish points to /es-ES
-    de: appendPath(baseUrl, '/de-DE'), // German points to /de-DE
+    en: baseUrl,
+    es: `${baseUrl}/es-ES`,
+    de: `${baseUrl}/de-DE`,
   };
 
+  // Add general language cases, appending currentPath where necessary
   Object.keys(generalCases).forEach((language) => {
-    // Append currentPath only for non-homepage and non-"en" general cases
-    const href = generalCases[language] + currentPath;
+    const href =
+      generalCases[language] === baseUrl ? generalCases[language] + currentPath : generalCases[language] + currentPath;
 
     languageAlternates.push({ hrefLang: language, href });
   });
 
+  // Add specific language-country combinations
   Object.values(countries).forEach((country) => {
     country.languages.forEach((language) => {
       const hrefLang = `${language}-${country.code}`;
-
-      // Utilize appendPath for consistent path handling, adjusting for the "en-US" case to match "en" behavior
+      // Use the base URL directly for 'en-US', appending currentPath for others
       const href =
         country.code === 'US' && language === 'en'
-          ? appendPath(baseUrl, currentPath)
-          : appendPath(baseUrl, `/${language}-${country.code}`) + currentPath;
+          ? baseUrl + currentPath
+          : `${baseUrl}/${language}-${country.code}${currentPath}`;
 
       languageAlternates.push({ hrefLang, href });
     });
