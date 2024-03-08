@@ -726,7 +726,8 @@ export function generateLanguageAlternates({ baseUrl = 'https://www.vrai.com', c
   const languageAlternates = [];
 
   // Add x-default at the beginning to always include it pointing to the base URL
-  languageAlternates.push({ hrefLang: 'x-default', href: baseUrl + '/' });
+  const normalizedPath = currentPath === '/' ? '' : currentPath; // Avoid double slashes for homepage
+  languageAlternates.push({ hrefLang: 'x-default', href: baseUrl + currentPath });
 
   // Adjusted to dynamically append currentPath, ensuring it doesn't duplicate slashes
   const appendPath = (baseUrl, path) => `${baseUrl}${path === '/' ? '/' : path}`;

@@ -37,7 +37,7 @@ const StandardPageSeo = ({ title, description, noIndex = false, noFollow = false
       : 'http://localhost:4200';
   const localePath = router.locale && router.locale !== router.defaultLocale ? `/${router.locale}` : '';
   const canonicalUrl = `${baseUrl}${localePath}${router.asPath}`;
-  const languageAlternatives = generateLanguageAlternates({ baseUrl, currentPath: router.asPath });
+  const languageAlternates = generateLanguageAlternates({ baseUrl, currentPath: router.asPath });
 
   // "@type": "WebPage",
   // "@id": "[Insert Page URL]/#webpage",
@@ -56,7 +56,7 @@ const StandardPageSeo = ({ title, description, noIndex = false, noFollow = false
         noindex={noIndex}
         nofollow={noFollow}
         canonical={canonicalUrl}
-        languageAlternates={languageAlternatives}
+        languageAlternates={languageAlternates}
         openGraph={{
           url: canonicalUrl,
           title: title,
