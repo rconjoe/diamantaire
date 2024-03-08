@@ -1,13 +1,15 @@
-import { CartItemsList } from '@diamantaire/darkside/components/cart';
+import { CartItemsList, CartNote } from '@diamantaire/darkside/components/cart';
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { useInternalCheckout, useCartData } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/global';
+import { countryRegions, countries, CountryDetails } from '@diamantaire/shared/constants';
+import { getCountry } from '@diamantaire/shared/helpers';
 import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import styled from 'styled-components';
 
 interface InternalCheckoutPageProps {
@@ -33,6 +35,8 @@ const InternalCheckoutPage = () => {
   const [selectedSalesPerson, setSelectedSalesPerson] = useState('');
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState(null);
+  const userCountryCode = getCountry(locale);
+  const [selectedCountryCode, setSelectedCountryCode] = useState(userCountryCode);
 
   // Initialize selection when data is loaded
   // Load from local storage or use default values
@@ -65,10 +69,27 @@ const InternalCheckoutPage = () => {
       selectedChannel,
       selectedLocation,
       selectedSalesPerson,
+      selectedCountryCode,
     });
 
     createDraftOrder({ variables, setResult, setError });
   };
+
+  const handleCountryChange = (countryCode) => {
+    setSelectedCountryCode(countryCode);
+  };
+
+  const sortedCountriesByRegion = useMemo(
+    () =>
+      Object.values(countryRegions).reduce((regionMap: Record<string, CountryDetails[]>, region) => {
+        regionMap[region] = Object.values(countries)
+          .filter((countryDetail) => countryDetail.region === region)
+          .sort((a, b) => (a.name > b.name ? 1 : -1));
+
+        return regionMap;
+      }, {}),
+    [],
+  );
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -137,6 +158,12 @@ const InternalCheckoutPage = () => {
         color: #000;
       }
     }
+    .country-picker {
+      border: 1px solid #ddd; /* Light gray border */
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+    }
   `;
 
   return (
@@ -144,6 +171,21 @@ const InternalCheckoutPage = () => {
       <form onSubmit={handleCreateSalesOrder}>
         <div className="wrapper">
           <div className="sales-attribution col">
+            <div className="country-picker">
+              <h3>Country Picker</h3>
+              <p>Selecting a country ensures that the draft order is created with the appropriate currency</p>
+              <select id="country_code" value={selectedCountryCode} onChange={(e) => handleCountryChange(e.target.value)}>
+                {Object.entries(sortedCountriesByRegion).map(([regionName, countries]) => (
+                  <optgroup label={regionName} key={regionName}>
+                    {countries.map((country) => (
+                      <option key={country.code} value={country.code}>
+                        {country.name}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+            </div>
             <div className="active-attribution">
               <h3>Active Attribution</h3>
               <ul>
@@ -224,6 +266,7 @@ const InternalCheckoutPage = () => {
             <p>You can create a draft order from the the items currently on your cart on www.vrai.com (on this device).</p>
 
             <CartItemsList />
+            <CartNote />
           </div>
         </div>
       </form>
@@ -245,7 +288,7 @@ async function getServerSideProps(
   await queryClient.prefetchQuery(internalCheckoutQuery);
 
   const dehydratedState = dehydrate(queryClient);
-  console.log('dehydratedState', dehydratedState);
+
   const props: InternalCheckoutPageProps = {
     locale,
     dehydratedState,
@@ -260,7 +303,13 @@ export { InternalCheckoutPage, getServerSideProps as getServerSidePropsInternalC
 
 export default InternalCheckoutPage;
 
-export const normalizeVariablesForDraftOrder = ({ checkout, selectedChannel, selectedLocation, selectedSalesPerson }) => {
+export const normalizeVariablesForDraftOrder = ({
+  checkout,
+  selectedChannel,
+  selectedLocation,
+  selectedSalesPerson,
+  selectedCountryCode,
+}) => {
   if (!checkout) {
     throw new Error('No checkout data provided');
   }
@@ -280,7 +329,7 @@ export const normalizeVariablesForDraftOrder = ({ checkout, selectedChannel, sel
         { key: 'location', value: selectedLocation },
         { key: 'sales_person', value: selectedSalesPerson },
       ],
-      note: checkout.note,
+      marketRegionCountryCode: selectedCountryCode,
     },
   };
 

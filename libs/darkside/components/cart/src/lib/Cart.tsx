@@ -133,13 +133,7 @@ const Cart = ({ closeCart }) => {
                     </p>
                     <p>{cartTotal}</p>
                   </div>
-                  <CartNote
-                    actions={{
-                      add: addNoteOptionCta,
-                      update: updateNoteOptionCta,
-                      remove: removeNoteOptionCta,
-                    }}
-                  />
+                  <CartNote />
                 </div>
               ) : (
                 ''
