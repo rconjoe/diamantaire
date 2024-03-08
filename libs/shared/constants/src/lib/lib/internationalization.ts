@@ -725,18 +725,22 @@ export function convertPriceToUSD(amountInCents: number, currency: string) {
 export function generateLanguageAlternates({ baseUrl = 'https://www.vrai.com', currentPath }) {
   const languageAlternates = [];
 
+  // Add x-default at the beginning to always include it pointing to the base URL
+  languageAlternates.push({ hrefLang: 'x-default', href: baseUrl + '/' });
+
   // Adjusted to dynamically append currentPath, ensuring it doesn't duplicate slashes
-  const appendPath = (baseUrl, path) => `${baseUrl}${path === '/' ? '' : path}`;
+  const appendPath = (baseUrl, path) => `${baseUrl}${path === '/' ? '/' : path}`;
 
   const generalCases = {
-    en: baseUrl, // Directly set to baseUrl for "en", removing the appendPath function here
+    en: appendPath(baseUrl, ''), // Directly set to baseUrl for "en", removing the appendPath function here
     es: appendPath(baseUrl, '/es-ES'), // Spanish points to /es-ES
     de: appendPath(baseUrl, '/de-DE'), // German points to /de-DE
   };
 
   Object.keys(generalCases).forEach((language) => {
     // Append currentPath only for non-homepage and non-"en" general cases
-    const href = language === 'en' && currentPath === '/' ? generalCases[language] : generalCases[language] + currentPath;
+    const href = generalCases[language] + currentPath;
+
     languageAlternates.push({ hrefLang: language, href });
   });
 
@@ -747,9 +751,7 @@ export function generateLanguageAlternates({ baseUrl = 'https://www.vrai.com', c
       // Utilize appendPath for consistent path handling, adjusting for the "en-US" case to match "en" behavior
       const href =
         country.code === 'US' && language === 'en'
-          ? currentPath === '/'
-            ? baseUrl
-            : appendPath(baseUrl, currentPath)
+          ? appendPath(baseUrl, currentPath)
           : appendPath(baseUrl, `/${language}-${country.code}`) + currentPath;
 
       languageAlternates.push({ hrefLang, href });

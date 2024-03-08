@@ -7,9 +7,9 @@ We should update the dato seo component to includes custom meta images, and twit
 https://github.com/garmeeh/next-seo
 */
 
+import { generateLanguageAlternates } from '@diamantaire/shared/constants';
 import { useRouter } from 'next/router';
 import { NextSeo, WebPageJsonLd } from 'next-seo';
-import { generateLanguageAlternates } from '@diamantaire/shared/constants';
 
 type StandardPageSeoProps = {
   title: string;
