@@ -490,9 +490,6 @@ const DiamondTable = (props: DiamondTableProps) => {
                       {clearFiltersButtonCopy}
                     </DarksideButton>
                   </li>
-                  {/* <li>
-                    <Markdown withStyles={false}>{cannotFindDiamondSentence2}</Markdown>
-                  </li> */}
                 </ul>
               </div>
             </div>
