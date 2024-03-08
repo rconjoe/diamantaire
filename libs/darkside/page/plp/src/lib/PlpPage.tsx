@@ -18,10 +18,10 @@ import {
   RING_STYLES_MAP,
   SUBSTYLE_SLUGS,
   STYLE_SLUGS,
-  parseValidLocale,
+  generateLanguageAlternates,
 } from '@diamantaire/shared/constants';
 import { isEmptyObject, getSwrRevalidateConfig } from '@diamantaire/shared/helpers';
-import { FilterValueProps } from '@diamantaire/shared-product';
+import { FilterValueProps, generateListPageUrl } from '@diamantaire/shared-product';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetStaticPropsContext, GetStaticPropsResult, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
@@ -58,7 +58,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
   const router = useRouter();
 
-  const { locale, query } = router || {};
+  const { locale, query, defaultLocale, asPath } = router || {};
 
   const { ref: pageEndRef, inView } = useInView({ rootMargin: '1600px' });
 
@@ -184,26 +184,23 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
     };
   }, [query]);
 
-  const { languageCode } = parseValidLocale(router.locale);
-
-  const seoParam = {
-    en: '',
-    es: '/en-ES/',
-    fr: '/fr-FR/',
-    de: '/de-DE/',
-  };
-
   const baseUrl =
     process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' || process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview'
       ? 'https://www.vrai.com'
       : 'http://localhost:4200';
+  const localePath = locale && locale !== defaultLocale ? `/${locale}` : '';
+  const listPagePath = generateListPageUrl({ category, plpSlug });
+  const canonicalUrl = `${baseUrl}${localePath}${listPagePath}`;
+  const isBasePath = listPagePath === asPath;
+  const languageAlternates = isBasePath ? generateLanguageAlternates({ baseUrl, currentPath: listPagePath }) : [];
 
   return (
     <PlpStyles>
       <NextSeo
         title={seoTitle}
         description={seoDescription}
-        canonical={canonicalOverride ? canonicalOverride : baseUrl + seoParam[languageCode] + router.asPath}
+        canonical={canonicalOverride ? canonicalOverride : canonicalUrl}
+        languageAlternates={languageAlternates}
       />
 
       <WebPageJsonLd

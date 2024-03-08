@@ -28,6 +28,10 @@ export function generateProductUrl(productType: string, collectionSlug: string, 
   return `/${productPath}/${collectionSlug}/${productSlug}`;
 }
 
+export function generateListPageUrl({ category, plpSlug }) {
+  return `/${category}/${plpSlug}`;
+}
+
 export function getOptionValueType(optionValue: string) {
   for (const [type, values] of Object.entries(configurationOptionValues)) {
     if (values.includes(optionValue as never)) {
