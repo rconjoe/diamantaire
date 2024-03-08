@@ -10,6 +10,7 @@ import styled from 'styled-components';
 export const vraiFont = localFont({
   variable: '--font-family-main',
   preload: true,
+  display: 'block',
   src: [
     {
       path: './futura-pt_light.woff2',
