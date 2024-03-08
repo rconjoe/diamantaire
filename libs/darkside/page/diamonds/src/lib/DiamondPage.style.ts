@@ -40,8 +40,8 @@ const StyledDiamondPage = styled.div`
       font-size: var(--font-size-small);
       font-weight: var(--font-weight-medium);
       text-align: center;
-      line-height: 1;
-      min-height: 2.2rem;
+      line-height: 2.5rem;
+      ${(props) => (props.withDynamicTitle ? 'min-height: 5rem;' : 'min-height: 2.5rem;')}
     }
   }
 

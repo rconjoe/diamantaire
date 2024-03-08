@@ -170,6 +170,8 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
     isDiamondPairs,
   };
 
+  const withDynamicTitle = options?.diamondType && locale === 'en-US';
+
   return (
     <>
       <Script src="https://code.jquery.com/jquery-3.4.1.min.js" strategy={'beforeInteractive'} />
@@ -178,9 +180,9 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
       <StandardPageSeo title={pageSeoTitle} description={seoDescription} />
 
-      <StyledDiamondPage className="container-wrapper">
+      <StyledDiamondPage className="container-wrapper" withDynamicTitle={withDynamicTitle}>
         <div className="page-title">
-          <Heading className="title">{options?.diamondType && locale === 'en-US' ? pageDynamicTitle : pageTitle}</Heading>
+          <Heading className="title">{withDynamicTitle ? pageDynamicTitle : pageTitle}</Heading>
         </div>
 
         <div className="page-aside">
