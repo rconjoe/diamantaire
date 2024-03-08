@@ -204,8 +204,8 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
       />
 
       <WebPageJsonLd
-        id={`${typeof window !== 'undefined' ? `${window.location.href}/#webpage` : ''}`}
-        url={`${typeof window !== 'undefined' ? window.location.href : ''}`}
+        id={`${canonicalOverride ? canonicalOverride : canonicalUrl}/#webpage`}
+        url={canonicalOverride ? canonicalOverride : canonicalUrl}
         name={seoTitle}
         description={seoDescription}
         isPartOf="https://www.vrai.com/#website"

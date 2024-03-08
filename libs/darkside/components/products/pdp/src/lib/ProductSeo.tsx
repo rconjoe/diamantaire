@@ -113,7 +113,7 @@ const ProductSeo = ({
             priceCurrency: currency,
             itemCondition: 'https://schema.org/NewCondition',
             availability: `https://schema.org/${isInStock ? 'InStock' : 'OutOfStock'}`,
-            url: typeof window !== 'undefined' && window.location.href,
+            url: canonicalUrl,
             seller: {
               name: 'VRAI',
             },
