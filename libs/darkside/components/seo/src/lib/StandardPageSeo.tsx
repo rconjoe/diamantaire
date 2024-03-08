@@ -9,6 +9,7 @@ https://github.com/garmeeh/next-seo
 
 import { useRouter } from 'next/router';
 import { NextSeo, WebPageJsonLd } from 'next-seo';
+import { generateLanguageAlternates } from '@diamantaire/shared/constants';
 
 type StandardPageSeoProps = {
   title: string;
@@ -36,6 +37,7 @@ const StandardPageSeo = ({ title, description, noIndex = false, noFollow = false
       : 'http://localhost:4200';
   const localePath = router.locale && router.locale !== router.defaultLocale ? `/${router.locale}` : '';
   const canonicalUrl = `${baseUrl}${localePath}${router.asPath}`;
+  const languageAlternatives = generateLanguageAlternates({ baseUrl, currentPath: router.asPath });
 
   // "@type": "WebPage",
   // "@id": "[Insert Page URL]/#webpage",
@@ -54,6 +56,7 @@ const StandardPageSeo = ({ title, description, noIndex = false, noFollow = false
         noindex={noIndex}
         nofollow={noFollow}
         canonical={canonicalUrl}
+        languageAlternates={languageAlternatives}
         openGraph={{
           url: canonicalUrl,
           title: title,
