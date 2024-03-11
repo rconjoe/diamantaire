@@ -121,6 +121,7 @@ const NeedTimeToThinkForm = ({ productData }) => {
         optInCopy={optInCopy}
         isValid={valid}
         setIsValid={setValid}
+        headingType={'h2'}
       />
     </NeedTimeToThinkFormStyles>
   );
