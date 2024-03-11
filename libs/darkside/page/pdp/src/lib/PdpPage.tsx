@@ -280,7 +280,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     // First option is just for jewelry, and it won't show title is null
     {
       title: isProductJewelry ? _t('Jewelry') : null,
-      path: isProductJewelry ? '/jewelry' : null,
+      path: isProductJewelry ? '/jewelry/all' : null,
     },
     {
       title: _t(breadcrumbTitle),
