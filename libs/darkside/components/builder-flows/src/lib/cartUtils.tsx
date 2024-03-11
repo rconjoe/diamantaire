@@ -20,24 +20,25 @@ export async function addCustomProductToCart({
   updateGlobalContext,
   refetch,
   productIconList,
-  shopifyProductData,
+  // shopifyProductData,
   checkout,
   ToastError,
   _t,
   datoParentProductData,
   diamondImages,
   productAdded,
+  diamondShapesTranslations,
 }) {
+  const { product, diamonds } = builderProduct;
   const {
     configuration: selectedConfiguration,
     optionConfigs: configurations,
     shopifyVariantId: shopifySettingVariantId,
     productTitle: variantProductTitle,
     variantDetails: additionalVariantData,
-  } = shopifyProductData || {};
+  } = product || {};
 
   const productGroupKey = uuidv4();
-  const { product, diamonds } = builderProduct;
   const diamondPrice = Array.isArray(diamonds) && diamonds?.map((diamond) => diamond.price).reduce((a, b) => a + b, 0);
   const { locale } = router || {};
   const { countryCode } = parseValidLocale(locale);
@@ -88,7 +89,7 @@ export async function addCustomProductToCart({
   };
   const { productTitle } = datoParentProductData || {};
 
-  console.log('settingVariantId', product);
+  console.log('settingVariantId', { product });
 
   // 2. Get the product variant ID for the diamond
   // TODO: Add support for multiple diamonds
@@ -112,12 +113,13 @@ export async function addCustomProductToCart({
 
   const settingSpecs = specGenerator({
     configuration: {
-      ...shopifyProductData?.configuration,
+      ...product?.configuration,
       diamondType: diamonds.map((diamond) => DIAMOND_TYPE_HUMAN_NAMES[diamond?.diamondType]).join(' + '),
       ringSize: selectedSize?.value,
     },
     productType,
     _t,
+    alt_t: diamondShapesTranslations,
     hasChildDiamond: true,
     locale,
   });
@@ -160,6 +162,7 @@ export async function addCustomProductToCart({
     const diamondSpecs = specGenerator({
       configuration: { ...diamond },
       productType: 'Diamond',
+      alt_t: diamondShapesTranslations,
       _t,
       locale,
     });
