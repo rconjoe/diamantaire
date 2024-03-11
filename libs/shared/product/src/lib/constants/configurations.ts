@@ -180,6 +180,7 @@ export const caratWeightValues = [
 export const chainLengthValues = [
   '15',
   '16',
+  '17',
   '16-18',
   '18',
   '18-20',
