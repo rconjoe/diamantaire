@@ -20,7 +20,6 @@ export async function addCustomProductToCart({
   updateGlobalContext,
   refetch,
   productIconList,
-  // shopifyProductData,
   checkout,
   ToastError,
   _t,
@@ -32,14 +31,12 @@ export async function addCustomProductToCart({
   const { product, diamonds } = builderProduct;
   const {
     configuration: selectedConfiguration,
-    optionConfigs: configurations,
     shopifyVariantId: shopifySettingVariantId,
     productTitle: variantProductTitle,
-    variantDetails: additionalVariantData,
   } = product || {};
 
   const productGroupKey = uuidv4();
-  const diamondPrice = Array.isArray(diamonds) && diamonds?.map((diamond) => diamond.price).reduce((a, b) => a + b, 0);
+  const diamondPrice = Array.isArray(diamonds) ? diamonds.reduce((total, diamond) => total + diamond.price, 0) : 0;
   const { locale } = router || {};
   const { countryCode } = parseValidLocale(locale);
   const currencyCode = getCurrency(countryCode);
@@ -160,7 +157,7 @@ export async function addCustomProductToCart({
   const shippingTextDiamondAttribute = isDiamondCFY ? cutForYouShippingText : _t(shippingText);
   const diamondsToAdd = diamonds.map((diamond, index) => {
     const diamondSpecs = specGenerator({
-      configuration: { ...diamond },
+      configuration: { ...diamond, caratWeight: diamond?.carat },
       productType: 'Diamond',
       alt_t: diamondShapesTranslations,
       _t,
@@ -203,6 +200,7 @@ export async function addCustomProductToCart({
   await addERProductToCart({
     settingVariantId,
     settingAttributes,
+    overrideSettingQty: !isToiMoi ? 2 : 1,
     diamonds: diamondsToAdd,
     hasEngraving: engravingText ? true : false,
     engravingText,
@@ -215,85 +213,167 @@ export async function addCustomProductToCart({
 
   // TODO: Add Sentry Loggin
 
-  const { productTitle: settingProductTitle, image: { src } = { src: '' }, price: settingPrice } = product || {};
-  const formattedSettingPrice = getFormattedPrice(settingPrice, locale, true, true);
-  const formattedDiamondPrice = getFormattedPrice(diamondPrice, locale, true, true);
-  const id = settingVariantId.split('/').pop();
-  const totalAmount = getFormattedPrice(settingPrice + diamondPrice, locale, true, true);
+  if (Array.isArray(diamonds) && diamonds.length > 0) {
+    // Extract setting information
+    const {
+      productTitle: settingProductTitle,
+      image: { src } = { src: '' },
+      price: settingPrice,
+      productContent,
+    } = product || {};
+    const formattedSettingPrice = getFormattedPrice(settingPrice, locale, true, true);
+    const id = settingVariantId.split('/').pop();
+    const totalAmount = getFormattedPrice(settingPrice + diamondPrice, locale, true, true);
+    // Setting product data
+    const settingProduct = {
+      id,
+      name: settingProductTitle,
+      price: formattedSettingPrice,
+      category: pdpType,
+      variant: variantProductTitle,
+      quantity: !isToiMoi ? 2 : 1,
+      brand: 'VRAI',
+      image_url: src || productContent?.assetStack?.[0]?.url,
+      ...selectedConfiguration,
+      setting: settingProductTitle,
+      gold_purity: goldPurity,
+      band_accent: bandAccent,
+    };
 
-  Array.isArray(diamonds) &&
-    diamonds?.map((diamond) => {
-      productAdded({
-        id,
-        // sku: 'F15',
-        category: pdpType,
-        name: settingProductTitle,
-        brand: 'VRAI',
-        variant: variantProductTitle,
-        product: variantProductTitle,
-        // url: 'https://www.website.com/product/path',
-        image_url: src,
-        ...selectedConfiguration,
-        // complete_your_ring
-        setting: settingProductTitle,
-        diamond_lot_Id: diamond?.lotId,
-        diamond_type: diamond?.diamondType,
-        carat: diamond?.carat,
-        gold_purity: goldPurity,
-        band_accent: bandAccent,
-        shape: diamond?.diamondType,
-        clarity: diamond?.clarity,
-        colour: diamond?.color,
-        centerstone: `${diamond?.carat}ct, ${diamond?.color}, ${diamond?.clarity}`,
-        ecommerce: {
-          value: totalAmount,
-          currency: currencyCode,
-          add: {
-            products: [
-              {
-                id,
-                name: settingProductTitle,
-                price: formattedSettingPrice,
-                category: pdpType,
-                variant: variantProductTitle,
-                quantity: 1,
-                brand: 'VRAI',
-              },
-              {
-                id: diamond?.dangerousInternalShopifyVariantId,
-                name: diamond?.productTitle,
-                price: formattedDiamondPrice,
-                brand: 'VRAI',
-                category: diamond?.productType,
-                variant: diamond?.productTitle,
-                quantity: 1,
-              },
-            ],
-          },
+    // Diamond products data
+    const diamondProducts = diamonds.map((diamond) => ({
+      id: diamond?.dangerousInternalShopifyVariantId,
+      name: diamond?.productTitle,
+      price: getFormattedPrice(diamond?.price, locale, true, true),
+      brand: 'VRAI',
+      category: diamond?.productType,
+      variant: diamond?.productTitle,
+      quantity: 1,
+      diamond_lot_Id: diamond?.lotId,
+      diamond_type: diamond?.diamondType,
+      carat: diamond?.carat,
+      shape: diamond?.diamondType,
+      clarity: diamond?.clarity,
+      colour: diamond?.color,
+      centerstone: `${diamond?.carat}ct, ${diamond?.color}, ${diamond?.clarity}`,
+    }));
+
+    // Combine setting and diamonds for the add event
+    productAdded({
+      id,
+      category: pdpType,
+      name: settingProductTitle,
+      brand: 'VRAI',
+      variant: variantProductTitle,
+      product: variantProductTitle,
+      image_url: src,
+      ...selectedConfiguration,
+      setting: settingProductTitle,
+      ecommerce: {
+        value: totalAmount,
+        currency: currencyCode,
+        add: {
+          products: [settingProduct, ...diamondProducts],
         },
-        items: [
-          {
-            item_id: id,
-            item_name: variantProductTitle,
-            item_brand: 'VRAI',
-            item_category: pdpType,
-            price: formattedSettingPrice,
-            currency: currencyCode,
-            quantity: 1,
-            ...selectedConfiguration,
-          },
-          {
-            item_id: diamond?.dangerousInternalShopifyVariantId,
-            item_name: diamond?.productTitle,
-            item_brand: 'VRAI',
-            item_category: diamond?.productType,
-            price: formattedDiamondPrice,
-            currency: currencyCode,
-            quantity: 1,
-          },
-        ],
-      });
+      },
+      items: [
+        {
+          item_id: id,
+          item_name: variantProductTitle,
+          item_brand: 'VRAI',
+          item_category: pdpType,
+          price: formattedSettingPrice,
+          currency: currencyCode,
+          quantity: !isToiMoi ? 2 : 1,
+          ...selectedConfiguration,
+        },
+        ...diamondProducts.map((diamond) => ({
+          item_id: diamond.id,
+          item_name: diamond.name,
+          item_brand: 'VRAI',
+          item_category: diamond.category,
+          price: diamond.price,
+          currency: currencyCode,
+          quantity: 1,
+        })),
+      ],
     });
-
-  return;
+  }
 }
+
+//   Array.isArray(diamonds) &&
+//     diamonds?.map((diamond) => {
+//       productAdded({
+//         id,
+//         // sku: 'F15',
+//         category: pdpType,
+//         name: settingProductTitle,
+//         brand: 'VRAI',
+//         variant: variantProductTitle,
+//         product: variantProductTitle,
+//         // url: 'https://www.website.com/product/path',
+//         image_url: src,
+//         ...selectedConfiguration,
+//         // complete_your_ring
+//         setting: settingProductTitle,
+//         diamond_lot_Id: diamond?.lotId,
+//         diamond_type: diamond?.diamondType,
+//         carat: diamond?.carat,
+//         gold_purity: goldPurity,
+//         band_accent: bandAccent,
+//         shape: diamond?.diamondType,
+//         clarity: diamond?.clarity,
+//         colour: diamond?.color,
+//         centerstone: `${diamond?.carat}ct, ${diamond?.color}, ${diamond?.clarity}`,
+//         ecommerce: {
+//           value: totalAmount,
+//           currency: currencyCode,
+//           add: {
+//             products: [
+//               {
+//                 id,
+//                 name: settingProductTitle,
+//                 price: formattedSettingPrice,
+//                 category: pdpType,
+//                 variant: variantProductTitle,
+//                 quantity: 1,
+//                 brand: 'VRAI',
+//               },
+//               {
+//                 id: diamond?.dangerousInternalShopifyVariantId,
+//                 name: diamond?.productTitle,
+//                 price: formattedDiamondPrice,
+//                 brand: 'VRAI',
+//                 category: diamond?.productType,
+//                 variant: diamond?.productTitle,
+//                 quantity: 1,
+//               },
+//             ],
+//           },
+//         },
+//         items: [
+//           {
+//             item_id: id,
+//             item_name: variantProductTitle,
+//             item_brand: 'VRAI',
+//             item_category: pdpType,
+//             price: formattedSettingPrice,
+//             currency: currencyCode,
+//             quantity: 1,
+//             ...selectedConfiguration,
+//           },
+//           {
+//             item_id: diamond?.dangerousInternalShopifyVariantId,
+//             item_name: diamond?.productTitle,
+//             item_brand: 'VRAI',
+//             item_category: diamond?.productType,
+//             price: formattedDiamondPrice,
+//             currency: currencyCode,
+//             quantity: 1,
+//           },
+//         ],
+//       });
+//     });
+
+//   return;
+// }

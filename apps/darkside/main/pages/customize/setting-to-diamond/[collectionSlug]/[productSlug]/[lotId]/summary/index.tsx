@@ -1034,7 +1034,6 @@ const SettingToDiamondSummaryPage = () => {
                           updateGlobalContext,
                           refetch,
                           productIconList,
-                          shopifyProductData,
                           checkout,
                           ToastError,
                           _t,
