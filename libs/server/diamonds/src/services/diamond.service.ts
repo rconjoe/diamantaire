@@ -598,10 +598,6 @@ export class DiamondsService {
       sort: sortStage["$sort"]
     };
 
-    console.log(paginateOptions)
-    console.log(filteredQuery)
-
-
     const availablePropertyValuesCacheKey = `toi-moi-diamonds-available-filters`;
     const cachedData = await this.utils.memGet(availablePropertyValuesCacheKey);
     let availablePropertyValues = {};
