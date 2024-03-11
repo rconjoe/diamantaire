@@ -3,7 +3,6 @@ import { ParsedUrlQuery } from 'querystring';
 import { DarksideButton, Heading, ShowMobileOnly, ShowTabletAndUpOnly } from '@diamantaire/darkside/components/common-ui';
 import { DiamondFilter, DiamondPromo, DiamondTable } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
-import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import {
   OptionsDataTypes,
   humanNamesMapperType,
@@ -19,7 +18,7 @@ import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { StyledDiamondPage } from './DiamondPage.style';
 
@@ -42,8 +41,6 @@ interface DiamondPageProps {
 
 const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
-
-  const { isMobile } = useContext(GlobalContext);
 
   const { locale } = router;
 
@@ -173,11 +170,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
     isDiamondPairs,
   };
 
-  const title = (
-    <div className="page-title">
-      <Heading className="title">{options?.diamondType && locale === 'en-US' ? pageDynamicTitle : pageTitle}</Heading>
-    </div>
-  );
+  const withDynamicTitle = options?.diamondType && locale === 'en-US';
 
   return (
     <>
@@ -187,8 +180,10 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
       <StandardPageSeo title={pageSeoTitle} description={seoDescription} />
 
-      <StyledDiamondPage className="container-wrapper">
-        {isMobile && title}
+      <StyledDiamondPage className="container-wrapper" withDynamicTitle={withDynamicTitle}>
+        <div className="page-title">
+          <Heading className="title">{withDynamicTitle ? pageDynamicTitle : pageTitle}</Heading>
+        </div>
 
         <div className="page-aside">
           {ranges && (
@@ -210,8 +205,6 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
         </div>
 
         <div className="page-main">
-          {!isMobile && title}
-
           <DiamondTable {...tableProps} />
         </div>
 

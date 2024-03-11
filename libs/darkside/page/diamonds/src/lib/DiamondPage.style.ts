@@ -29,13 +29,19 @@ const StyledDiamondPage = styled.div`
     @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       display: flex;
       justify-content: center;
+      padding: 0 0 3rem calc(${asideWidthMD} + ${gapMD});
+    }
+
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+      padding: 0 0 3rem calc(${asideWidthLG} + ${gapLG});
     }
 
     .title {
       font-size: var(--font-size-small);
       font-weight: var(--font-weight-medium);
       text-align: center;
-      line-height: 1;
+      line-height: 2.5rem;
+      ${(props) => (props.withDynamicTitle ? 'min-height: 5rem;' : 'min-height: 2.5rem;')}
     }
   }
 
@@ -50,6 +56,7 @@ const StyledDiamondPage = styled.div`
       position: sticky;
       align-self: flex-start;
       top: 55px;
+      margin: -5rem 0 0;
     }
 
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
