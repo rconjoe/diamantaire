@@ -51,11 +51,6 @@ const StyledOptionSelector = styled.div`
   &.diamondType {
     width: 100%;
   }
-  &.value {
-    @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
-      width: 100%;
-    }
-  }
   .selector-label {
     display: flex;
     flex-direction: row;
@@ -261,9 +256,7 @@ const StyledOptionSelector = styled.div`
     }
 
     &.value {
-      @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
-        overflow: scroll;
-      }
+      flex-wrap: wrap;
     }
   }
 `;
