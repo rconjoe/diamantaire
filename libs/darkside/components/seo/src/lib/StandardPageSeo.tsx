@@ -1,13 +1,13 @@
-/* 
-This is the Seo component for the home page + standard pages. 
+/*
+This is the Seo component for the home page + standard pages.
 It has a fallback DefaultSeo component in CustomApp.tsx
 
-We should update the dato seo component to includes custom meta images, and twitter metatags 
+We should update the dato seo component to includes custom meta images, and twitter metatags
 
 https://github.com/garmeeh/next-seo
 */
 
-import { parseValidLocale } from '@diamantaire/shared/constants';
+import { generateLanguageAlternates } from '@diamantaire/shared/constants';
 import { useRouter } from 'next/router';
 import { NextSeo, WebPageJsonLd } from 'next-seo';
 
@@ -31,19 +31,13 @@ type StandardPageSeoProps = {
 const StandardPageSeo = ({ title, description, noIndex = false, noFollow = false }: StandardPageSeoProps) => {
   const router = useRouter();
 
-  const { languageCode } = parseValidLocale(router.locale);
-
-  const seoParam = {
-    en: '',
-    es: '/en-ES/',
-    fr: '/fr-FR/',
-    de: '/de-DE/',
-  };
-
   const baseUrl =
     process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' || process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview'
       ? 'https://www.vrai.com'
       : 'http://localhost:4200';
+  const localePath = router.locale && router.locale !== router.defaultLocale ? `/${router.locale}` : '';
+  const canonicalUrl = `${baseUrl}${localePath}${router.asPath}`;
+  const languageAlternates = generateLanguageAlternates({ baseUrl, currentPath: router.asPath });
 
   // "@type": "WebPage",
   // "@id": "[Insert Page URL]/#webpage",
@@ -61,9 +55,10 @@ const StandardPageSeo = ({ title, description, noIndex = false, noFollow = false
         description={description}
         noindex={noIndex}
         nofollow={noFollow}
-        canonical={baseUrl + seoParam[languageCode] + router.asPath}
+        canonical={canonicalUrl}
+        languageAlternates={languageAlternates}
         openGraph={{
-          url: baseUrl + seoParam[languageCode] + router.asPath,
+          url: canonicalUrl,
           title: title,
           description: description,
           images: [
@@ -74,12 +69,12 @@ const StandardPageSeo = ({ title, description, noIndex = false, noFollow = false
               alt: 'VRAI',
             },
           ],
-          site_name: 'VRAI',
+          siteName: 'VRAI',
         }}
       ></NextSeo>
       <WebPageJsonLd
-        id={`${typeof window !== 'undefined' ? `${window.location.href}/#webpage` : ''}`}
-        url={`${typeof window !== 'undefined' ? window.location.href : ''}`}
+        id={canonicalUrl + '/#webpage'}
+        url={canonicalUrl}
         name={title}
         description={description}
         isPartOf="https://www.vrai.com/#website"

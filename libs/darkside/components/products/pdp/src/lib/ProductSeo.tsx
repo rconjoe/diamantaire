@@ -1,6 +1,7 @@
 import { useTranslations, useVariantInventory } from '@diamantaire/darkside/data/hooks';
 import {
   combinePricesOfMultipleProducts,
+  generateLanguageAlternates,
   getCurrency,
   getFormattedPrice,
   parseValidLocale,
@@ -32,7 +33,7 @@ const ProductSeo = ({
   price,
 }) => {
   const { seoTitle, seoDescription } = legacySeoFields || {};
-  const { locale } = useRouter();
+  const { locale, defaultLocale } = useRouter();
   const { languageCode: selectedLanguageCode } = parseValidLocale(locale);
   const { _t } = useTranslations(locale);
 
@@ -62,17 +63,15 @@ const ProductSeo = ({
   metaDescription = replacePlaceholders(metaDescription, ['%%product_type%%'], [productType]).toString();
   metaDescription = replacePlaceholders(metaDescription, ['%%diamond_type%%'], [diamondType]).toString();
 
-  const seoParam = {
-    en: '',
-    es: '/en-ES/',
-    fr: '/fr-FR/',
-    de: '/de-DE/',
-  };
-
   const baseUrl =
     process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' || process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview'
       ? 'https://www.vrai.com'
       : 'http://localhost:4200';
+
+  const localePath = locale && locale !== defaultLocale ? `/${locale}` : '';
+  const productPath = generateProductUrl(productType, collectionSlug, productSlug);
+  const canonicalUrl = `${baseUrl}${localePath}${productPath}`;
+  const languageAlternates = generateLanguageAlternates({ baseUrl, currentPath: productPath });
 
   const seoImages = assets?.filter((asset) => asset.mimeType === 'image/jpeg').map((asset) => asset.url);
 
@@ -91,14 +90,15 @@ const ProductSeo = ({
   const refinedPrice = getFormattedPrice(finalPrice, locale, true, true, false, quantity);
   // This is only for custom products (multiple products bundled together)
   const pricesArrayFinalPrice = pricesArray && combinePricesOfMultipleProducts([...pricesArray], locale);
-  const simplePriceFormat = (pricesArrayFinalPrice/100).toFixed(2);
+  const simplePriceFormat = (pricesArrayFinalPrice / 100).toFixed(2);
 
   return (
     <>
       <NextSeo
         title={metaTitle}
         description={metaDescription}
-        canonical={baseUrl + seoParam[selectedLanguageCode] + generateProductUrl(productType, collectionSlug, productSlug)}
+        canonical={canonicalUrl}
+        languageAlternates={languageAlternates}
       />
       {/* We need endpoints to fully flush this out */}
       <ProductJsonLd
@@ -113,7 +113,7 @@ const ProductSeo = ({
             priceCurrency: currency,
             itemCondition: 'https://schema.org/NewCondition',
             availability: `https://schema.org/${isInStock ? 'InStock' : 'OutOfStock'}`,
-            url: typeof window !== 'undefined' && window.location.href,
+            url: canonicalUrl,
             seller: {
               name: 'VRAI',
             },
