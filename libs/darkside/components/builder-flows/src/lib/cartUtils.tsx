@@ -40,7 +40,7 @@ export async function addCustomProductToCart({
   const { locale } = router || {};
   const { countryCode } = parseValidLocale(locale);
   const currencyCode = getCurrency(countryCode);
-  const isToiMoi = router.query.collectionSlug.includes('toi-moi');
+
   const isDiamondCFY = diamonds?.some((diamond) => diamond?.slug === 'cto-diamonds');
   const shipTimeParent = productIconList?.items?.find(
     (item) => item._modelApiKey === 'modular_shipping_product_icon_list_item',
@@ -77,7 +77,7 @@ export async function addCustomProductToCart({
   // 1. Get the product variant ID for the setting. Need fallback for non-ER custom products
   const settingType = selectedSize?.id ? 'engagement-ring' : 'jewelry';
   const settingVariantId = selectedSize?.id || shopifySettingVariantId;
-  const { productType } = product || {};
+  const { productType, isSoldAsDouble } = product || {};
   const { goldPurity, bandAccent } = product.configuration || {};
   const image = {
     src: product?.productContent?.assetStack?.[0]?.url,
@@ -200,7 +200,7 @@ export async function addCustomProductToCart({
   await addERProductToCart({
     settingVariantId,
     settingAttributes,
-    overrideSettingQty: !isToiMoi ? 2 : 1,
+    overrideSettingQty: isSoldAsDouble ? 2 : 1,
     diamonds: diamondsToAdd,
     hasEngraving: engravingText ? true : false,
     engravingText,
@@ -231,7 +231,7 @@ export async function addCustomProductToCart({
       price: formattedSettingPrice,
       category: pdpType,
       variant: variantProductTitle,
-      quantity: !isToiMoi ? 2 : 1,
+      quantity: isSoldAsDouble ? 2 : 1,
       brand: 'VRAI',
       image_url: src || productContent?.assetStack?.[0]?.url,
       ...selectedConfiguration,
@@ -284,7 +284,7 @@ export async function addCustomProductToCart({
           item_category: pdpType,
           price: formattedSettingPrice,
           currency: currencyCode,
-          quantity: !isToiMoi ? 2 : 1,
+          quantity: isSoldAsDouble ? 2 : 1,
           ...selectedConfiguration,
         },
         ...diamondProducts.map((diamond) => ({

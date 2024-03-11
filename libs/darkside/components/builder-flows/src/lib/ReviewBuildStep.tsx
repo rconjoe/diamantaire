@@ -1123,7 +1123,6 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
                           updateGlobalContext,
                           refetch,
                           productIconList,
-                          shopifyProductData,
                           checkout,
                           ToastError,
                           _t,
