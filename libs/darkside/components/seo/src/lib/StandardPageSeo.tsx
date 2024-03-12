@@ -39,15 +39,6 @@ const StandardPageSeo = ({ title, description, noIndex = false, noFollow = false
   const canonicalUrl = `${baseUrl}${localePath}${router.asPath}`;
   const languageAlternates = generateLanguageAlternates({ baseUrl, currentPath: router.asPath });
 
-  // "@type": "WebPage",
-  // "@id": "[Insert Page URL]/#webpage",
-  // "isPartOf":{
-  // "@id":""
-  // },
-  // "url": "Insert Page URL",
-  // "name": "Insert Page Name (Title)",
-  // "description": "Insert Page Description"
-
   return (
     <>
       <NextSeo
