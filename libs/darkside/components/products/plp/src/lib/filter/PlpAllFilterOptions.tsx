@@ -344,7 +344,7 @@ const PlpAllFilterOptions = ({
                       ? JEWELRY_SUB_CATEGORY_HUMAN_NAMES[filterValue[filterType]]
                       : filterType;
 
-                    if (!filterValue[filterType] || filterValue[filterType]?.length === 0) {
+                    if (!filterValue[filterType] || filterValue[filterType]?.length === 0 || filterType.includes('utm')) {
                       return null;
                     }
 

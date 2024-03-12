@@ -158,7 +158,9 @@ export default async function middleware(request: NextRequest, _event: NextFetch
   }
 
   // Pre-render
-  prerender(request);
+  if (request.headers.get('host') === 'www.vrai.com') {
+    prerender(request);
+  }
 
   // Use authMiddleware
   const authResult = authMiddleware({

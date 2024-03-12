@@ -93,10 +93,10 @@ const Breadcrumb = ({ breadcrumb, simple = false, lastItemBolded = true, spacing
   if (areThereBreadcrumbs) {
     breadcrumb?.map((crumb, index) => {
       // skip homepage since its added manually
-      if(index > 0){
+      if (index > 0) {
         return breadcrumbList.push({
           position: index + 1, // adjust from 0 index
-          name: crumb.title,
+          name: crumb?.title || crumb?.name,
           item: `${baseUrl}${crumb?.link?.slug ? `/${crumb?.link?.slug}` : crumb?.path}`,
         });
       }
