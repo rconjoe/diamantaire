@@ -385,6 +385,8 @@ const DiamondTable = (props: DiamondTableProps) => {
     />
   );
 
+  const tableRows = table.getRowModel().rows || [];
+
   return isTableView ? (
     <StyledDiamondTable
       className={clsx('vo-table', {
@@ -425,7 +427,7 @@ const DiamondTable = (props: DiamondTableProps) => {
 
         {/* TABLE BODY */}
         <div ref={tableBody} className="vo-table-body">
-          {table.getRowModel().rows.map((row, idx) => {
+          {tableRows.map((row, idx) => {
             const active = activeRow?.id === row.id;
             let diamonds;
 
@@ -436,7 +438,7 @@ const DiamondTable = (props: DiamondTableProps) => {
 
             return (
               <Fragment key={row.id}>
-                {idx === 10 && shouldShowCFYPromo && cfyPromoCard}
+                {shouldShowCFYPromo && idx === 10 && tableRows.length >= 20 && cfyPromoCard}
 
                 <div
                   className={clsx('vo-table-row', {
