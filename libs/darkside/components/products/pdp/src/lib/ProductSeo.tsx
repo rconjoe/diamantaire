@@ -1,3 +1,4 @@
+import { ReviewsResponse, okendoRequest } from '@diamantaire/darkside/data/api';
 import { useTranslations, useVariantInventory } from '@diamantaire/darkside/data/hooks';
 import {
   combinePricesOfMultipleProducts,
@@ -10,6 +11,7 @@ import { createLongProductTitle, replacePlaceholders } from '@diamantaire/shared
 import { generateProductUrl } from '@diamantaire/shared-product';
 import { useRouter } from 'next/router';
 import { NextSeo, ProductJsonLd } from 'next-seo';
+import { useEffect, useState } from 'react';
 
 import { calculateFinalPrice } from './ProductPrice';
 
@@ -36,6 +38,8 @@ const ProductSeo = ({
   const { locale, defaultLocale } = useRouter();
   const { languageCode: selectedLanguageCode } = parseValidLocale(locale);
   const { _t } = useTranslations(locale);
+  const [reviews, setReviews] = useState([]);
+  const [reviewAggregate, setReviewAggregate] = useState<ReviewsResponse['reviewAggregate'] | null>(null);
 
   const { collectionSlug, productSlug } = canonicalVars || {};
 
@@ -92,6 +96,41 @@ const ProductSeo = ({
   const pricesArrayFinalPrice = pricesArray && combinePricesOfMultipleProducts([...pricesArray], locale);
   const simplePriceFormat = (pricesArrayFinalPrice / 100).toFixed(2);
 
+  useEffect(() => {
+    if (!shopifyProductData?.shopifyCollectionId) return;
+
+    async function getReviewData() {
+      const { reviews: reviewsResponse, reviewAggregate: reviewAggregateResponse } = await okendoRequest(
+        shopifyProductData?.shopifyCollectionId.replace('gid://shopify/Collection/', ''),
+      );
+
+      // Only the first 5 reviews are required
+      const updatedReviews = reviewsResponse.slice(0, 5).map((review) => {
+        const { reviewer, dateCreated, body, title, rating } = review;
+
+        return {
+          author: reviewer?.displayName,
+          datePublished: dateCreated,
+          reviewBody: body,
+          name: title,
+          reviewRating: {
+            bestRating: '5',
+            ratingValue: rating.toString(),
+            worstRating: '1',
+          },
+          publisher: {
+            type: 'Organization',
+            name: 'VRAI',
+          },
+        };
+      });
+
+      setReviewAggregate(reviewAggregateResponse);
+      setReviews(updatedReviews);
+    }
+    getReviewData();
+  }, [shopifyProductData?.shopifyCollectionId]);
+
   return (
     <>
       <NextSeo
@@ -100,7 +139,6 @@ const ProductSeo = ({
         canonical={canonicalUrl}
         languageAlternates={languageAlternates}
       />
-      {/* We need endpoints to fully flush this out */}
       <ProductJsonLd
         productName={metaTitle}
         images={seoImages}
@@ -119,37 +157,11 @@ const ProductSeo = ({
             },
           },
         ]}
-        // color="blue"
-        // manufacturerName="Gary Meehan"
-        // manufacturerLogo="https://www.example.com/photos/logo.jpg"
-        // slogan="For the business traveller looking for something to drop from a height."
-        // disambiguatingDescription="Executive Anvil, perfect for the business traveller."
-        // releaseDate="2014-02-05T08:00:00+08:00"
-        // productionDate="2015-02-05T08:00:00+08:00"
-        // purchaseDate="2015-02-06T08:00:00+08:00"
-        // award="Best Executive Anvil Award."
-        // reviews={[
-        //   {
-        //     author: 'Jim',
-        //     datePublished: '2017-01-06T03:37:40Z',
-        //     reviewBody: 'This is my favorite product yet! Thanks Nate for the example products and reviews.',
-        //     name: 'So awesome!!!',
-        //     reviewRating: {
-        //       bestRating: '5',
-        //       ratingValue: '5',
-        //       worstRating: '1',
-        //     },
-        //     publisher: {
-        //       type: 'Organization',
-        //       name: 'TwoVit',
-        //     },
-        //   },
-        // ]}
-        // aggregateRating={{
-        //   ratingValue: '4.4',
-        //   reviewCount: '89',
-        // }}
-        // mpn="925872"
+        reviews={reviews}
+        aggregateRating={{
+          ratingValue: (reviewAggregate?.reviewRatingValuesTotal / reviewAggregate?.reviewCount).toString(),
+          reviewCount: reviewAggregate?.reviewCount?.toString(),
+        }}
       />
     </>
   );
