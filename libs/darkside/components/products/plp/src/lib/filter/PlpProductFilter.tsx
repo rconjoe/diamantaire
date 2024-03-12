@@ -210,6 +210,7 @@ const PlpProductFilter = ({
 
   useEffect(() => {
     // If all params are gtm, do nothing
+
     if (
       filterValue &&
       Object.keys(filterValue).filter((key) => key.toLowerCase().includes('utm')).length === Object.keys(filterValue).length

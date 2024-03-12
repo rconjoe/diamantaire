@@ -141,30 +141,52 @@ const ProductSeo = ({
         canonical={canonicalUrl}
         languageAlternates={languageAlternates}
       />
-      <ProductJsonLd
-        productName={metaTitle}
-        images={seoImages}
-        description={metaDescription}
-        brand="VRAI"
-        material={metal}
-        offers={[
-          {
-            price: pricesArray ? simplePriceFormat : refinedPrice,
-            priceCurrency: currency,
-            itemCondition: 'https://schema.org/NewCondition',
-            availability: `https://schema.org/${isInStock ? 'InStock' : 'OutOfStock'}`,
-            url: canonicalUrl,
-            seller: {
-              name: 'VRAI',
+      {reviews?.length > 0 ? (
+        <ProductJsonLd
+          productName={metaTitle}
+          images={seoImages}
+          description={metaDescription}
+          brand="VRAI"
+          material={metal}
+          offers={[
+            {
+              price: pricesArray ? simplePriceFormat : refinedPrice,
+              priceCurrency: currency,
+              itemCondition: 'https://schema.org/NewCondition',
+              availability: `https://schema.org/${isInStock ? 'InStock' : 'OutOfStock'}`,
+              url: typeof window !== 'undefined' && window.location.href,
+              seller: {
+                name: 'VRAI',
+              },
             },
-          },
-        ]}
-        reviews={reviews}
-        aggregateRating={{
-          ratingValue: (reviewAggregate?.reviewRatingValuesTotal / reviewAggregate?.reviewCount).toString(),
-          reviewCount: reviewAggregate?.reviewCount?.toString(),
-        }}
-      />
+          ]}
+          reviews={reviews}
+          aggregateRating={{
+            ratingValue: (reviewAggregate?.reviewRatingValuesTotal / reviewAggregate?.reviewCount).toString(),
+            reviewCount: reviewAggregate?.reviewCount?.toString(),
+          }}
+        />
+      ) : (
+        <ProductJsonLd
+          productName={metaTitle}
+          images={seoImages}
+          description={metaDescription}
+          brand="VRAI"
+          material={metal}
+          offers={[
+            {
+              price: pricesArray ? simplePriceFormat : refinedPrice,
+              priceCurrency: currency,
+              itemCondition: 'https://schema.org/NewCondition',
+              availability: `https://schema.org/${isInStock ? 'InStock' : 'OutOfStock'}`,
+              url: typeof window !== 'undefined' && window.location.href,
+              seller: {
+                name: 'VRAI',
+              },
+            },
+          ]}
+        />
+      )}
     </>
   );
 };
