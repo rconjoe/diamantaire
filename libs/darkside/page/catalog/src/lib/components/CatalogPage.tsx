@@ -8,6 +8,10 @@ import { ProductsList } from './ProductsList';
 import { SlugSelector } from './SlugSelector';
 import { getCollectionOptions, getCollectionSlugsByProductType, getProducts } from '../api';
 
+const node_env = process.env.NODE_ENV;
+const vercel_env = process.env.VERCEL_ENV;
+const public_vercel_env = process.env.NEXT_PUBLIC_VERCEL_ENV;
+
 interface ProductTypeSlugsData {
   _id: string;
   productType: string;
@@ -172,6 +176,9 @@ const CatalogPage = ({ title, data }: CatalogPageProps) => {
   const [isTreeVisible, setIsTreeVisible] = useState<boolean>(false);
   const [products, setProducts] = useState([]);
 
+  // For env testing
+  console.log({ node_env, vercel_env, public_vercel_env })
+
   const handleSlugSelection = async (slug: string) => {
     setSelectedSlug(slug);
     const newOptions = await getCollectionOptions(slug, {});
@@ -230,14 +237,8 @@ const CatalogPage = ({ title, data }: CatalogPageProps) => {
 
 export const getServerSideProps = async () => {
   const data = await getCollectionSlugsByProductType();
-  const environment = process.env['VERCEL_ENV'] || 'development';
 
-  // Catalog internal tool should not be available on production
-  if (environment === 'production'){
-    return {
-      notFound: true
-    }
-  }
+  console.log('ENV', { node_env, vercel_env, public_vercel_env });
 
   return {
     props: {

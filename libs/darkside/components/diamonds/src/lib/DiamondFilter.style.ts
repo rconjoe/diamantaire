@@ -91,12 +91,28 @@ const StyledDiamondFilter = styled.aside`
     border: 0.1rem solid var(--color-teal);
   }
 
-  .vo-filter-cut {
-    padding-top: 1rem;
+  .vo-filter-carat {
+    min-height: 3.7rem;
   }
 
-  .vo-filter-cut,
+  .vo-filter-price {
+    min-height: 3.7rem;
+  }
+
+  .vo-filter-cut {
+    padding-top: 1rem;
+    min-height: 3.75rem;
+
+    .vo-filter-list-item button,
+    .vo-filter-list-item a {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
   .vo-filter-clarity {
+    min-height: 2.75rem;
+
     .vo-filter-list-item button,
     .vo-filter-list-item a {
       padding-left: 1rem;
@@ -105,6 +121,8 @@ const StyledDiamondFilter = styled.aside`
   }
 
   .vo-filter-color {
+    min-height: 4.5rem;
+
     .vo-filter-list-item:nth-child(1) {
       width: 6.6rem;
 
@@ -112,6 +130,7 @@ const StyledDiamondFilter = styled.aside`
         width: 7rem;
       }
     }
+
     .vo-filter-list-item:nth-child(2) {
       width: 8.9rem;
 
@@ -131,6 +150,7 @@ const StyledDiamondFilter = styled.aside`
   .vo-filter-diamondType {
     flex-direction: column;
     max-width: 100%;
+    min-height: 7.5rem;
 
     .vo-filter-radio {
       overflow-x: auto;

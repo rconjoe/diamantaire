@@ -721,3 +721,43 @@ export function convertPriceToUSD(amountInCents: number, currency: string) {
 
   return Math.ceil(amountInCents / rate);
 }
+
+export function generateLanguageAlternates({ baseUrl = 'https://www.vrai.com', currentPath }) {
+  const languageAlternates = [];
+
+  // Add x-default at the beginning to always include it pointing to the base URL
+  languageAlternates.push({ hrefLang: 'x-default', href: baseUrl + currentPath });
+
+  const generalCases = {
+    en: baseUrl,
+    es: `${baseUrl}/es-ES`,
+    de: `${baseUrl}/de-DE`,
+  };
+
+  // Add general language cases, appending currentPath where necessary
+  Object.keys(generalCases).forEach((language) => {
+    const href =
+      generalCases[language] === baseUrl ? generalCases[language] + currentPath : generalCases[language] + currentPath;
+
+    languageAlternates.push({ hrefLang: language, href });
+  });
+
+  // Add specific language-country combinations
+  Object.values(countries).forEach((country) => {
+    country.languages.forEach((language) => {
+      const hrefLang = `${language}-${country.code}`;
+      // Use the base URL directly for 'en-US', appending currentPath for others
+      const href =
+        country.code === 'US' && language === 'en'
+          ? baseUrl + currentPath
+          : `${baseUrl}/${language}-${country.code}${currentPath}`;
+
+      languageAlternates.push({ hrefLang, href });
+    });
+  });
+
+  // Filter to ensure no duplicate entries are added
+  return languageAlternates.filter(
+    (value, index, self) => index === self.findIndex((t) => t.hrefLang === value.hrefLang && t.href === value.href),
+  );
+}
