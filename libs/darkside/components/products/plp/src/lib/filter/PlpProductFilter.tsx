@@ -207,12 +207,8 @@ const PlpProductFilter = ({
   }, [router, plpSlug, filterValue, urlFilterMethod, handleSliderURLUpdate]);
 
   useEffect(() => {
-    // If all params are gtm, do nothing
-
-    if (
-      filterValue &&
-      Object.keys(filterValue).filter((key) => key.toLowerCase().includes('utm')).length === Object.keys(filterValue).length
-    ) {
+    // If all params are gtm, do nothing. This will only happen if the user has only gtm params in the url, and will need to be updated if we want to link directly to filters
+    if (filterValue && Object.keys(filterValue).every((key) => key.toLowerCase().includes('utm'))) {
       return;
     }
 
