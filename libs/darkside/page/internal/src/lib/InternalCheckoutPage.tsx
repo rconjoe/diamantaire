@@ -6,6 +6,7 @@ import { getTemplate } from '@diamantaire/darkside/template/global';
 import { countryRegions, countries, CountryDetails } from '@diamantaire/shared/constants';
 import { getCountry } from '@diamantaire/shared/helpers';
 import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import * as Sentry from '@sentry/nextjs';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
@@ -358,6 +359,6 @@ export const createDraftOrder = async ({ variables, setResult, setError }) => {
     setResult(data);
   } catch (error) {
     setError('An error occurred while creating the draft order. Please try again.');
-    console.error('Error creating draft order:', error);
+    Sentry.captureException(error);
   }
 };
