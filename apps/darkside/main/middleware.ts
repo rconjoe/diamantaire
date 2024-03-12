@@ -158,7 +158,6 @@ export default async function middleware(request: NextRequest, _event: NextFetch
   }
 
   // Pre-render
-  console.log('request host is:', request.headers.get('host'));
   if (request.headers.get('host') === 'www.vrai.com') {
     prerender(request);
   }

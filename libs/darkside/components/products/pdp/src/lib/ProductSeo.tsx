@@ -77,7 +77,9 @@ const ProductSeo = ({
   const canonicalUrl = `${baseUrl}${localePath}${productPath}`;
   const languageAlternates = generateLanguageAlternates({ baseUrl, currentPath: productPath });
 
-  const seoImages = assets?.filter((asset) => asset.mimeType === 'image/jpeg').map((asset) => asset.url);
+  const seoImages = assets
+    ?.filter((asset) => asset.mimeType === 'image/jpeg' || asset.mimeType === 'image/png')
+    .map((asset) => asset.url);
 
   const { countryCode } = parseValidLocale(locale);
   const currency = getCurrency(countryCode);
