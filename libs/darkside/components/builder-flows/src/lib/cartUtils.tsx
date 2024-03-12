@@ -7,7 +7,7 @@ import {
   PdpTypePlural,
   pdpTypeSingleToPluralAsConst,
 } from '@diamantaire/shared/constants';
-import { getFormattedShipByDate, specGenerator } from '@diamantaire/shared/helpers';
+import { getFormattedShipByDate, getShippingTimeStamp, specGenerator } from '@diamantaire/shared/helpers';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
@@ -77,6 +77,7 @@ export async function addCustomProductToCart({
   // 1. Get the product variant ID for the setting. Need fallback for non-ER custom products
   const settingType = selectedSize?.id ? 'engagement-ring' : 'jewelry';
   const settingVariantId = selectedSize?.id || shopifySettingVariantId;
+  const feedId = settingVariantId.split('/').pop();
   const { productType, isSoldAsDouble } = product || {};
   const { goldPurity, bandAccent } = product.configuration || {};
   const image = {
@@ -103,6 +104,8 @@ export async function addCustomProductToCart({
 
   // 3. Create custom attributes for the setting
   const formattedShippingTime = getFormattedShipByDate(shippingTime, locale);
+  const shippingTimeStamp = getShippingTimeStamp(shippingTime);
+
   const erMetal = (goldPurity ? goldPurity + ' ' : '') + _t(builderProduct?.product?.configuration?.metal);
 
   const refinedBandAccent =
@@ -129,9 +132,10 @@ export async function addCustomProductToCart({
     _productAssetObject: JSON.stringify(image),
     _productTitle: productTitle,
     productIconListShippingCopy: `${_t(shippingText)} ${formattedShippingTime}`,
+    shippingTimeStamp,
     pdpUrl: window.location.href,
     shippingText: _t(shippingText),
-    feedId: settingVariantId,
+    feedId: feedId,
     // engraving
     _EngravingBack: engravingText,
     _specs: settingSpecs,
@@ -177,7 +181,7 @@ export async function addCustomProductToCart({
       diamondType: diamond.diamondType,
       cut: diamond.cut,
       color: diamond.color,
-      feedId: settingVariantId,
+      feedId: feedId,
       lotId: diamond.lotId,
       isChildProduct: 'true',
       productGroupKey,
@@ -186,6 +190,7 @@ export async function addCustomProductToCart({
       _productTypeTranslated: _t('Diamond'),
       shippingText: shippingTextDiamondAttribute,
       productIconListShippingCopy: `${shippingTextDiamondAttribute} ${formattedShippingTime}`,
+      shippingTimeStamp,
       pdpUrl: window.location.href,
       shippingBusinessDays: isDiamondCFY ? cfyShippingTime?.toString() : shippingTime?.toString(),
     };

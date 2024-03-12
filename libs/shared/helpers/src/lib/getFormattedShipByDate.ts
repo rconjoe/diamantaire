@@ -115,6 +115,14 @@ export const getFormattedShipByDate = (shippingBusinessDays, _locale = 'en-us', 
   return formattedShipByDate;
 };
 
+export const getShippingTimeStamp = (shippingBusinessDays, currentDateTime = DateTime.local()) => {
+  const shipByDate = getShipByDate(shippingBusinessDays, currentDateTime);
+
+  const formattedShipByDate = shipByDate.toISO();
+
+  return formattedShipByDate;
+};
+
 export const getFormattedShipByDateWithYear = (
   shippingBusinessDays,
   _locale = 'en-us',
