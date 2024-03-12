@@ -167,6 +167,8 @@ const PlpProductFilter = ({
         );
 
       if (urlFilterMethod === 'param') {
+        // test link -  http://localhost:4200/jewelry/all?utm_source=facebook&utm_medium=ads&utm_campaign=test
+        console.log('sortedQParams', sortedQParams);
         router.replace(
           {
             pathname: router.pathname,
