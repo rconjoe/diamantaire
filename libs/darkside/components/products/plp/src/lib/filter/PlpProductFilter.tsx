@@ -209,6 +209,14 @@ const PlpProductFilter = ({
   }, [router, plpSlug, filterValue, urlFilterMethod, handleSliderURLUpdate]);
 
   useEffect(() => {
+    // If all params are gtm, do nothing
+    if (
+      filterValue &&
+      Object.keys(filterValue).filter((key) => key.toLowerCase().includes('utm')).length === Object.keys(filterValue).length
+    ) {
+      return null;
+    }
+
     updateURL();
 
     // only scroll on plps with specific fields
