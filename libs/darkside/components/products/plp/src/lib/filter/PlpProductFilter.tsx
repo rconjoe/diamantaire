@@ -214,7 +214,7 @@ const PlpProductFilter = ({
       filterValue &&
       Object.keys(filterValue).filter((key) => key.toLowerCase().includes('utm')).length === Object.keys(filterValue).length
     ) {
-      return null;
+      return;
     }
 
     updateURL();
