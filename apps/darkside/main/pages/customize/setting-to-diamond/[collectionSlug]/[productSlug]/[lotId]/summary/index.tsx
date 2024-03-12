@@ -459,8 +459,6 @@ const SettingToDiamondSummaryPage = () => {
 
   const diamondPrice = Array.isArray(diamonds) && diamonds?.map((diamond) => Math.ceil(diamond.price));
 
-  const diamondPricesCombined = diamondPrice && diamondPrice.reduce((acc, price) => acc + price, 0);
-
   const { countryCode, languageCode } = parseValidLocale(locale);
 
   const currencyCode = getCurrency(countryCode);

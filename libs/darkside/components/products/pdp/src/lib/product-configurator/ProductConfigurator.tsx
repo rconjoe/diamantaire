@@ -6,7 +6,7 @@ import { BuilderProductContext } from '@diamantaire/darkside/context/product-bui
 import { addERProductToCart, addJewelryProductToCart, addMiscProductToCart } from '@diamantaire/darkside/data/api';
 import { useCartData, useProductIconList, useTranslations, useVariantInventory } from '@diamantaire/darkside/data/hooks';
 import { DIAMOND_TYPE_HUMAN_NAMES, getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
-import { getFormattedShipByDate, specGenerator } from '@diamantaire/shared/helpers';
+import { getFormattedShipByDate, getShippingTimeStamp, specGenerator } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
@@ -149,17 +149,18 @@ function ProductConfigurator({
 
   const handleSizeChange = useCallback((option: OptionItemProps) => {
     if (option?.value) {
-      router.push({
-        pathname: window?.location?.pathname,
-        query: {
-            ringSize: option.value
-          }
+      router.push(
+        {
+          pathname: window?.location?.pathname,
+          query: {
+            ringSize: option.value,
+          },
         },
         undefined,
         {
-          shallow: true
-        }
-      )
+          shallow: true,
+        },
+      );
     }
     setSelectVariantId(option.id);
     setSelectedSize(option.value);
@@ -468,6 +469,7 @@ function AddToCartButton({
       ? shippingBusinessDaysCountryMap?.[countryCode]
       : shippingBusinessDaysCountryMap?.['International'];
 
+  const shippingTimeStamp = getShippingTimeStamp(shippingTime);
   // Shipping times
 
   const currencyCode = getCurrency(countryCode);
@@ -493,6 +495,7 @@ function AddToCartButton({
       _productType: productType,
       _productTypeTranslated: _t(productType),
       shippingText: _t(shippingText),
+      shippingTimeStamp,
       productGroupKey,
     };
 
@@ -568,7 +571,7 @@ function AddToCartButton({
         // Fulfillment info
         metalType: metal,
         pdpUrl: window.location.href,
-        feedId: variantId,
+        feedId: id,
         _specs: specs,
         // This gets overwritten by updateShippingTimes in cart-actions
         productIconListShippingCopy: `${defaultAttributes?.shippingText} ${getFormattedShipByDate(shippingTime, locale)}`,
@@ -601,7 +604,7 @@ function AddToCartButton({
 
       const jewelryAttributes = {
         ...defaultAttributes,
-        feedId: variantId,
+        feedId: id,
         diamondShape: _t(selectedConfiguration.diamondShape) || _t(selectedConfiguration.diamondType),
         caratWeight: selectedConfiguration.caratWeight ? _t(selectedConfiguration.caratWeight) + 'ct' : '',
         metalType: metal,
@@ -654,7 +657,7 @@ function AddToCartButton({
       const giftCardAttributes = {
         ...otherAttributes,
         pdpUrl: window.location.href,
-        feedId: variantId,
+        feedId: id,
         // Jewelry specific attributes
         metalType: '',
         shippingBusinessDays: '',
@@ -680,7 +683,7 @@ function AddToCartButton({
       const ringSizerAttributes = {
         ...otherAttributes,
         pdpUrl: window.location.href,
-        feedId: variantId,
+        feedId: id,
         // Ring Sizer specific attributes
         productIconListShippingCopy: '',
         shippingBusinessDays: shippingTime ? shippingTime.toString() : '',
@@ -688,7 +691,7 @@ function AddToCartButton({
       };
 
       addMiscProductToCart({
-        variantId: variantId,
+        variantId: id,
         attributes: ringSizerAttributes,
         locale,
       })
