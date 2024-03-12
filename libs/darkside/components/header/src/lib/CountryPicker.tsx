@@ -94,6 +94,7 @@ function CountryPicker() {
       }, {}),
     [],
   );
+  const NEXT_LOCALE = Cookies.get('NEXT_LOCALE');
 
   useEffect(() => {
     const decideOnShowingBanner = async () => {
@@ -165,7 +166,7 @@ function CountryPicker() {
     handleRecommendedCountryChange();
   };
 
-  if (!isBannerVisible) return null;
+  if (!isBannerVisible || NEXT_LOCALE) return null;
 
   return (
     <BannerWrapper>
