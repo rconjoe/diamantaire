@@ -6,7 +6,8 @@ export const PRICE_RANGE_OPTIONS_HUMAN_NAMES_VALUES = {
   custom: [],
 };
 
-export const FACETED_NAV_ORDER = ['subStyle', 'style', 'diamondType', 'metal'];
+// Need UTM params to be last
+export const FACETED_NAV_ORDER = ['subStyle', 'style', 'diamondType', 'metal', 'utm_source', 'utm_medium', 'utm_campaign'];
 
 export const PLP_PRICE_RANGES = [
   {
