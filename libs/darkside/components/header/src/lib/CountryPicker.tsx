@@ -173,7 +173,7 @@ function CountryPicker() {
   if (!isBannerVisible) return null;
 
   return (
-    <BannerWrapper initial={{ y: -100 }} animate={{ y: 0 }} transition={{ type: 'spring', stiffness: 120, damping: 10 }}>
+    <BannerWrapper initial={{ y: -100 }} animate={{ y: 0 }} transition={{ ease: 'linear', duration: 0.5 }}>
       <BarStyles>
         <div className="buttons-wrapper">
           <ShopItButton onClick={handleRecommendedCountryChange}>
