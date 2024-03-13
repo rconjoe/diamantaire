@@ -284,10 +284,10 @@ export default async function middleware(request: NextRequest, _event: NextFetch
     switch (subdomain.toLowerCase()) {
       case 'us':
       case 'eu':
-        targetUrl = new URL(`https://www.vrai.com${url.search}`);
+        targetUrl = new URL(`https://www.vrai.com${url.pathname}${url.search}`);
         break;
       case 'uk':
-        targetUrl = new URL(`https://www.vrai.com/en-GB${url.search}`);
+        targetUrl = new URL(`https://www.vrai.com/en-GB${url.pathname}${url.search}`);
         break;
       default:
         if (VALID_COUNTRY_SUBDOMAINS.includes(subdomain.toLowerCase())) {
