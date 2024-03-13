@@ -1,6 +1,7 @@
 import { authMiddleware } from '@clerk/nextjs';
 import { isDevEnv, getLocaleFromCountry } from '@diamantaire/shared/constants';
 import { kv } from '@vercel/kv';
+import { NextURL } from 'next/dist/server/web/next-url';
 import { NextMiddlewareResult } from 'next/dist/server/web/types';
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
@@ -284,6 +285,83 @@ export default async function middleware(request: NextRequest, _event: NextFetch
     return NextResponse.redirect(targetUrl);
   }
 
+  // const preferredLocale = cookies.get('NEXT_LOCALE')?.value;
+
+  // // Redirect if there's a preferred locale that doesn't match the current locale
+  // if (preferredLocale && preferredLocale !== url.locale) {
+  //   return NextResponse.redirect(new URL(`/${preferredLocale}${url.pathname}${url.search}`, request.url));
+  // }
+
+  // // If there's no preferred locale, derive the locale from the user's geo-location
+  // if (!preferredLocale) {
+  //   const countryCode = geo.country || 'US';
+
+  //   // Handle the 'US' geo-location specifically to avoid adding a subpath for 'en-US'
+  //   if (countryCode === 'US' && url.locale === 'default') {
+  //     // No need to redirect for US users viewing the default path
+  //     return NextResponse.next();
+  //   }
+
+  //   const localeFromGeo = getLocaleFromCountry(countryCode);
+
+  //   // Ensure not to redirect if the locale is 'en-US' to avoid unnecessary redirection
+  //   if (localeFromGeo !== 'en-US' && localeFromGeo !== url.locale) {
+  //     const response = NextResponse.redirect(new URL(`/${localeFromGeo}${url.pathname}${url.search}`, request.url));
+
+  //     response.cookies?.set('geo', JSON.stringify(geo));
+
+  //     // Set a cookie to indicate a geo-based redirection has occurred
+  //     response.cookies.set('geo_redirected', 'true', { path: '/', maxAge: 3600 }); // Expires in 1 hour
+
+  //     return response;
+  //   }
+  // }
+
+  const redirectResponse = setRedirect({ request, url, geo, cookies });
+
+  if (redirectResponse) {
+    return redirectResponse;
+  }
+
+  return res;
+}
+
+export const config = {
+  matcher: ['/((?!.*\\..*|_next).*)', '/(api|trpc)(.*)', '/'],
+};
+
+export function basicAuthCheck(req) {
+  const basicAuth = req.headers.get('authorization');
+
+  if (basicAuth) {
+    const auth = basicAuth.split(' ')[1];
+    const [login, password] = Buffer.from(auth, 'base64').toString().split(':');
+
+    if (login === 'vrai' && password === 'ethicaldiamonds') {
+      return; // Authentication successful
+    }
+  }
+
+  // Request authentication if not authenticated
+  return new Response('Authentication required', {
+    status: 401,
+    headers: {
+      'WWW-Authenticate': 'Basic realm="Secure Area"',
+    },
+  });
+}
+
+type Geo = NextRequest['geo'];
+type Cookies = NextRequest['cookies'];
+
+interface SetRedirectParams {
+  request: NextRequest;
+  url: NextURL;
+  geo: Geo;
+  cookies: Cookies;
+}
+
+function setRedirect({ request, url, geo, cookies }: SetRedirectParams): NextResponse | null {
   const preferredLocale = cookies.get('NEXT_LOCALE')?.value;
 
   // Redirect if there's a preferred locale that doesn't match the current locale
@@ -316,30 +394,5 @@ export default async function middleware(request: NextRequest, _event: NextFetch
     }
   }
 
-  return res;
-}
-
-export const config = {
-  matcher: ['/((?!.*\\..*|_next).*)', '/(api|trpc)(.*)', '/'],
-};
-
-export function basicAuthCheck(req) {
-  const basicAuth = req.headers.get('authorization');
-
-  if (basicAuth) {
-    const auth = basicAuth.split(' ')[1];
-    const [login, password] = Buffer.from(auth, 'base64').toString().split(':');
-
-    if (login === 'vrai' && password === 'ethicaldiamonds') {
-      return; // Authentication successful
-    }
-  }
-
-  // Request authentication if not authenticated
-  return new Response('Authentication required', {
-    status: 401,
-    headers: {
-      'WWW-Authenticate': 'Basic realm="Secure Area"',
-    },
-  });
+  return null;
 }
