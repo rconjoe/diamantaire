@@ -53,7 +53,7 @@ export const DiamondPairActiveRow = ({
     const availableDiamondTypes = builderProduct?.product?.optionConfigs?.diamondType;
 
     // Check if every diamond's type is included in the available diamond types
-    const final = availableDiamondTypes.find((diamondType) =>
+    const final = availableDiamondTypes?.find((diamondType) =>
       diamonds.every((diamond) => diamondType.value.includes(diamond.diamondType)),
     );
 

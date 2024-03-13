@@ -20,3 +20,4 @@ export * from './lib/DiamondTableRow';
 export * from './lib/DiamondTableRowAccordion';
 export * from './lib/DiamondRough';
 export * from './lib/DiamondPlan';
+export * from './lib/DiamondOOS';
