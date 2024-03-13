@@ -25,6 +25,7 @@ import {
   useCartData,
   useDiamondCfyData,
   useDiamondCtoData,
+  useProduct,
   useTranslations,
 } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
@@ -274,16 +275,24 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
       );
   }
 
-  const isSettingFirstFlow = router.query.collectionSlug && router.query.productSlug;
+  const { collectionSlug, productSlug } = router.query;
+
+  const isSettingFirstFlow = collectionSlug && productSlug;
 
   const continueLink = {
     url: isSettingFirstFlow
-      ? `/customize/setting-to-diamond/${router.query.collectionSlug}/${router.query.productSlug}/${product.lotId}/summary`
+      ? `/customize/setting-to-diamond/${collectionSlug}/${productSlug}/${product.lotId}/summary`
       : `/customize/diamond-to-setting/${product.lotId}`,
 
     // Translated in jsx
     text: isSettingFirstFlow ? 'Complete & Review Your Ring' : 'Choose & Add a setting',
   };
+
+  const productQuery = useProduct({ collectionSlug: collectionSlug?.toString(), productSlug: productSlug?.toString() });
+
+  const { data: { productType = '' } = {} } = productQuery || {};
+
+  console.log(`productQuery`, productQuery);
 
   const appointmentEl = useRef(null);
 
@@ -457,7 +466,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                   </div>
 
                   <div ref={appointmentEl} className="appointment">
-                    <ProductAppointmentCTA withHiddenButton={true} />
+                    <ProductAppointmentCTA withHiddenButton={true} productType={productType} />
                   </div>
                 </div>
               )}

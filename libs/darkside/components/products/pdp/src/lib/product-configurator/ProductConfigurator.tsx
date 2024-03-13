@@ -706,7 +706,13 @@ function AddToCartButton({
   }
 
   if (isFetching && trackInventory) {
-    <Loader color="#000" />;
+    return (
+      <AddToCartButtonContainer>
+        <DarksideButton type="solid">
+          <Loader color="#fff" />
+        </DarksideButton>
+      </AddToCartButtonContainer>
+    );
   }
 
   if (!isInStock && !isFetching) {

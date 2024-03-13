@@ -5,12 +5,11 @@ import {
   DiamondCfyAsidePromo,
   DiamondCfyBreadCrumb,
   DiamondCfyFilterCarat,
-  DiamondCfyFilterShape,
 } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
-import { useDiamondCfyData, useProductDiamondTypes } from '@diamantaire/darkside/data/hooks';
+import { useDiamondCfyData } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { DIAMOND_CFY_CARAT_DEFAULT } from '@diamantaire/shared/constants';
@@ -22,36 +21,32 @@ import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { StyledCFYPage } from './CFYPage.style';
 
-interface CFYPageQueryParams extends ParsedUrlQuery {
+interface CFYCaratPageQueryParams extends ParsedUrlQuery {
   carat?: string;
   diamondType?: string;
   product?: string;
 }
 
-interface CFYPageProps {
+interface CFYCaratPageProps {
   dehydratedState: DehydratedState;
   locale: string;
-  options?: CFYPageQueryParams;
+  options?: CFYCaratPageQueryParams;
 }
 
-const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const CFYCaratPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
 
   const { locale, options } = props;
 
   const { headerHeight } = useContext(GlobalContext);
 
-  const { diamondType, carat, product: selectedProduct } = options;
-
-  const [checkAvailability, setCheckAvailability] = useState(false);
+  const { product: selectedProduct, diamondType, carat } = options;
 
   const [selectedCarat, setSelectedCarat] = useState(parseFloat(carat) || DIAMOND_CFY_CARAT_DEFAULT);
 
-  const [selectedDiamondType, setSelectedDiamondType] = useState(getDiamondType(diamondType));
+  const selectedDiamondType = getDiamondType(diamondType);
 
-  const { data: { ctoDiamondTable, allDiamondShapeDescriptions } = {} } = useDiamondCfyData(locale);
-
-  const { data: { availableDiamondTypes } = {} } = useProductDiamondTypes(selectedProduct);
+  const { data: { ctoDiamondTable } = {} } = useDiamondCfyData(locale);
 
   const {
     headerTitle,
@@ -67,55 +62,44 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
 
   seoDesc = replacePlaceholders(seoDesc, ['%%product_name%%'], [getDiamondType(diamondType)?.title || '']) as string;
 
-  const handleSelectShape = (value) => {
-    setSelectedDiamondType(value);
-  };
-
   const handleSelectCarat = useCallback((value) => {
     setSelectedCarat(value);
   }, []);
-
-  const handleModifyDiamondType = useCallback(() => {
-    setSelectedDiamondType(null);
-  }, []);
-
-  const handleModifyCarat = useCallback((value) => {
-    console.log(`handleModifyCarat`, value);
-  }, []);
-
-  const handleCheckAvailability = () => {
-    setCheckAvailability(true);
-  };
 
   const [productRoute, setProductRoute] = useState('');
 
   const { builderProduct } = useContext(BuilderProductContext);
 
+  const collectionSlug = builderProduct?.product?.collectionSlug || router?.query?.collectionSlug;
+
+  const productSlug = builderProduct?.product?.productSlug || router?.query?.productSlug;
+
+  const shape = selectedDiamondType?.slug || null;
+
   useEffect(() => {
-    const shape = selectedDiamondType?.slug || null;
+    setProductRoute(
+      `/diamonds/results/${shape}?carat=${selectedCarat}${
+        collectionSlug && productSlug ? `&collectionSlug=${collectionSlug}&productSlug=${productSlug}` : ''
+      }`,
+    );
 
-    if (shape && productRoute !== `/diamonds/results/${shape}?carat=${selectedCarat}`) {
-      setProductRoute(
-        `/diamonds/results/${shape}?carat=${selectedCarat}${
-          router?.query?.collectionSlug && router?.query?.productSlug
-            ? `&collectionSlug=${builderProduct?.product?.collectionSlug || router?.query?.collectionSlug}&productSlug=${
-                builderProduct?.product?.productSlug || router?.query?.productSlug
-              }`
-            : ''
-        }`,
-      );
-
-      router.push(getCFYShallowRoute({ carat: selectedCarat, diamondType: shape }, 'diamondCfy', router), undefined, {
+    router.replace(
+      getCFYShallowRoute(
+        {
+          diamondType: shape,
+          carat: selectedCarat,
+          ...(productSlug ? { productSlug } : {}),
+          ...(collectionSlug ? { collectionSlug } : {}),
+        },
+        'diamondCfy',
+        router,
+      ),
+      undefined,
+      {
         shallow: true,
-      });
-    } else if (!shape) {
-      router.push('/diamonds', undefined, { shallow: true });
-    }
-  }, [selectedCarat, selectedDiamondType]);
-
-  useEffect(() => {
-    setSelectedCarat(3);
-  }, [selectedDiamondType]);
+      },
+    );
+  }, [selectedCarat]);
 
   return (
     <>
@@ -132,40 +116,24 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
 
           <DiamondCfyBreadCrumb
             locale={locale}
+            productSlug={productSlug}
+            collectionSlug={collectionSlug}
+            selectedProduct={selectedProduct}
             selectedDiamondType={selectedDiamondType}
-            selectedCarat={selectedCarat}
-            handleModifyCarat={handleModifyCarat}
-            handleModifyDiamondType={handleModifyDiamondType}
-            checkAvailability={checkAvailability}
           />
 
-          {(!selectedDiamondType && (
-            <DiamondCfyFilterShape
-              locale={locale}
-              selectedCarat={selectedCarat}
-              handleSelectShape={handleSelectShape}
-              selectedDiamondType={selectedDiamondType}
-              availableDiamondTypes={availableDiamondTypes}
-              diamondShapeDescriptions={allDiamondShapeDescriptions}
-            />
-          )) || (
-            <>
-              <DiamondCfyFilterCarat
-                locale={locale}
-                title={diamondSelectorNote}
-                selectedCarat={selectedCarat}
-                selectedDiamondType={selectedDiamondType}
-                handleSelectCarat={handleSelectCarat}
-                caratSliderTooltip={caratSliderTooltip}
-              />
+          <DiamondCfyFilterCarat
+            locale={locale}
+            title={diamondSelectorNote}
+            selectedCarat={selectedCarat}
+            handleSelectCarat={handleSelectCarat}
+            caratSliderTooltip={caratSliderTooltip}
+            selectedDiamondType={selectedDiamondType}
+          />
 
-              <UniLink route={productRoute}>
-                <DarksideButton onClick={handleCheckAvailability} className="button-check-availability">
-                  {checkAvailabilityLabel}
-                </DarksideButton>
-              </UniLink>
-            </>
-          )}
+          <UniLink route={productRoute}>
+            <DarksideButton className="button-check-availability">{checkAvailabilityLabel}</DarksideButton>
+          </UniLink>
         </div>
 
         <div className="page-aside">
@@ -176,11 +144,11 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
   );
 };
 
-CFYPage.getTemplate = getTemplate;
+CFYCaratPage.getTemplate = getTemplate;
 
 async function getServerSideProps(
-  context: GetServerSidePropsContext<CFYPageQueryParams>,
-): Promise<GetServerSidePropsResult<CFYPageProps>> {
+  context: GetServerSidePropsContext<CFYCaratPageQueryParams>,
+): Promise<GetServerSidePropsResult<CFYCaratPageProps>> {
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
 
   const { query, locale } = context;
@@ -218,6 +186,6 @@ async function getServerSideProps(
   };
 }
 
-export { CFYPage, getServerSideProps as getServerSidePropsCFYPage };
+export { CFYCaratPage, getServerSideProps as getServerSidePropsCFYCaratPage };
 
-export default CFYPage;
+export default CFYCaratPage;

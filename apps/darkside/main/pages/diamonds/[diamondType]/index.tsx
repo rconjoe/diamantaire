@@ -1,5 +1,5 @@
-import { CFYPage, getServerSidePropsCFYPage as getServerSideProps } from '@diamantaire/darkside/page/diamonds';
+import { CFYCaratPage, getServerSidePropsCFYCaratPage as getServerSideProps } from '@diamantaire/darkside/page/diamonds';
 
-export default CFYPage;
+export default CFYCaratPage;
 
 export { getServerSideProps };
