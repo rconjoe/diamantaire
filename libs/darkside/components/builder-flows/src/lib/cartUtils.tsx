@@ -87,8 +87,6 @@ export async function addCustomProductToCart({
   };
   const { productTitle } = datoParentProductData || {};
 
-  console.log('settingVariantId', { product });
-
   // 2. Get the product variant ID for the diamond
   // TODO: Add support for multiple diamonds
   const diamondVariantIds = diamonds.map((diamond) => createShopifyVariantId(diamond?.dangerousInternalShopifyVariantId));
@@ -305,80 +303,3 @@ export async function addCustomProductToCart({
     });
   }
 }
-
-//   Array.isArray(diamonds) &&
-//     diamonds?.map((diamond) => {
-//       productAdded({
-//         id,
-//         // sku: 'F15',
-//         category: pdpType,
-//         name: settingProductTitle,
-//         brand: 'VRAI',
-//         variant: variantProductTitle,
-//         product: variantProductTitle,
-//         // url: 'https://www.website.com/product/path',
-//         image_url: src,
-//         ...selectedConfiguration,
-//         // complete_your_ring
-//         setting: settingProductTitle,
-//         diamond_lot_Id: diamond?.lotId,
-//         diamond_type: diamond?.diamondType,
-//         carat: diamond?.carat,
-//         gold_purity: goldPurity,
-//         band_accent: bandAccent,
-//         shape: diamond?.diamondType,
-//         clarity: diamond?.clarity,
-//         colour: diamond?.color,
-//         centerstone: `${diamond?.carat}ct, ${diamond?.color}, ${diamond?.clarity}`,
-//         ecommerce: {
-//           value: totalAmount,
-//           currency: currencyCode,
-//           add: {
-//             products: [
-//               {
-//                 id,
-//                 name: settingProductTitle,
-//                 price: formattedSettingPrice,
-//                 category: pdpType,
-//                 variant: variantProductTitle,
-//                 quantity: 1,
-//                 brand: 'VRAI',
-//               },
-//               {
-//                 id: diamond?.dangerousInternalShopifyVariantId,
-//                 name: diamond?.productTitle,
-//                 price: formattedDiamondPrice,
-//                 brand: 'VRAI',
-//                 category: diamond?.productType,
-//                 variant: diamond?.productTitle,
-//                 quantity: 1,
-//               },
-//             ],
-//           },
-//         },
-//         items: [
-//           {
-//             item_id: id,
-//             item_name: variantProductTitle,
-//             item_brand: 'VRAI',
-//             item_category: pdpType,
-//             price: formattedSettingPrice,
-//             currency: currencyCode,
-//             quantity: 1,
-//             ...selectedConfiguration,
-//           },
-//           {
-//             item_id: diamond?.dangerousInternalShopifyVariantId,
-//             item_name: diamond?.productTitle,
-//             item_brand: 'VRAI',
-//             item_category: diamond?.productType,
-//             price: formattedDiamondPrice,
-//             currency: currencyCode,
-//             quantity: 1,
-//           },
-//         ],
-//       });
-//     });
-
-//   return;
-// }
