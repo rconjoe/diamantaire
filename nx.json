@@ -15,7 +15,7 @@
       "!{projectRoot}/tsconfig.storybook.json"
     ],
     "sharedGlobals": [
-      "{workspaceRoot}/babel.config.json"
+      "{workspaceRoot}/babel.config.json",
     ]
   },
   "targetDefaults": {
@@ -25,7 +25,10 @@
       ],
       "inputs": [
         "production",
-        "^production"
+        "^production",
+        {
+          "env": "VERCEL_ENV"
+        }
       ]
     },
     "test": {

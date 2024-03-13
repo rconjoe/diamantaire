@@ -25,8 +25,10 @@ export function queryDatoGQL({
     authorization: `Bearer ` + process.env['NEXT_PUBLIC_DATOCMS_API_TOKEN'],
   };
 
-  if (includeDrafts) {
-    headers['X-Include-Drafts'] = (environment !== 'production').toString();
+  if (includeDrafts || environment !== 'production') {
+    headers['X-Include-Drafts'] = 'true'
+  } else {
+    headers['X-Include-Drafts'] = 'false'
   }
 
   if (excludeInvalid) {
