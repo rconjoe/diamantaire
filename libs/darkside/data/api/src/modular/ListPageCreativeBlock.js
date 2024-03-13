@@ -8,7 +8,7 @@ creativeBlocks {
   desktopImage {
       url
       alt
-      responsiveImage(imgixParams: {w: 666, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+      responsiveImage(imgixParams: {w: 672, q: 60, auto: format, fit: crop, crop: focalpoint }) {
           ...responsiveImageFragment
       }
   }
@@ -64,12 +64,12 @@ creativeBlocks {
               }
           }
           plpImage {
-              responsiveImage(imgixParams: {w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              responsiveImage(imgixParams: {w: 250, h: 250, q: 60, auto: format, fit: crop, crop: focalpoint }) {
                   ...responsiveImageFragment
               }
           }
           plpImageHover {
-              responsiveImage(imgixParams: {w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              responsiveImage(imgixParams: {w: 250, h: 250, q: 60, auto: format, fit: crop, crop: focalpoint }) {
                   ...responsiveImageFragment
               }
           }
