@@ -270,6 +270,7 @@ const PlpProductVariant = ({
                             ...primaryImage,
                             width: 324,
                             height: 324,
+                            sizes: '(min-width: 768px) 324px, 171px',
                           },
                         }}
                       />
@@ -285,6 +286,7 @@ const PlpProductVariant = ({
                             ...hoverImage,
                             width: 324,
                             height: 324,
+                            sizes: '(min-width: 768px) 324px, 171px',
                           },
                         }}
                       />
@@ -324,6 +326,7 @@ const PlpProductVariant = ({
                             ...primaryImage,
                             width: 324,
                             height: 324,
+                            sizes: '(min-width: 768px) 324px, 171px',
                           },
                         }}
                       />
@@ -339,6 +342,7 @@ const PlpProductVariant = ({
                             ...hoverImage,
                             width: 324,
                             height: 324,
+                            sizes: '(min-width: 768px) 324px, 171px',
                           },
                         }}
                       />

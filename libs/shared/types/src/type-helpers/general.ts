@@ -12,6 +12,7 @@ export interface DatoImageType {
     height: number;
     base64: string;
     aspectRatio: number;
+    sizes: string;
   };
   video?: {
     streamingUrl: string;
