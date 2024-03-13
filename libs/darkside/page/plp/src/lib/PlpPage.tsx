@@ -1,5 +1,5 @@
 import { PageViewTracker, useAnalytics } from '@diamantaire/analytics';
-import { Breadcrumb } from '@diamantaire/darkside/components/common-ui';
+import { Breadcrumb, DarksideButton, Loader, UIString } from '@diamantaire/darkside/components/common-ui';
 import {
   PlpBlockPicker,
   PlpHeroBanner,
@@ -23,6 +23,7 @@ import {
 import { isEmptyObject, getSwrRevalidateConfig } from '@diamantaire/shared/helpers';
 import { FilterValueProps, generateListPageUrl } from '@diamantaire/shared-product';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
+import clsx from 'clsx';
 import { GetStaticPropsContext, GetStaticPropsResult, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import { NextSeo, WebPageJsonLd } from 'next-seo';
@@ -49,7 +50,21 @@ type FilterQueryValues = {
   subStyle?: string[];
 };
 
-const PlpStyles = styled.div``;
+const PlpStyles = styled.div`
+  .loader-more-container {
+    margin-bottom: 4rem;
+    text-align: center;
+    > div {
+      margin: 0 auto;
+      width: 30rem;
+    }
+    >.is-fetching {
+      button:hover {
+        background-color: var(--color-black)!important;
+      }
+    }  
+  }
+`;
 
 function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   const { productListFiltered } = useAnalytics();
@@ -60,7 +75,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
   const { locale, query, defaultLocale, asPath } = router || {};
 
-  const { ref: pageEndRef, inView } = useInView({ rootMargin: '1600px' });
+  const { ref: pageEndRef, inView } = useInView({ rootMargin: '1400px' });
 
   const { plpSlug, category, initialFilterValues, urlFilterMethod } = props;
 
@@ -228,7 +243,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
       <PlpProductGrid
         data={data}
         plpTitle={hero?.title}
-        isFetching={isFetching}
+        isFetching={false}
         availableFilters={availableFilters}
         promoCardCollectionId={promoCardCollection?.id}
         creativeBlockIds={creativeBlockIds}
@@ -242,10 +257,28 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
         subcategoryFilter={subcategoryFilter}
       />
 
-      <div ref={pageEndRef} />
+      {hasNextPage && (
+        <div className="loader-more-container">
+          <DarksideButton 
+            disabled={isFetching}
+            onClick={() => fetchNextPage()}
+            className={clsx({
+              'is-fetching': isFetching
+            })}
+          >
+            {!isFetching && (
+              <UIString>Load more</UIString>
+            )}
+            {isFetching && (
+              <Loader color="#fff"/>
+            )}
+          </DarksideButton>
+        </div>
+      )}
+      
+      <div ref={pageEndRef}/>
       <div className="below-banner-container-wrapper">
         <PlpPreviouslyViewed />
-
         {category && plpSlug && <PlpBlockPicker category={category} plpSlug={plpSlug} />}
       </div>
     </PlpStyles>
