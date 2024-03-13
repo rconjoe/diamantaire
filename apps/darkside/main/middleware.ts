@@ -278,12 +278,29 @@ export default async function middleware(request: NextRequest, _event: NextFetch
     }
   }
 
-  if (subdomain && VALID_COUNTRY_SUBDOMAINS.includes(subdomain.toLowerCase())) {
-    const countryCode = subdomain.toUpperCase();
-    const localePath = getLocaleFromCountry(countryCode);
-    const targetUrl = new URL(`https://www.vrai.com/${localePath}${url.pathname}${url.search}`);
+  if (subdomain) {
+    let targetUrl;
 
-    return NextResponse.redirect(targetUrl);
+    switch (subdomain.toLowerCase()) {
+      case 'us':
+      case 'eu':
+        targetUrl = new URL(`https://www.vrai.com${url.pathname}${url.search}`);
+        break;
+      case 'uk':
+        targetUrl = new URL(`https://www.vrai.com/en-GB${url.pathname}${url.search}`);
+        break;
+      default:
+        if (VALID_COUNTRY_SUBDOMAINS.includes(subdomain.toLowerCase())) {
+          const countryCode = subdomain.toUpperCase();
+          const localePath = getLocaleFromCountry(countryCode);
+
+          targetUrl = new URL(`https://www.vrai.com/${localePath}${url.pathname}${url.search}`);
+        }
+    }
+
+    if (targetUrl) {
+      return NextResponse.redirect(targetUrl);
+    }
   }
 
   const preferredLocale = cookies.get('NEXT_LOCALE')?.value;
