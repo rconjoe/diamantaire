@@ -8,7 +8,7 @@ type DatoImageProps = {
   overrideAlt?: string;
   shouldLazyLoad?: boolean;
   isSVG?: boolean;
-  image?: DatoImageType;
+  image: DatoImageType;
   quality?: number;
   enableDpr?: boolean;
   title?: string;
