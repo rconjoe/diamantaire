@@ -58,6 +58,7 @@ export type ERProductCartItemProps = {
 
     childProduct: string;
     shippingBusinessDays: string;
+    shippingTimeStamp: string;
   };
   diamonds?: ProductAddonDiamond[];
 
@@ -92,6 +93,7 @@ export type ProductAddonDiamond = {
     isChildProduct: string;
     _dateAdded: string;
     _specs: string;
+    shippingTimeStamp: string;
   };
 };
 
