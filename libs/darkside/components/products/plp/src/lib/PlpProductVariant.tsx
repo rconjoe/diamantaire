@@ -241,6 +241,8 @@ const PlpProductVariant = ({
     });
   };
 
+  const shouldLazyLoad = position > 4;
+
   return (
     <PlpProductVariantStyles>
       {builderFlow ? (
@@ -260,7 +262,7 @@ const PlpProductVariant = ({
                 {isPrimaryImage
                   ? primaryImage && (
                       <DatoImage
-                        shouldLazyLoad={true}
+                        shouldLazyLoad={shouldLazyLoad}
                         quality={60}
                         overrideAlt={productTitleWithProperties}
                         enableDpr
@@ -274,7 +276,7 @@ const PlpProductVariant = ({
                     )
                   : hoverImage && (
                       <DatoImage
-                        shouldLazyLoad={true}
+                        shouldLazyLoad={shouldLazyLoad}
                         quality={60}
                         enableDpr
                         image={{
@@ -310,7 +312,7 @@ const PlpProductVariant = ({
                 {isPrimaryImage
                   ? primaryImage && (
                       <DatoImage
-                        shouldLazyLoad={true}
+                        shouldLazyLoad={shouldLazyLoad}
                         quality={60}
                         overrideAlt={productTitleWithProperties}
                         enableDpr
@@ -324,7 +326,7 @@ const PlpProductVariant = ({
                     )
                   : hoverImage && (
                       <DatoImage
-                        shouldLazyLoad={true}
+                        shouldLazyLoad={shouldLazyLoad}
                         quality={60}
                         enableDpr
                         image={{
