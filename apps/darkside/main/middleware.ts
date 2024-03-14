@@ -285,10 +285,10 @@ export default async function middleware(request: NextRequest, _event: NextFetch
     return NextResponse.redirect(targetUrl);
   }
 
-  const redirectResponse = setRedirect({ request, url, geo, cookies });
+  const geolocationRedirectResponse = setGeolocationRedirect({ request, url, geo, cookies });
 
-  if (redirectResponse) {
-    return redirectResponse;
+  if (geolocationRedirectResponse) {
+    return geolocationRedirectResponse;
   }
 
   return res;
@@ -329,7 +329,7 @@ interface SetRedirectParams {
   cookies: Cookies;
 }
 
-function setRedirect({ request, url, geo, cookies }: SetRedirectParams): NextResponse | null {
+function setGeolocationRedirect({ request, url, geo, cookies }: SetRedirectParams): NextResponse | null {
   const preferredLocale = cookies.get('NEXT_LOCALE')?.value;
 
   // Redirect if there's a preferred locale that doesn't match the current locale
