@@ -174,7 +174,7 @@ const PlpCreativeBlock = ({ block, plpTitle }) => {
   return (
     <PlpCreativeBlockStyles className={className}>
       <div className="creative-block__image">
-        <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={title} />
+        <MobileDesktopImage shouldLazyLoad={true} desktopImage={desktopImage} mobileImage={mobileImage} alt={title} />
 
         <div
           className={`creative-block__content${
