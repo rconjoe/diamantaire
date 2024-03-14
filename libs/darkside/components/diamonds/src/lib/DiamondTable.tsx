@@ -319,6 +319,17 @@ const DiamondTable = (props: DiamondTableProps) => {
 
     if (!trig) return;
 
+    // Function to manually check if the trigger is within view
+    const checkTriggerPosition = () => {
+      const trigRect = trig.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+      // Check if the distance from the trigger's top to the viewport's bottom is <= 1000px
+      if (trigRect.top - viewportHeight <= 3000) {
+        onLoadMore();
+      }
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
@@ -331,6 +342,9 @@ const DiamondTable = (props: DiamondTableProps) => {
     );
 
     observer.observe(trig);
+
+    // Manually check if the trigger is within view when the effect runs
+    checkTriggerPosition();
 
     return () => {
       observer.unobserve(trig);

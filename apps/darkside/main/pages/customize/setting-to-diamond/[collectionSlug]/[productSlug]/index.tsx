@@ -149,6 +149,8 @@ const DiamondBuildStep = () => {
 
   const { data: { diamonds, pagination, ranges } = {} } = useDiamondsData({ ...options });
 
+  console.log('diamonds', diamonds);
+
   const tableOptions = {
     locale: DEFAULT_LOCALE,
     initialOptions: { ...options },
