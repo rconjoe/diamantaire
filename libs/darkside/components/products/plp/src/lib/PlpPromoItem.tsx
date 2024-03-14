@@ -3,7 +3,6 @@ import { useCartData, usePlpGWP } from '@diamantaire/darkside/data/hooks';
 import { getCurrency, getFormattedPrice } from '@diamantaire/shared/constants';
 import {
   getCountry,
-  getRelativeUrl,
   isCountrySupported,
   isCurrentTimeWithinInterval,
   replacePlaceholders,
@@ -91,7 +90,13 @@ const PlpPromoItem = ({ block }) => {
     <PlpPromoItemStyles>
       <Link href={route && route}>
         <div className="promo__image">
-          <MobileDesktopImage alt={title} desktopImage={image} mobileImage={imageMobile} quality={100} />
+          <MobileDesktopImage
+            shouldLazyLoad={true}
+            alt={title}
+            desktopImage={image}
+            mobileImage={imageMobile}
+            quality={100}
+          />
           <div className="promo__content">
             <p
               style={{
