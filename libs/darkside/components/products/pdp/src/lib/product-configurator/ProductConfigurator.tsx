@@ -117,16 +117,16 @@ function ProductConfigurator({
   const sizeOptions = configurations?.[sizeOptionKey];
   const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(true);
   const { locale, query } = useRouter();
-
+  const productType = additionalVariantData?.productType;
   const preselectedRingSize = query?.ringSize;
+  const preselectedSizeVariant = configurations?.ringSize?.find((item) => item.value === preselectedRingSize);
+
+  const defaultVariantId = sizeOptions?.find((option) => option.value === preselectedRingSize)?.id || variantId;
 
   const { _t } = useTranslations(locale);
-  const [selectedVariantId, setSelectVariantId] = useState<string>(
-    sizeOptions?.find((option) => option.value === defaultRingSize)?.id || variantId,
-  );
-  const { isFetching, isInStock } = useVariantInventory(selectedVariantId, trackInventory);
+  const [selectedVariantId, setSelectVariantId] = useState<string>(defaultVariantId);
 
-  const preselectedSizeVariant = configurations?.ringSize?.find((item) => item.value === preselectedRingSize);
+  const { isFetching, isInStock } = useVariantInventory(selectedVariantId, trackInventory);
 
   // Ring size
   const [selectedSize, setSelectedSize] = useState<string>(preselectedSizeVariant?.value || defaultRingSize || '5');
@@ -171,8 +171,23 @@ function ProductConfigurator({
   }, []);
 
   useEffect(() => {
-    setSelectVariantId(variantId);
-  }, [variantId]);
+    const updateVariantId = () => {
+      let newVariantId = variantId; // default to the initial variant ID
+
+      if ((productType === 'Wedding Band' || productType === 'Ring') && selectedSize) {
+        // Find the variant ID that matches the selected size
+        const matchingVariant = configurations?.ringSize?.find((variant) => variant.value === selectedSize)?.id;
+
+        if (matchingVariant) {
+          newVariantId = matchingVariant;
+        }
+      }
+
+      setSelectVariantId(newVariantId);
+    };
+
+    updateVariantId();
+  }, [selectedSize, variantId, configurations, productType]);
 
   const hasCaratWeightSelector = useMemo(() => {
     return configurations?.caratWeight?.length > 1;
