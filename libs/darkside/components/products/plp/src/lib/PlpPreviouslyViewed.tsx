@@ -199,7 +199,9 @@ const PlpPreviouslyViewed = () => {
                         productSlug={product?.productSlug}
                         collectionSlug={product?.collectionSlug}
                       >
-                        <div className="product__image">{content?.plpImage && <DatoImage image={content.plpImage} />}</div>
+                        <div className="product__image">
+                          {content?.plpImage && <DatoImage shouldLazyLoad={true} image={content.plpImage} />}
+                        </div>
                         <div className="product__content">
                           <Heading type="h3" className="secondary product-suggestion__title">
                             {generatedTitle}
