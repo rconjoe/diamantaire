@@ -50,7 +50,9 @@ const DiamondBuildStepStyles = styled(motion.div)`
 
     .nav-title {
       &.mobile {
+        padding: 0;
         margin-bottom: 3rem;
+
         @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
           margin-bottom: 0;
           display: none;
