@@ -8,6 +8,8 @@ export const PRICE_RANGE_OPTIONS_HUMAN_NAMES_VALUES = {
 
 export const FACETED_NAV_ORDER = ['subStyle', 'style', 'diamondType', 'metal'];
 
+export const ACCEPTED_FILTER_PARAMS = ['subStyle', 'style', 'diamondType', 'metal', 'price'];
+
 export const PLP_PRICE_RANGES = [
   {
     title: 'Below $500',

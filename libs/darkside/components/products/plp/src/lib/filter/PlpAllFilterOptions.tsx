@@ -1,6 +1,7 @@
 import { Heading, Slider, UIString } from '@diamantaire/darkside/components/common-ui';
 import { humanNamesMapperType } from '@diamantaire/darkside/data/hooks';
 import {
+  ACCEPTED_FILTER_PARAMS,
   DIAMOND_TYPE_HUMAN_NAMES,
   JEWELRY_SUB_CATEGORY_HUMAN_NAMES,
   METALS_IN_HUMAN_NAMES,
@@ -344,7 +345,12 @@ const PlpAllFilterOptions = ({
                       ? JEWELRY_SUB_CATEGORY_HUMAN_NAMES[filterValue[filterType]]
                       : filterType;
 
-                    if (!filterValue[filterType] || filterValue[filterType]?.length === 0 || filterType.includes('utm')) {
+                    if (
+                      !filterValue[filterType] ||
+                      filterValue[filterType]?.length === 0 ||
+                      // Needs to be a registered filter type to show in the active filters
+                      !ACCEPTED_FILTER_PARAMS.includes(filterType)
+                    ) {
                       return null;
                     }
 
