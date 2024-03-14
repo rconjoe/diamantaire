@@ -2054,24 +2054,24 @@ export class ProductsService {
   }
 }
 
-// type PlpQuery = {
-//   slug: string;
-//   category: string;
-//   locale: string;
-//   page;
-//   limit;
-//   sortBy;
-//   sortOrder;
-// } & PlpFilters;
+type PlpQuery = {
+  slug: string;
+  category: string;
+  locale: string;
+  page;
+  limit;
+  sortBy;
+  sortOrder;
+} & PlpFilters;
 
-// type PlpFilters = {
-//   metals: string[];
-//   diamondTypes: string[];
-//   priceMin: number;
-//   priceMax: number;
-//   styles: string[];
-//   subStyles: string[];
-// };
+type PlpFilters = {
+  metals: string[];
+  diamondTypes: string[];
+  priceMin: number;
+  priceMax: number;
+  styles: string[];
+  subStyles: string[];
+};
 
 function getDatoRequestLocale(locale = 'en_US'): string {
   const validDatoLocales = ['en_US', 'fr', 'de', 'es'];
