@@ -1,8 +1,8 @@
 import { Heading, Slider, UIString } from '@diamantaire/darkside/components/common-ui';
 import { humanNamesMapperType } from '@diamantaire/darkside/data/hooks';
 import {
+  ACCEPTED_FILTER_PARAMS,
   DIAMOND_TYPE_HUMAN_NAMES,
-  FACETED_NAV_ORDER,
   JEWELRY_SUB_CATEGORY_HUMAN_NAMES,
   METALS_IN_HUMAN_NAMES,
   METAL_HUMAN_NAMES,
@@ -349,7 +349,7 @@ const PlpAllFilterOptions = ({
                       !filterValue[filterType] ||
                       filterValue[filterType]?.length === 0 ||
                       // Needs to be a registered filter type to show in the active filters
-                      !FACETED_NAV_ORDER.includes(filterType)
+                      !ACCEPTED_FILTER_PARAMS.includes(filterType)
                     ) {
                       return null;
                     }
