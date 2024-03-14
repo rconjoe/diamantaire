@@ -36,7 +36,7 @@ const InstagramThumnailSlide = ({
 
   const link = getLink();
 
-  const imageItem = <DatoImage image={image} overrideAlt={'Open VRAI Instagram'} />;
+  const imageItem = <DatoImage shouldLazyLoad={true} image={image} overrideAlt={'Open VRAI Instagram'} />;
 
   if (!link) {
     return <InstagramThumnailSlideContainer className={extraClass}>{imageItem}</InstagramThumnailSlideContainer>;
