@@ -1,4 +1,4 @@
-import { FACETED_NAV_ORDER } from '@diamantaire/shared/constants';
+import { ACCEPTED_FILTER_PARAMS, FACETED_NAV_ORDER } from '@diamantaire/shared/constants';
 import { removeUrlParameter, updateUrlParameter } from '@diamantaire/shared/helpers';
 import { FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
 import clsx from 'clsx';
@@ -208,7 +208,7 @@ const PlpProductFilter = ({
 
   useEffect(() => {
     // If all params are gtm, do nothing. This will only happen if the user has only gtm params in the url, and will need to be updated if we want to link directly to filters
-    if (filterValue && Object.keys(filterValue).every((key) => key.toLowerCase().includes('utm'))) {
+    if (filterValue && Object.keys(filterValue).every((key) => !ACCEPTED_FILTER_PARAMS.includes(key))) {
       return;
     }
 
