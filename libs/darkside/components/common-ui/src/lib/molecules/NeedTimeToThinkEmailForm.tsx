@@ -29,8 +29,9 @@ const NeedTimeToThinkFormStyles = styled.div<{ isUserInEu?: boolean }>`
 `;
 
 const NeedTimeToThinkForm = ({ productData }) => {
+  const [isUserInEu, setIsUserInEu] = useState(false);
   const router = useRouter();
-  const isUserInEu = getIsUserInEu();
+
   const [valid, setValid] = useState(!isUserInEu);
   const { locale, asPath } = router || {};
   const globalTemplateData = useGlobalData(locale);
@@ -105,6 +106,7 @@ const NeedTimeToThinkForm = ({ productData }) => {
   };
 
   useEffect(() => {
+    setIsUserInEu(getIsUserInEu());
     // Set the page title from document.title on the client side
     setPageTitle(document.title);
   }, []);
