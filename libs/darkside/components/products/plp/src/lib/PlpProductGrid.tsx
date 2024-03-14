@@ -73,7 +73,8 @@ const PlpProductGridStyles = styled.div`
   }
 
   .loader-container {
-    margin: 1rem 0;
+    margin-top: 4rem;
+    margin-bottom: 2rem;
     text-align: center;
   }
 

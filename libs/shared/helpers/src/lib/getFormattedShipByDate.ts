@@ -115,6 +115,14 @@ export const getFormattedShipByDate = (shippingBusinessDays, _locale = 'en-us', 
   return formattedShipByDate;
 };
 
+export const getShippingTimeStamp = (shippingBusinessDays, currentDateTime = DateTime.local()) => {
+  const shipByDate = getShipByDate(shippingBusinessDays, currentDateTime);
+  const shipByDateInEasternTime = shipByDate.setZone('America/New_York').set({ hour: 14, minute: 0, second: 0 });
+  const formattedShipByDate = shipByDateInEasternTime.toISO();
+
+  return formattedShipByDate;
+};
+
 export const getFormattedShipByDateWithYear = (
   shippingBusinessDays,
   _locale = 'en-us',

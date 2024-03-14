@@ -84,7 +84,7 @@ describe("getDiamonds", () => {
       SortBy.COLOR, SortOrder.ASC
     );
     const ExpectedOrder = [colorAsc, CARAT_DESC];
-    const newOrder = diamondsService.assmebleSortKey(colorAsc, DEFAULT_ORDER);
+    const newOrder = diamondsService.appendSortOption(colorAsc, DEFAULT_ORDER);
 
     expect(newOrder).toStrictEqual(ExpectedOrder);
   });
@@ -93,7 +93,7 @@ describe("getDiamonds", () => {
       SortBy.CARAT, SortOrder.ASC
     );
     const ExpectedOrder = [caratAsc, COLOR_DESC];
-    const newOrder = diamondsService.assmebleSortKey(caratAsc, DEFAULT_ORDER);
+    const newOrder = diamondsService.appendSortOption(caratAsc, DEFAULT_ORDER);
 
     expect(newOrder).toStrictEqual(ExpectedOrder);
 
@@ -104,52 +104,28 @@ describe("getDiamonds", () => {
       SortBy.PRICE, SortOrder.DESC
     );
     const ExpectedOrder = [priceDesc, COLOR_DESC, CARAT_DESC];
-    const newOrder = diamondsService.assmebleSortKey(priceDesc, DEFAULT_ORDER);
+    const newOrder = diamondsService.appendSortOption(priceDesc, DEFAULT_ORDER);
 
     expect(newOrder).toStrictEqual(ExpectedOrder);
   })
 
   it("Can convert a SortOption with special sorting to mongo payload", () => {
     const mongoPayload = diamondsService.generateMongoSortPayload([COLOR_DESC]);
-    const expectedPayload = [
-      {
-        "$addFields":
-        {
-          "color_order":
-          {
-            "$indexOfArray": [
-              ["L", "K", "J", "I", "H", "G", "F", "E", "D"],
-              "$color"]
-          }
-        }
-      },
-      { "$sort": { "color_order": -1 } }]
+    const expectedPayload = { "$sort": { "color_sort": -1 } }
 
     expect(mongoPayload).toStrictEqual(expectedPayload);
   })
 
   it("Can convert a SortOption without special sorting to mongo payload", () => {
     const mongoPayload = diamondsService.generateMongoSortPayload([CARAT_DESC]);
-    const expectedPayload =[ { '$sort': { carat: -1 } } ];
+    const expectedPayload = { '$sort': { carat: -1 } };
 
     expect(mongoPayload).toStrictEqual(expectedPayload);
   });
 
   it("Can convert multiple SortOptions to mong payload", () => {
     const mongoPayload = diamondsService.generateMongoSortPayload(DEFAULT_ORDER);
-    const expectedPayload =[
-      {
-        "$addFields":
-        {
-          "color_order":
-          {
-            "$indexOfArray": [
-              ["L", "K", "J", "I", "H", "G", "F", "E", "D"],
-              "$color"]
-          }
-        }
-      },
-      { "$sort": { "color_order": -1, "carat": -1 } }]
+    const expectedPayload ={ "$sort": { "color_sort": -1, "carat": -1 } }
 
     expect(mongoPayload).toStrictEqual(expectedPayload);
   })
