@@ -285,38 +285,6 @@ export default async function middleware(request: NextRequest, _event: NextFetch
     return NextResponse.redirect(targetUrl);
   }
 
-  // const preferredLocale = cookies.get('NEXT_LOCALE')?.value;
-
-  // // Redirect if there's a preferred locale that doesn't match the current locale
-  // if (preferredLocale && preferredLocale !== url.locale) {
-  //   return NextResponse.redirect(new URL(`/${preferredLocale}${url.pathname}${url.search}`, request.url));
-  // }
-
-  // // If there's no preferred locale, derive the locale from the user's geo-location
-  // if (!preferredLocale) {
-  //   const countryCode = geo.country || 'US';
-
-  //   // Handle the 'US' geo-location specifically to avoid adding a subpath for 'en-US'
-  //   if (countryCode === 'US' && url.locale === 'default') {
-  //     // No need to redirect for US users viewing the default path
-  //     return NextResponse.next();
-  //   }
-
-  //   const localeFromGeo = getLocaleFromCountry(countryCode);
-
-  //   // Ensure not to redirect if the locale is 'en-US' to avoid unnecessary redirection
-  //   if (localeFromGeo !== 'en-US' && localeFromGeo !== url.locale) {
-  //     const response = NextResponse.redirect(new URL(`/${localeFromGeo}${url.pathname}${url.search}`, request.url));
-
-  //     response.cookies?.set('geo', JSON.stringify(geo));
-
-  //     // Set a cookie to indicate a geo-based redirection has occurred
-  //     response.cookies.set('geo_redirected', 'true', { path: '/', maxAge: 3600 }); // Expires in 1 hour
-
-  //     return response;
-  //   }
-  // }
-
   const redirectResponse = setRedirect({ request, url, geo, cookies });
 
   if (redirectResponse) {
