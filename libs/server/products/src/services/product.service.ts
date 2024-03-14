@@ -729,14 +729,24 @@ export class ProductsService {
    */
   async getAllProductDefaultSkusByCollection(collectionSlug: string){
     this.logger.verbose(`getAllProductDefaultSkusByCollection :: input : ${collectionSlug}`);
-    try {
-      const defaultSkus = await this.productRepository.find({ collectionSlug },{ sku: 1 });
+    const cacheKey = `skus:${collectionSlug}`;
+    const cachedData = await this.cacheManager.get(cacheKey);
 
-      return defaultSkus.map((product) => product.sku);
+    if (!cachedData) {
+      try {
+        const defaultSkus = await this.productRepository.find({ collectionSlug },{ sku: 1 });
+        const skuArray = defaultSkus.map((product) => product.sku);
 
-    } catch (error: any) {
-      this.logger.error(`getAllProductDefaultSkusByCollection :: error : ${error.message}`);
-      throw new NotFoundException(`Collection not found :: error stack : ${error.message}`);
+        this.cacheManager.set(cacheKey, skuArray, PRODUCT_DATA_TTL);
+
+        return skuArray;
+
+      } catch (error: any) {
+        this.logger.error(`getAllProductDefaultSkusByCollection :: error : ${error.message}`);
+        throw new NotFoundException(`Collection not found :: error stack : ${error.message}`);
+      }
+    } else {
+      return cachedData;
     }
   }
 
