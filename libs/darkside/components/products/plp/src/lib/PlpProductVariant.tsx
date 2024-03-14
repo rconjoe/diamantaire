@@ -241,7 +241,7 @@ const PlpProductVariant = ({
     });
   };
 
-  const shouldLazyLoad = position > 4;
+  const shouldLazyLoad = position > 8;
 
   return (
     <PlpProductVariantStyles>
