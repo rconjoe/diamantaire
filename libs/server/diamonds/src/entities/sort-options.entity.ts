@@ -1,6 +1,6 @@
 
 export enum SortBy {
-  SHAPE = "shape",
+  DIAMONDTYPE = "diamondType",
   CARAT = "carat",
   COLOR = "color",
   CLARITY = "clarity",
