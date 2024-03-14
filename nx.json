@@ -25,7 +25,10 @@
       ],
       "inputs": [
         "production",
-        "^production"
+        "^production",
+        {
+          "env": "VERCEL_ENV"
+        }
       ]
     },
     "test": {

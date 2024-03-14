@@ -562,7 +562,7 @@ export function getFormattedPrice(
 
   // this is a hack to see proper CAD formatting
   // https://github.com/nodejs/node/issues/15265#issuecomment-776942859
-  const customLocale = countryCode === 'ES' ? 'de-DE' : locale === 'en-CA' || locale === 'fr-CA' ? 'en-US' : locale;
+  const customLocale = countryCode === 'ES' || countryCode === 'CH' ? 'de-DE' : locale === 'en-CA' || locale === 'fr-CA' ? 'en-US' : locale;
 
   const numberFormat = new Intl.NumberFormat(customLocale, {
     currency,
@@ -673,7 +673,7 @@ export function simpleFormatPrice(
   const { countryCode } = parseValidLocale(locale);
   const currency = cur || getCurrency(countryCode);
 
-  const customLocale = countryCode === 'ES' ? 'de-DE' : locale === 'en-CA' || locale === 'fr-CA' ? 'en-US' : locale;
+  const customLocale = countryCode === 'ES' || countryCode === 'CH' ? 'de-DE' : locale === 'en-CA' || locale === 'fr-CA' ? 'en-US' : locale;
   const numberFormat = new Intl.NumberFormat(customLocale, {
     currency,
     style: 'currency',
