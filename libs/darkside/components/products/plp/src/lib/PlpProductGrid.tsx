@@ -247,7 +247,11 @@ const PlpProductGrid = ({
                   )}
 
                   {creativeBlockObject[gridItemIndex] !== undefined && products.length > 8 && (
-                    <PlpCreativeBlock block={creativeBlockObject[gridItemIndex]} plpTitle={plpTitle} />
+                    <PlpCreativeBlock
+                      block={creativeBlockObject[gridItemIndex]}
+                      plpTitle={plpTitle}
+                      shouldLazyLoad={gridItemIndex > 10}
+                    />
                   )}
 
                   {product?.productType === 'diamonds' ? (

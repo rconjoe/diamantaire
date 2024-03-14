@@ -83,7 +83,7 @@ const PlpCreativeBlockStyles = styled.div`
   }
 `;
 
-const PlpCreativeBlock = ({ block, plpTitle }) => {
+const PlpCreativeBlock = ({ block, plpTitle, shouldLazyLoad }) => {
   const {
     configurationsInOrder,
     desktopImage,
@@ -174,7 +174,12 @@ const PlpCreativeBlock = ({ block, plpTitle }) => {
   return (
     <PlpCreativeBlockStyles className={className}>
       <div className="creative-block__image">
-        <MobileDesktopImage shouldLazyLoad={true} desktopImage={desktopImage} mobileImage={mobileImage} alt={title} />
+        <MobileDesktopImage
+          shouldLazyLoad={shouldLazyLoad}
+          desktopImage={desktopImage}
+          mobileImage={mobileImage}
+          alt={title}
+        />
 
         <div
           className={`creative-block__content${
