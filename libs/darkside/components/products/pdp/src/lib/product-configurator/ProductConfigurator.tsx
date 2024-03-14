@@ -116,7 +116,9 @@ function ProductConfigurator({
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
   const sizeOptions = configurations?.[sizeOptionKey];
   const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(true);
-  const { locale } = useRouter();
+  const { locale, query } = useRouter();
+
+  const preselectedRingSize = query?.ringSize;
 
   const { _t } = useTranslations(locale);
   const [selectedVariantId, setSelectVariantId] = useState<string>(
@@ -124,8 +126,10 @@ function ProductConfigurator({
   );
   const { isFetching, isInStock } = useVariantInventory(selectedVariantId, trackInventory);
 
+  const preselectedSizeVariant = configurations?.ringSize?.find((item) => item.value === preselectedRingSize);
+
   // Ring size
-  const [selectedSize, setSelectedSize] = useState<string>(defaultRingSize || '5');
+  const [selectedSize, setSelectedSize] = useState<string>(preselectedSizeVariant?.value || defaultRingSize || '5');
 
   // Pair or single - always start on pair
   const [selectedPair, setSelectedPair] = useState<'pair' | 'single'>('pair');
