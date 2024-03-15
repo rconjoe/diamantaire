@@ -119,7 +119,7 @@ const PlpCreativeBlock = ({ block, plpTitle, shouldLazyLoad, productLength }) =>
     }
   }, [showShopTheLookSlideout]);
 
-  if (typeof block === undefined && productLength <= 8) return;
+  if (!block || productLength <= 8) return;
 
   const gwpData = gwp?.allGwpDarksides?.[0]?.tiers?.[0];
 
