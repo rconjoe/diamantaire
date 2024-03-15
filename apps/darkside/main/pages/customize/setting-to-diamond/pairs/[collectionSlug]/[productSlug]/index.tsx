@@ -245,7 +245,9 @@ const DiamondBuildStep = () => {
   }, [diamondTypeToShow]);
 
   useEffect(() => {
-    router.replace(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {});
+    router.replace(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {
+      shallow: true,
+    });
   }, [options]);
 
   if (!builderProduct?.product) return <BuilderFlowLoader />;
