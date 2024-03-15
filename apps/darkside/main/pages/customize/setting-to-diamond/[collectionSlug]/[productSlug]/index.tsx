@@ -225,6 +225,9 @@ const DiamondBuildStep = () => {
     if (type === 'price') {
       updateOptions({ priceMin: values[0], priceMax: values[1] });
     }
+
+    // smooth scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleRadioFilterChange = (type: string, values: string[]) => {
@@ -242,7 +245,10 @@ const DiamondBuildStep = () => {
   }, [diamondTypeToShow]);
 
   useEffect(() => {
-    router.replace(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {});
+    // Need shallow for smooth scroll to top
+    router.replace(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {
+      shallow: true,
+    });
   }, [options]);
 
   if (!builderProduct?.product) return <BuilderFlowLoader />;

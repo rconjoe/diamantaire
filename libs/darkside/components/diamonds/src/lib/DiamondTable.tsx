@@ -311,6 +311,9 @@ const DiamondTable = (props: DiamondTableProps) => {
         sortOrder: options.sortBy !== header.id ? 'desc' : newSortOrder,
       });
     }
+
+    // smooth scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // EFFECTS
@@ -319,15 +322,13 @@ const DiamondTable = (props: DiamondTableProps) => {
 
     if (!trig) return;
 
-    // Function to manually check the trigger's position
+    // Function to manually check if the trigger is within view
     const checkTriggerPosition = () => {
       const trigRect = trig.getBoundingClientRect();
       const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
 
-      // Condition to check if we are within 3000px of the trigger or have passed it
-      // Checks if the bottom of the trigger is not above the top of the viewport (which would mean we have not yet scrolled to it)
-      // And if the top of the trigger minus the viewport height is less than 3000px (approaching or passed)
-      if (trigRect.bottom >= 0 || trigRect.top - viewportHeight <= 3000) {
+      // Check if the distance from the trigger's top to the viewport's bottom is <= 1000px
+      if (trigRect.top - viewportHeight <= 3000) {
         onLoadMore();
       }
     };

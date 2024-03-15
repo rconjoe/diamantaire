@@ -144,6 +144,9 @@ const RadioFilter = (props) => {
 
   const handleClick = (values) => {
     handleRadioFilterChange(type, values);
+
+    // smooth scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const isActive = (optionUI, type) => {
