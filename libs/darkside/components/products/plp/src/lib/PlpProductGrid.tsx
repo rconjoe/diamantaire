@@ -160,6 +160,7 @@ const PlpProductGrid = ({
 
   const creativeBlockObject = useMemo(() => {
     if (!creativeBlockIds) return {}; // Return an empty object if cardCollection is falsy
+
     const creativeBlocksData = creativeBlockParentData?.allCreativeBlocks.sort((a, b) => {
       // order is not guaranteed when requesting the ids by themselves so the blocks must be sorted
       return creativeBlockIds.indexOf(a.id) - creativeBlockIds.indexOf(b.id);
@@ -246,13 +247,12 @@ const PlpProductGrid = ({
                     <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex]]} />
                   )}
 
-                  {creativeBlockObject[gridItemIndex] !== undefined && products.length > 8 && (
-                    <PlpCreativeBlock
-                      block={creativeBlockObject[gridItemIndex]}
-                      plpTitle={plpTitle}
-                      shouldLazyLoad={gridItemIndex > 10}
-                    />
-                  )}
+                  <PlpCreativeBlock
+                    block={creativeBlockObject[gridItemIndex]}
+                    plpTitle={plpTitle}
+                    shouldLazyLoad={gridItemIndex > 10}
+                    productLength={products.length}
+                  />
 
                   {product?.productType === 'diamonds' ? (
                     <PlpDiamondItem product={product} />

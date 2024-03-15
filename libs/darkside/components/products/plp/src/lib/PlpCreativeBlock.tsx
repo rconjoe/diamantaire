@@ -83,7 +83,7 @@ const PlpCreativeBlockStyles = styled.div`
   }
 `;
 
-const PlpCreativeBlock = ({ block, plpTitle, shouldLazyLoad }) => {
+const PlpCreativeBlock = ({ block, plpTitle, shouldLazyLoad, productLength }) => {
   const {
     configurationsInOrder,
     desktopImage,
@@ -106,6 +106,20 @@ const PlpCreativeBlock = ({ block, plpTitle, shouldLazyLoad }) => {
   const { data: gwp } = usePlpGWP(locale);
 
   const { data: checkout } = useCartData(locale);
+
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  const [showShopTheLookSlideout, setShowShopTheLookSlideout] = useState(false);
+
+  useEffect(() => {
+    if (showShopTheLookSlideout) {
+      const currentScrollPosition = document.body.scrollTop || document.documentElement.scrollTop;
+
+      setScrollPosition(currentScrollPosition);
+    }
+  }, [showShopTheLookSlideout]);
+
+  if (typeof block === undefined && productLength <= 8) return;
 
   const gwpData = gwp?.allGwpDarksides?.[0]?.tiers?.[0];
 
@@ -135,6 +149,8 @@ const PlpCreativeBlock = ({ block, plpTitle, shouldLazyLoad }) => {
 
   const areSettingsValid = isWithinTimeframe && isCountrySupported(supportedCountries, countryCode) && minSpendValue;
 
+  const isShopTheLook = configurationsInOrder && Array.isArray(configurationsInOrder);
+
   let replacedGwpText = replacePlaceholders(
     gwpText,
     ['%%GWP_minimum_spend%%'],
@@ -147,12 +163,6 @@ const PlpCreativeBlock = ({ block, plpTitle, shouldLazyLoad }) => {
     [getFormattedPrice(parseFloat(minSpendValue) - parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale)],
   ).toString();
 
-  const isShopTheLook = configurationsInOrder && Array.isArray(configurationsInOrder);
-
-  const [scrollPosition, setScrollPosition] = useState(0);
-
-  const [showShopTheLookSlideout, setShowShopTheLookSlideout] = useState(false);
-
   const handleOpenShopTheLook = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
@@ -162,14 +172,6 @@ const PlpCreativeBlock = ({ block, plpTitle, shouldLazyLoad }) => {
   const handleCloseShopTheLook = () => {
     setShowShopTheLookSlideout(false);
   };
-
-  useEffect(() => {
-    if (showShopTheLookSlideout) {
-      const currentScrollPosition = document.body.scrollTop || document.documentElement.scrollTop;
-
-      setScrollPosition(currentScrollPosition);
-    }
-  }, [showShopTheLookSlideout]);
 
   return (
     <PlpCreativeBlockStyles className={className}>
