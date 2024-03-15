@@ -83,7 +83,7 @@ const PlpCreativeBlockStyles = styled.div`
   }
 `;
 
-const PlpCreativeBlock = ({ block, plpTitle, shouldLazyLoad, productLength }) => {
+const PlpCreativeBlock = ({ block, plpTitle, shouldLazyLoad }) => {
   const {
     configurationsInOrder,
     desktopImage,
@@ -118,8 +118,6 @@ const PlpCreativeBlock = ({ block, plpTitle, shouldLazyLoad, productLength }) =>
       setScrollPosition(currentScrollPosition);
     }
   }, [showShopTheLookSlideout]);
-
-  if (!block || productLength <= 8) return;
 
   const gwpData = gwp?.allGwpDarksides?.[0]?.tiers?.[0];
 

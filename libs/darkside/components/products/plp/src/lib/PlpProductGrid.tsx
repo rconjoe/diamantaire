@@ -247,12 +247,13 @@ const PlpProductGrid = ({
                     <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex]]} />
                   )}
 
-                  <PlpCreativeBlock
-                    block={creativeBlockObject[gridItemIndex]}
-                    plpTitle={plpTitle}
-                    shouldLazyLoad={gridItemIndex > 10}
-                    productLength={products.length}
-                  />
+                  {products.length > 8 && creativeBlockObject[gridItemIndex] && (
+                    <PlpCreativeBlock
+                      block={creativeBlockObject[gridItemIndex]}
+                      shouldLazyLoad={gridItemIndex > 10}
+                      plpTitle={plpTitle}
+                    />
+                  )}
 
                   {product?.productType === 'diamonds' ? (
                     <PlpDiamondItem product={product} />
