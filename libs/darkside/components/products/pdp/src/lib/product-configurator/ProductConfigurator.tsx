@@ -253,9 +253,8 @@ function ProductConfigurator({
     <>
       {!hasCaratWeightSelector && (
         <ProductTypeSpecificMetrics
-          parentProductAttributes={parentProductAttributes}
           additionalVariantData={additionalVariantData}
-          productType={additionalVariantData?.productType}
+          parentProductAttributes={parentProductAttributes}
           shouldDoublePrice={shouldDoublePrice}
         />
       )}
