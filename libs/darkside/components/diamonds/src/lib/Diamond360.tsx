@@ -4,8 +4,8 @@ import { DiamondCtoDataTypes, DiamondDataTypes } from '@diamantaire/shared/types
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
-// import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { useEffect, useState, useCallback } from 'react';
 
 import StyledDiamond360 from './Diamond360.style';
 import DiamondImage from './DiamondImage';
@@ -36,71 +36,78 @@ const Diamond360 = ({
   isCto,
   disabled,
   noCaption,
-  // width = 500,
-  // height = 500,
+  width = 500,
+  height = 500,
   // priority = false,
   caption = 'Example of how it will look cut and polished',
 }: Diamond360Props) => {
-  const [videoUrl, setVideoUrl] = useState<string | null>(null);
-  const [showFallbackImage, setShowFallbackImage] = useState(false);
-
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [videoSrc, setVideoSrc] = useState<string | null>(null);
+  const [showFallback, setShowFallback] = useState(false);
   const diamondID = diamond?.lotId || lotId;
 
-  useEffect(() => {
-    const id = diamondID?.includes('cfy-')
-      ? diamondID
-      : diamondID
-          .split('')
-          .filter((v) => !isNaN(Number(v)))
-          .join('');
+  const checkAssets = useCallback(async () => {
+    const id = diamondID?.includes('cfy-') ? diamondID : diamondID?.replace(/\D/g, '');
 
-    if (!disabled && !useImageOnly) {
+    if (useImageOnly || disabled) {
+      const imageUrl = generateDiamondSpriteImage({ diamondID: id, diamondType });
+
+      try {
+        const imageExists = await fetch(imageUrl, { method: 'HEAD' }).then((res) => res.ok);
+
+        if (imageExists) {
+          setImageSrc(imageUrl);
+        } else {
+          setShowFallback(true);
+        }
+      } catch (error) {
+        setShowFallback(true);
+      }
+    } else if (id) {
       const videoUrl = generateDiamondSpriteUrl(id, 'mp4');
 
-      setVideoUrl(videoUrl);
+      setVideoSrc(videoUrl);
     }
-  }, [diamondID, disabled, useImageOnly]);
+  }, [diamondID, diamondType, useImageOnly, disabled]);
+
+  useEffect(() => {
+    checkAssets();
+  }, [checkAssets]);
 
   const spriteImageUrl = generateDiamondSpriteImage({ diamondID, diamondType });
 
   return (
     <StyledDiamond360 className={className}>
-      {showFallbackImage ? (
+      {showFallback ? (
         <div className="img">
-          <DiamondImage diamondType={diamondType} />{' '}
+          <DiamondImage diamondType={diamondType} />
         </div>
-      ) : null}
-
-      {!disabled && !useImageOnly && videoUrl && (
+      ) : imageSrc ? (
+        <Image src={imageSrc} alt={diamondType} width={width} height={height} />
+      ) : videoSrc ? (
         <AnimatePresence>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-            <div className={clsx('vid', { '-fallback': showFallbackImage })}>
-              <ReactPlayer
-                url={videoUrl}
-                playing
-                playsinline
-                loop
-                muted
-                height="100%"
-                width="100%"
-                controls={false}
-                onError={() => {
-                  console.error('Error loading video, showing fallback image.');
-                  setShowFallbackImage(true);
-                }}
-                config={{
-                  file: {
-                    attributes: {
-                      title: diamondType,
-                      poster: spriteImageUrl,
-                    },
+            <ReactPlayer
+              url={videoSrc}
+              playing
+              playsinline
+              loop
+              muted
+              height="100%"
+              width="100%"
+              controls={false}
+              onError={() => setShowFallback(true)}
+              config={{
+                file: {
+                  attributes: {
+                    poster: spriteImageUrl,
                   },
-                }}
-              />
-            </div>
+                },
+              }}
+            />
           </motion.div>
         </AnimatePresence>
-      )}
+      ) : null}
 
       {!noCaption && (
         <>
@@ -110,11 +117,11 @@ const Diamond360 = ({
             </div>
           )}
 
-          {!disabled && !useImageOnly && !isCto && !showFallbackImage && (
+          {/* {!disabled && !useImageOnly && !isCto && !showFallbackImage && (
             <div className="caption">
               <UIString>Interactive actual diamond video</UIString>
             </div>
-          )}
+          )} */}
         </>
       )}
     </StyledDiamond360>
