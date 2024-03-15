@@ -244,13 +244,16 @@ const PlpProductGrid = ({
               return (
                 <Fragment key={`${product?.defaultId}-${gridItemIndex}`}>
                   {cardCollectionObject[gridItemIndex] !== undefined && (
-                    <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex]]} />
+                    <PlpPromoItem
+                      shouldLazyLoad={gridItemIndex > 8}
+                      block={cardCollection[cardCollectionObject[gridItemIndex]]}
+                    />
                   )}
 
                   {creativeBlockObject[gridItemIndex] !== undefined && products.length > 8 && (
                     <PlpCreativeBlock
                       block={creativeBlockObject[gridItemIndex]}
-                      shouldLazyLoad={gridItemIndex > 10}
+                      shouldLazyLoad={gridItemIndex > 8}
                       plpTitle={plpTitle}
                     />
                   )}

@@ -40,7 +40,7 @@ const PlpPromoItemStyles = styled.div`
   }
 `;
 
-const PlpPromoItem = ({ block }) => {
+const PlpPromoItem = ({ block, shouldLazyLoad }) => {
   const { image, imageMobile, title, route, textColor, enableGwp } = block || {};
   const { locale } = useRouter();
 
@@ -91,7 +91,7 @@ const PlpPromoItem = ({ block }) => {
       <Link href={route && route}>
         <div className="promo__image">
           <MobileDesktopImage
-            shouldLazyLoad={true}
+            shouldLazyLoad={shouldLazyLoad}
             alt={title}
             desktopImage={image}
             mobileImage={imageMobile}
