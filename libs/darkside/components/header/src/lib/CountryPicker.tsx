@@ -1,4 +1,5 @@
 import { CountrySelectorStyles, Heading } from '@diamantaire/darkside/components/common-ui';
+import { motion } from 'framer-motion';
 import {
   getLocaleFromCountry,
   getCountryName,
@@ -14,8 +15,12 @@ import { useRouter } from 'next/router';
 import { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 
-const BannerWrapper = styled.div`
-  position: relative;
+const BannerWrapper = styled(motion.div)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 6000;
 `;
 
 const BarStyles = styled.div`
@@ -169,7 +174,7 @@ function CountryPicker() {
   if (!isBannerVisible || NEXT_LOCALE) return null;
 
   return (
-    <BannerWrapper>
+    <BannerWrapper initial={{ y: -100 }} animate={{ y: 0 }} transition={{ ease: 'linear', duration: 0.5 }}>
       <BarStyles>
         <div className="buttons-wrapper">
           <ShopItButton onClick={handleRecommendedCountryChange}>

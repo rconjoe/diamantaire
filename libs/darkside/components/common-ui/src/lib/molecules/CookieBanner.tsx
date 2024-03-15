@@ -116,6 +116,7 @@ const CookieBanner = () => {
     marketingCookiesCategoryName,
     customerSupportCookiesCategoryName,
   } = cookieBannerContent || {};
+
   // Initialize the state to manage cookie consent options
   const [cookieConsentOptions, setCookieConsentOptions] = useState({
     statistics: false,
@@ -175,7 +176,9 @@ const CookieBanner = () => {
 
     const decideOnShowingBanner = () => {
       const isUserInEu = getIsUserInEu();
+
       const didAcceptPrivacy = Cookies.get('didAcceptPrivacy') === 'true';
+
       const shouldShowBanner = isUserInEu && !didAcceptPrivacy;
 
       if (shouldShowBanner) {
