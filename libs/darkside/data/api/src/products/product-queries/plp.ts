@@ -6,13 +6,13 @@ export const CONFIGURATIONS_LIST = gql`
       plpTitle
       variantId
       plpImage {
-        responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+        responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: "format,compress", fit: crop, crop: focalpoint }) {
           ...responsiveImageFragment
         }
         alt
       }
       plpImageHover {
-        responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+        responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: "format,compress", fit: crop, crop: focalpoint }) {
           ...responsiveImageFragment
         }
       }
@@ -43,13 +43,13 @@ export const CONFIGURATIONS_LIST = gql`
       shopifyProductHandle
       plpTitle
       plpImage {
-        responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+        responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: "format,compress", fit: crop, crop: focalpoint }) {
           ...responsiveImageFragment
         }
         alt
       }
       plpImageHover {
-        responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+        responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: "format,compress", fit: crop, crop: focalpoint }) {
           ...responsiveImageFragment
         }
         alt
@@ -122,7 +122,7 @@ export const PRODUCT_BRIEF_CONTENT = gql`
       shopifyProductHandle
       plpTitle
       plpImage {
-        responsiveImage(imgixParams: { w: 344, h: 344, q: 80, auto: format, fit: crop, crop: focalpoint }) {
+        responsiveImage(imgixParams: { w: 344, h: 344, q: 80, auto: "format,compress", fit: crop, crop: focalpoint }) {
           ...responsiveImageFragment
         }
         alt
@@ -226,13 +226,13 @@ export const PLP_QUERY = gql`
             }
           }
           plpImage {
-            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: "format,compress", fit: crop, crop: focalpoint }) {
               ...responsiveImageFragment
             }
             alt
           }
           plpImageHover {
-            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: "format,compress", fit: crop, crop: focalpoint }) {
               ...responsiveImageFragment
             }
           }
@@ -259,13 +259,13 @@ export const PLP_QUERY = gql`
           }
           variantId
           plpImage {
-            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: "format,compress", fit: crop, crop: focalpoint }) {
               ...responsiveImageFragment
             }
             alt
           }
           plpImageHover {
-            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: "format,compress", fit: crop, crop: focalpoint }) {
               ...responsiveImageFragment
             }
           }
@@ -305,13 +305,13 @@ export const PLP_QUERY = gql`
           }
           plpTitle
           plpImage {
-            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: "format,compress", fit: crop, crop: focalpoint }) {
               ...responsiveImageFragment
             }
             alt
           }
           plpImageHover {
-            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: "format,compress", fit: crop, crop: focalpoint }) {
               ...responsiveImageFragment
             }
           }
@@ -337,13 +337,13 @@ export const PLP_QUERY = gql`
           }
           variantId
           plpImage {
-            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: "format,compress", fit: crop, crop: focalpoint }) {
               ...responsiveImageFragment
             }
             alt
           }
           plpImageHover {
-            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: "format,compress", fit: crop, crop: focalpoint }) {
               ...responsiveImageFragment
             }
           }
@@ -355,13 +355,13 @@ export const PLP_QUERY = gql`
         shopifyProductHandle
         plpTitle
         plpImage {
-          responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+          responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: "format,compress", fit: crop, crop: focalpoint }) {
             ...responsiveImageFragment
           }
           alt
         }
         plpImageHover {
-          responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+          responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: "format,compress", fit: crop, crop: focalpoint }) {
             ...responsiveImageFragment
           }
         }
