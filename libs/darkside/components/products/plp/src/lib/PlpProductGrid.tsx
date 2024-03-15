@@ -247,7 +247,7 @@ const PlpProductGrid = ({
                     <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex]]} />
                   )}
 
-                  {products.length > 8 && creativeBlockObject[gridItemIndex] && (
+                  {creativeBlockObject[gridItemIndex] !== undefined && products.length > 8 && (
                     <PlpCreativeBlock
                       block={creativeBlockObject[gridItemIndex]}
                       shouldLazyLoad={gridItemIndex > 10}
