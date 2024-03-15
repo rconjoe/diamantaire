@@ -1,4 +1,4 @@
-import { PageViewTracker, useAnalytics } from '@diamantaire/analytics';
+import { PageViewTracker } from '@diamantaire/analytics';
 import { Loader } from '@diamantaire/darkside/components/common-ui';
 import { PlpHeroBanner, PlpProductGrid } from '@diamantaire/darkside/components/products/plp';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
@@ -43,7 +43,6 @@ const SettingSelectStepStyles = styled.div`
 `;
 
 const SettingSelectStep = () => {
-  const { productListFiltered } = useAnalytics();
   const { locale } = useRouter();
   const { data: seoData } = useBuilderFlowSeo(locale);
   const { seoTitle, seoDescription } = seoData?.builderFlow?.seoFields || {};
