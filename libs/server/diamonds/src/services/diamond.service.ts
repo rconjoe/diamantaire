@@ -246,8 +246,6 @@ export class DiamondsService {
       query['diamondType'] = {
         $in: diamondTypes, // mongoose $in take an array value as input
       };
-    } else {
-      query['diamondType'] = { $ne: null };
     }
 
     // Optional query for price and currencycode
@@ -275,9 +273,18 @@ export class DiamondsService {
       };
     } else {
       // Exclude pink unless specified in color query
-      const regexPattern = /pink/i;
-
-      query['color'] = { $not: { $regex: regexPattern } };
+      query['color'] = { $in: [
+        "Colorless",
+        "NearColorless",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+      ] };
     }
 
     /**
