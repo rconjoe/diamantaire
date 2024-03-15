@@ -492,7 +492,7 @@ const DiamondTable = (props: DiamondTableProps) => {
         <div className="vo-table-foot">
           <div className="vo-table-trigger" ref={loadTrigger} />
 
-          {(!isBuilderFlowOpen || shouldShowCFYPromo) && cfyPromoCard}
+          {(!isBuilderFlowOpen || shouldShowCFYPromo) && !queryDiamond.isFetching && cfyPromoCard}
 
           {(table.getRowModel().rows.length === 0 && (
             <div className="vo-table-no-result">
