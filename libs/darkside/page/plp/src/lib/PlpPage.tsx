@@ -51,13 +51,17 @@ type FilterQueryValues = {
 };
 
 const PlpStyles = styled.div`
+  min-height: 100vh;
+
   .loader-more-container {
     margin-bottom: 4rem;
     text-align: center;
+
     > div {
       margin: 0 auto;
       width: 30rem;
     }
+
     > .is-fetching {
       button:hover {
         background-color: var(--color-black) !important;
@@ -228,55 +232,61 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
       <PageViewTracker listPageData={listPageData} />
 
-      <Breadcrumb breadcrumb={refinedBreadcrumb} spacingType="containedWidth" />
+      {plpData && (
+        <>
+          <Breadcrumb breadcrumb={refinedBreadcrumb} spacingType="containedWidth" />
 
-      <PlpHeroBanner showHeroWithBanner={showHeroWithBanner} data={hero} />
+          <PlpHeroBanner showHeroWithBanner={showHeroWithBanner} data={hero} />
 
-      {subcategoryFilter?.length > 0 && (
-        <PlpSubCategories
-          subcategoryFilter={subcategoryFilter}
-          setFilterValues={setFilterValues}
-          filterValue={filterValue}
-        />
+          {subcategoryFilter?.length > 0 && (
+            <PlpSubCategories
+              subcategoryFilter={subcategoryFilter}
+              setFilterValues={setFilterValues}
+              filterValue={filterValue}
+            />
+          )}
+
+          <PlpProductGrid
+            data={data}
+            plpTitle={hero?.title}
+            isFetching={false}
+            availableFilters={availableFilters}
+            promoCardCollectionId={promoCardCollection?.id}
+            creativeBlockIds={creativeBlockIds}
+            setFilterValues={onFilterChange}
+            filterValue={filterValue}
+            urlFilterMethod={urlFilterMethod}
+            plpSlug={router.query.plpSlug as string}
+            sortOptions={sortOptions}
+            filterOptionsOverride={filterOptionsOverride}
+            onSortChange={onSortChange}
+            subcategoryFilter={subcategoryFilter}
+          />
+
+          {hasNextPage && (
+            <div className="loader-more-container">
+              <DarksideButton
+                disabled={isFetching}
+                onClick={() => fetchNextPage()}
+                className={clsx({
+                  'is-fetching': isFetching,
+                })}
+              >
+                {!isFetching && <UIString>Load more</UIString>}
+
+                {isFetching && <Loader color="#fff" />}
+              </DarksideButton>
+            </div>
+          )}
+
+          <div ref={pageEndRef} />
+
+          <div className="below-banner-container-wrapper">
+            <PlpPreviouslyViewed />
+            {category && plpSlug && <PlpBlockPicker category={category} plpSlug={plpSlug} />}
+          </div>
+        </>
       )}
-
-      <PlpProductGrid
-        data={data}
-        plpTitle={hero?.title}
-        isFetching={false}
-        availableFilters={availableFilters}
-        promoCardCollectionId={promoCardCollection?.id}
-        creativeBlockIds={creativeBlockIds}
-        setFilterValues={onFilterChange}
-        filterValue={filterValue}
-        urlFilterMethod={urlFilterMethod}
-        plpSlug={router.query.plpSlug as string}
-        sortOptions={sortOptions}
-        filterOptionsOverride={filterOptionsOverride}
-        onSortChange={onSortChange}
-        subcategoryFilter={subcategoryFilter}
-      />
-
-      {hasNextPage && (
-        <div className="loader-more-container">
-          <DarksideButton
-            disabled={isFetching}
-            onClick={() => fetchNextPage()}
-            className={clsx({
-              'is-fetching': isFetching,
-            })}
-          >
-            {!isFetching && <UIString>Load more</UIString>}
-            {isFetching && <Loader color="#fff" />}
-          </DarksideButton>
-        </div>
-      )}
-
-      <div ref={pageEndRef} />
-      <div className="below-banner-container-wrapper">
-        <PlpPreviouslyViewed />
-        {category && plpSlug && <PlpBlockPicker category={category} plpSlug={plpSlug} />}
-      </div>
     </PlpStyles>
   );
 }
