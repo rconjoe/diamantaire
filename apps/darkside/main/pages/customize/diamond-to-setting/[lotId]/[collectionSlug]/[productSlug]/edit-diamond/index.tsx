@@ -220,6 +220,9 @@ const DiamondBuildStep = () => {
     if (type === 'price') {
       updateOptions({ priceMin: values[0], priceMax: values[1] });
     }
+
+    // smooth scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleRadioFilterChange = (type: string, values: string[]) => {
