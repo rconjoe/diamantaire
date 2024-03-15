@@ -282,6 +282,16 @@ export class ProductByVariantIdInput {
   readonly variantId: number;
 }
 
+export class ProductSkusInput {
+  @ApiProperty({
+    example: 'three-stone',
+    required: true,
+  })
+  @IsString()
+  @Type(() => String)
+  readonly collectionSlug: string;
+}
+
 export class ProductByContentIdsInput {
   @ApiProperty({
     example: 'contentID1,contentID2',
