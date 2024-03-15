@@ -64,6 +64,7 @@ const DiamondTable = (props: DiamondTableProps) => {
 
   const tableHead = useRef<HTMLDivElement>(null);
   const tableBody = useRef<HTMLDivElement>(null);
+  const tableTopRef = useRef<HTMLDivElement>(null);
   const loadTrigger = useRef<HTMLDivElement>(null);
 
   const { _t } = useTranslations(locale);
@@ -312,8 +313,13 @@ const DiamondTable = (props: DiamondTableProps) => {
       });
     }
 
-    // smooth scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // smooth scroll to top on desktop, else scroll to top of tableref - 55 - tableHeadHeight
+
+    const tableTop = tableTopRef.current.getBoundingClientRect().top + window.scrollY - 55;
+
+    window.innerWidth > 992
+      ? window.scrollTo({ top: 0, behavior: 'smooth' })
+      : window.scrollTo({ top: tableTop, behavior: 'smooth' });
   };
 
   // EFFECTS
@@ -413,7 +419,7 @@ const DiamondTable = (props: DiamondTableProps) => {
       tableHeadHeight={tableHeadHeight}
     >
       <HideTopBar />
-      <div className="vo-table-container">
+      <div className="vo-table-container" ref={tableTopRef}>
         {/* TABLE HEAD */}
         <div ref={tableHead} className="vo-table-head">
           {table.getHeaderGroups().map((headerGroup: any) => (
