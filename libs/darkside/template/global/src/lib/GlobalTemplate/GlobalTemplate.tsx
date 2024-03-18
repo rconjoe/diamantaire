@@ -100,7 +100,7 @@ export const GlobalTemplate = ({ children }) => {
   useEffect(() => {
     rudderInitialize();
     window.rudderanalytics.page();
-    window.rudderanalytics.track('Track Eventwwwww.', {
+    window.rudderanalytics.track('Track Event Test.', {
       foo: 'bar',
     });
   }, []);

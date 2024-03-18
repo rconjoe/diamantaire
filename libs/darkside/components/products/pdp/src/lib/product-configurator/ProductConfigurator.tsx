@@ -564,6 +564,51 @@ function AddToCartButton({
       ],
     });
 
+    window.rudderanalytics.track('Add ER Preset Carat.', {
+      id,
+      name: productTitle,
+      variant: variantProductTitle,
+      product: variantProductTitle,
+      price: formattedPrice,
+      quantity: 1,
+      currencyCode,
+      brand: 'VRAI',
+      category: productType,
+      image_url: image?.src,
+      diamond_type: selectedConfiguration?.diamondType,
+      ...selectedConfiguration,
+      contentIds: [id],
+      ecommerce: {
+        value: formattedPrice,
+        currency: currencyCode,
+        add: {
+          products: [
+            {
+              id,
+              name: productTitle,
+              variant: variantProductTitle,
+              product: variantProductTitle,
+              price: formattedPrice,
+              quantity: 1,
+              brand: 'VRAI',
+            },
+          ],
+        },
+      },
+      items: [
+        {
+          item_id: id,
+          item_name: variantProductTitle,
+          item_brand: 'VRAI',
+          item_category: productType,
+          price: formattedPrice,
+          currency: currencyCode,
+          quantity: 1,
+          ...selectedConfiguration,
+        },
+      ],
+    });
+
     // Common attributes
 
     const specs = specGenerator({
