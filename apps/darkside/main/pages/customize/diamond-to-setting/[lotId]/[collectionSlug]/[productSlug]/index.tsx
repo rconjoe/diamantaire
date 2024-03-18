@@ -178,7 +178,7 @@ const SettingBuildStep = () => {
         console.log('getPdpProduct error', e);
       });
 
-    console.log('productResponse', productResponse);
+    // console.log('productResponse', productResponse);
 
     setShopifyProductData(productResponse);
 
@@ -205,7 +205,7 @@ const SettingBuildStep = () => {
     // Calculate the total price
     let total = builderProduct?.diamonds?.reduce((sum, item) => sum + item.price, 0);
 
-    console.log('total', total);
+    // console.log('total', total);
 
     total = total + parseFloat(product.price);
 

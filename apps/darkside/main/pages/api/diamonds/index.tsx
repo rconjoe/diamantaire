@@ -45,7 +45,7 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
       vraiApiClientURL = `${vraiApiClientURL}${getApiRouteFromViewParam(view) ?? ''}?` + (arr.length ? search : '');
     }
 
-    console.log(`😀 vraiApiClientURL`, vraiApiClientURL);
+    // console.log(`😀 vraiApiClientURL`, vraiApiClientURL);
 
     try {
       const vraiApiClientResponse = await vraiApiClient.request({ method: 'GET', url: vraiApiClientURL });

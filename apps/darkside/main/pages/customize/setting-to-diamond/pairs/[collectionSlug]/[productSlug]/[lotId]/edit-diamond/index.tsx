@@ -155,7 +155,7 @@ const DiamondBuildStep = () => {
   };
 
   const updateOptions = (newOptions) => {
-    console.log('updateOptions');
+    // console.log('updateOptions');
     setOptions((prevOptions) => {
       let updatedOptions: { [key: string]: string } = { ...prevOptions };
 

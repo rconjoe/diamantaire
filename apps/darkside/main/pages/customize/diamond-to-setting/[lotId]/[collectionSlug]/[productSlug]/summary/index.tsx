@@ -440,7 +440,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
     isSelected?: boolean;
   }>(configurations?.ringSize?.filter((item) => item.value === '5')[0] || '5');
 
-  console.log('selectedSize', selectedSize);
+  // console.log('selectedSize', selectedSize);
 
   const { productAdded } = useAnalytics();
 
@@ -497,7 +497,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
     ? 'Jewelry'
     : pdpTypeSingleToPluralAsConst[shopifyProductData?.productType];
 
-  console.log('pdpType', pdpType);
+  // console.log('pdpType', pdpType);
 
   const { data }: { data: any } = useProductDato(collectionSlug as string, locale, pdpType);
 
@@ -563,7 +563,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
 
   const { productTitle } = datoParentProductData || {};
 
-  console.log('datoParentProductData', datoParentProductData);
+  // console.log('datoParentProductData', datoParentProductData);
 
   const productType = shopifyProductData?.productType;
 
@@ -571,7 +571,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
     const { payload, type } = action;
     const { typeId, value } = payload;
 
-    console.log('configOptionsReducer', { state, action });
+    // console.log('configOptionsReducer', { state, action });
 
     switch (type) {
       case 'option-change':
@@ -581,7 +581,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
 
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
 
-  console.log('configState', configState);
+  // console.log('configState', configState);
 
   const productIconListTypeOverride =
     additionalVariantData?.productIconList?.productType ||
@@ -623,7 +623,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
   ];
 
   function handleBuilderFlowVariantChange(option: OptionItemProps, configurationType) {
-    console.log({ configurationType, option });
+    // console.log({ configurationType, option });
 
     const newUrl = `/customize/diamond-to-setting/${builderProduct?.diamonds?.map((diamond) => diamond?.lotId).join('/')}/${
       router.query.collectionSlug
@@ -705,7 +705,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
   }, [router.query.lotId]);
 
   async function getSettingProduct() {
-    console.log('settingSlugs', settingSlugs);
+    // console.log('settingSlugs', settingSlugs);
     const qParams = new URLSearchParams({
       slug: router?.query?.collectionSlug?.toString(),
       id: router?.query?.productSlug?.toString(),

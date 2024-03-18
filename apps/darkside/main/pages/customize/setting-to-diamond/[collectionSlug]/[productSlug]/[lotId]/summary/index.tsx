@@ -620,7 +620,7 @@ const SettingToDiamondSummaryPage = () => {
   ];
 
   function handleBuilderFlowVariantChange(option: OptionItemProps, configurationType) {
-    console.log({ configurationType, option });
+    // ({ configurationType, option });
 
     if (router.asPath.includes('setting-to-diamond')) {
       const newUrl = `/customize/setting-to-diamond/${router.query.collectionSlug}/${option?.id}/${builderProduct?.diamonds
