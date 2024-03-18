@@ -151,7 +151,7 @@ const AccountLogin = () => {
 
         {pendingVerification ? (
           <div className="confirmation-text">
-            <p>{_t('Account confirmation sent')}</p>
+            <p>Check your email for an authentication link from VRAI</p>
           </div>
         ) : (
           <>
