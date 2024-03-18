@@ -5,6 +5,7 @@ import {
   Modal,
   UIString,
   Loader,
+  CarbonNeutralCertification,
 } from '@diamantaire/darkside/components/common-ui';
 import { sendHubspotForm } from '@diamantaire/darkside/data/api';
 import { countries, languagesByCode, parseValidLocale, HUBSPOT_FOOTER_LIST } from '@diamantaire/shared/constants';
@@ -197,6 +198,9 @@ const FooterStyles = styled.footer`
       font-size: 1.4rem;
     }
   }
+  .carbon-neutral-certification-container {
+    padding-top: 2rem;
+  }
 `;
 
 const socialItems = [
@@ -331,6 +335,12 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
                     })}
                   </ul>
                 </div>
+                {footerData?.carbonNeutralCertification && (
+                  <CarbonNeutralCertification 
+                    url={footerData?.carbonNeutralCertification?.url} 
+                    className="carbon-neutral-certification-container"
+                  />
+                )}
               </div>
             </div>
           </div>

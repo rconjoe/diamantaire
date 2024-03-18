@@ -108,6 +108,9 @@ const StyledDiamondDetailAccordion = styled.div`
       flex: 1;
     }
   }
+  .carbon-neutral-certification-container {
+    width: 10rem;
+  }
 `;
 
 export { StyledDiamondDetailAccordion };
