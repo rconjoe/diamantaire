@@ -1,8 +1,6 @@
 import { useSignIn, useSignUp } from '@clerk/nextjs';
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
-import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { GoogleIcon, Logo } from '@diamantaire/shared/icons';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -89,9 +87,6 @@ const AccountLogin = () => {
   const { signIn } = useSignIn();
   const [emailAddress, setEmailAddress] = useState('');
   const [pendingVerification, setPendingVerification] = useState(false);
-  const { locale } = useRouter();
-
-  const { _t } = useTranslations(locale);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
