@@ -96,6 +96,7 @@ const DiamondBuildStep = ({
   updateSettingSlugs,
 }: DiamondBuildStepProps) => {
   const router = useRouter();
+
   const { asPath, query, locale } = router;
 
   const defaultInitialOptions = {
@@ -138,6 +139,8 @@ const DiamondBuildStep = ({
   const isTableView = true;
   const [options, setOptions] = useState(initialOptions);
   const [activeRow, setActiveRow] = useState(null);
+
+  // console.log(`😀`, options);
 
   const { data: { diamonds, pagination, ranges } = {} } = useDiamondsData({ ...options });
 

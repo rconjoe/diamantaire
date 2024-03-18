@@ -105,13 +105,6 @@ const DiamondBuildStep = () => {
 
   const settingProductType = builderProduct?.product?.productType;
 
-  const defaultInitialOptions = {
-    ...DIAMOND_TABLE_DEFAULT_OPTIONS,
-    diamondType: diamondTypeToShow,
-    caratMin: 1,
-    limit: 20,
-  };
-
   const acceptedParams = [...DIAMOND_TABLE_DEFAULT_VALID_QUERIES, 'diamondType', 'clarity', 'color', 'cut'];
 
   let routerInitialOptions: object = {
@@ -129,9 +122,16 @@ const DiamondBuildStep = () => {
 
   const doesRouterHaveOptions = query.limit && query.page && query.sortBy && query.caratMin ? true : false;
 
-  const initialOptions = doesRouterHaveOptions ? { ...routerInitialOptions } : { ...defaultInitialOptions };
+  let isToiMoiOrPair = asPath.includes('toi-moi') || asPath.includes('pairs') ? true : false;
 
-  let isToiMoiOrPair = false;
+  const defaultInitialOptions = {
+    ...DIAMOND_TABLE_DEFAULT_OPTIONS,
+    diamondType: diamondTypeToShow,
+    caratMin: isToiMoiOrPair ? 0.5 : 1,
+    limit: 20,
+  };
+
+  const initialOptions = doesRouterHaveOptions ? { ...routerInitialOptions } : { ...defaultInitialOptions };
 
   if (asPath.includes('toi-moi')) {
     initialOptions['view'] = 'toimoi';
@@ -148,6 +148,8 @@ const DiamondBuildStep = () => {
   }>(initialOptions);
 
   const [activeRow, setActiveRow] = useState(null);
+
+  console.log(`😀 options`, options);
 
   const { data: { diamonds, pagination, ranges } = {} } = useDiamondsData({ ...options });
 

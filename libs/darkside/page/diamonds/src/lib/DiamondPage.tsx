@@ -227,9 +227,14 @@ async function getServerSideProps(
 ): Promise<GetServerSidePropsResult<DiamondPageProps>> {
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
 
-  const { locale, query } = context;
+  const { locale, query, req } = context;
+
   const currencyCode = getCurrencyFromLocale(locale);
+
   const options = getDiamondOptionsFromUrl(query || {}, 'diamondTable');
+
+  console.log(`😀`, req.url, options);
+
   const globalQuery = queries.template.global(locale);
   const diamondQuery = queries.diamonds.content(options);
   const diamondTableQuery = queries.diamondTable.content(locale);

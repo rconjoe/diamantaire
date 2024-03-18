@@ -92,6 +92,10 @@ const DiamondTable = (props: DiamondTableProps) => {
     limit: initialPagination?.perPage || 20,
   };
 
+  // if (isDiamondPairs) {
+  //   options.caratMin = 0.5;
+  // }
+
   if (asPath.includes('toi-moi')) {
     options['view'] = 'toimoi';
   }
@@ -110,7 +114,6 @@ const DiamondTable = (props: DiamondTableProps) => {
     data: {
       diamondTable: {
         cannotFindDiamondSentence1,
-        // cannotFindDiamondSentence2,
         bottomPromoContentLargerCarat,
         bottomPromoContentNoShape,
         bottomPromoContentCtaCopy,
