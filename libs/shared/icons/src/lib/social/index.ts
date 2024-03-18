@@ -1,6 +1,7 @@
 export * from './FacebookIcon';
 export * from './InstagramIcon';
 export * from './PinterestIcon';
+export * from './GoogleIcon';
 export * from './TiktokIcon';
 export * from './PinterestCircleIcon';
 export * from './InstagramCircleIcon';
