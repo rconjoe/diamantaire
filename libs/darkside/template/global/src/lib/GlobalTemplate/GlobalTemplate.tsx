@@ -4,8 +4,10 @@ import { WishlistSlideOut } from '@diamantaire/darkside/components/wishlist';
 import { useGlobalData } from '@diamantaire/darkside/data/hooks';
 import localFont from '@next/font/local';
 import { useRouter } from 'next/router';
-import { ReactElement, ReactNode, useState } from 'react';
+import { ReactElement, ReactNode, useEffect, useState } from 'react';
 import styled from 'styled-components';
+
+import { rudderInitialize } from './rudderInitialize';
 
 export const vraiFont = localFont({
   variable: '--font-family-main',
@@ -94,6 +96,14 @@ export const GlobalTemplate = ({ children }) => {
     window.localStorage.removeItem('hasTermsConsent');
     window.localStorage.setItem('locale', locale);
   }
+
+  useEffect(() => {
+    rudderInitialize();
+    window.rudderanalytics.page();
+    window.rudderanalytics.track('Track Eventwwwww.', {
+      foo: 'bar',
+    });
+  }, []);
 
   return (
     <div
