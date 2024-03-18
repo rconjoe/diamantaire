@@ -78,7 +78,7 @@ const DiamondCfyAccordion = ({
 
     return (
       <div className="description">
-        <Markdown withStyles={false} imageConfig={{ w: 350, h: 126, alt: title }}>
+        <Markdown withStyles={false} imageConfig={{ loading: 'eager', w: 450, h: 175, alt: title }}>
           {desc}
         </Markdown>
 
@@ -139,6 +139,7 @@ const DiamondCfyAccordion = ({
     const arrayWithDowngrade = checkbox.filter((v) => v !== type);
     const upgrade = getProduct(diamondCtoData, arrayWithUpgrade);
     const downgrade = getProduct(diamondCtoData, arrayWithDowngrade);
+    const title = getInfo(specs, 'clarity')?.value;
 
     if (product && upgrade) {
       upgradeLabel = clarityLabelMap[upgrade.clarity]
@@ -157,7 +158,9 @@ const DiamondCfyAccordion = ({
 
     return (
       <div className="description">
-        <Markdown withStyles={false}>{clarityContent}</Markdown>
+        <Markdown withStyles={false} imageConfig={{ loading: 'eager', w: 450, h: 175, alt: title }}>
+          {clarityContent}
+        </Markdown>
 
         {upgrade && (
           <div className="upgrade">
