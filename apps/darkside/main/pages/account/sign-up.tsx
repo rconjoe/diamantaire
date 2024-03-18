@@ -1,11 +1,14 @@
-import { getTemplate as getAccountTemplate } from '@diamantaire/darkside/template/accounts';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 const SignInPage = () => {
   const router = useRouter();
 
-  return router.push('/account/sign-in');
+  useEffect(() => {
+    router.push('/account/sign-in');
+  }, []);
+
+  return <></>;
 };
 
-SignInPage.getTemplate = getAccountTemplate;
 export default SignInPage;
