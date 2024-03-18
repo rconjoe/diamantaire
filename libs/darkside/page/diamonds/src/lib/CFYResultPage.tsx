@@ -292,8 +292,6 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const { data: { productType = '' } = {} } = productQuery || {};
 
-  console.log(`productQuery`, productQuery);
-
   const appointmentEl = useRef(null);
 
   const getToAppointment = (e) => {
