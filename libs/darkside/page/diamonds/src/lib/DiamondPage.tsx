@@ -233,7 +233,7 @@ async function getServerSideProps(
 
   const options = getDiamondOptionsFromUrl(query || {}, 'diamondTable');
 
-  console.log(`😀`, req.url, options);
+  // console.log(`😀`, req.url, options);
 
   const globalQuery = queries.template.global(locale);
   const diamondQuery = queries.diamonds.content(options);

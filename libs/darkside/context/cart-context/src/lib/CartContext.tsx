@@ -379,11 +379,11 @@ export const CartProvider = ({ children }) => {
   }): Promise<string | undefined> => {
     const cartId = localStorage.getItem('cartId');
 
-    console.log('update preview', {
-      lineId,
-      variantId,
-      quantity,
-    });
+    // console.log('update preview', {
+    //   lineId,
+    //   variantId,
+    //   quantity,
+    // });
 
     if (!cartId) {
       return 'Missing cart ID';
@@ -448,7 +448,7 @@ export const CartProvider = ({ children }) => {
     diamondVariantId,
     diamondAttributes,
   }: ERProductCartItemProps) {
-    console.log('getting attr', settingAttributes);
+    // console.log('getting attr', settingAttributes);
 
     const refinedSettingAttributes = Object.keys(settingAttributes)
       .map((key) => {
@@ -473,7 +473,7 @@ export const CartProvider = ({ children }) => {
         })
         .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
 
-      console.log('refinedDiamondAttributes', refinedDiamondAttributes);
+      // console.log('refinedDiamondAttributes', refinedDiamondAttributes);
 
       addCustomizedItem([
         {
