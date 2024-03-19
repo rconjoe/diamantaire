@@ -623,9 +623,8 @@ const ReviewBuildStep = () => {
     },
   ];
 
-  // eslint-disable-next-line
   function handleBuilderFlowVariantChange(option: OptionItemProps, configurationType) {
-    // console.log({ configurationType, option });
+    console.log({ configurationType, option });
 
     const newUrl = `/customize/diamond-to-setting/${builderProduct?.diamonds?.map((diamond) => diamond?.lotId).join('/')}/${
       router.query.collectionSlug
