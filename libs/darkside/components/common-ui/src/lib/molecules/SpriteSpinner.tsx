@@ -52,7 +52,7 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
 
   const spinnerEl = useRef(null);
 
-  const hasSpriteSpinnerRendered = typeof window !== 'undefined' && window?.SpriteSpin?.Api();
+  const hasSpriteSpinnerRendered = typeof window !== 'undefined' && typeof window?.SpriteSpin?.Api === 'function';
 
   const startSpinner = useCallback(async () => {
     if (spriteSource === 'bunny') {

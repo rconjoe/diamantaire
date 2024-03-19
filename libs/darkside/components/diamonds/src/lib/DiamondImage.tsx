@@ -5,9 +5,11 @@ interface DiamondImageProps {
   diamondType?: string;
   className?: string;
   style?: React.CSSProperties;
+  width?: number;
+  height?: number;
 }
 
-const DiamondImage = ({ diamondType, className, style }: DiamondImageProps) => {
+const DiamondImage = ({ diamondType, className, style, width = 0, height = 0 }: DiamondImageProps) => {
   const src = generateDiamondImageUrl(diamondType);
 
   return (
@@ -16,10 +18,12 @@ const DiamondImage = ({ diamondType, className, style }: DiamondImageProps) => {
       alt={diamondType}
       className={className}
       src={src}
-      width={0}
-      height={0}
+      width={width}
+      height={height}
       sizes="100vw"
       title={diamondType}
+      objectFit="contain"
+      layout="responsive"
     />
   );
 };
