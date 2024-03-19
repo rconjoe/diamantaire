@@ -744,6 +744,34 @@ export class ProductsService {
   }
 
   /**
+   * Return an array of default skus for the collection provided
+   * @param {string} collectionSlug input for getting collection data
+   * @returns {array} array of default skus
+   */
+  async getAllProductDefaultSkusByCollection(collectionSlug: string){
+    this.logger.verbose(`getAllProductDefaultSkusByCollection :: input : ${collectionSlug}`);
+    const cacheKey = `skus:${collectionSlug}`;
+    const cachedData = await this.cacheManager.get(cacheKey);
+
+    if (!cachedData) {
+      try {
+        const defaultSkus = await this.productRepository.find({ collectionSlug },{ sku: 1 });
+        const skuArray = defaultSkus.map((product) => product.sku);
+
+        this.cacheManager.set(cacheKey, skuArray, PRODUCT_DATA_TTL);
+
+        return skuArray;
+
+      } catch (error: any) {
+        this.logger.error(`getAllProductDefaultSkusByCollection :: error : ${error.message}`);
+        throw new NotFoundException(`Collection not found :: error stack : ${error.message}`);
+      }
+    } else {
+      return cachedData;
+    }
+  }
+
+  /**
    * Return a Vrai product based on it's Shopify variant id
    * @param {object} input input object
    * @param {string} input.variantId numerical portion of a shopify product identifier

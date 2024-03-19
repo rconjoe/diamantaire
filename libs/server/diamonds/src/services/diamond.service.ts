@@ -52,8 +52,10 @@ export class DiamondsService {
     private readonly utils: UtilService,
   ) {}
 
-  appendSortOption(newSortOption: SortOption, defaultSort: SortOption[] ){
-    const finalOrder : SortOption[] = defaultSort.map((sortOption)=>  new SortOption(sortOption.sortBy, sortOption.sortOrder)); //deep copying the array
+  appendSortOption(newSortOption: SortOption, defaultSort: SortOption[]) {
+    const finalOrder: SortOption[] = defaultSort.map(
+      (sortOption) => new SortOption(sortOption.sortBy, sortOption.sortOrder),
+    ); //deep copying the array
     const elementWithSameKeyIndex = finalOrder.findIndex((sortOption) => sortOption.sortBy === newSortOption.sortBy);
     const isElementPresent = elementWithSameKeyIndex !== -1;
 
@@ -64,22 +66,18 @@ export class DiamondsService {
     finalOrder.unshift(newSortOption);
 
     return finalOrder;
-
   }
 
-  generateMongoSortPayload(sortOptions: SortOption[]){
-    const sortingStage = {$sort : {}}
+  generateMongoSortPayload(sortOptions: SortOption[]) {
+    const sortingStage = { $sort: {} };
 
-    sortOptions.forEach(
-      (sortOption)=>{
-        const  sortStage = sortOption.ToMongo();
+    sortOptions.forEach((sortOption) => {
+      const sortStage = sortOption.ToMongo();
 
-        sortingStage["$sort"] = {...sortingStage["$sort"], ...sortStage};
-      }
+      sortingStage['$sort'] = { ...sortingStage['$sort'], ...sortStage };
+    });
 
-    )
-
-    return sortingStage
+    return sortingStage;
   }
   /**
    * Get filtered diamond types with paginated results
@@ -105,7 +103,7 @@ export class DiamondsService {
 
     let finalOrder = DEFAULT_SORTING_ORDER;
 
-    if (sortByKey){
+    if (sortByKey) {
       const requestedSortOption = new SortOption(SortBy[sortByKey.toUpperCase()], SortOrder[sortOrder.toUpperCase()]);
 
       finalOrder = this.appendSortOption(requestedSortOption, DEFAULT_SORTING_ORDER);
@@ -116,7 +114,7 @@ export class DiamondsService {
       page: input.page || 1,
       // sort: sortByObj,
       customLabels: DIAMOND_PAGINATED_LABELS,
-      sort : sortStage["$sort"]
+      sort: sortStage['$sort'],
     };
 
     const filteredQuery = this.optionalDiamondQuery(input);
@@ -246,8 +244,6 @@ export class DiamondsService {
       query['diamondType'] = {
         $in: diamondTypes, // mongoose $in take an array value as input
       };
-    } else {
-      query['diamondType'] = { $ne: null };
     }
 
     // Optional query for price and currencycode
@@ -275,9 +271,7 @@ export class DiamondsService {
       };
     } else {
       // Exclude pink unless specified in color query
-      const regexPattern = /pink/i;
-
-      query['color'] = { $not: { $regex: regexPattern } };
+      query['color'] = { $in: ['Colorless', 'NearColorless', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'] };
     }
 
     /**
@@ -320,7 +314,7 @@ export class DiamondsService {
     else if (input.carat !== null && input.carat !== undefined) {
       query['carat'] = {
         $gte: Math.max(input.carat - 0.2, 0), // mongoose $gte operator greater than or equal to
-        $lte: (input.carat + 0.2), // mongoose $lte operator less than or equal to
+        $lte: input.carat + 0.2, // mongoose $lte operator less than or equal to
       };
     }
 
@@ -595,7 +589,7 @@ export class DiamondsService {
       limit: input.limit || 5,
       page: input.page || 1,
       customLabels: DIAMOND_PAGINATED_LABELS,
-      sort: sortStage["$sort"]
+      sort: sortStage['$sort'],
     };
 
     const availablePropertyValuesCacheKey = `toi-moi-diamonds-available-filters`;
@@ -718,8 +712,7 @@ export class DiamondsService {
       limit: input.limit || 5,
       page: input.page || 1,
       customLabels: DIAMOND_PAGINATED_LABELS,
-      sort : sortStage["$sort"]
-
+      sort: sortStage['$sort'],
     };
 
     const availablePropertyValuesCacheKey = `diamond-pairs-property-values-${input.diamondType ? input.diamondType : ''}}`;

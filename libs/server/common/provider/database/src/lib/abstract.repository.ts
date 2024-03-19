@@ -1,5 +1,6 @@
 import { Logger } from '@nestjs/common';
 import {
+  ProjectionType,
   FilterQuery,
   UpdateQuery,
   SaveOptions,
@@ -101,8 +102,8 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     return this.model.countDocuments(options);
   }
 
-  find(filterQuery: FilterQuery<TDocument>): any {
-    return this.model.find(filterQuery, {}, { lean: true });
+  find(filterQuery: FilterQuery<TDocument>, projection?: ProjectionType<TDocument>): any {
+    return this.model.find(filterQuery, projection || {}, { lean: true });
   }
 
   async distinct(field: string, filterQuery?: FilterQuery<TDocument>) {

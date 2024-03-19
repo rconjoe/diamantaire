@@ -62,6 +62,7 @@ const DiamondBuildStepStyles = styled(motion.div)`
 
     .nav-title {
       &.mobile {
+        padding: 0;
         margin-bottom: 3rem;
         @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
           margin-bottom: 0;
@@ -103,13 +104,6 @@ const DiamondBuildStep = () => {
   const { diamondTable } = diamondTableData || {};
   const { clearFiltersButtonCopy } = diamondTable || {};
 
-  const defaultInitialOptions = {
-    ...DIAMOND_TABLE_DEFAULT_OPTIONS,
-    diamondType: diamondTypeToShow,
-    caratMin: 1,
-    limit: 20,
-  };
-
   const acceptedParams = [...DIAMOND_TABLE_DEFAULT_VALID_QUERIES, 'diamondType', 'clarity', 'color', 'cut'];
 
   let routerInitialOptions: object = {
@@ -127,9 +121,16 @@ const DiamondBuildStep = () => {
 
   const doesRouterHaveOptions = query.limit && query.page && query.sortBy && query.caratMin ? true : false;
 
-  const initialOptions = doesRouterHaveOptions ? { ...routerInitialOptions } : { ...defaultInitialOptions };
+  let isToiMoiOrPair = asPath.includes('toi-moi') || asPath.includes('pairs') ? true : false;
 
-  let isToiMoiOrPair = false;
+  const defaultInitialOptions = {
+    ...DIAMOND_TABLE_DEFAULT_OPTIONS,
+    diamondType: diamondTypeToShow,
+    caratMin: isToiMoiOrPair ? 0.5 : 1,
+    limit: 20,
+  };
+
+  const initialOptions = doesRouterHaveOptions ? { ...routerInitialOptions } : { ...defaultInitialOptions };
 
   if (asPath.includes('toi-moi')) {
     initialOptions['view'] = 'toimoi';
@@ -155,7 +156,6 @@ const DiamondBuildStep = () => {
   };
 
   const updateOptions = (newOptions) => {
-    console.log('updateOptions');
     setOptions((prevOptions) => {
       let updatedOptions: { [key: string]: string } = { ...prevOptions };
 
@@ -223,6 +223,9 @@ const DiamondBuildStep = () => {
     if (type === 'price') {
       updateOptions({ priceMin: values[0], priceMax: values[1] });
     }
+
+    // smooth scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleRadioFilterChange = (type: string, values: string[]) => {
@@ -238,7 +241,10 @@ const DiamondBuildStep = () => {
   }, [builderProduct.diamonds]);
 
   useEffect(() => {
-    router.replace(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {});
+    // Need shallow for smooth scroll to top
+    router.replace(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {
+      shallow: true,
+    });
   }, [options]);
 
   if (!diamonds || !tableOptions?.initialOptions?.diamondType) return <BuilderFlowLoader />;

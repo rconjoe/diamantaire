@@ -116,16 +116,20 @@ function ProductConfigurator({
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
   const sizeOptions = configurations?.[sizeOptionKey];
   const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(true);
-  const { locale } = useRouter();
+  const { locale, query } = useRouter();
+  const productType = additionalVariantData?.productType;
+  const preselectedRingSize = query?.ringSize;
+  const preselectedSizeVariant = configurations?.ringSize?.find((item) => item.value === preselectedRingSize);
+
+  const defaultVariantId = sizeOptions?.find((option) => option.value === preselectedRingSize)?.id || variantId;
 
   const { _t } = useTranslations(locale);
-  const [selectedVariantId, setSelectVariantId] = useState<string>(
-    sizeOptions?.find((option) => option.value === defaultRingSize)?.id || variantId,
-  );
+  const [selectedVariantId, setSelectVariantId] = useState<string>(defaultVariantId);
+
   const { isFetching, isInStock } = useVariantInventory(selectedVariantId, trackInventory);
 
   // Ring size
-  const [selectedSize, setSelectedSize] = useState<string>(defaultRingSize || '5');
+  const [selectedSize, setSelectedSize] = useState<string>(preselectedSizeVariant?.value || defaultRingSize || '5');
 
   // Pair or single - always start on pair
   const [selectedPair, setSelectedPair] = useState<'pair' | 'single'>('pair');
@@ -167,8 +171,23 @@ function ProductConfigurator({
   }, []);
 
   useEffect(() => {
-    setSelectVariantId(variantId);
-  }, [variantId]);
+    const updateVariantId = () => {
+      let newVariantId = variantId; // default to the initial variant ID
+
+      if ((productType === 'Wedding Band' || productType === 'Ring') && selectedSize) {
+        // Find the variant ID that matches the selected size
+        const matchingVariant = configurations?.ringSize?.find((variant) => variant.value === selectedSize)?.id;
+
+        if (matchingVariant) {
+          newVariantId = matchingVariant;
+        }
+      }
+
+      setSelectVariantId(newVariantId);
+    };
+
+    updateVariantId();
+  }, [selectedSize, variantId, configurations, productType]);
 
   const hasCaratWeightSelector = useMemo(() => {
     return configurations?.caratWeight?.length > 1;
@@ -234,9 +253,8 @@ function ProductConfigurator({
     <>
       {!hasCaratWeightSelector && (
         <ProductTypeSpecificMetrics
-          parentProductAttributes={parentProductAttributes}
           additionalVariantData={additionalVariantData}
-          productType={additionalVariantData?.productType}
+          parentProductAttributes={parentProductAttributes}
           shouldDoublePrice={shouldDoublePrice}
         />
       )}

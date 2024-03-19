@@ -64,6 +64,7 @@ const DiamondTable = (props: DiamondTableProps) => {
 
   const tableHead = useRef<HTMLDivElement>(null);
   const tableBody = useRef<HTMLDivElement>(null);
+  const tableTopRef = useRef<HTMLDivElement>(null);
   const loadTrigger = useRef<HTMLDivElement>(null);
 
   const { _t } = useTranslations(locale);
@@ -109,7 +110,6 @@ const DiamondTable = (props: DiamondTableProps) => {
     data: {
       diamondTable: {
         cannotFindDiamondSentence1,
-        // cannotFindDiamondSentence2,
         bottomPromoContentLargerCarat,
         bottomPromoContentNoShape,
         bottomPromoContentCtaCopy,
@@ -311,6 +311,14 @@ const DiamondTable = (props: DiamondTableProps) => {
         sortOrder: options.sortBy !== header.id ? 'desc' : newSortOrder,
       });
     }
+
+    // smooth scroll to top on desktop, else scroll to top of tableref - 55 - tableHeadHeight
+
+    const tableTop = tableTopRef.current.getBoundingClientRect().top + window.scrollY - 55;
+
+    window.innerWidth > 992
+      ? window.scrollTo({ top: 0, behavior: 'smooth' })
+      : window.scrollTo({ top: tableTop, behavior: 'smooth' });
   };
 
   // EFFECTS
@@ -318,6 +326,17 @@ const DiamondTable = (props: DiamondTableProps) => {
     const trig = loadTrigger.current;
 
     if (!trig) return;
+
+    // Function to manually check if the trigger is within view
+    const checkTriggerPosition = () => {
+      const trigRect = trig.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+      // Check if the distance from the trigger's top to the viewport's bottom is <= 1000px
+      if (trigRect.top - viewportHeight <= 3000) {
+        onLoadMore();
+      }
+    };
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -331,6 +350,9 @@ const DiamondTable = (props: DiamondTableProps) => {
     );
 
     observer.observe(trig);
+
+    // Manually check if the trigger is within view when the effect runs
+    checkTriggerPosition();
 
     return () => {
       observer.unobserve(trig);
@@ -396,7 +418,7 @@ const DiamondTable = (props: DiamondTableProps) => {
       tableHeadHeight={tableHeadHeight}
     >
       <HideTopBar />
-      <div className="vo-table-container">
+      <div className="vo-table-container" ref={tableTopRef}>
         {/* TABLE HEAD */}
         <div ref={tableHead} className="vo-table-head">
           {table.getHeaderGroups().map((headerGroup: any) => (
@@ -475,7 +497,7 @@ const DiamondTable = (props: DiamondTableProps) => {
         <div className="vo-table-foot">
           <div className="vo-table-trigger" ref={loadTrigger} />
 
-          {(!isBuilderFlowOpen || shouldShowCFYPromo) && cfyPromoCard}
+          {(!isBuilderFlowOpen || shouldShowCFYPromo) && !queryDiamond.isFetching && cfyPromoCard}
 
           {(table.getRowModel().rows.length === 0 && (
             <div className="vo-table-no-result">

@@ -138,6 +138,7 @@ export const getDiamondOptionsFromUrl = (query, page) => {
   const getViewOptions = (data: Record<string, string> & { view: string }) => {
     const obj: {
       view?: 'toimoi' | 'pairs';
+      caratMin?: number;
     } = {};
 
     if (data.view && (data.view === 'toimoi' || data.view === 'pairs')) {
@@ -150,12 +151,17 @@ export const getDiamondOptionsFromUrl = (query, page) => {
   if (page === 'diamondTable') {
     const options = { ...DIAMOND_TABLE_DEFAULT_OPTIONS, ...query };
     const optCaratMin = (options.caratMin && parseFloat(options.caratMin)) || null;
+    const isDiamondPair = ['toimoi', 'pairs'].includes(options.view);
 
     const opt = {
       ...getOptionsFromFacetedNav(options.filterOptions),
       ...getOptionsFromQueryNav(options),
       ...getViewOptions(options),
-      ...(!optCaratMin || (optCaratMin && optCaratMin < 1) ? { caratMin: 1 } : {}),
+      ...(!optCaratMin || (optCaratMin && optCaratMin < 1 && isDiamondPair)
+        ? { caratMin: 0.5 }
+        : !optCaratMin || (optCaratMin && optCaratMin < 1)
+        ? { caratMin: 1 }
+        : {}),
     };
 
     return opt;

@@ -144,6 +144,9 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
     if (type === 'price') {
       updateOptions({ priceMin: values[0], priceMax: values[1] });
     }
+
+    // smooth scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   useEffect(() => {
@@ -151,6 +154,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
   }, [pagination?.pageCount, options.sortBy, options.sortOrder]);
 
   useEffect(() => {
+    // Need shallow for smooth scroll to top
     router.replace(getDiamondShallowRoute(options), undefined, { shallow: true });
   }, [options]);
 
@@ -224,8 +228,11 @@ async function getServerSideProps(
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
 
   const { locale, query } = context;
+
   const currencyCode = getCurrencyFromLocale(locale);
+
   const options = getDiamondOptionsFromUrl(query || {}, 'diamondTable');
+
   const globalQuery = queries.template.global(locale);
   const diamondQuery = queries.diamonds.content(options);
   const diamondTableQuery = queries.diamondTable.content(locale);

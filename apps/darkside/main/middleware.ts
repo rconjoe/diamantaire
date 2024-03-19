@@ -1,6 +1,7 @@
 import { authMiddleware } from '@clerk/nextjs';
 import { isDevEnv, getLocaleFromCountry } from '@diamantaire/shared/constants';
 import { kv } from '@vercel/kv';
+import { NextURL } from 'next/dist/server/web/next-url';
 import { NextMiddlewareResult } from 'next/dist/server/web/types';
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
@@ -303,6 +304,51 @@ export default async function middleware(request: NextRequest, _event: NextFetch
     }
   }
 
+  const geolocationRedirectResponse = setGeolocationRedirect({ request, url, geo, cookies });
+
+  if (geolocationRedirectResponse) {
+    return geolocationRedirectResponse;
+  }
+
+  return res;
+}
+
+export const config = {
+  matcher: ['/((?!.*\\..*|_next).*)', '/(api|trpc)(.*)', '/'],
+};
+
+export function basicAuthCheck(req) {
+  const basicAuth = req.headers.get('authorization');
+
+  if (basicAuth) {
+    const auth = basicAuth.split(' ')[1];
+    const [login, password] = Buffer.from(auth, 'base64').toString().split(':');
+
+    if (login === 'vrai' && password === 'ethicaldiamonds') {
+      return; // Authentication successful
+    }
+  }
+
+  // Request authentication if not authenticated
+  return new Response('Authentication required', {
+    status: 401,
+    headers: {
+      'WWW-Authenticate': 'Basic realm="Secure Area"',
+    },
+  });
+}
+
+type Geo = NextRequest['geo'];
+type Cookies = NextRequest['cookies'];
+
+interface SetRedirectParams {
+  request: NextRequest;
+  url: NextURL;
+  geo: Geo;
+  cookies: Cookies;
+}
+
+function setGeolocationRedirect({ request, url, geo, cookies }: SetRedirectParams): NextResponse | null {
   const preferredLocale = cookies.get('NEXT_LOCALE')?.value;
 
   // Redirect if there's a preferred locale that doesn't match the current locale
@@ -335,30 +381,5 @@ export default async function middleware(request: NextRequest, _event: NextFetch
     }
   }
 
-  return res;
-}
-
-export const config = {
-  matcher: ['/((?!.*\\..*|_next).*)', '/(api|trpc)(.*)', '/'],
-};
-
-export function basicAuthCheck(req) {
-  const basicAuth = req.headers.get('authorization');
-
-  if (basicAuth) {
-    const auth = basicAuth.split(' ')[1];
-    const [login, password] = Buffer.from(auth, 'base64').toString().split(':');
-
-    if (login === 'vrai' && password === 'ethicaldiamonds') {
-      return; // Authentication successful
-    }
-  }
-
-  // Request authentication if not authenticated
-  return new Response('Authentication required', {
-    status: 401,
-    headers: {
-      'WWW-Authenticate': 'Basic realm="Secure Area"',
-    },
-  });
+  return null;
 }

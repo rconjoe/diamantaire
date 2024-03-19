@@ -18,6 +18,7 @@ import {
   ProductInput,
   ProductByContentIdsInput,
   ProductByProductSlugsInput,
+  ProductSkusInput,
 } from '../dto/product.input';
 import { ProductsService } from '../services/product.service';
 @ApiTags('Products')
@@ -174,6 +175,13 @@ export class ProductController {
   @ApiOperation({ summary: 'Get all diamond types of rgiven collection' })
   async getCollectionDiamondTypes(@Param() { collectionSlug }: { collectionSlug: string }) {
     return await this.productService.getCollectionDiamondTypes({ collectionSlug });
+  }
+
+  @Get('collection/sku/:collectionSlug')
+  @ApiOperation({ summary: 'Get all default skus for the provided collection' })
+  @ApiParam({ name: 'collectionSlug', required: true })
+  async getAllProductDefaultSkusByCollection(@Param() { collectionSlug }: ProductSkusInput) {
+    return await this.productService.getAllProductDefaultSkusByCollection(collectionSlug);
   }
 
   @Get('shopify/variant/:variantId')
