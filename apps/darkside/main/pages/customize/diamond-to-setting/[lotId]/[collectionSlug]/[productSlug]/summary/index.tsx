@@ -407,8 +407,7 @@ const ToastError = ({ locale }) => {
 
 const MAX_CHAR_LIMIT = 16;
 
-// eslint-disable-next-line
-const ReviewBuildStep = ({ settingSlugs }) => {
+const ReviewBuildStep = () => {
   const [shopifyProductData, setShopifyProductData] = useState(null);
   const {
     configuration: selectedConfiguration,
