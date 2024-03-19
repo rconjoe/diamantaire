@@ -331,6 +331,8 @@ const DiamondBuildStep = () => {
 
 DiamondBuildStep.getTemplate = getStandardTemplate;
 
+export default DiamondBuildStep;
+
 type BuilderStepSeoProps = {
   dehydratedState: DehydratedState;
 };
