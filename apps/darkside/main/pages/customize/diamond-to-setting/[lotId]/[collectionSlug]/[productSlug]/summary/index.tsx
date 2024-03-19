@@ -407,6 +407,7 @@ const ToastError = ({ locale }) => {
 
 const MAX_CHAR_LIMIT = 16;
 
+// eslint-disable-next-line
 const ReviewBuildStep = ({ settingSlugs }) => {
   const [shopifyProductData, setShopifyProductData] = useState(null);
   const {
@@ -579,6 +580,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
     }
   }
 
+  // eslint-disable-next-line
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
 
   // console.log('configState', configState);
@@ -622,6 +624,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
     },
   ];
 
+  // eslint-disable-next-line
   function handleBuilderFlowVariantChange(option: OptionItemProps, configurationType) {
     // console.log({ configurationType, option });
 
