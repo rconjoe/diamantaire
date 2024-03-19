@@ -440,8 +440,6 @@ const ReviewBuildStep = () => {
     isSelected?: boolean;
   }>(configurations?.ringSize?.filter((item) => item.value === '5')[0] || '5');
 
-  // console.log('selectedSize', selectedSize);
-
   const { productAdded } = useAnalytics();
 
   const sizeOptions = configurations?.[sizeOptionKey];
@@ -496,8 +494,6 @@ const ReviewBuildStep = () => {
   const pdpType: PdpTypePlural = customJewelryPdpTypes.includes(product?.productType)
     ? 'Jewelry'
     : pdpTypeSingleToPluralAsConst[shopifyProductData?.productType];
-
-  // console.log('pdpType', pdpType);
 
   const { data }: { data: any } = useProductDato(collectionSlug as string, locale, pdpType);
 
