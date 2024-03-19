@@ -9,6 +9,7 @@ type InstagramThumnailSlideProps = {
   shouldLinkToVraiInstagram?: boolean;
   postLink?: string;
   productRoute?: string;
+  shouldLazyLoad?: boolean;
 };
 
 const VRAI_INSTAGRAM_URL = 'https://www.instagram.com/vraiofficial/';
@@ -19,6 +20,7 @@ const InstagramThumnailSlide = ({
   shouldLinkToVraiInstagram: _shouldLinkToInstagram,
   postLink,
   productRoute,
+  shouldLazyLoad = true,
 }: InstagramThumnailSlideProps) => {
   const shouldLinkToVraiInstagram = _shouldLinkToInstagram || (!postLink && !productRoute);
 
@@ -36,7 +38,7 @@ const InstagramThumnailSlide = ({
 
   const link = getLink();
 
-  const imageItem = <DatoImage shouldLazyLoad={true} image={image} overrideAlt={'Open VRAI Instagram'} />;
+  const imageItem = <DatoImage shouldLazyLoad={shouldLazyLoad} image={image} overrideAlt={'Open VRAI Instagram'} />;
 
   if (!link) {
     return <InstagramThumnailSlideContainer className={extraClass}>{imageItem}</InstagramThumnailSlideContainer>;
