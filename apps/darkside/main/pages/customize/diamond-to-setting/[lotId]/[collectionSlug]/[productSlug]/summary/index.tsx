@@ -559,15 +559,11 @@ const ReviewBuildStep = () => {
 
   const { productTitle } = datoParentProductData || {};
 
-  // console.log('datoParentProductData', datoParentProductData);
-
   const productType = shopifyProductData?.productType;
 
   function configOptionsReducer(state, action: any) {
     const { payload, type } = action;
     const { typeId, value } = payload;
-
-    // console.log('configOptionsReducer', { state, action });
 
     switch (type) {
       case 'option-change':
