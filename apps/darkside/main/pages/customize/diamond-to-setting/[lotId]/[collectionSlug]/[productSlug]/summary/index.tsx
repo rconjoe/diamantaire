@@ -705,7 +705,6 @@ const ReviewBuildStep = () => {
   }, [router.query.lotId]);
 
   async function getSettingProduct() {
-    // console.log('settingSlugs', settingSlugs);
     const qParams = new URLSearchParams({
       slug: router?.query?.collectionSlug?.toString(),
       id: router?.query?.productSlug?.toString(),

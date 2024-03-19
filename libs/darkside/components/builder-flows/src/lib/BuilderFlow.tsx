@@ -118,7 +118,6 @@ const BuilderFlow = ({
 
   // This function keeps setting in sync
   async function getSettingProduct() {
-    // console.log('settingSlugs', settingSlugs);
     const qParams = new URLSearchParams({
       slug: settingSlugs?.collectionSlug,
       id: settingSlugs?.productSlug,
@@ -250,8 +249,6 @@ const BuilderFlow = ({
 
   useEffect(() => {
     fetchProductAndDiamond();
-    // configureCurrentStep();
-    // console.log('settingSlugs', settingSlugs);
   }, [settingSlugs]);
 
   useEffect(() => {
