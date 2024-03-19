@@ -154,6 +154,7 @@ const PlpProductVariant = ({
   const { productClicked } = useAnalytics();
 
   const router = useRouter();
+
   const { locale } = router;
 
   const { countryCode } = parseValidLocale(router?.locale);
@@ -168,13 +169,16 @@ const PlpProductVariant = ({
 
   const [isPrimaryImage, setIsPrimaryImage] = useState(true);
 
-  const { productType, collectionSlug, productSlug, title, primaryImage, hoverImage, price } = variant || {};
+  const { productType, collectionSlug, productSlug, title, productTitle, primaryImage, hoverImage, price } = variant || {};
+
+  const variantTitle =
+    title && typeof title !== 'undefined' ? title : productTitle && typeof productTitle !== 'undefined' ? productTitle : '';
 
   const configuration = normalizeVariantConfigurationForGTM(variant?.configuration);
 
-  const productTitleWithProperties = `${title} ${configuration?.diamond_type ? _t(configuration?.diamond_type) : ''} | ${
-    metalTypeAsConst[configuration?.metal]
-  }`;
+  const productTitleWithProperties = `${variantTitle}${
+    configuration?.diamond_type ? _t(configuration?.diamond_type) : ''
+  } | ${metalTypeAsConst[configuration?.metal]}`;
 
   const handleImageChange = () => {
     if (!hoverImage?.src) return;
@@ -237,6 +241,8 @@ const PlpProductVariant = ({
     });
   };
 
+  const shouldLazyLoad = position > 8;
+
   return (
     <PlpProductVariantStyles>
       {builderFlow ? (
@@ -256,6 +262,7 @@ const PlpProductVariant = ({
                 {isPrimaryImage
                   ? primaryImage && (
                       <DatoImage
+                        shouldLazyLoad={shouldLazyLoad}
                         quality={60}
                         overrideAlt={productTitleWithProperties}
                         enableDpr
@@ -269,6 +276,7 @@ const PlpProductVariant = ({
                     )
                   : hoverImage && (
                       <DatoImage
+                        shouldLazyLoad={shouldLazyLoad}
                         quality={60}
                         enableDpr
                         image={{
@@ -304,6 +312,7 @@ const PlpProductVariant = ({
                 {isPrimaryImage
                   ? primaryImage && (
                       <DatoImage
+                        shouldLazyLoad={shouldLazyLoad}
                         quality={60}
                         overrideAlt={productTitleWithProperties}
                         enableDpr
@@ -317,6 +326,7 @@ const PlpProductVariant = ({
                     )
                   : hoverImage && (
                       <DatoImage
+                        shouldLazyLoad={shouldLazyLoad}
                         quality={60}
                         enableDpr
                         image={{
