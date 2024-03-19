@@ -579,10 +579,9 @@ const ReviewBuildStep = () => {
     }
   }
 
-  // eslint-disable-next-line
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
 
-  // console.log('configState', configState);
+  console.log('configState', configState);
 
   const productIconListTypeOverride =
     additionalVariantData?.productIconList?.productType ||
