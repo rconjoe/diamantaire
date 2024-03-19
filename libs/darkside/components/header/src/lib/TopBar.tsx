@@ -215,6 +215,15 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
                   ],
                 ).toString();
 
+                const geoContentWithIcon = (
+                  <>
+                    {replacePlaceholders(geoCopy, ['%%location-name%%'], [showroomLocation?.location])
+                      .toString()
+                      .trim()}
+                    <span className="arrow-right"></span>
+                  </>
+                );
+
                 if (enableGwp && !isWithinTimeframe) return null;
 
                 return (
@@ -222,19 +231,11 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
                     {enableGwp ? (
                       <p>{replacedText}</p>
                     ) : enableGeoCopy && showroomLocation ? (
-                      <p>
-                        {/* If there is a location, and the slide has geo on it 🪄 */}
-                        <Link href={route}>
-                          {replacePlaceholders(geoCopy, ['%%location-name%%'], [showroomLocation?.location])
-                            .toString()
-                            .trim()}{' '}
-                          <span className="arrow-right"></span>
-                        </Link>
-                      </p>
+                      renderConditionalLink({ content: geoContentWithIcon, route })
                     ) : enableGeoCopy ? (
-                      <p>{nonGeoCopy}</p>
+                      renderConditionalLink({ content: nonGeoCopy, route })
                     ) : (
-                      <p>{defaultCopy}</p>
+                      renderConditionalLink({ content: defaultCopy, route })
                     )}
                   </div>
                 );
@@ -254,3 +255,13 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
 };
 
 export default TopBar;
+
+export const renderConditionalLink = ({ content, route }) => {
+  return route ? (
+    <p>
+      <Link href={route}>{content}</Link>
+    </p>
+  ) : (
+    <p>{content}</p>
+  );
+};
