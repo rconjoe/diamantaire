@@ -72,9 +72,9 @@ const AccountPage = () => {
       } else {
         console.error('HTTP error! Status:', response.status);
 
-        const rawResponse = await response.text();
+        // const rawResponse = await response.text();
 
-        console.log('text:', rawResponse);
+        // console.log('text:', rawResponse);
 
         setCurrentCustomer({
           email,

@@ -118,7 +118,6 @@ const BuilderFlow = ({
 
   // This function keeps setting in sync
   async function getSettingProduct() {
-    console.log('settingSlugs', settingSlugs);
     const qParams = new URLSearchParams({
       slug: settingSlugs?.collectionSlug,
       id: settingSlugs?.productSlug,
@@ -168,15 +167,12 @@ const BuilderFlow = ({
   }
 
   function configureCurrentStep() {
-    console.log('configureCurrentStep');
     // EDGE CASES
     // Overrides all scenarios to edit the diamond selected - is triggered by clicking modify diamond on review build step
 
     if (router.asPath.includes('edit-diamond') && builderProduct?.step === 'select-diamond') return null;
 
     if (router.asPath.includes('edit-diamond')) {
-      console.log('case a');
-
       return updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
     }
 
@@ -187,12 +183,9 @@ const BuilderFlow = ({
     ) {
       if (builderProduct?.product?.collectionSlug && !builderProduct?.diamonds) {
         updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
-        console.log('case b');
       } else if (!settingSlugs?.lotIds) {
-        console.log('case c');
         updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
       } else {
-        console.log('case cccc');
         updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
       }
     }
@@ -207,7 +200,6 @@ const BuilderFlow = ({
       !initialLotIds &&
       !builderProduct?.diamonds
     ) {
-      console.log('case d');
       updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
     } else if (
       type === 'setting-to-diamond' &&
@@ -216,7 +208,6 @@ const BuilderFlow = ({
       initialLotIds &&
       !router.asPath.includes('edit-diamond')
     ) {
-      console.log('case e');
       updateFlowData('UPDATE_STEP', { step: 'review-build' });
     } else if (
       type === 'diamond-to-setting' &&
@@ -225,7 +216,6 @@ const BuilderFlow = ({
       !router.asPath.includes(settingSlugs?.collectionSlug) &&
       !router.asPath.includes('/summary')
     ) {
-      console.log('case f');
       // D2S - Select Setting
       updateFlowData('UPDATE_STEP', { step: 'select-setting' });
     } else if (
@@ -235,27 +225,22 @@ const BuilderFlow = ({
       router.asPath.includes(settingSlugs?.collectionSlug) &&
       !router.asPath.includes('/summary')
     ) {
-      console.log('case g');
-
       return updateFlowData('UPDATE_STEP', { step: 'customize-setting' });
     } else if (
       type === 'diamond-to-setting' &&
       router.asPath.includes('/summary') &&
       !router.asPath.includes('edit-diamond')
     ) {
-      console.log('case h');
       updateFlowData('UPDATE_STEP', { step: 'review-build' });
     }
   }
 
   useEffect(() => {
     fetchProductAndDiamond();
-    // configureCurrentStep();
-    console.log('settingSlugs', settingSlugs);
   }, [settingSlugs]);
 
   useEffect(() => {
-    console.log('route change to: ', router.asPath);
+    // console.log('route change to: ', router.asPath);
     // if (isFetchingData) return null;
     configureCurrentStep();
   }, [router.asPath]);
