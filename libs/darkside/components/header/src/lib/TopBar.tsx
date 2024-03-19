@@ -215,14 +215,9 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
                   ],
                 ).toString();
 
-                const geoContentWithIcon = (
-                  <>
-                    {replacePlaceholders(geoCopy, ['%%location-name%%'], [showroomLocation?.location])
-                      .toString()
-                      .trim()}
-                    <span className="arrow-right"></span>
-                  </>
-                );
+                const geoShowroomCopy = replacePlaceholders(geoCopy, ['%%location-name%%'], [showroomLocation?.location])
+                  .toString()
+                  .trim();
 
                 if (enableGwp && !isWithinTimeframe) return null;
 
@@ -231,7 +226,10 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
                     {enableGwp ? (
                       <p>{replacedText}</p>
                     ) : enableGeoCopy && showroomLocation ? (
-                      renderConditionalLink({ content: geoContentWithIcon, route })
+                      renderConditionalLink({
+                        content: geoShowroomCopy,
+                        route,
+                      })
                     ) : enableGeoCopy ? (
                       renderConditionalLink({ content: nonGeoCopy, route })
                     ) : (
@@ -257,11 +255,14 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
 export default TopBar;
 
 export const renderConditionalLink = ({ content, route }) => {
-  return route ? (
-    <p>
-      <Link href={route}>{content}</Link>
-    </p>
+  const contentWithIcon = route ? (
+    <>
+      {content}
+      <span className="arrow-right"></span>
+    </>
   ) : (
-    <p>{content}</p>
+    content
   );
+
+  return <p>{route ? <Link href={route}>{contentWithIcon}</Link> : contentWithIcon}</p>;
 };
