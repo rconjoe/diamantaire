@@ -134,6 +134,8 @@ const PlpProductGrid = ({
 }: PlpProductGridProps) => {
   const router = useRouter();
 
+  const lazyLoadIndex = 8;
+
   const { asPath, locale } = router || {};
 
   const useProductTitleOnly = asPath.includes('/engagement-rings/settings');
@@ -245,15 +247,15 @@ const PlpProductGrid = ({
                 <Fragment key={`${product?.defaultId}-${gridItemIndex}`}>
                   {cardCollectionObject[gridItemIndex] !== undefined && (
                     <PlpPromoItem
-                      shouldLazyLoad={gridItemIndex > 8}
+                      shouldLazyLoad={gridItemIndex > lazyLoadIndex}
                       block={cardCollection[cardCollectionObject[gridItemIndex]]}
                     />
                   )}
 
-                  {creativeBlockObject[gridItemIndex] !== undefined && products.length > 8 && (
+                  {creativeBlockObject[gridItemIndex] !== undefined && products.length > lazyLoadIndex && (
                     <PlpCreativeBlock
                       block={creativeBlockObject[gridItemIndex]}
-                      shouldLazyLoad={gridItemIndex > 8}
+                      shouldLazyLoad={gridItemIndex > lazyLoadIndex}
                       plpTitle={plpTitle}
                     />
                   )}
