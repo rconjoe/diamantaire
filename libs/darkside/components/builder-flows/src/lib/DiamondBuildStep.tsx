@@ -140,8 +140,6 @@ const DiamondBuildStep = ({
   const [options, setOptions] = useState(initialOptions);
   const [activeRow, setActiveRow] = useState(null);
 
-  // console.log(`😀`, options);
-
   const { data: { diamonds, pagination, ranges } = {} } = useDiamondsData({ ...options });
 
   const { data: diamondTableData } = useDiamondTableData(locale);

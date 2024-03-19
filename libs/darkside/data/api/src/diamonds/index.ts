@@ -7,8 +7,6 @@ import { DIAMOND_CFY_QUERY, DIAMOND_INFO_QUERY, DIAMOND_PDP_QUERY, DIAMOND_TABLE
 
 // Get a single diamond per id or a list per other options
 export const fetchDiamondData = async (options) => {
-  // console.log(`😀 fetchDiamondData:options`, options);
-
   if (!options) return;
 
   try {
@@ -34,8 +32,6 @@ export const fetchDiamondData = async (options) => {
     const id: string = options?.lotId || null;
     const handle: string = options?.handle || null;
     const url: string = '/diamonds' + getFormatedDataForApi();
-
-    // console.log(`😀 url`, url);
 
     const response = await queryClientApi().request({ method: 'GET', url });
     const payload = response?.data || {};
@@ -77,8 +73,6 @@ export const fetchDiamondData = async (options) => {
 
 // Get infinite diamond list
 export const fetchInfiniteDiamondData = async (options, pageParam = 1) => {
-  // console.log(`😀 fetchInfiniteDiamondData:options`, options);
-
   try {
     const getFormatedDataForApi = () => {
       const diamondType =
@@ -105,8 +99,6 @@ export const fetchInfiniteDiamondData = async (options, pageParam = 1) => {
     const response = await queryClientApi().request({ method: 'GET', url });
 
     const payload = response.data || {};
-
-    // console.log(`😀 payload.ranges`, payload.ranges);
 
     return {
       diamonds: payload.items,
