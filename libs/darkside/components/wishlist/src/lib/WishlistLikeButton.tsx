@@ -62,7 +62,7 @@ const WishlistLikeButton: React.FC<WishlistLikeButtonProps> = (props) => {
       <button
         className={`wishlist-like-button ${active ? 'active' : ''}`}
         onClick={(e) => handleClick(e)}
-        name={_t('add to wishlist')}
+        aria-label={_t('add to wishlist')}
       >
         {active ? <LoveIconActive /> : <LoveIcon />}
       </button>

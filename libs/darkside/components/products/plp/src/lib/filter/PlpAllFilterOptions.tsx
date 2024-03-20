@@ -98,7 +98,7 @@ const PlpAllFilterOptions = ({
           </div>
 
           <div className="filter__icon">
-            <button onClick={() => setIsMobileFilterOpen(true)} name={_t('Filter')}>
+            <button onClick={() => setIsMobileFilterOpen(true)} aria-label={_t('Filter')}>
               <FilterIcon />
             </button>
           </div>
