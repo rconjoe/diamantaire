@@ -75,7 +75,7 @@ function PlpSortOptions({ sortOptions, onSortOptionChange }: PlpSortOptionsProps
       </label>
 
       <Select
-        id="sort-dropdown"
+        inputId="sort-dropdown"
         options={options}
         onChange={(val) => handleSortOptionChange(val)}
         value={currentSortOption}
