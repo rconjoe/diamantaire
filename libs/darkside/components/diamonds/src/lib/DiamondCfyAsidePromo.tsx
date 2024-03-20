@@ -33,7 +33,7 @@ const DiamondCfyAsidePromo = (props: DiamondCfyAsidePromoProps) => {
               if (title.includes('LEONARDO DICAPRIO')) {
                 block.additionalClass = 'leo';
               }
-              const contentIsAboveFold = idx < 1;
+              const contentIsAboveFold = idx < 2;
               const shouldLazyLoad = contentIsAboveFold ? false : true;
 
               return (

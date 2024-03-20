@@ -539,15 +539,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               const { _modelApiKey } = block;
 
               return (
-                <LazyInViewBlock key={index}>
-                  <BlockPicker
-                    _modelApiKey={_modelApiKey}
-                    modularBlockData={{ ...block }}
-                    shouldLazyLoad={true}
-                    countryCode={countryCode}
-                    currencyCode={currencyCode}
-                  />
-                </LazyInViewBlock>
+                <BlockPicker
+                  key={index}
+                  _modelApiKey={_modelApiKey}
+                  modularBlockData={{ ...block }}
+                  shouldLazyLoad={true}
+                  countryCode={countryCode}
+                  currencyCode={currencyCode}
+                />
               );
             })}
         </div>
