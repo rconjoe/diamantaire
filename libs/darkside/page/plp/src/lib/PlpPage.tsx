@@ -21,6 +21,7 @@ import {
   generateLanguageAlternates,
 } from '@diamantaire/shared/constants';
 import { isEmptyObject, getSwrRevalidateConfig } from '@diamantaire/shared/helpers';
+import { useRudderStackAnalytics } from '@diamantaire/shared/rudderstack';
 import { FilterValueProps, generateListPageUrl } from '@diamantaire/shared-product';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import clsx from 'clsx';
@@ -58,11 +59,11 @@ const PlpStyles = styled.div`
       margin: 0 auto;
       width: 30rem;
     }
-    >.is-fetching {
+    > .is-fetching {
       button:hover {
-        background-color: var(--color-black)!important;
+        background-color: var(--color-black) !important;
       }
-    }  
+    }
   }
 `;
 
@@ -209,6 +210,14 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   const isBasePath = listPagePath === asPath;
   const languageAlternates = isBasePath ? generateLanguageAlternates({ baseUrl, currentPath: listPagePath }) : [];
 
+  const analytics = useRudderStackAnalytics();
+
+  useEffect(() => {
+    if (analytics) {
+      analytics?.page(hero?.title);
+    }
+  }, [analytics?.ready]);
+
   return (
     <PlpStyles>
       <NextSeo
@@ -259,24 +268,20 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
       {hasNextPage && (
         <div className="loader-more-container">
-          <DarksideButton 
+          <DarksideButton
             disabled={isFetching}
             onClick={() => fetchNextPage()}
             className={clsx({
-              'is-fetching': isFetching
+              'is-fetching': isFetching,
             })}
           >
-            {!isFetching && (
-              <UIString>Load more</UIString>
-            )}
-            {isFetching && (
-              <Loader color="#fff"/>
-            )}
+            {!isFetching && <UIString>Load more</UIString>}
+            {isFetching && <Loader color="#fff" />}
           </DarksideButton>
         </div>
       )}
-      
-      <div ref={pageEndRef}/>
+
+      <div ref={pageEndRef} />
       <div className="below-banner-container-wrapper">
         <PlpPreviouslyViewed />
         {category && plpSlug && <PlpBlockPicker category={category} plpSlug={plpSlug} />}
