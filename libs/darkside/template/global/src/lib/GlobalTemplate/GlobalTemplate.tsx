@@ -57,15 +57,6 @@ export const scriptMtFont = localFont({
   ],
 });
 
-// const MainContainer = styled.main`
-//   /* Fallback for padding before menu renders - will need to be changed once top bar becomes dynamic */
-//   /* min-height: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop + 1}px` : '7rem')};
-
-//   ${media.medium`
-//     padding-top: ${({ distanceFromTop, $isHome }) => ($isHome ? 0 : distanceFromTop ? `${distanceFromTop}px` : '0')};
-//     min-height: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop + 1}px` : '7rem')};
-//   `} */
-// `;
 const MainContainer = styled.main`
   min-height: '7rem';
 `;

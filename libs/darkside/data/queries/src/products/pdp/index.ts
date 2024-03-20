@@ -11,6 +11,7 @@ import {
   fetchDatoProductBelowBannerBlocks,
   getProductDiamondTypes,
   getProductPage,
+  fetchSKUProductVariants
 } from '@diamantaire/darkside/data/api';
 import { PdpTypePlural } from '@diamantaire/shared/constants';
 import { createQueryKeys } from '@lukemorales/query-key-factory';
@@ -69,4 +70,9 @@ export const productPage = createQueryKeys('products', {
     queryKey: [productSlug, locale, productType],
     queryFn: () => fetchDatoProductBelowBannerBlocks(productSlug, locale, productType),
   }),
+  getSKUProductVariants: (collectionSlug: string) => ({
+    queryKey: [collectionSlug],
+    queryFn: () => fetchSKUProductVariants(collectionSlug),
+    enabled: false
+  })
 });

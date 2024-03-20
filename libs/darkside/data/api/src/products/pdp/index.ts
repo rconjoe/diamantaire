@@ -69,6 +69,27 @@ export async function getProductPage(productSlug, variantSlug) {
   return response;
 }
 
+// Get All Skus variants for a product
+export async function fetchSKUProductVariants(collectionSlug){
+  const qParams = new URLSearchParams({
+    collectionSlug,
+  }).toString();
+  
+  const apiUrl = `/api/pdp/getPdpProductSKU?${qParams}`;
+
+  let response = {
+    data: []
+  };
+
+  try {
+    response = await vraiApiClient.get(apiUrl);
+  } catch (error) {
+    console.log(' Error :', error)
+  }
+
+  return response.data;
+}
+
 // PDP - ENGAGEMENT RING DATA - DatoCMS - TODO: What should be prefetched (prob this)
 
 const ENGAGEMENT_RING_QUERY = gql`

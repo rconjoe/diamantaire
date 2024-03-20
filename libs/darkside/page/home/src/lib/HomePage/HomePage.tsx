@@ -5,9 +5,11 @@ import { StandardPageEntry } from '@diamantaire/darkside/page/standard-pages';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { parseValidLocale, getCurrency } from '@diamantaire/shared/constants';
 import { getSwrRevalidateConfig } from '@diamantaire/shared/helpers';
+import { useRudderStackAnalytics } from '@diamantaire/shared/rudderstack';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 export interface HomePageProps {
   locale: string;
@@ -24,6 +26,14 @@ const HomePage = (props: HomePageProps) => {
   const page = data?.standardPage;
   const { seo } = page || {};
   const { seoTitle, seoDescription } = seo || {};
+
+  const analytics = useRudderStackAnalytics();
+
+  useEffect(() => {
+    if (analytics) {
+      analytics?.page('Home');
+    }
+  }, [analytics?.ready]);
 
   return (
     <>

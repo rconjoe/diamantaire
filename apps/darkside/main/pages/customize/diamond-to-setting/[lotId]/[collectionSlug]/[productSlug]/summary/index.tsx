@@ -55,6 +55,7 @@ import {
   pdpTypeSingleToPluralAsConst,
 } from '@diamantaire/shared/constants';
 import { generateDiamondSpriteImage } from '@diamantaire/shared/helpers';
+import { useRudderStackAnalytics } from '@diamantaire/shared/rudderstack';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { DEFAULT_BUILDER_ENGRAVING_FONT, getRenderedInputEngravingFontStyles } from '@diamantaire/styles/darkside-styles';
@@ -746,6 +747,14 @@ const ReviewBuildStep = () => {
       setHandCaratValue(parseFloat(diamonds?.[0]?.carat));
     }
   }, [diamonds]);
+
+  const analytics = useRudderStackAnalytics();
+
+  useEffect(() => {
+    if (analytics) {
+      analytics?.page();
+    }
+  }, [analytics?.ready]);
 
   if (!shopifyProductData || !shopifyProductData?.productContent?.assetStack[0] || !spriteSpinnerIds)
     return <BuilderFlowLoader />;

@@ -41,6 +41,7 @@ export * from './lib/products/use-pdp-gwp';
 export * from './lib/products/use-product-shop-the-look';
 export * from './lib/products/use-product-below-banner-blocks';
 export * from './lib/products/use-variant-inventory';
+export * from './lib/products/use-product-skus-variants';
 
 // plp
 export * from './lib/products/plp/use-plp-blockpicker-blocks';
