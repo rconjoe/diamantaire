@@ -1,3 +1,4 @@
+import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { EmptyCalendarIcon, Logo } from '@diamantaire/shared/icons';
 import { desktopAndUp, media } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence } from 'framer-motion';
@@ -181,10 +182,16 @@ const MobileHeader: FC<MobileHeaderTypes> = ({ navItems, toggleCart, mobileMenuR
                     {showroomLocation ? (
                       <Link className="calendar__link" href={`/book-appointment/${showroomLocation.handle}`}>
                         <EmptyCalendarIcon />
+                        <span style={{ display: 'none' }}>
+                          <UIString>Book an appointment</UIString>
+                        </span>
                       </Link>
                     ) : (
                       <Link className="calendar__link" href="/book-appointment/virtual">
                         <EmptyCalendarIcon />
+                        <span style={{ display: 'none' }}>
+                          <UIString>Book an appointment</UIString>
+                        </span>
                       </Link>
                     )}
                   </li>
