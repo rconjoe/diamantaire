@@ -1,5 +1,11 @@
 /* eslint-disable */
 
+declare global {
+  interface Window {
+    rudderanalytics?: any;
+  }
+}
+
 export async function rudderInitialize() {
   (function () {
     const e = (window.rudderanalytics = window.rudderanalytics || []);
