@@ -42,6 +42,8 @@ const DiamondTableRow = ({
 
   const { _t } = useTranslations(locale);
 
+  const { _t: translateDiamondShape } = useTranslations(locale, ['DIAMOND_SHAPES']);
+
   const { isMobile } = useContext(GlobalContext);
 
   const diamondDetailRoute = `${diamondRoutePdp}/${handle}${
@@ -114,7 +116,7 @@ const DiamondTableRow = ({
     });
 
     const diamondAttributes: LooseDiamondAttributeProps = {
-      _productTitle: `${_t('Loose Diamond')} (${_t(diamondType)})`,
+      _productTitle: `${_t('Loose Diamond')} (${translateDiamondShape(diamondType)})`,
       productAsset: diamondImage,
       _productAssetObject: JSON.stringify({
         src: diamondImage,

@@ -8,12 +8,20 @@ import styled from 'styled-components';
 export const BookAppointmentStyles = styled.div`
   display: flex;
   flex-direction: column;
+  .content-one-container {
+    padding-bottom: 2.5rem;
+  }
   .iframe-container {
+    display: block;
     margin: auto;
     width: 100%;
+    margin-top: -2rem;
     ${media.medium`max-width: 835px;
     min-width: 80%;`}
     ${media.large` min-height: 1375px;`}
+    @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+      width: 90%;
+    }
   }
   .text-block__wrapper {
     margin-bottom: 0;
@@ -98,6 +106,8 @@ function getLocationBasedBookingLink(location, locale) {
 
 export function renderIframe({ src }) {
   return (
-    <iframe className="iframe-container" key={src} src={src} title="Schedule Appointment" width="100%" height="450"></iframe>
+    <div>
+       <iframe className="iframe-container" key={src} src={src} title="Schedule Appointment" width="100%" style={{height: "100vh"}}></iframe>
+    </div>
   );
 }

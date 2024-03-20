@@ -872,7 +872,7 @@ export async function fetchDatoProductInfo(slug: string, locale: string, product
   } else if (productType === (pdpTypePluralAsConst['Ring Sizer'] as PdpTypePlural)) {
     query = JEWELRY_QUERY;
   } else {
-    console.log('Unknown productType');
+    // console.log('Unknown productType');
 
     return null;
   }
@@ -912,7 +912,7 @@ export async function fetchDatoProductBelowBannerBlocks(
     query = WEDDING_BAND_BELOW_BANNER_BLOCKS_QUERY;
     productKey = 'weddingBandProduct';
   } else {
-    console.log('Unknown productType');
+    // console.log('Unknown productType');
 
     return null;
   }

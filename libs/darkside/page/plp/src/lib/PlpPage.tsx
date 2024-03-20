@@ -51,18 +51,22 @@ type FilterQueryValues = {
 };
 
 const PlpStyles = styled.div`
+  min-height: 100vh;
+
   .loader-more-container {
     margin-bottom: 4rem;
     text-align: center;
+
     > div {
       margin: 0 auto;
       width: 30rem;
     }
-    >.is-fetching {
+
+    > .is-fetching {
       button:hover {
-        background-color: var(--color-black)!important;
+        background-color: var(--color-black) !important;
       }
-    }  
+    }
   }
 `;
 
@@ -228,59 +232,61 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
       <PageViewTracker listPageData={listPageData} />
 
-      <Breadcrumb breadcrumb={refinedBreadcrumb} spacingType="containedWidth" />
+      {plpData && (
+        <>
+          <Breadcrumb breadcrumb={refinedBreadcrumb} spacingType="containedWidth" />
 
-      <PlpHeroBanner showHeroWithBanner={showHeroWithBanner} data={hero} />
+          <PlpHeroBanner showHeroWithBanner={showHeroWithBanner} data={hero} />
 
-      {subcategoryFilter?.length > 0 && (
-        <PlpSubCategories
-          subcategoryFilter={subcategoryFilter}
-          setFilterValues={setFilterValues}
-          filterValue={filterValue}
-        />
+          {subcategoryFilter?.length > 0 && (
+            <PlpSubCategories
+              subcategoryFilter={subcategoryFilter}
+              setFilterValues={setFilterValues}
+              filterValue={filterValue}
+            />
+          )}
+
+          <PlpProductGrid
+            data={data}
+            plpTitle={hero?.title}
+            isFetching={false}
+            availableFilters={availableFilters}
+            promoCardCollectionId={promoCardCollection?.id}
+            creativeBlockIds={creativeBlockIds}
+            setFilterValues={onFilterChange}
+            filterValue={filterValue}
+            urlFilterMethod={urlFilterMethod}
+            plpSlug={router.query.plpSlug as string}
+            sortOptions={sortOptions}
+            filterOptionsOverride={filterOptionsOverride}
+            onSortChange={onSortChange}
+            subcategoryFilter={subcategoryFilter}
+          />
+
+          {hasNextPage && (
+            <div className="loader-more-container">
+              <DarksideButton
+                disabled={isFetching}
+                onClick={() => fetchNextPage()}
+                className={clsx({
+                  'is-fetching': isFetching,
+                })}
+              >
+                {!isFetching && <UIString>Load more</UIString>}
+
+                {isFetching && <Loader color="#fff" />}
+              </DarksideButton>
+            </div>
+          )}
+
+          <div ref={pageEndRef} />
+
+          <div className="below-banner-container-wrapper">
+            <PlpPreviouslyViewed />
+            {category && plpSlug && <PlpBlockPicker category={category} plpSlug={plpSlug} />}
+          </div>
+        </>
       )}
-
-      <PlpProductGrid
-        data={data}
-        plpTitle={hero?.title}
-        isFetching={false}
-        availableFilters={availableFilters}
-        promoCardCollectionId={promoCardCollection?.id}
-        creativeBlockIds={creativeBlockIds}
-        setFilterValues={onFilterChange}
-        filterValue={filterValue}
-        urlFilterMethod={urlFilterMethod}
-        plpSlug={router.query.plpSlug as string}
-        sortOptions={sortOptions}
-        filterOptionsOverride={filterOptionsOverride}
-        onSortChange={onSortChange}
-        subcategoryFilter={subcategoryFilter}
-      />
-
-      {hasNextPage && (
-        <div className="loader-more-container">
-          <DarksideButton 
-            disabled={isFetching}
-            onClick={() => fetchNextPage()}
-            className={clsx({
-              'is-fetching': isFetching
-            })}
-          >
-            {!isFetching && (
-              <UIString>Load more</UIString>
-            )}
-            {isFetching && (
-              <Loader color="#fff"/>
-            )}
-          </DarksideButton>
-        </div>
-      )}
-      
-      <div ref={pageEndRef}/>
-      <div className="below-banner-container-wrapper">
-        <PlpPreviouslyViewed />
-        {category && plpSlug && <PlpBlockPicker category={category} plpSlug={plpSlug} />}
-      </div>
     </PlpStyles>
   );
 }
@@ -360,7 +366,11 @@ const createStaticProps = (category: string) => {
 
     const contentQuery = queries.plp.serverSideDato(locale, slug, category);
 
-    await queryClient.prefetchQuery({ ...contentQuery });
+    await queryClient.prefetchQuery({
+      ...queries.plp.serverSideDato(locale, slug, category),
+    });
+
+    const plpData = queryClient.getQueryData(contentQuery.queryKey);
 
     const presetFilters = queryClient.getQueryData<{
       listPage: {
@@ -406,11 +416,21 @@ const createStaticProps = (category: string) => {
     });
 
     // Render 404 if no content is returned
-    if (!queryClient.getQueryData(contentQuery.queryKey)?.['listPage']) {
+    if (!plpData?.['listPage']) {
       return {
         notFound: true,
       };
     }
+
+    // Prefetch creativeBlocks
+    const useProductTitleOnly = category === 'engagement-rings' && plpSlug.includes('settings');
+    const useLargeCreativeImageInDesktop = !useProductTitleOnly;
+    const useLargeCreativeImageInMobile = plpSlug.includes('jewelry');
+    const creativeBlockIds = plpData?.['listPage']?.['creativeBlocks']?.map((v) => v.id) || [];
+
+    await queryClient.prefetchQuery({
+      ...queries.plp.creativeBlocks(locale, creativeBlockIds, useLargeCreativeImageInDesktop, useLargeCreativeImageInMobile),
+    });
 
     return {
       props: {
