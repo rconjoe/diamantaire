@@ -67,6 +67,8 @@ const DatoImage = (props: DatoImageProps) => {
     return datoUrl.toString();
   };
 
+  const responsiveImageSrc_ = responsiveImageSrc?.replace('auto=format', 'auto=format,compress');
+
   return isSvgCheck && image?.url ? (
     <img src={image.url} alt={overrideAlt || alt} />
   ) : (
@@ -74,10 +76,10 @@ const DatoImage = (props: DatoImageProps) => {
       {responsiveImage && responsiveImageSrc && (
         <Image
           alt={overrideAlt ? overrideAlt : alt ? alt : ''}
-          src={responsiveImageSrc}
+          src={responsiveImageSrc_}
           placeholder="blur"
           blurDataURL={responsiveImage?.base64}
-          loader={() => loader({ src: responsiveImageSrc, width: responsiveImage?.width, quality })}
+          loader={() => loader({ src: responsiveImageSrc_, width: responsiveImage?.width, quality })}
           className={clsx('image', className)}
           sizes={responsiveImage ? responsiveImage?.width + 'px' : image?.width + 'px'}
           priority={!shouldLazyLoad}
