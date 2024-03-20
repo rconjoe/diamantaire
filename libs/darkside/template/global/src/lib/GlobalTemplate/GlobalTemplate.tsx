@@ -95,7 +95,7 @@ export const GlobalTemplate = ({ children }) => {
   }
 
   useEffect(() => {
-    window?.rudderanalytics.ready(() => {
+    window?.rudderanalytics?.ready(() => {
       rudderInitialize();
       window.rudderanalytics.page();
       console.log('All set!');
