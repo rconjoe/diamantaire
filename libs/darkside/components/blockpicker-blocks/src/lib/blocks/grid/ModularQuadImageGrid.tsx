@@ -21,7 +21,6 @@ type ModularGridCarouselBlockProps = {
   isMobile?: boolean;
   headingAdditionalClass?: string;
   headingType?: string;
-  shouldLazyLoad?: boolean;
   _modelApiKey?: string;
 };
 
@@ -32,7 +31,6 @@ const ModularQuadImageGrid = ({
   subtitle,
   blocks,
   _modelApiKey,
-  shouldLazyLoad,
 }: ModularGridCarouselBlockProps) => {
   const { locale } = useRouter();
   const { countryCode } = parseValidLocale(locale);
@@ -57,7 +55,7 @@ const ModularQuadImageGrid = ({
             <div className="item__container" key={id}>
               <div className="item__image">
                 <Link href={link}>
-                  <DatoImage image={desktopImage} shouldLazyLoad={shouldLazyLoad} overrideAlt={title || ''} />
+                  <DatoImage image={desktopImage} overrideAlt={title || ''} />
                 </Link>
               </div>
               <div className="item__title text-center">

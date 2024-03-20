@@ -1,4 +1,4 @@
-import { DatoImage, Heading, LazyLoadWrapper, Markdown } from '@diamantaire/darkside/components/common-ui';
+import { DatoImage, Heading, LazyInViewBlock, Markdown } from '@diamantaire/darkside/components/common-ui';
 import { CtoDiamondPromoBlock } from '@diamantaire/darkside/data/hooks';
 import { isCountrySupported } from '@diamantaire/shared/helpers';
 import styled from 'styled-components';
@@ -40,14 +40,14 @@ const ModularSingleMediaBlock = (props: CtoDiamondPromoBlock) => {
         {hasVideo ? (
           <ModularVideoBlock video={{ video: { streamingUrl: media.video.streamingUrl } }} />
         ) : (
-          <DatoImage image={media} />
+          <DatoImage image={media} shouldLazyLoad={shouldLazyLoad} />
         )}
       </div>
     </StyledModularSingleMediaBlock>
   );
 
   if (shouldLazyLoad) {
-    return <LazyLoadWrapper>{block}</LazyLoadWrapper>;
+    return <LazyInViewBlock>{block}</LazyInViewBlock>;
   }
 
   return block;

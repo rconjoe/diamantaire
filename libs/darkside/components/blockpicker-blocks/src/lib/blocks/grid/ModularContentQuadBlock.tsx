@@ -1,4 +1,4 @@
-import { Heading, ImageTile, LazyLoadWrapper } from '@diamantaire/darkside/components/common-ui';
+import { Heading, ImageTile, LazyInViewBlock } from '@diamantaire/darkside/components/common-ui';
 import { normalizeDatoNumberedContent } from '@diamantaire/shared/helpers';
 import { DatoImageType, DatoDarksideButtonProps } from '@diamantaire/shared/types';
 
@@ -71,7 +71,7 @@ const ModularContentQuadBlock = (props: ModularContentQuadBlock) => {
   );
 
   if (shouldLazyLoad) {
-    return <LazyLoadWrapper>{block}</LazyLoadWrapper>;
+    return <LazyInViewBlock>{block}</LazyInViewBlock>;
   }
 
   return block;

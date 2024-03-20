@@ -12,7 +12,6 @@ export * from './Heading';
 export * from './HideTopBar';
 export * from './ImageTile';
 export * from './LanguageSelector';
-export * from './LazyLoadWrapper';
 export * from './LazyInViewBlock';
 export * from './Loader';
 export * from './Markdown';
