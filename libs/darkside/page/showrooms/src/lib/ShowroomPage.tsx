@@ -4,14 +4,14 @@ import { queries } from '@diamantaire/darkside/data/queries';
 import { StandardPageEntry } from '@diamantaire/darkside/page/standard-pages';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { parseValidLocale, getCurrencyFromLocale } from '@diamantaire/shared/constants';
+import { useRudderStackAnalytics } from '@diamantaire/shared/rudderstack';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
-import ShowroomNav from './nav/ShowroomNav';
-
-import { ShowroomPageStyle } from './ShowroomPage.style';
-import { useRudderStackAnalytics } from '@diamantaire/shared/rudderstack';
 import { useEffect } from 'react';
+
+import ShowroomNav from './nav/ShowroomNav';
+import { ShowroomPageStyle } from './ShowroomPage.style';
 
 export interface ShowroomPageProps {
   isMobile: boolean;
