@@ -42,7 +42,7 @@ const ShowroomPage = (props: ShowroomPageProps) => {
 
   useEffect(() => {
     if (analytics) {
-      analytics?.page(shopifyProductData?.productTitle);
+      analytics?.page(title);
     }
   }, [analytics?.ready]);
 
