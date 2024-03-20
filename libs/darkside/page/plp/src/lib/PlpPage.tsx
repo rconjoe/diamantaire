@@ -218,7 +218,8 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
   useEffect(() => {
     if (analytics) {
-      analytics?.page(hero?.title);
+      // All the info we need is already in the url + pageview event
+      analytics?.page();
     }
   }, [analytics?.ready]);
 
@@ -334,7 +335,6 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
         <PlpPreviouslyViewed />
         {category && plpSlug && <PlpBlockPicker category={category} plpSlug={plpSlug} />}
       </div>
-
     </PlpStyles>
   );
 }

@@ -10,7 +10,10 @@ const useRudderStackAnalytics = (): RudderAnalytics | undefined => {
         const { RudderAnalytics } = await import('@rudderstack/analytics-js');
         const analyticsInstance = new RudderAnalytics();
 
-        analyticsInstance.load('2N6k1I03PftQoZVEi41Z1X1lQYi', 'https://vraisamdhast.dataplane.rudderstack.com');
+        analyticsInstance.load(
+          process.env['NEXT_PUBLIC_RUDDERSTACK_KEY'],
+          process.env['NEXT_PUBLIC_RUDDERSTACK_DATA_PLANE'],
+        );
 
         analyticsInstance.ready(() => {
           console.log('We are all set!!!');
