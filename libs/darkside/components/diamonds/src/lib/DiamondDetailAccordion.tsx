@@ -129,6 +129,7 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
               alt={getInfo(specs, 'cut')}
               height={100}
               width={90}
+              unoptimized
             />
           </div>
           <div className="sub">
@@ -198,6 +199,7 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
             width={323}
             height={129}
             loading="eager"
+            unoptimized
           />
         </div>
         <div className="sub">
@@ -263,6 +265,7 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
             width={323}
             height={125}
             loading="eager"
+            unoptimized
           />
         </div>
         <div className="sub">
