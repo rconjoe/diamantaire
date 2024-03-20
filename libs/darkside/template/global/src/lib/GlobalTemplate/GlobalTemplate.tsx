@@ -59,15 +59,6 @@ export const scriptMtFont = localFont({
   ],
 });
 
-// const MainContainer = styled.main`
-//   /* Fallback for padding before menu renders - will need to be changed once top bar becomes dynamic */
-//   /* min-height: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop + 1}px` : '7rem')};
-
-//   ${media.medium`
-//     padding-top: ${({ distanceFromTop, $isHome }) => ($isHome ? 0 : distanceFromTop ? `${distanceFromTop}px` : '0')};
-//     min-height: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop + 1}px` : '7rem')};
-//   `} */
-// `;
 const MainContainer = styled.main`
   min-height: '7rem';
 `;
@@ -75,6 +66,12 @@ const MainContainer = styled.main`
 export type GlobalTemplateProps = {
   children: ReactNode;
 };
+
+declare global {
+  interface Window {
+    rudderanalytics?: any;
+  }
+}
 
 export const GlobalTemplate = ({ children }) => {
   const router = useRouter();
@@ -98,10 +95,10 @@ export const GlobalTemplate = ({ children }) => {
   }
 
   useEffect(() => {
-    rudderInitialize();
-    window.rudderanalytics.page();
-    window.rudderanalytics.track('Track Event Test.', {
-      foo: 'bar',
+    window?.rudderanalytics.ready(() => {
+      rudderInitialize();
+      window.rudderanalytics.page();
+      console.log('All set!');
     });
   }, []);
 
