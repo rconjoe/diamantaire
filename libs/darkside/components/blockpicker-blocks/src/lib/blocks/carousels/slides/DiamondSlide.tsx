@@ -8,9 +8,10 @@ type DiamondSlideProps = {
   image?: DatoImageType;
   itemName?: string;
   url?: string;
+  shouldLazyLoad?: boolean;
 };
 
-const DiamondSlide = ({ image, itemName, url }: DiamondSlideProps) => {
+const DiamondSlide = ({ image, itemName, url, shouldLazyLoad }: DiamondSlideProps) => {
   const hasImage = Boolean(url);
 
   return (
@@ -25,6 +26,7 @@ const DiamondSlide = ({ image, itemName, url }: DiamondSlideProps) => {
                 title: itemName,
               })}
               quality={70}
+              shouldLazyLoad={shouldLazyLoad}
             />
           )}
         </UniLink>

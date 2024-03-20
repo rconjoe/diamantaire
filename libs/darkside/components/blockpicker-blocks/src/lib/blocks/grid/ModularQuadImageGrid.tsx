@@ -70,7 +70,9 @@ const ModularQuadImageGrid = ({
         })}
       </div>
 
-      <div className="mobile-slider">{blocks && <ModularCarouselBlock _modelApiKey={_modelApiKey} blocks={blocks} />}</div>
+      <div className="mobile-slider">
+        {blocks && <ModularCarouselBlock _modelApiKey={_modelApiKey} blocks={blocks} shouldLazyLoad={shouldLazyLoad} />}
+      </div>
     </ModularQuadImageGridContainer>
   );
 };

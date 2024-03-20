@@ -15,12 +15,12 @@ const SimpleProductSlideStyles = styled.div`
 `;
 
 const SimpleProductSlide = (props) => {
-  const { configuration, title, productData, route } = props;
+  const { configuration, title, productData, route, shouldLazyLoad } = props;
 
   const linkContent = (
     <div className="slide__inner">
       <div className="slide__image">
-        <DatoImage image={configuration?.plpImage} />
+        <DatoImage image={configuration?.plpImage} shouldLazyLoad={shouldLazyLoad} />
       </div>
       <div className="slide__content">
         <Heading type="h3" className="secondary simple-product-slide__title">

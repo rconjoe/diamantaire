@@ -13,12 +13,20 @@ type StandardSlideProps = {
   link: string;
   desktopImage: DatoImageType;
   mobileImage: DatoImageType;
+  shouldLazyLoad?: boolean;
   supportedCountries: {
     code: string;
   }[];
 };
 
-const StandardSlide = ({ desktopImage, mobileImage, title, link, supportedCountries }: StandardSlideProps) => {
+const StandardSlide = ({
+  desktopImage,
+  mobileImage,
+  title,
+  link,
+  supportedCountries,
+  shouldLazyLoad,
+}: StandardSlideProps) => {
   const { locale } = useRouter();
   const countryCode = getCountry(locale);
 
@@ -30,7 +38,12 @@ const StandardSlide = ({ desktopImage, mobileImage, title, link, supportedCountr
     <StandardSlideContainer>
       <div className="slide__image">
         <Link href={link}>
-          <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={title} />
+          <MobileDesktopImage
+            desktopImage={desktopImage}
+            mobileImage={mobileImage}
+            alt={title}
+            shouldLazyLoad={shouldLazyLoad}
+          />
         </Link>
       </div>
       <div className="slide__title">

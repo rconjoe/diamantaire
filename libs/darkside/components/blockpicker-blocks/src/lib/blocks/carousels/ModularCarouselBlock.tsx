@@ -28,9 +28,10 @@ import VideoHoverSlide from './slides/VideoHoverSlide';
 const ModularCarouselBlock = (props) => {
   const { locale } = useRouter();
 
-  const { _modelApiKey, blocks, darksideButtons, showDots, id } = props;
+  const { _modelApiKey, blocks, darksideButtons, showDots, id, shouldLazyLoad } = props;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [modalContent, setModalContent] = useState(null);
 
   function toggleModal(celebrity) {
@@ -87,6 +88,7 @@ const ModularCarouselBlock = (props) => {
   ];
 
   const sliderType = sliderTypes.filter((slider) => slider.type === _modelApiKey)?.[0];
+
   const SelectedSliderSlide = sliderType?.slide;
 
   // Use pulls in product data
@@ -124,7 +126,12 @@ const ModularCarouselBlock = (props) => {
 
             return (
               <div className={clsx('embla__slide', _modelApiKey)} key={slide?.id}>
-                <SelectedSliderSlide {...slide} {...sliderType?.additionalProps} productData={productData} />
+                <SelectedSliderSlide
+                  {...slide}
+                  {...sliderType?.additionalProps}
+                  productData={productData}
+                  shouldLazyLoad={shouldLazyLoad}
+                />
               </div>
             );
           })}
