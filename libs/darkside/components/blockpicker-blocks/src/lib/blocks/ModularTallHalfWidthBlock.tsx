@@ -72,6 +72,7 @@ const ModularTallHalfWidthBlock = ({
         })}
         desktopImage={desktopImage}
         mobileImage={mobileImage}
+        shouldLazyLoad={shouldLazyLoad}
         alt={alt}
       />
 
