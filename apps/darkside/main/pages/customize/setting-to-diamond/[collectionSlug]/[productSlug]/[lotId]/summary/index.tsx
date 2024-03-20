@@ -15,6 +15,7 @@ import {
   ProductAppointmentCTA,
   RingSizeGuide,
   SlideOut,
+  StickyElementWrapper,
   UIString,
 } from '@diamantaire/darkside/components/common-ui';
 import { Diamond360 } from '@diamantaire/darkside/components/diamonds';
@@ -385,6 +386,9 @@ const ReviewBuildStepStyles = styled(motion.div)`
           margin-bottom: 1rem;
           &:last-child {
             margin-bottom: 0px;
+          }
+          .sticky {
+            padding: 1.8rem;
           }
         }
       }
@@ -1021,29 +1025,31 @@ const SettingToDiamondSummaryPage = () => {
               <div className="review-atc">
                 <ul className="list-unstyled">
                   <li>
-                    <DarksideButton
-                      className="atc-button"
-                      onClick={() =>
-                        addCustomProductToCart({
-                          selectedSize,
-                          builderProduct,
-                          router,
-                          engravingText,
-                          updateGlobalContext,
-                          refetch,
-                          productIconList,
-                          checkout,
-                          ToastError,
-                          _t,
-                          datoParentProductData,
-                          diamondImages,
-                          productAdded,
-                          diamondShapesTranslations,
-                        })
-                      }
-                    >
-                      <UIString>Add To Bag</UIString>
-                    </DarksideButton>
+                    <StickyElementWrapper>
+                      <DarksideButton
+                        className="atc-button"
+                        onClick={() =>
+                          addCustomProductToCart({
+                            selectedSize,
+                            builderProduct,
+                            router,
+                            engravingText,
+                            updateGlobalContext,
+                            refetch,
+                            productIconList,
+                            checkout,
+                            ToastError,
+                            _t,
+                            datoParentProductData,
+                            diamondImages,
+                            productAdded,
+                            diamondShapesTranslations,
+                          })
+                        }
+                      >
+                        <UIString>Add To Bag</UIString>
+                      </DarksideButton>
+                    </StickyElementWrapper>
                   </li>
                   <li>
                     <ProductKlarna title={productTitle} currentPrice={totalPriceInCents} />

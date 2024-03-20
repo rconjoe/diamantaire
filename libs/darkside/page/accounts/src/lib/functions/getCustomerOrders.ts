@@ -2,7 +2,7 @@ import { shopifyAdminRestApi } from '@diamantaire/darkside/data/api';
 
 export default async function getCustomerOrders({ id }: { id: string }) {
   try {
-    const endpoint = `/customers/${id}/orders.json`;
+    const endpoint = `/customers/${id}/orders.json?status=any`;
     const data = await shopifyAdminRestApi(endpoint);
 
     return data.orders;

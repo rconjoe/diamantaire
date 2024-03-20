@@ -1,10 +1,6 @@
-import { SignIn } from '@clerk/nextjs';
+import { useUser } from '@clerk/nextjs';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
-import {
-  POST_SIGN_IN_REDIRECT_URL,
-  POST_SIGN_UP_REDIRECT_URL,
-  SIGN_UP_REDIRECT_URL,
-} from '@diamantaire/darkside/page/accounts';
+import { AccountLogin } from '@diamantaire/darkside/page/accounts';
 import { getTemplate as getAccountTemplate } from '@diamantaire/darkside/template/accounts';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
@@ -39,25 +35,17 @@ const SignInPage = () => {
   const { locale } = useRouter();
   const { _t } = useTranslations(locale);
 
+  const { user } = useUser();
+
+  // Need page to reload if the user is already logged in
+  if (user?.id) {
+    return (window.location.href = `${window.location.origin}/account/details`);
+  }
+
   return (
     <SignInPageStyles>
       <NextSeo title={`${_t('Sign In')} | VRAI`} />
-      <p>
-        {_t('If this is your first time signing in, please create an account using the email you placed your order with')}
-      </p>
-      <SignIn
-        appearance={{
-          variables: {
-            colorPrimary: '#5e7a7d',
-            fontSize: '2rem',
-            spacingUnit: '2rem',
-          },
-        }}
-        signUpUrl={SIGN_UP_REDIRECT_URL}
-        afterSignUpUrl={POST_SIGN_UP_REDIRECT_URL}
-        afterSignInUrl={POST_SIGN_IN_REDIRECT_URL}
-        routing="hash"
-      />
+      <AccountLogin />
     </SignInPageStyles>
   );
 };

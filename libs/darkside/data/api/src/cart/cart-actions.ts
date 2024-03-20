@@ -793,7 +793,7 @@ export async function updateGiftNote({
       cache: 'no-store',
     });
 
-    console.log('gift card res', res);
+    // console.log('gift card res', res);
   } catch (e) {
     return 'Error updating gift note';
   }

@@ -96,6 +96,7 @@ const DiamondBuildStep = ({
   updateSettingSlugs,
 }: DiamondBuildStepProps) => {
   const router = useRouter();
+
   const { asPath, query, locale } = router;
 
   const defaultInitialOptions = {

@@ -16,9 +16,10 @@ import {
   ProductAppointmentCTA,
   RingSizeGuide,
   SlideOut,
-  SpriteSpinner,
+  StickyElementWrapper,
   UIString,
 } from '@diamantaire/darkside/components/common-ui';
+import { Diamond360 } from '@diamantaire/darkside/components/diamonds';
 import {
   OptionSelector,
   ProductDescription,
@@ -52,7 +53,7 @@ import {
   parseValidLocale,
   pdpTypeSingleToPluralAsConst,
 } from '@diamantaire/shared/constants';
-import { generateDiamondSpriteImage, generateDiamondSpriteUrl } from '@diamantaire/shared/helpers';
+import { generateDiamondSpriteImage } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
@@ -60,7 +61,6 @@ import clsx from 'clsx';
 import useEmblaCarousel from 'embla-carousel-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
 import { NextSeo } from 'next-seo';
@@ -372,6 +372,9 @@ const ReviewBuildStepStyles = styled(motion.div)`
           margin-bottom: 1rem;
           &:last-child {
             margin-bottom: 0px;
+          }
+          .sticky {
+            padding: 1.8rem;
           }
         }
       }
@@ -832,7 +835,7 @@ const SettingToDiamondSummaryPage = () => {
               {!isDiamondCFY &&
                 spriteSpinnerIds?.map((id) => (
                   <div className="spritespinner embla__slide" key={id}>
-                    <SpriteSpinnerBlock id={id} diamondType={shopifyProductData?.configuration?.diamondType} />
+                    <Diamond360 lotId={id} diamondType={shopifyProductData?.configuration?.diamondType} />
                   </div>
                 ))}
 
@@ -1039,29 +1042,31 @@ const SettingToDiamondSummaryPage = () => {
               <div className="review-atc">
                 <ul className="list-unstyled">
                   <li>
-                    <DarksideButton
-                      className="atc-button"
-                      onClick={() =>
-                        addCustomProductToCart({
-                          selectedSize,
-                          builderProduct,
-                          router,
-                          engravingText,
-                          updateGlobalContext,
-                          refetch,
-                          productIconList,
-                          checkout,
-                          ToastError,
-                          _t,
-                          datoParentProductData,
-                          diamondImages,
-                          productAdded,
-                          diamondShapesTranslations,
-                        })
-                      }
-                    >
-                      <UIString>Add To Bag</UIString>
-                    </DarksideButton>
+                    <StickyElementWrapper>
+                      <DarksideButton
+                        className="atc-button"
+                        onClick={() =>
+                          addCustomProductToCart({
+                            selectedSize,
+                            builderProduct,
+                            router,
+                            engravingText,
+                            updateGlobalContext,
+                            refetch,
+                            productIconList,
+                            checkout,
+                            ToastError,
+                            _t,
+                            datoParentProductData,
+                            diamondImages,
+                            productAdded,
+                            diamondShapesTranslations,
+                          })
+                        }
+                      >
+                        <UIString>Add To Bag</UIString>
+                      </DarksideButton>
+                    </StickyElementWrapper>
                   </li>
                   <li>
                     <ProductKlarna title={productTitle} currentPrice={totalPriceInCents} />
@@ -1130,74 +1135,6 @@ const SettingToDiamondSummaryPage = () => {
 
 SettingToDiamondSummaryPage.getTemplate = getStandardTemplate;
 export default SettingToDiamondSummaryPage;
-
-const SpriteSpinnerBlock = ({ id, diamondType }) => {
-  const [videoData, setVideoData] = useState(null);
-  const [thumbnail, setThumbnail] = useState(null);
-
-  const fetchVideoType = useCallback(
-    async (diamondID) => {
-      const webpSprite = generateDiamondSpriteUrl(diamondID, 'webp');
-
-      const webp = await fetch(webpSprite, { method: 'HEAD' });
-
-      const jpgSprite = generateDiamondSpriteUrl(diamondID, 'jpg');
-      const jpg = await fetch(jpgSprite, { method: 'HEAD' });
-
-      if (webp.ok) {
-        return {
-          type: 'webp',
-          spriteImage: webpSprite,
-        };
-      } else {
-        if (jpg.ok) {
-          return {
-            type: 'jpg',
-            spriteImage: jpgSprite,
-          };
-        }
-      }
-    },
-    [id],
-  );
-
-  useEffect(() => {
-    function getThumbnail() {
-      const spriteImageUrl = generateDiamondSpriteImage({ diamondID: id, diamondType });
-
-      setThumbnail(spriteImageUrl);
-    }
-
-    async function getVideo() {
-      if (id) {
-        // webp or jpg
-        const videoDataTemp = await fetchVideoType(id);
-
-        setVideoData(videoDataTemp);
-      }
-    }
-
-    getVideo();
-    getThumbnail();
-  }, [id]);
-
-  return (
-    <>
-      {thumbnail && <Image alt="" src={thumbnail} height={600} width={600}></Image>}
-
-      {videoData && (
-        <div className="spritespinner-outer-container">
-          <SpriteSpinner
-            disableCaption={true}
-            shouldStartSpinner={true}
-            spriteImage={videoData?.spriteImage}
-            bunnyBaseURL={videoData?.spriteImage}
-          />
-        </div>
-      )}
-    </>
-  );
-};
 
 type BuilderStepSeoProps = {
   dehydratedState: DehydratedState;

@@ -62,6 +62,7 @@ function MediaGallery({
             productType={productType}
             index={index}
             shownWithCtw={shownWithCtw}
+            className={`product-asset-${index}`}
           />
         ))}
         {shouldDisplayDiamondHand && (
@@ -89,9 +90,10 @@ interface MediaAssetProps {
   productType: string;
   index: number;
   shownWithCtw?: string;
+  className?: string;
 }
 
-function MediaAsset({ type, asset, options, defaultAlt, disableVideos, productType, index, shownWithCtw }: MediaAssetProps) {
+function MediaAsset({ type, asset, options, defaultAlt, disableVideos, productType, index, shownWithCtw, className }: MediaAssetProps) {
   switch (type) {
     case MimeTypes.ImagePng:
     case MimeTypes.ImageJpeg: {
@@ -113,6 +115,7 @@ function MediaAsset({ type, asset, options, defaultAlt, disableVideos, productTy
           productType={productType}
           index={index}
           shownWithCtw={shownWithCtw}
+          className={className}
         />
       );
     }
@@ -151,9 +154,10 @@ type ImageAssetProps = {
   productType: string;
   index: number;
   shownWithCtw?: string;
+  className: string;
 };
 
-function ImageAsset({ image, defaultAlt, productType, index, shownWithCtw }: ImageAssetProps) {
+function ImageAsset({ image, defaultAlt, productType, index, shownWithCtw, className }: ImageAssetProps) {
   const { alt, url, title, customData } = image;
 
   const loader = ({ src, width, quality = 50 }: ImageLoaderProps) => {
@@ -173,7 +177,7 @@ function ImageAsset({ image, defaultAlt, productType, index, shownWithCtw }: Ima
   const doesImageHavTitle = title && title.length > 0;
 
   return (
-    <ImageAssetStyles>
+    <ImageAssetStyles className={className}>
       <Image
         alt={alt || defaultAlt}
         src={url}

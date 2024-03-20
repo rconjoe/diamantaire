@@ -76,6 +76,7 @@ export const GlobalTemplate = ({ children }) => {
 
   const { pathname } = useRouter();
   const isHome = pathname === '/';
+  const isBookAppointmentPage = pathname.includes('/book-appointment');
 
   const storedLocale = typeof window !== 'undefined' && window.localStorage.getItem('locale');
 
@@ -106,7 +107,7 @@ export const GlobalTemplate = ({ children }) => {
 
       <MainContainer $isHome={isHome}>{children}</MainContainer>
 
-      {footerData && <Footer footerData={footerData} />}
+      {footerData && !isBookAppointmentPage && <Footer footerData={footerData} />}
 
       <WishlistSlideOut />
     </div>

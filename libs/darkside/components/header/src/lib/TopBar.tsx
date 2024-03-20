@@ -215,6 +215,10 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
                   ],
                 ).toString();
 
+                const geoShowroomCopy = replacePlaceholders(geoCopy, ['%%location-name%%'], [showroomLocation?.location])
+                  .toString()
+                  .trim();
+
                 if (enableGwp && !isWithinTimeframe) return null;
 
                 return (
@@ -222,19 +226,14 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
                     {enableGwp ? (
                       <p>{replacedText}</p>
                     ) : enableGeoCopy && showroomLocation ? (
-                      <p>
-                        {/* If there is a location, and the slide has geo on it 🪄 */}
-                        <Link href={route}>
-                          {replacePlaceholders(geoCopy, ['%%location-name%%'], [showroomLocation?.location])
-                            .toString()
-                            .trim()}{' '}
-                          <span className="arrow-right"></span>
-                        </Link>
-                      </p>
+                      renderConditionalLink({
+                        content: geoShowroomCopy,
+                        route,
+                      })
                     ) : enableGeoCopy ? (
-                      <p>{nonGeoCopy}</p>
+                      renderConditionalLink({ content: nonGeoCopy, route })
                     ) : (
-                      <p>{defaultCopy}</p>
+                      renderConditionalLink({ content: defaultCopy, route })
                     )}
                   </div>
                 );
@@ -254,3 +253,16 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
 };
 
 export default TopBar;
+
+export const renderConditionalLink = ({ content, route }) => {
+  const contentWithIcon = route ? (
+    <>
+      {content}
+      <span className="arrow-right"></span>
+    </>
+  ) : (
+    content
+  );
+
+  return <p>{route ? <Link href={route}>{contentWithIcon}</Link> : contentWithIcon}</p>;
+};

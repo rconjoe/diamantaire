@@ -35,7 +35,7 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
 
     if (!id && !handle) {
       const obj = new URLSearchParams(query);
-      
+
       obj.delete('view');
       obj.delete('withAdditionalInfo');
 
@@ -50,7 +50,7 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
 
       vraiApiClientPayload = vraiApiClientResponse.status === 200 ? vraiApiClientResponse?.data : {};
     } catch {
-      vraiApiClientPayload = {}
+      vraiApiClientPayload = {};
     }
 
     // Get additional Data from DF-DIAMOND-API

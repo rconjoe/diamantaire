@@ -32,6 +32,7 @@ export const fetchDiamondData = async (options) => {
     const id: string = options?.lotId || null;
     const handle: string = options?.handle || null;
     const url: string = '/diamonds' + getFormatedDataForApi();
+
     const response = await queryClientApi().request({ method: 'GET', url });
     const payload = response?.data || {};
 

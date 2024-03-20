@@ -228,8 +228,11 @@ async function getServerSideProps(
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
 
   const { locale, query } = context;
+
   const currencyCode = getCurrencyFromLocale(locale);
+
   const options = getDiamondOptionsFromUrl(query || {}, 'diamondTable');
+
   const globalQuery = queries.template.global(locale);
   const diamondQuery = queries.diamonds.content(options);
   const diamondTableQuery = queries.diamondTable.content(locale);

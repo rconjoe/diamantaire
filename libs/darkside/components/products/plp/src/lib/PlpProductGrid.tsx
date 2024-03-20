@@ -134,6 +134,8 @@ const PlpProductGrid = ({
 }: PlpProductGridProps) => {
   const router = useRouter();
 
+  const lazyLoadIndex = 8;
+
   const { asPath, locale } = router || {};
 
   const useProductTitleOnly = asPath.includes('/engagement-rings/settings');
@@ -160,6 +162,7 @@ const PlpProductGrid = ({
 
   const creativeBlockObject = useMemo(() => {
     if (!creativeBlockIds) return {}; // Return an empty object if cardCollection is falsy
+
     const creativeBlocksData = creativeBlockParentData?.allCreativeBlocks.sort((a, b) => {
       // order is not guaranteed when requesting the ids by themselves so the blocks must be sorted
       return creativeBlockIds.indexOf(a.id) - creativeBlockIds.indexOf(b.id);
@@ -243,11 +246,18 @@ const PlpProductGrid = ({
               return (
                 <Fragment key={`${product?.defaultId}-${gridItemIndex}`}>
                   {cardCollectionObject[gridItemIndex] !== undefined && (
-                    <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex]]} />
+                    <PlpPromoItem
+                      shouldLazyLoad={gridItemIndex > lazyLoadIndex}
+                      block={cardCollection[cardCollectionObject[gridItemIndex]]}
+                    />
                   )}
 
-                  {creativeBlockObject[gridItemIndex] !== undefined && products.length > 8 && (
-                    <PlpCreativeBlock block={creativeBlockObject[gridItemIndex]} plpTitle={plpTitle} />
+                  {creativeBlockObject[gridItemIndex] !== undefined && products.length > lazyLoadIndex && (
+                    <PlpCreativeBlock
+                      block={creativeBlockObject[gridItemIndex]}
+                      shouldLazyLoad={gridItemIndex > lazyLoadIndex}
+                      plpTitle={plpTitle}
+                    />
                   )}
 
                   {product?.productType === 'diamonds' ? (

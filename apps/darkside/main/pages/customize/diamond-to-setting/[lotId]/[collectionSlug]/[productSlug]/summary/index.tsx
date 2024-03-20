@@ -15,6 +15,7 @@ import {
   ProductAppointmentCTA,
   RingSizeGuide,
   SlideOut,
+  StickyElementWrapper,
   UIString,
 } from '@diamantaire/darkside/components/common-ui';
 import { Diamond360 } from '@diamantaire/darkside/components/diamonds';
@@ -407,7 +408,7 @@ const ToastError = ({ locale }) => {
 
 const MAX_CHAR_LIMIT = 16;
 
-const ReviewBuildStep = ({ settingSlugs }) => {
+const ReviewBuildStep = () => {
   const [shopifyProductData, setShopifyProductData] = useState(null);
   const {
     configuration: selectedConfiguration,
@@ -439,8 +440,6 @@ const ReviewBuildStep = ({ settingSlugs }) => {
     valueLabel?: string;
     isSelected?: boolean;
   }>(configurations?.ringSize?.filter((item) => item.value === '5')[0] || '5');
-
-  console.log('selectedSize', selectedSize);
 
   const { productAdded } = useAnalytics();
 
@@ -496,8 +495,6 @@ const ReviewBuildStep = ({ settingSlugs }) => {
   const pdpType: PdpTypePlural = customJewelryPdpTypes.includes(product?.productType)
     ? 'Jewelry'
     : pdpTypeSingleToPluralAsConst[shopifyProductData?.productType];
-
-  console.log('pdpType', pdpType);
 
   const { data }: { data: any } = useProductDato(collectionSlug as string, locale, pdpType);
 
@@ -563,15 +560,11 @@ const ReviewBuildStep = ({ settingSlugs }) => {
 
   const { productTitle } = datoParentProductData || {};
 
-  console.log('datoParentProductData', datoParentProductData);
-
   const productType = shopifyProductData?.productType;
 
   function configOptionsReducer(state, action: any) {
     const { payload, type } = action;
     const { typeId, value } = payload;
-
-    console.log('configOptionsReducer', { state, action });
 
     switch (type) {
       case 'option-change':
@@ -705,7 +698,6 @@ const ReviewBuildStep = ({ settingSlugs }) => {
   }, [router.query.lotId]);
 
   async function getSettingProduct() {
-    console.log('settingSlugs', settingSlugs);
     const qParams = new URLSearchParams({
       slug: router?.query?.collectionSlug?.toString(),
       id: router?.query?.productSlug?.toString(),
@@ -1012,29 +1004,31 @@ const ReviewBuildStep = ({ settingSlugs }) => {
               <div className="review-atc">
                 <ul className="list-unstyled">
                   <li>
-                    <DarksideButton
-                      className="atc-button"
-                      onClick={() =>
-                        addCustomProductToCart({
-                          selectedSize,
-                          builderProduct,
-                          router,
-                          engravingText,
-                          updateGlobalContext,
-                          refetch,
-                          productIconList,
-                          checkout,
-                          ToastError,
-                          _t,
-                          datoParentProductData,
-                          diamondImages,
-                          productAdded,
-                          diamondShapesTranslations,
-                        })
-                      }
-                    >
-                      <UIString>Add To Bag</UIString>
-                    </DarksideButton>
+                    <StickyElementWrapper>
+                      <DarksideButton
+                        className="atc-button"
+                        onClick={() =>
+                          addCustomProductToCart({
+                            selectedSize,
+                            builderProduct,
+                            router,
+                            engravingText,
+                            updateGlobalContext,
+                            refetch,
+                            productIconList,
+                            checkout,
+                            ToastError,
+                            _t,
+                            datoParentProductData,
+                            diamondImages,
+                            productAdded,
+                            diamondShapesTranslations,
+                          })
+                        }
+                      >
+                        <UIString>Add To Bag</UIString>
+                      </DarksideButton>
+                    </StickyElementWrapper>
                   </li>
                   <li>
                     <ProductKlarna title={productTitle} currentPrice={totalPriceInCents} />
