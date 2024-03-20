@@ -323,9 +323,8 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
 
                       return (
                         <li key={`footer-social-link-${index}`}>
-                          <a target="_blank" href={url} rel="noreferrer" className={className}>
+                          <a aria-label={alt} target="_blank" href={url} rel="noreferrer" className={className}>
                             {icon}
-                            <span style={{ display: 'none' }}>{alt}</span>
                           </a>
                         </li>
                       );

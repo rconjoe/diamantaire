@@ -1,9 +1,10 @@
-import { UIString } from '@diamantaire/darkside/components/common-ui';
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { EmptyCalendarIcon, Logo } from '@diamantaire/shared/icons';
 import { desktopAndUp, media } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence } from 'framer-motion';
 import Hamburger from 'hamburger-react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import styled from 'styled-components';
 
@@ -150,6 +151,10 @@ const MobileHeaderContainer = styled.div`
 `;
 
 const MobileHeader: FC<MobileHeaderTypes> = ({ navItems, toggleCart, mobileMenuRef, showroomLocation }): JSX.Element => {
+  const { locale } = useRouter();
+
+  const { _t } = useTranslations(locale);
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const getMobileMenuPosition = () => {
@@ -180,18 +185,20 @@ const MobileHeader: FC<MobileHeaderTypes> = ({ navItems, toggleCart, mobileMenuR
                   </li>
                   <li className="calendar">
                     {showroomLocation ? (
-                      <Link className="calendar__link" href={`/book-appointment/${showroomLocation.handle}`}>
+                      <Link
+                        aria-label={_t('Book an appointment')}
+                        className="calendar__link"
+                        href={`/book-appointment/${showroomLocation.handle}`}
+                      >
                         <EmptyCalendarIcon />
-                        <span style={{ display: 'none' }}>
-                          <UIString>Book an appointment</UIString>
-                        </span>
                       </Link>
                     ) : (
-                      <Link className="calendar__link" href="/book-appointment/virtual">
+                      <Link
+                        aria-label={_t('Book an appointment')}
+                        className="calendar__link"
+                        href="/book-appointment/virtual"
+                      >
                         <EmptyCalendarIcon />
-                        <span style={{ display: 'none' }}>
-                          <UIString>Book an appointment</UIString>
-                        </span>
                       </Link>
                     )}
                   </li>
