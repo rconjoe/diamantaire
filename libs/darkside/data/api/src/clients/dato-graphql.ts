@@ -5,7 +5,7 @@ export function queryDatoGQL({
   query,
   variables,
   includeDrafts,
-  excludeInvalid,
+  excludeInvalid = true,
 }: {
   query: string;
   variables?: Variables;
@@ -29,6 +29,7 @@ export function queryDatoGQL({
     headers['X-Include-Drafts'] = 'true'
   } 
 
+  // should exclude invalid by default
   if (excludeInvalid) {
     headers['X-Exclude-Invalid'] = 'true';
   }
