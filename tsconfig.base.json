@@ -214,9 +214,6 @@
       "@diamantaire/shared/rudderstack": [
         "libs/shared/rudderstack/src/index.ts"
       ],
-      "@diamantaire/shared/rudderstack/server": [
-        "libs/shared/rudderstack/src/server.ts"
-      ],
       "@diamantaire/shared/types": [
         "libs/shared/types/src/index.ts"
       ],
