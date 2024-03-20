@@ -7,6 +7,7 @@ import {
   DropHintModal,
   NeedTimeToThinkForm,
   ProductAppointmentCTA,
+  LazyInViewBlock,
 } from '@diamantaire/darkside/components/common-ui';
 import {
   MediaGallery,
@@ -490,46 +491,63 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
         </div>
 
         <div className="below-banner-container-wrapper">
-          {trioBlocksId && <ProductTrioBlocks trioBlocksId={trioBlocksId} />}
+          {trioBlocksId && (
+            <LazyInViewBlock>
+              <ProductTrioBlocks trioBlocksId={trioBlocksId} />
+            </LazyInViewBlock>
+          )}
 
           {additionalVariantData?.productSuggestionQuadBlock?.id && (
-            <ProductSuggestionBlock id={additionalVariantData?.productSuggestionQuadBlock?.id} />
+            <LazyInViewBlock>
+              <ProductSuggestionBlock id={additionalVariantData?.productSuggestionQuadBlock?.id} />
+            </LazyInViewBlock>
           )}
 
           {shopifyProductData?.productType === 'Engagement Ring' && (
-            <ProductContentBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
+            <LazyInViewBlock>
+              <ProductContentBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
+            </LazyInViewBlock>
           )}
 
           {shopifyCollectionId && (
-            <ProductReviews reviewsId={shopifyCollectionId.replace('gid://shopify/Collection/', '')} />
+            <LazyInViewBlock>
+              <ProductReviews reviewsId={shopifyCollectionId.replace('gid://shopify/Collection/', '')} />
+            </LazyInViewBlock>
           )}
 
           {openDropHintModal && (
-            <DropHintModal
-              title={_t('Drop a hint')}
-              subtitle={_t('Enter the email address where you would like this to be sent.')}
-              locale={locale}
-              onClose={handleModalClose}
-              productLink={dropHintData?.link}
-              productImage={dropHintData?.image}
-            />
+            <LazyInViewBlock>
+              <DropHintModal
+                title={_t('Drop a hint')}
+                subtitle={_t('Enter the email address where you would like this to be sent.')}
+                locale={locale}
+                onClose={handleModalClose}
+                productLink={dropHintData?.link}
+                productImage={dropHintData?.image}
+              />
+            </LazyInViewBlock>
           )}
 
-          {hasBelowBannerBlocks && <ProductBlockPicker slug={collectionSlug} pdpType={pdpType} />}
+          {hasBelowBannerBlocks && (
+            <LazyInViewBlock>
+              <ProductBlockPicker slug={collectionSlug} pdpType={pdpType} />
+            </LazyInViewBlock>
+          )}
 
           {accordionBlocksOverride?.length > 0 &&
             accordionBlocksOverride.map((block, index) => {
               const { _modelApiKey } = block;
 
               return (
-                <BlockPicker
-                  _modelApiKey={_modelApiKey}
-                  modularBlockData={{ ...block }}
-                  shouldLazyLoad={true}
-                  key={index}
-                  countryCode={countryCode}
-                  currencyCode={currencyCode}
-                />
+                <LazyInViewBlock key={index}>
+                  <BlockPicker
+                    _modelApiKey={_modelApiKey}
+                    modularBlockData={{ ...block }}
+                    shouldLazyLoad={true}
+                    countryCode={countryCode}
+                    currencyCode={currencyCode}
+                  />
+                </LazyInViewBlock>
               );
             })}
         </div>
