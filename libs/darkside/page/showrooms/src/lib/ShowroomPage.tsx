@@ -7,9 +7,11 @@ import { parseValidLocale, getCurrencyFromLocale } from '@diamantaire/shared/con
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
-
 import ShowroomNav from './nav/ShowroomNav';
+
 import { ShowroomPageStyle } from './ShowroomPage.style';
+import { useRudderStackAnalytics } from '@diamantaire/shared/rudderstack';
+import { useEffect } from 'react';
 
 export interface ShowroomPageProps {
   isMobile: boolean;
@@ -35,6 +37,14 @@ const ShowroomPage = (props: ShowroomPageProps) => {
   let showroomSeoTitle = seoTitle.split('|');
 
   showroomSeoTitle = title + ' Showroom | ' + showroomSeoTitle[showroomSeoTitle.length - 1];
+
+  const analytics = useRudderStackAnalytics();
+
+  useEffect(() => {
+    if (analytics) {
+      analytics?.page(shopifyProductData?.productTitle);
+    }
+  }, [analytics?.ready]);
 
   return (
     <ShowroomPageStyle>
