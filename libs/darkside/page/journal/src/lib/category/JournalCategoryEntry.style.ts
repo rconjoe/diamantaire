@@ -119,6 +119,14 @@ export const JournalCategoryEntryContainer = styled.div<{ headerHeight: number }
       > * {
         flex: 0 0 33.33%;
       }
+      div { 
+        &.journal-item {
+          padding: 3rem 1.6rem;
+          @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+            padding: 1rem 0;
+          }
+        }
+      }
     }
 
     .journal-category__load-more-button {

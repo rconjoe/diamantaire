@@ -1,6 +1,6 @@
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 import { Breadcrumb } from '@diamantaire/darkside/components/common-ui';
-import { useSingleJournal, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { useJournalConfig, useSingleJournal, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { parseValidLocale } from '@diamantaire/shared/constants';
 import { useRouter } from 'next/router';
@@ -8,6 +8,7 @@ import { ArticleJsonLd, NextSeo } from 'next-seo';
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { SingleJournalEntryStyles } from './SingleJourneyEntry.style';
+import { JournalHeader } from '../general/JournalHeader';
 import { generateSubheading } from '../journal-helpers';
 
 const JOURNAL_PATH = '/journal';
@@ -18,6 +19,7 @@ const SingleJournalEntry = () => {
   const slug = router.query.slug;
   const data = useSingleJournal(locale, slug);
   const [singleJournal, setSingleJournal] = useState<any>(data?.blogPost);
+  const { data: { blogConfiguration } = {} } = useJournalConfig(locale);
   const { _t } = useTranslations(locale);
 
   const { countryCode: selectedCountryCode } = parseValidLocale(locale);
@@ -94,6 +96,8 @@ const SingleJournalEntry = () => {
           />
         </>
       )}
+
+      <JournalHeader showTitle={false} showNavLogo={false} categoriesToDisplay={blogConfiguration?.categoriesToDisplay} />
 
       <div className="journal-entry__crumbs">{crumbs && <Breadcrumb breadcrumb={crumbs} simple={true} />}</div>
       {data?.blogPost?.content?.map((contentBlockData) => {

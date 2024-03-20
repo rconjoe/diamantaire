@@ -26,7 +26,7 @@ export const JournalHeaderStyles = styled.div`
     font-size: ${setSpace(4)};
     font-weight: 400;
     min-width: 20rem;
-    ${media.medium`padding: ${setSpace(3)} 0 ${setSpace(5)};`}
+    ${media.medium`padding: 1.5rem 0 ${setSpace(3)};`}
 
     .is-category-list & {
       text-align: left;
@@ -34,8 +34,8 @@ export const JournalHeaderStyles = styled.div`
     }
 
     a {
-      font-size: 2.7rem;
-      font-weight: 500;
+      font-size: 3.2rem;
+      font-weight: 400;
     }
   }
 `;

@@ -105,7 +105,7 @@ const JournalHomeEntry = ({
 
               // link
               post.ctaRoute = '/journal/post/' + post.slug;
-              post.ctaCopy = 'Learn More';
+              post.ctaCopy = 'Read More';
               post.copy = post.excerpt;
 
               return (
