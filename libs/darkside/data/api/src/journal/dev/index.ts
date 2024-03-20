@@ -130,7 +130,7 @@ const JOURNAL_CONFIGURATION_QUERY = `
         _updatedAt
         sortByDate
         featuredImage {
-          responsiveImage(imgixParams: {w: 568, q: 35, auto: format, fit: crop, crop: focalpoint }) {
+          responsiveImage(imgixParams: {w: 568, q: 35, auto: [format, compress], fit: crop, crop: focalpoint }) {
             ...responsiveImageFragment
           }
         }
@@ -228,7 +228,7 @@ query blogPostsByCategory ($locale: SiteLocale, $category: [ItemId]!, $first: In
       _updatedAt
       sortByDate
       featuredImage {
-        responsiveImage(imgixParams: {w: 568, q: 35, auto: format, fit: crop, crop: focalpoint }) {
+        responsiveImage(imgixParams: {w: 568, q: 35, auto: [format, compress], fit: crop, crop: focalpoint }) {
           ...responsiveImageFragment
         }
       }
@@ -287,7 +287,7 @@ query blogPostsBySubcategory ($locale: SiteLocale, $category: [ItemId]!, $subcat
         _updatedAt
         sortByDate
         featuredImage {
-          responsiveImage(imgixParams: {w: 568, q: 35, auto: format, fit: crop, crop: focalpoint }) {
+          responsiveImage(imgixParams: {w: 568, q: 35, auto: [format, compress], fit: crop, crop: focalpoint }) {
             ...responsiveImageFragment
           }
         }

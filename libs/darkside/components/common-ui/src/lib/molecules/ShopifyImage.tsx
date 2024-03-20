@@ -32,7 +32,7 @@ const ShopifyImage = ({ image, className, overrideAlt, defaultAlt = '', shouldLa
 
   const loader = ({ src, width, quality = 50 }: ImageLoaderProps) => {
     const params = {
-      auto: 'format',
+      auto: 'format, compress',
       ar: '1%3A1',
       fit: 'crop',
       crop: 'focalpoint',

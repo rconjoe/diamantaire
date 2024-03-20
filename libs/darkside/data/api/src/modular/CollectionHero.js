@@ -17,7 +17,7 @@ const CollectionHero = `
           streamingUrl
         }
       alt
-      responsiveImage(imgixParams: {w: 1440, h: 576, q: 40, auto: format, fit: crop, crop: focalpoint },sizes:"(min-width: 144rem) 144rem, (min-width: 76.8rem) 100vw") {
+      responsiveImage(imgixParams: {w: 1440, h: 576, q: 40, auto: [format, compress], fit: crop, crop: focalpoint },sizes:"(min-width: 144rem) 144rem, (min-width: 76.8rem) 100vw") {
             src
             alt
             aspectRatio
@@ -37,7 +37,7 @@ const CollectionHero = `
           streamingUrl
         }
       alt
-      responsiveImage(imgixParams: {w: 1125, q: 30, auto: format, fit: crop, crop: focalpoint }, sizes:"100vw") {
+      responsiveImage(imgixParams: {w: 1125, q: 30, auto: [format, compress], fit: crop, crop: focalpoint }, sizes:"100vw") {
             src
             alt
             aspectRatio

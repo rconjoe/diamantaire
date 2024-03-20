@@ -93,7 +93,17 @@ interface MediaAssetProps {
   className?: string;
 }
 
-function MediaAsset({ type, asset, options, defaultAlt, disableVideos, productType, index, shownWithCtw, className }: MediaAssetProps) {
+function MediaAsset({
+  type,
+  asset,
+  options,
+  defaultAlt,
+  disableVideos,
+  productType,
+  index,
+  shownWithCtw,
+  className,
+}: MediaAssetProps) {
   switch (type) {
     case MimeTypes.ImagePng:
     case MimeTypes.ImageJpeg: {
@@ -162,7 +172,7 @@ function ImageAsset({ image, defaultAlt, productType, index, shownWithCtw, class
 
   const loader = ({ src, width, quality = 50 }: ImageLoaderProps) => {
     const params = {
-      auto: 'format',
+      auto: 'format, compress',
       ar: '1%3A1',
       fit: 'crop',
       crop: 'focalpoint',

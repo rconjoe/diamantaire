@@ -15,7 +15,7 @@ const CarouselHover = `
         alt
         width
         height
-        responsiveImage (imgixParams: {w: 400, h: 400, auto: format, fit: crop}) {
+        responsiveImage (imgixParams: {w: 400, h: 400, auto: [format, compress], fit: crop}) {
           src
           alt
           aspectRatio
@@ -34,7 +34,7 @@ const CarouselHover = `
         alt
         width
         height
-        responsiveImage (imgixParams: {w: 400, h: 400, auto: format, fit: crop}) {
+        responsiveImage (imgixParams: {w: 400, h: 400, auto: [format, compress], fit: crop}) {
           src
           alt
           aspectRatio

@@ -10,7 +10,7 @@ const MiniBanner = `
     desktopImage {
         url
         alt
-        responsiveImage(imgixParams: { w: 1440, q: 40, auto: format }) {
+        responsiveImage(imgixParams: { w: 1440, q: 40, auto: [format, compress] }) {
             src
             alt
             aspectRatio
@@ -27,7 +27,7 @@ const MiniBanner = `
     mobileImage {
         url
         alt
-        responsiveImage(imgixParams: { w: 375, q: 30, auto: format }) {
+        responsiveImage(imgixParams: { w: 375, q: 30, auto: [format, compress] }) {
             src
             alt
             aspectRatio

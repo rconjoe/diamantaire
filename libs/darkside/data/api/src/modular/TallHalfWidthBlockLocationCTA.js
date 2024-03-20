@@ -28,7 +28,7 @@ const TallHalfWidthBlockLocationCTA = `
         url
         alt
         mimeType
-        responsiveImage(imgixParams: {w: 800, h: 650, q: 40, auto: format, fit: crop, crop: focalpoint }, sizes:"(min-width: 144rem) 864px, (min-width: 76.8rem) 60vw") {
+        responsiveImage(imgixParams: {w: 800, h: 650, q: 40, auto: [format, compress], fit: crop, crop: focalpoint }, sizes:"(min-width: 144rem) 864px, (min-width: 76.8rem) 60vw") {
             ...responsiveImageFragment
         }
     }
@@ -36,7 +36,7 @@ const TallHalfWidthBlockLocationCTA = `
         url
         alt
         mimeType
-        responsiveImage (imgixParams: {w: 375, h:290, q: 35, auto: format, fit: clamp, crop: focalpoint }, sizes:"100vw"){
+        responsiveImage (imgixParams: {w: 375, h:290, q: 35, auto: [format, compress], fit: clamp, crop: focalpoint }, sizes:"100vw"){
             ...responsiveImageFragment
         }
     }
