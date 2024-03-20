@@ -19,7 +19,7 @@ export function queryDatoGQL({
     variables['locale'] = getDatoRequestLocale(refinedLocale);
   }
 
-  const environment = process.env['NEXT_PUBLIC_VERCEL_ENV	'] || 'development';
+  const environment = process.env['NEXT_PUBLIC_VERCEL_ENV'] || 'development';
 
   const headers: { [key: string]: string } = {
     authorization: `Bearer ` + process.env['NEXT_PUBLIC_DATOCMS_API_TOKEN'],
@@ -27,9 +27,7 @@ export function queryDatoGQL({
 
   if (includeDrafts || environment !== 'production') {
     headers['X-Include-Drafts'] = 'true'
-  } else {
-    headers['X-Include-Drafts'] = 'false'
-  }
+  } 
 
   if (excludeInvalid) {
     headers['X-Exclude-Invalid'] = 'true';
