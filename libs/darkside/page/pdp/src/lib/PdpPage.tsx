@@ -52,6 +52,7 @@ import {
   getSWRPageCacheHeader,
   generatePdpAssetAltTag,
 } from '@diamantaire/shared/helpers';
+import { useRudderStackAnalytics } from '@diamantaire/shared/rudderstack';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
@@ -337,6 +338,15 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     setDropHintData(null);
   };
 
+
+  const analytics = useRudderStackAnalytics();
+
+  useEffect(() => {
+    if (analytics) {
+      analytics?.page(shopifyProductData?.productTitle);
+    }
+  }, [analytics?.ready]);
+
   const loadTangibleScript = () => {
     return LOAD_TANGIBLE_SCRIPT_LOCATION.includes(router.locale) && LOAD_TANGIBLE_SCRIPT_PRODUCT_TYPE.includes(shopifyProductData?.productType);
   }
@@ -347,6 +357,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
       'variants': productSkusVariants
     }
   }
+
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };

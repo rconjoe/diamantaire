@@ -21,6 +21,7 @@ import {
   generateLanguageAlternates,
 } from '@diamantaire/shared/constants';
 import { isEmptyObject, getSwrRevalidateConfig } from '@diamantaire/shared/helpers';
+import { useRudderStackAnalytics } from '@diamantaire/shared/rudderstack';
 import { FilterValueProps, generateListPageUrl } from '@diamantaire/shared-product';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import clsx from 'clsx';
@@ -213,6 +214,15 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   const isBasePath = listPagePath === asPath;
   const languageAlternates = isBasePath ? generateLanguageAlternates({ baseUrl, currentPath: listPagePath }) : [];
 
+  const analytics = useRudderStackAnalytics();
+
+  useEffect(() => {
+    if (analytics) {
+      // All the info we need is already in the url + pageview event
+      analytics?.page();
+    }
+  }, [analytics?.ready]);
+
   return (
     <PlpStyles>
       <NextSeo
@@ -287,6 +297,44 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
           </div>
         </>
       )}
+
+      <PlpProductGrid
+        data={data}
+        plpTitle={hero?.title}
+        isFetching={false}
+        availableFilters={availableFilters}
+        promoCardCollectionId={promoCardCollection?.id}
+        creativeBlockIds={creativeBlockIds}
+        setFilterValues={onFilterChange}
+        filterValue={filterValue}
+        urlFilterMethod={urlFilterMethod}
+        plpSlug={router.query.plpSlug as string}
+        sortOptions={sortOptions}
+        filterOptionsOverride={filterOptionsOverride}
+        onSortChange={onSortChange}
+        subcategoryFilter={subcategoryFilter}
+      />
+
+      {hasNextPage && (
+        <div className="loader-more-container">
+          <DarksideButton
+            disabled={isFetching}
+            onClick={() => fetchNextPage()}
+            className={clsx({
+              'is-fetching': isFetching,
+            })}
+          >
+            {!isFetching && <UIString>Load more</UIString>}
+            {isFetching && <Loader color="#fff" />}
+          </DarksideButton>
+        </div>
+      )}
+
+      <div ref={pageEndRef} />
+      <div className="below-banner-container-wrapper">
+        <PlpPreviouslyViewed />
+        {category && plpSlug && <PlpBlockPicker category={category} plpSlug={plpSlug} />}
+      </div>
     </PlpStyles>
   );
 }

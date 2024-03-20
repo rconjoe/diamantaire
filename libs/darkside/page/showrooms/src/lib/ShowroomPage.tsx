@@ -4,9 +4,11 @@ import { queries } from '@diamantaire/darkside/data/queries';
 import { StandardPageEntry } from '@diamantaire/darkside/page/standard-pages';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { parseValidLocale, getCurrencyFromLocale } from '@diamantaire/shared/constants';
+import { useRudderStackAnalytics } from '@diamantaire/shared/rudderstack';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 import ShowroomNav from './nav/ShowroomNav';
 import { ShowroomPageStyle } from './ShowroomPage.style';
@@ -35,6 +37,14 @@ const ShowroomPage = (props: ShowroomPageProps) => {
   let showroomSeoTitle = seoTitle.split('|');
 
   showroomSeoTitle = title + ' Showroom | ' + showroomSeoTitle[showroomSeoTitle.length - 1];
+
+  const analytics = useRudderStackAnalytics();
+
+  useEffect(() => {
+    if (analytics) {
+      analytics?.page(title);
+    }
+  }, [analytics?.ready]);
 
   return (
     <ShowroomPageStyle>

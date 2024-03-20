@@ -5,10 +5,12 @@ import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { parseValidLocale, getCurrency } from '@diamantaire/shared/constants';
 import { getSwrRevalidateConfig } from '@diamantaire/shared/helpers';
+import { useRudderStackAnalytics } from '@diamantaire/shared/rudderstack';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import type { NextRequest } from 'next/server';
+import { useEffect } from 'react';
 
 import { StandardPageEntry } from './StandardPageEntry';
 
@@ -35,6 +37,14 @@ const StandardPage = (props: StandardPageProps) => {
   const { seo } = page || {};
 
   const { seoTitle, seoDescription } = seo || {};
+
+  const analytics = useRudderStackAnalytics();
+
+  useEffect(() => {
+    if (analytics) {
+      analytics?.page(page?.title);
+    }
+  }, [analytics?.ready]);
 
   return (
     <>
