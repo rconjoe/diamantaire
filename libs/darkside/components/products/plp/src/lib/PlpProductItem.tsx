@@ -77,6 +77,7 @@ const PlpProductItem = (props: PlpProductItemProps) => {
                 {metal?.map((option) => (
                   <li key={option.id}>
                     <button
+                      name={_t(option.value)}
                       onClick={(e) => {
                         e.preventDefault();
                         setSelectedId(option.id);

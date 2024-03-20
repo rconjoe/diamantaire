@@ -1,5 +1,5 @@
 import { Heading, Slider, UIString } from '@diamantaire/darkside/components/common-ui';
-import { humanNamesMapperType } from '@diamantaire/darkside/data/hooks';
+import { humanNamesMapperType, useTranslations } from '@diamantaire/darkside/data/hooks';
 import {
   ACCEPTED_FILTER_PARAMS,
   DIAMOND_TYPE_HUMAN_NAMES,
@@ -36,13 +36,15 @@ const PlpAllFilterOptions = ({
   setFilterValues,
   setIsMobileFilterOpen,
 }) => {
-  const [isCustomPriceRangeOpen, setIsCustomPriceRangeOpen] = useState(false);
-
-  const priceRange: number[] = filterTypes?.price?.map((val) => parseFloat(val)) || [0, 1000000];
-
   const router = useRouter();
 
   const { locale, asPath, pathname } = router;
+
+  const { _t } = useTranslations(locale);
+
+  const [isCustomPriceRangeOpen, setIsCustomPriceRangeOpen] = useState(false);
+
+  const priceRange: number[] = filterTypes?.price?.map((val) => parseFloat(val)) || [0, 1000000];
 
   const isAnyFilterActive = true;
 
@@ -96,7 +98,7 @@ const PlpAllFilterOptions = ({
           </div>
 
           <div className="filter__icon">
-            <button onClick={() => setIsMobileFilterOpen(true)}>
+            <button onClick={() => setIsMobileFilterOpen(true)} name={_t('Filter')}>
               <FilterIcon />
             </button>
           </div>
