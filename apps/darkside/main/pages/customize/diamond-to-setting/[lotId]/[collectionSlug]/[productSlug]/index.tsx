@@ -24,7 +24,12 @@ import {
 } from '@diamantaire/darkside/components/products/pdp';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { fetchDatoVariant } from '@diamantaire/darkside/data/api';
-import { useBuilderFlowSeo, useProductDato, useProductSkusVariants, useTranslations } from '@diamantaire/darkside/data/hooks';
+import {
+  useBuilderFlowSeo,
+  useProductDato,
+  useProductSkusVariants,
+  useTranslations,
+} from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { ENGAGEMENT_RING_PRODUCT_TYPE, PdpTypePlural, parseValidLocale } from '@diamantaire/shared/constants';
@@ -40,7 +45,7 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 const LOAD_TANGIBLE_SCRIPT_LOCATION = ['en-US', 'en-GB'];
-const LOAD_TANGIBLE_SCRIPT_PRODUCT_TYPE = ['Wedding Band', 'Engagement Ring']
+const LOAD_TANGIBLE_SCRIPT_PRODUCT_TYPE = ['Wedding Band', 'Engagement Ring'];
 const TANGIBLE_SCRIPT_URL = process.env['NEXT_PUBLIC_VERCEL_ENV'] === 'production' ? 'revision_1' : 'revision_2';
 
 const SettingBuildStepStyles = styled(motion.div)`
@@ -208,9 +213,9 @@ const SettingBuildStep = () => {
 
   const initializeVraiProductData = (currentSKU) => {
     window['vraiProduct'] = {
-      'currentSKU': currentSKU
-    }
-  }
+      currentSKU: currentSKU,
+    };
+  };
 
   useEffect(() => {
     if (!builderProduct?.diamonds) return;
@@ -230,10 +235,10 @@ const SettingBuildStep = () => {
 
   useEffect(() => {
     window['vraiProduct'] = {
-      'currentSKU': window['vraiProduct']?.currentSKU,
-      'variants': variantsSkusProduct
-    }
-  }, [variantsSkusProduct])
+      currentSKU: window['vraiProduct']?.currentSKU,
+      variants: variantsSkusProduct,
+    };
+  }, [variantsSkusProduct]);
 
   // Need this here to not interefere with hooks
   if (isEmptyObject(shopifyProductData)) return null;
@@ -257,8 +262,11 @@ const SettingBuildStep = () => {
   };
 
   const loadTangibleScript = () => {
-    return LOAD_TANGIBLE_SCRIPT_LOCATION.includes(router.locale) && LOAD_TANGIBLE_SCRIPT_PRODUCT_TYPE.includes(shopifyProductData?.productType);
-  }
+    return (
+      LOAD_TANGIBLE_SCRIPT_LOCATION.includes(router.locale) &&
+      LOAD_TANGIBLE_SCRIPT_PRODUCT_TYPE.includes(shopifyProductData?.productType)
+    );
+  };
 
   return (
     <SettingBuildStepStyles
@@ -275,10 +283,10 @@ const SettingBuildStep = () => {
       }}
     >
       {loadTangibleScript() && (
-        <Script 
-            async 
-            src={`https://cdn.tangiblee.com/integration/5.0/managed/www.vrai.com/${TANGIBLE_SCRIPT_URL}/variation_original/tangiblee-bundle.min.js`}
-            strategy='afterInteractive'
+        <Script
+          async
+          src={`https://cdn.tangiblee.com/integration/5.0/managed/www.vrai.com/${TANGIBLE_SCRIPT_URL}/variation_original/tangiblee-bundle.min.js`}
+          strategy="afterInteractive"
         />
       )}
       <NextSeo title={seoTitle} description={seoDescription} nofollow={true} noindex={true} />

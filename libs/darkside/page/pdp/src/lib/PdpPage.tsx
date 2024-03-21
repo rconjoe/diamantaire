@@ -33,7 +33,7 @@ import {
   useProductVariant,
   useTranslations,
   useDiamondLowestPriceByDiamondType,
-  useProductSkusVariants
+  useProductSkusVariants,
 } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
@@ -80,7 +80,7 @@ export interface PdpPageProps {
 }
 
 const LOAD_TANGIBLE_SCRIPT_LOCATION = ['en-US', 'en-GB'];
-const LOAD_TANGIBLE_SCRIPT_PRODUCT_TYPE = ['Wedding Band', 'Engagement Ring']
+const LOAD_TANGIBLE_SCRIPT_PRODUCT_TYPE = ['Wedding Band', 'Engagement Ring'];
 const TANGIBLE_SCRIPT_URL = process.env['NEXT_PUBLIC_VERCEL_ENV'] === 'production' ? 'revision_1' : 'revision_2';
 
 export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
@@ -105,7 +105,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   useEffect(() => {
     initializeVraiProductData();
-  }, [productSkusVariants, shopifyProductData?.sku])
+  }, [productSkusVariants, shopifyProductData?.sku]);
 
   useEffect(() => {
     const hasProductParams = router.pathname.includes('productParams');
@@ -338,15 +338,18 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   };
 
   const loadTangibleScript = () => {
-    return LOAD_TANGIBLE_SCRIPT_LOCATION.includes(router.locale) && LOAD_TANGIBLE_SCRIPT_PRODUCT_TYPE.includes(shopifyProductData?.productType);
-  }
+    return (
+      LOAD_TANGIBLE_SCRIPT_LOCATION.includes(router.locale) &&
+      LOAD_TANGIBLE_SCRIPT_PRODUCT_TYPE.includes(shopifyProductData?.productType)
+    );
+  };
 
   const initializeVraiProductData = async () => {
     window['vraiProduct'] = {
-      'currentSKU': shopifyProductData?.sku,
-      'variants': productSkusVariants
-    }
-  }
+      currentSKU: shopifyProductData?.sku,
+      variants: productSkusVariants,
+    };
+  };
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
@@ -392,10 +395,10 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           strategy={'beforeInteractive'}
         />
         {loadTangibleScript() && (
-          <Script 
-              async 
-              src={`https://cdn.tangiblee.com/integration/5.0/managed/www.vrai.com/${TANGIBLE_SCRIPT_URL}/variation_original/tangiblee-bundle.min.js`}
-              strategy='afterInteractive'
+          <Script
+            async
+            src={`https://cdn.tangiblee.com/integration/5.0/managed/www.vrai.com/${TANGIBLE_SCRIPT_URL}/variation_original/tangiblee-bundle.min.js`}
+            strategy="afterInteractive"
           />
         )}
         <PageViewTracker productData={productData} />
@@ -486,9 +489,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 productType={shopifyProductData?.productType}
                 type={isProductFeedUrl ? 'underline' : 'outline'}
               />
-
               <ProductGWP />
-
               {productIconListType && (
                 <ProductIconList
                   productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
@@ -501,9 +502,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                   productImageUrl={productContent?.image?.responsiveImage?.src || productContent?.assetStack?.[0]?.url}
                 />
               )}
-
               {productData && <NeedTimeToThinkForm productData={productData} />}
-
               <ProductDescription
                 title={productTitle}
                 description={productDescription}
