@@ -22,15 +22,19 @@ const ProductTypeSpecificMetricsStyles = styled.div`
 const ProductTypeSpecificMetrics = ({ additionalVariantData, parentProductAttributes, shouldDoublePrice }) => {
   const { locale, pathname } = useRouter();
 
-  const carat = additionalVariantData ? additionalVariantData?.caratWeightOverride || parentProductAttributes?.caratWeight : '';
+  const carat = additionalVariantData
+    ? additionalVariantData?.caratWeightOverride || parentProductAttributes?.caratWeight
+    : '';
   const caratWeight = carat ? (shouldDoublePrice ? carat * 2 : carat) : '';
   const acceptableProductTypes = ['necklace', 'bracelet', 'wedding-bands', 'earrings', 'ring'];
-  const isAcceptableProductType = acceptableProductTypes.filter((acceptableProductType) => pathname.includes(acceptableProductType));
+  const isAcceptableProductType = acceptableProductTypes.some((acceptableProductType) =>
+    pathname.includes(acceptableProductType),
+  );
   const { _t: translateOptionNames } = useTranslations(locale, [humanNamesMapperType.OPTION_NAMES]);
 
   return (
     <ProductTypeSpecificMetricsStyles>
-      { isAcceptableProductType && (
+      {isAcceptableProductType && (
         <Heading type="h2" className="metric-title">
           {/* keep carat weight lowercase for translation */}
           {translateOptionNames(`caratWeight`)}: <span>{caratWeight}</span>
