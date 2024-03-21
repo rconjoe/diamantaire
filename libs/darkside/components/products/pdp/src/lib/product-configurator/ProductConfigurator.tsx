@@ -152,12 +152,12 @@ function ProductConfigurator({
   }, [requiresCustomDiamond, selectedVariantId]);
 
   const updateVraiProductSKUData = (shopifyVariantId: string) => {
-      const variant = (variants || []).find((_variant) => _variant.shopifyVariantId === shopifyVariantId);
-      
-      if (variant) {
-        window['vraiProduct'].currentSKU = variant['sku'];
-      }
-  }
+    const variant = (variants || []).find((_variant) => _variant.shopifyVariantId === shopifyVariantId);
+
+    if (variant) {
+      window['vraiProduct'].currentSKU = variant['sku'];
+    }
+  };
 
   const handleSizeChange = useCallback((option: OptionItemProps) => {
     if (option?.value) {
@@ -718,7 +718,7 @@ function AddToCartButton({
       };
 
       addMiscProductToCart({
-        variantId: id,
+        variantId: variantId,
         attributes: ringSizerAttributes,
         locale,
       })
