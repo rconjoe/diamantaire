@@ -88,7 +88,7 @@ const CardDiamond: React.FC<CardDiamondProps> = ({
   return (
     <div className="card item-diamond">
       <div className="poster">
-        <Image alt={diamondType} src={image} sizes="100vw" height={0} width={0} />
+        <Image alt={diamondType} src={image} sizes="100vw" height={0} width={0} unoptimized />
       </div>
 
       <div className="text">
@@ -281,6 +281,7 @@ const CardBundle: React.FC<CardBundleProps> = ({
       sizes="100vw"
       height={0}
       width={0}
+      unoptimized
     />,
   ];
 
@@ -326,6 +327,7 @@ const CardBundle: React.FC<CardBundleProps> = ({
                   sizes="100vw"
                   height={0}
                   width={0}
+                  unoptimized
                 />
               </button>
             </li>

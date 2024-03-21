@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { useAnalytics } from '@diamantaire/analytics';
-import { Heading } from '@diamantaire/darkside/components/common-ui';
+import { DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
 import { updateMultipleItemsQuantity } from '@diamantaire/darkside/data/api';
 import { CartCertProps, useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import {
@@ -439,7 +439,7 @@ const MultiVariantCartItem = ({
         </div>
       </div>
       <div className="cart-item__body">
-        <div className="cart-item__image">{image && <Image {...image} placeholder="empty" alt={info?.pdpTitle} />}</div>
+        <div className="cart-item__image">{image && <DatoImage image={image} overrideAlt={info?.pdpTitle} />}</div>
 
         <div className="cart-item__content">
           <p className="setting-text">
