@@ -70,21 +70,21 @@ export async function getProductPage(productSlug, variantSlug) {
 }
 
 // Get All Skus variants for a product
-export async function fetchSKUProductVariants(collectionSlug){
+export async function fetchSKUProductVariants(collectionSlug) {
   const qParams = new URLSearchParams({
     collectionSlug,
   }).toString();
-  
+
   const apiUrl = `/api/pdp/getPdpProductSKU?${qParams}`;
 
   let response = {
-    data: []
+    data: [],
   };
 
   try {
     response = await vraiApiClient.get(apiUrl);
   } catch (error) {
-    console.log(' Error :', error)
+    console.log(' Error :', error);
   }
 
   return response.data;
@@ -244,6 +244,7 @@ const PRODUCT_ICON_LIST_QUERY = gql`
           _modelApiKey
           shippingBusinessDays
           shippingBusinessDaysCountryMap
+          useStaticText
           shippingText
           cutForYouShippingBusinessDays
           cutForYouShippingBusinessDaysCountryMap
