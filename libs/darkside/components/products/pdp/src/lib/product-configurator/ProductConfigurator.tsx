@@ -681,6 +681,7 @@ function AddToCartButton({
     } else if (productType === 'Gift Card') {
       // eslint-disable-next-line unused-imports/no-unused-vars
       const { shippingText, ...otherAttributes } = defaultAttributes;
+      console.log({ shippingText, otherAttributes });
       const giftCardAttributes = {
         ...otherAttributes,
         pdpUrl: window.location.href,
