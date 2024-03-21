@@ -34,7 +34,7 @@ const ProductTypeSpecificMetrics = ({ additionalVariantData, parentProductAttrib
 
   return (
     <ProductTypeSpecificMetricsStyles>
-      {isAcceptableProductType && (
+      {Boolean(caratWeight) && isAcceptableProductType && (
         <Heading type="h2" className="metric-title">
           {/* keep carat weight lowercase for translation */}
           {translateOptionNames(`caratWeight`)}: <span>{caratWeight}</span>
