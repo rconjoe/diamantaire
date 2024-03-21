@@ -116,11 +116,11 @@ const Diamond360 = ({
             </div>
           )}
 
-          {/* {!disabled && !useImageOnly && !isCto && !showFallbackImage && (
+          {!disabled && !useImageOnly && !isCto && !showFallback && (
             <div className="caption">
-              <UIString>Interactive actual diamond video</UIString>
+              <UIString>Actual video of diamond</UIString>
             </div>
-          )} */}
+          )}
         </>
       )}
     </StyledDiamond360>

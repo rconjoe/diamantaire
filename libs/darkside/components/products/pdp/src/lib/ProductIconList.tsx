@@ -213,6 +213,7 @@ const ShippingListItem = ({ item, isCfy, isCaratLessThanFive }) => {
     cutForYouReturnPolicyTitle,
     cutForYouReturnPolicyDetails,
     cutForYouReturnPolicyIcon,
+    useStaticText,
   } = item || {};
 
   const { locale } = useRouter();
@@ -253,7 +254,7 @@ const ShippingListItem = ({ item, isCfy, isCaratLessThanFive }) => {
           )}
         </span>
         <span className="text">
-          {isCfy ? cutForYouShippingText : shippingText} {shippingDate}
+          {isCfy ? cutForYouShippingText : shippingText} {!useStaticText && shippingDate}
           {isCfy && <span className="details">{cutForYouShippingDetails}</span>}
         </span>
       </li>

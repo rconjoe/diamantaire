@@ -1,0 +1,12 @@
+@startuml vrai_system_context
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(user, "vrai.com users", "People who can shop in the vrai.com site")
+System_Ext(ecommerce, "Shopify", "E-commerce that manages product details")
+System_Ext(cms, "DatoCMS", "Product details and language translations")
+System(diamantaire, "Diamantaire", "Web application")
+
+Rel(user, diamantaire, "Shop", "User navigates the site using a web interface")
+Rel(diamantaire, ecommerce, "Product retrieval", "Get product information using the shopify API")
+Rel(diamantaire, cms, "Details retrieval", "Get product details or text using the GraphQL API")
+@enduml

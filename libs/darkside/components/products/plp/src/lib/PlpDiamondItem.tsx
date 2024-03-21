@@ -1,5 +1,5 @@
 import { DiamondVideoThumbImage } from '@diamantaire/darkside/components/common-ui';
-import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import { useTranslations, humanNamesMapperType } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { generateGenericDiamondImageUrl } from '@diamantaire/shared/helpers';
 import { ListPageDiamondItem, DiamondLink } from '@diamantaire/shared-diamond';
@@ -23,7 +23,7 @@ const PlpDiamondItemStyles = styled.div`
 
 const PlpDiamondItem = ({ product }: PlpDiamondItemProps) => {
   const router = useRouter();
-  const { _t } = useTranslations();
+  const { _t } = useTranslations(router.locale, [humanNamesMapperType.DIAMOND_SHAPES, humanNamesMapperType.DIAMOND_CUTS, humanNamesMapperType.DIAMOND_SPECS]);
   const { carat, diamondType, cut, color, clarity, price, handle } = product;
   const title = `${carat.toFixed(2)} carat, ${_t(diamondType)} | ${_t(cut)}, ${_t(color)}, ${_t(clarity)} | ${getFormattedPrice(
     price,

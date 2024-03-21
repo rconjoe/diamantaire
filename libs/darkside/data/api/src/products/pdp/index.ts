@@ -244,6 +244,7 @@ const PRODUCT_ICON_LIST_QUERY = gql`
           _modelApiKey
           shippingBusinessDays
           shippingBusinessDaysCountryMap
+          useStaticText
           shippingText
           cutForYouShippingBusinessDays
           cutForYouShippingBusinessDaysCountryMap

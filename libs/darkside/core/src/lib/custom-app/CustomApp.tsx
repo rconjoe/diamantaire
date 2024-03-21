@@ -7,6 +7,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { CookieConsentProvider } from '@use-cookie-consent/react';
 import type { NextPage } from 'next';
 import { AppProps } from 'next/app';
+import Script from 'next/script';
 import { ReactElement, ReactNode, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 
@@ -36,6 +37,39 @@ export function CustomApp({ Component, pageProps }: AppPropsWithTemplate) {
         <CookieConsentProvider>
           <GlobalProvider>
             <ThemeProvider theme={theme}>
+              <Script id="bufferEvents">
+                {`
+            window.rudderanalytics = [];
+            var methods = [
+              'load',
+              'page',
+              'track',
+              'identify',
+              'alias',
+              'group',
+              'ready',
+              'reset',
+              'getAnonymousId',
+              'setAnonymousId',
+              'getUserId',
+              'getUserTraits',
+              'getGroupId',
+              'getGroupTraits',
+              'startSession',
+              'endSession',
+              'getSessionId',
+            ];
+            for (var i = 0; i < methods.length; i++) {
+              var method = methods[i];
+              window.rudderanalytics[method] = (function (methodName) {
+                return function () {
+                  window.rudderanalytics.push([methodName].concat(Array.prototype.slice.call(arguments)));
+                };
+              })(method);
+            }
+
+        `}
+              </Script>
               <DefaultSeo />
               <Hydrate state={pageProps.dehydratedState}>{getTemplate(<Component {...pageProps} />)}</Hydrate>
               <ReactQueryDevtools initialIsOpen={false} />

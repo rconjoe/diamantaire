@@ -676,6 +676,7 @@ function AddToCartButton({
     } else if (productType === 'Gift Card') {
       // eslint-disable-next-line unused-imports/no-unused-vars
       const { shippingText, ...otherAttributes } = defaultAttributes;
+
       const giftCardAttributes = {
         ...otherAttributes,
         pdpUrl: window.location.href,
@@ -683,8 +684,8 @@ function AddToCartButton({
         // Jewelry specific attributes
         metalType: '',
         shippingBusinessDays: '',
-        productIconListShippingCopy: '',
-        shippingText: '',
+        productIconListShippingCopy: shippingText,
+        shippingText: shippingText,
         childProduct: '',
       };
 
@@ -713,7 +714,7 @@ function AddToCartButton({
       };
 
       addMiscProductToCart({
-        variantId: id,
+        variantId: variantId,
         attributes: ringSizerAttributes,
         locale,
       })

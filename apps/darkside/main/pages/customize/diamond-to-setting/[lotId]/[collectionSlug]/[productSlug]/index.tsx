@@ -34,6 +34,7 @@ import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { ENGAGEMENT_RING_PRODUCT_TYPE, PdpTypePlural, parseValidLocale } from '@diamantaire/shared/constants';
 import { generatePdpAssetAltTag, isEmptyObject } from '@diamantaire/shared/helpers';
+import { useRudderStackAnalytics } from '@diamantaire/shared/rudderstack';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
@@ -239,6 +240,14 @@ const SettingBuildStep = () => {
       variants: variantsSkusProduct,
     };
   }, [variantsSkusProduct]);
+
+  const analytics = useRudderStackAnalytics();
+
+  useEffect(() => {
+    if (analytics) {
+      analytics?.page(shopifyProductData?.productTitle);
+    }
+  }, [analytics?.ready]);
 
   // Need this here to not interefere with hooks
   if (isEmptyObject(shopifyProductData)) return null;

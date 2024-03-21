@@ -6,6 +6,7 @@ import { usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
 import { useBuilderFlowSeo, usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
+import { useRudderStackAnalytics } from '@diamantaire/shared/rudderstack';
 import { FilterValueProps } from '@diamantaire/shared-product';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
@@ -95,6 +96,14 @@ const SettingSelectStep = () => {
     hero,
     category,
   };
+
+  const analytics = useRudderStackAnalytics();
+
+  useEffect(() => {
+    if (analytics) {
+      analytics?.page();
+    }
+  }, [analytics?.ready]);
 
   return (
     <SettingSelectStepStyles>
