@@ -67,7 +67,7 @@ const DatoImage = (props: DatoImageProps) => {
     return datoUrl.toString();
   };
 
-  const responsiveImageSrc_ = responsiveImageSrc?.replace('auto=format', 'auto=format,compress');
+  const responsiveImageSrc_ = responsiveImageSrc; // dev ?.replace('auto=format', 'auto=format,compress');
 
   return isSvgCheck && image?.url ? (
     <img src={image.url} alt={overrideAlt || alt} />
