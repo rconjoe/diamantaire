@@ -158,7 +158,12 @@ const BlockPicker = ({ _modelApiKey, modularBlockData, countryCode, currencyCode
   const BlockComponent = blockConfig?.[_modelApiKey];
 
   const renderBlockComponent = () => (
-    <BlockComponent countryCode={countryCode} currencyCode={currencyCode} {...modularBlockData} />
+    <BlockComponent
+      countryCode={countryCode}
+      currencyCode={currencyCode}
+      {...modularBlockData}
+      shouldLazyLoad={shouldLazyLoad}
+    />
   );
 
   if (!BlockComponent) {
