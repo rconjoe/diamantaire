@@ -66,15 +66,6 @@ const DatoImage = (props: DatoImageProps) => {
 
     return datoUrl.toString();
   };
-  const imageProps = {
-    // Only add 'priority' and 'loading' if shouldLazyLoad is explicitly set
-    ...(typeof shouldLazyLoad === 'boolean'
-      ? {
-          priority: !shouldLazyLoad,
-          loading: (shouldLazyLoad ? 'lazy' : 'eager') as 'lazy' | 'eager',
-        }
-      : {}),
-  };
 
   return isSvgCheck && image?.url ? (
     <img src={image.url} alt={overrideAlt || alt} />
@@ -89,14 +80,13 @@ const DatoImage = (props: DatoImageProps) => {
           loader={() => loader({ src: responsiveImageSrc, width: responsiveImage?.width, quality })}
           className={clsx('image', className)}
           sizes={responsiveImage ? responsiveImage?.width + 'px' : image?.width + 'px'}
-          // priority={!shouldLazyLoad}
-          // loading={shouldLazyLoad ? 'lazy' : 'eager'}
+          priority={!shouldLazyLoad}
+          loading={shouldLazyLoad ? 'lazy' : 'eager'}
           fill={true}
           style={{
             aspectRatio,
           }}
           onLoad={onLoad}
-          {...imageProps}
         />
       )}
     </DatoImageContainer>
