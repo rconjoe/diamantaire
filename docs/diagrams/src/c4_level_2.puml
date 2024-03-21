@@ -1,0 +1,33 @@
+@startuml vrai_container_diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(user, "vrai.com users", "People who can shop in the vrai.com site")
+System_Ext(ecommerce, "Shopify", "E-commerce that manages product details")
+System_Ext(cms, "DatoCMS", "Product details and language translations")
+
+System_Boundary(diamantaire, "Diamantaire") {
+  Container(frontend, "Diamantaire Frontend", "Web application - NextJS, React")
+  Container(server, "vrai Server", "Backend server - NestJS")
+  Container(productLoader, "Product Loader", "NestJS")
+  ContainerDb(database, "Main Database", "Mongo")
+  ContainerDb(cache, "Product Cache", "Redis")
+  Container(etl, "Windmill", "Transforms data between different sources")
+}
+
+Rel(user, frontend, "Shop", "User navigates the site using a web interface")
+
+Rel(frontend, server, "API", "Uses the server REST API")
+Rel(frontend, cms, "Details retrieval", "Get product details or text using the GraphQL API")
+
+Rel(server, cache, "Get Cached information", "Gets product cached information")
+Rel(server, database, "Gets product information", "Gets product stored information")
+
+Rel(ecommerce, productLoader, "Retrieve product data", "To be later stored in the DB")
+Rel(productLoader, database, "Store product data", "Retrieved from the e-commerce system")
+
+Rel(database, etl, "Retrieve product information", "To be later cached")
+Rel(etl, cache, "Cache product information", "Retrieved from the DB")
+
+Rel(cms, etl, "Content event updates", "Via webhoks")
+Rel(ecommerce, etl, "Product event updates", "Via webhoks")
+@enduml

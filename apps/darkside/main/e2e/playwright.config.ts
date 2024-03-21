@@ -15,6 +15,7 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
+
 export default defineConfig({
   ...nxE2EPreset(__filename, { testDir: './tests' }),
   timeout: 1 * 90 * 1000,
