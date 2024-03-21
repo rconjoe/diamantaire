@@ -8,9 +8,10 @@ import { Fragment } from 'react';
 type ProductBlockPickerProps = {
   slug: string;
   pdpType: PdpTypePlural;
+  shouldLazyLoad?: boolean;
 };
 
-const ProductBlockPicker = ({ slug, pdpType }: ProductBlockPickerProps) => {
+const ProductBlockPicker = ({ slug, pdpType, shouldLazyLoad = true }: ProductBlockPickerProps) => {
   const { locale } = useRouter();
   const countryCode = getCountry(locale);
   const currencyCode = getCurrency(countryCode);
@@ -30,7 +31,7 @@ const ProductBlockPicker = ({ slug, pdpType }: ProductBlockPickerProps) => {
           modularBlockData={{ ...contentBlockData }}
           countryCode={countryCode}
           currencyCode={currencyCode}
-          shouldLazyLoad={true}
+          shouldLazyLoad={shouldLazyLoad}
         />
       </Fragment>
     );

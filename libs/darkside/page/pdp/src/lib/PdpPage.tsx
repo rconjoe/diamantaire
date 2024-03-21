@@ -528,11 +528,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
             </LazyInViewBlock>
           )}
 
-          {hasBelowBannerBlocks && (
-            <LazyInViewBlock>
-              <ProductBlockPicker slug={collectionSlug} pdpType={pdpType} />
-            </LazyInViewBlock>
-          )}
+          {hasBelowBannerBlocks && <ProductBlockPicker slug={collectionSlug} pdpType={pdpType} />}
 
           {accordionBlocksOverride?.length > 0 &&
             accordionBlocksOverride.map((block, index) => {
