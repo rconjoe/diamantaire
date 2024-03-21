@@ -416,6 +416,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               shownWithCtw={additionalVariantData?.shownWithCtw}
               diamondType={configuration?.diamondType}
             />
+
             <MediaSlider
               title={productMediaAltDescription || productTitle}
               assets={assetStack}
@@ -431,12 +432,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           <div className="info-container">
             <div className="info__inner">
               {!isMobile && <WishlistLikeButton extraClass="pdp" productId={`product-${shopifyProductData.productSlug}`} />}
+
               <ProductTitle
                 title={productTitle}
                 override={productTitleOverride}
                 diamondType={configuration?.diamondType}
                 productType={shopifyProductData?.productType}
               />
+
               <ProductPrice
                 isBuilderProduct={isBuilderProduct}
                 price={totalPrice}
