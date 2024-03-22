@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { useAnalytics } from '@diamantaire/analytics';
-import { DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
+import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { CartCertProps, useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { combinePricesOfMultipleProducts, getFormattedPrice, simpleFormatPrice } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
@@ -342,7 +342,9 @@ const SingleVariantCartItem = ({
         <div className="cart-item__price">{totalPrice && <p>{totalPrice}</p>}</div>
       </div>
       <div className="cart-item__body">
-        <div className="cart-item__image">{image && <DatoImage image={image} overrideAlt={info?.pdpTitle} />}</div>
+        <div className="cart-item__image">
+          {image && <Image {...image} placeholder="empty" alt={info?.pdpTitle} unoptimized />}
+        </div>
         <div className="cart-item__content">
           <p className="setting-text">{productType}</p>
 
