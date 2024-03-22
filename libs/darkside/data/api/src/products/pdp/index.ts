@@ -507,15 +507,11 @@ const DATO_PRODUCT_VIDEO_BLOCK_QUERY = gql`
         ... on VideoBlockRecord {
           copy
           title
-          videoSources {
-            url
-            alt
-          }
-          thumbnail {
-            url
-            alt
-            width
-            height
+          video {
+            video {
+              streamingUrl
+              thumbnailUrl
+            }
           }
         }
       }
