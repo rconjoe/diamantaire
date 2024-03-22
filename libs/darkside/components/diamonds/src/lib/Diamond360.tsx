@@ -1,7 +1,6 @@
 import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { generateDiamondSpriteImage, generateDiamondSpriteUrl } from '@diamantaire/shared/helpers';
 import { DiamondCtoDataTypes, DiamondDataTypes } from '@diamantaire/shared/types';
-import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -38,7 +37,6 @@ const Diamond360 = ({
   noCaption,
   width = 500,
   height = 500,
-  // priority = false,
   caption = 'Example of how it will look cut and polished',
 }: Diamond360Props) => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
@@ -64,9 +62,25 @@ const Diamond360 = ({
         setShowFallback(true);
       }
     } else if (id) {
-      const videoUrl = generateDiamondSpriteUrl(id, 'mp4');
+      // Use the thumbnail image URL as an indicator for the video's existence.
+      const thumbImageUrl = generateDiamondSpriteImage({ diamondID: id, diamondType });
 
-      setVideoSrc(videoUrl);
+      try {
+        const response = await fetch(thumbImageUrl, { method: 'HEAD' });
+
+        if (response.ok) {
+          // The thumbnail exists, assume the video also exists
+          const videoUrl = generateDiamondSpriteUrl(id, 'mp4');
+
+          setVideoSrc(videoUrl);
+        } else {
+          // The thumbnail does not exist, fallback
+          setShowFallback(true);
+        }
+      } catch (error) {
+        console.error('Error checking thumbnail', error);
+        setShowFallback(true);
+      }
     }
   }, [diamondID, diamondType, useImageOnly, disabled]);
 
@@ -96,7 +110,6 @@ const Diamond360 = ({
               height="100%"
               width="100%"
               controls={false}
-              onError={() => setShowFallback(true)}
               config={{
                 file: {
                   attributes: {

@@ -15,7 +15,7 @@ const StyledDiamond360 = styled.div`
     height: 100%;
 
     img {
-      max-width: 100% !important;
+      max-width: 40% !important;
       max-height: 100% !important;
       object-fit: contain !important;
     }
