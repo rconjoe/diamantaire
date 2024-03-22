@@ -211,6 +211,7 @@ export const LIST_PAGE_DATO_SERVER_QUERY = gql`
         }
       }
       showHeroWithBanner
+      shouldAutoLoad
       subcategoryFilter {
         id
         data {
