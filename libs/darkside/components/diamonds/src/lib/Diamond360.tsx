@@ -8,6 +8,7 @@ import { useEffect, useState, useCallback } from 'react';
 
 import StyledDiamond360 from './Diamond360.style';
 import DiamondImage from './DiamondImage';
+
 // See https://www.npmjs.com/package/react-player
 const ReactPlayer = dynamic(() => import('react-player/lazy'), { ssr: false });
 
@@ -37,6 +38,7 @@ const Diamond360 = ({
   noCaption,
   width = 500,
   height = 500,
+  // priority = false,
   caption = 'Example of how it will look cut and polished',
 }: Diamond360Props) => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
@@ -58,35 +60,25 @@ const Diamond360 = ({
         } else {
           setShowFallback(true);
         }
-      } catch (error) {
+      } catch (e) {
+        console.error(e);
         setShowFallback(true);
       }
     } else if (id) {
-      // Use the thumbnail image URL as an indicator for the video's existence.
-      const thumbImageUrl = generateDiamondSpriteImage({ diamondID: id, diamondType });
+      const videoUrl = generateDiamondSpriteUrl(id, 'mp4');
 
-      try {
-        const response = await fetch(thumbImageUrl, { method: 'HEAD' });
-
-        if (response.ok) {
-          // The thumbnail exists, assume the video also exists
-          const videoUrl = generateDiamondSpriteUrl(id, 'mp4');
-
-          setVideoSrc(videoUrl);
-        } else {
-          // The thumbnail does not exist, fallback
-          setShowFallback(true);
-        }
-      } catch (error) {
-        console.error('Error checking thumbnail', error);
-        setShowFallback(true);
-      }
+      setVideoSrc(videoUrl);
     }
   }, [diamondID, diamondType, useImageOnly, disabled]);
 
   useEffect(() => {
     checkAssets();
   }, [checkAssets, diamondID]);
+
+  const handleError = (e) => {
+    console.error(e);
+    setShowFallback(true);
+  };
 
   const spriteImageUrl = generateDiamondSpriteImage({ diamondID, diamondType });
 
@@ -107,7 +99,6 @@ const Diamond360 = ({
               playsinline
               loop
               muted
-              volume={0}
               height="100%"
               width="100%"
               controls={false}
@@ -116,6 +107,7 @@ const Diamond360 = ({
 
                 player.setAttribute('muted', 'true');
               }}
+              onError={(error) => handleError(error)}
               config={{
                 file: {
                   attributes: {
@@ -136,7 +128,7 @@ const Diamond360 = ({
             </div>
           )}
 
-          {!disabled && !isCto && (
+          {!disabled && !useImageOnly && !isCto && (
             <div className="caption">
               <UIString>Actual video of diamond</UIString>
             </div>
