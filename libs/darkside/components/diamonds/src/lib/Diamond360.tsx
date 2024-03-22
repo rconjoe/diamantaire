@@ -120,7 +120,7 @@ const Diamond360 = ({
         </AnimatePresence>
       ) : null}
 
-      {!noCaption && !showFallback && (
+      {!noCaption && (
         <>
           {isCto && (
             <div className="caption">
@@ -128,7 +128,7 @@ const Diamond360 = ({
             </div>
           )}
 
-          {!disabled && !useImageOnly && !isCto && (
+          {!disabled && !useImageOnly && !isCto && !showFallback && (
             <div className="caption">
               <UIString>Actual video of diamond</UIString>
             </div>
