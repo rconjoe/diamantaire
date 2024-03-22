@@ -90,6 +90,8 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
   const { data: { listPage: plpData } = {} } = usePlpDatoServerside(locale, plpSlug, category);
 
+  console.log('plpData', plpData);
+
   const {
     breadcrumb,
     hero,
@@ -100,6 +102,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
     subcategoryFilter,
     sortOptions,
     filterOptions: filterOptionsOverride,
+    shouldAutoLoad,
   } = plpData || {};
 
   const { seoTitle, seoDescription, canonicalOverride } = seo || {};
@@ -273,7 +276,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
             subcategoryFilter={subcategoryFilter}
           />
 
-          {hasNextPage && (
+          {!shouldAutoLoad && hasNextPage && (
             <div className="loader-more-container">
               <DarksideButton
                 disabled={isFetching}
@@ -289,7 +292,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
             </div>
           )}
 
-          <div ref={pageEndRef} />
+          {shouldAutoLoad && <div ref={pageEndRef} />}
 
           <div className="below-banner-container-wrapper">
             <PlpPreviouslyViewed />
