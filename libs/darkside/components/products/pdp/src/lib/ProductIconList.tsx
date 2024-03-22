@@ -291,7 +291,7 @@ const IconListItem = ({ item, setIsDiamondSlideoutOpen }) => {
         copy
       )}
       {additionalInfo ? (
-        <button className="diamond-info-toggle" onClick={() => setIsDiamondSlideoutOpen(true)}>
+        <button title={ctaCopy || copy} className="diamond-info-toggle" onClick={() => setIsDiamondSlideoutOpen(true)}>
           <InfoIcon />
         </button>
       ) : (

@@ -27,12 +27,17 @@ export function OptionItemContainer({
 }: OptionItemContainerProps) {
   const {
     query: { collectionSlug },
+    locale,
   } = useRouter();
+
+  const { _t } = useTranslations(locale);
+
   const collectionSlugString = collectionSlug as string;
+
   const OptionItemComponent = getOptionItemComponentByType(optionType, collectionSlugString);
 
   return isLink ? (
-    <OptionItemLink {...option} setProductSlug={setProductSlug}>
+    <OptionItemLink {...option} setProductSlug={setProductSlug} _t={_t}>
       <OptionItemComponent
         valueLabel={valueLabel}
         isSelected={isSelected}
@@ -41,6 +46,7 @@ export function OptionItemContainer({
         onClick={onClick}
         selectedConfiguration={selectedConfiguration}
         productType={productType}
+        _t={_t}
       />
     </OptionItemLink>
   ) : (
@@ -50,6 +56,7 @@ export function OptionItemContainer({
       optionType={optionType}
       onClick={onClick}
       productType={productType}
+      _t={_t}
     />
   );
 }
@@ -57,9 +64,10 @@ export function OptionItemContainer({
 interface OptionItemLinkProps extends OptionItemProps {
   children?: React.ReactNode;
   setProductSlug: (_value: string) => void;
+  _t: (value) => string;
 }
 
-function OptionItemLink({ value, id, children, setProductSlug }: OptionItemLinkProps) {
+function OptionItemLink({ value, id, children, setProductSlug, _t }: OptionItemLinkProps) {
   const router = useRouter();
 
   const { collectionSlug, jewelryCategory } = router.query;
@@ -84,7 +92,7 @@ function OptionItemLink({ value, id, children, setProductSlug }: OptionItemLinkP
   }, [id, setProductSlug]);
 
   return (
-    <Link href={url} replace={true} shallow={true} scroll={false} onClick={handleClick}>
+    <Link href={url} replace={true} shallow={true} scroll={false} onClick={handleClick} aria-label={_t(value)}>
       {children || value}
     </Link>
   );
@@ -159,6 +167,7 @@ interface OptionItemComponent extends OptionItemProps {
   optionType: string;
   selectedConfiguration?: { [key: string]: string };
   productType?: string;
+  _t: (value) => string;
 }
 
 const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
@@ -299,9 +308,13 @@ const StyledMetalDiamondIconOption = styled(StyledRoundOptionItem)`
   }
 `;
 
-export function MetalOptionItem({ value, isSelected, onClick }: OptionItemComponent) {
+export function MetalOptionItem({ value, isSelected, onClick, _t }: OptionItemComponent) {
   return (
-    <StyledMetalDiamondIconOption className={clsx('option-item', value, { selected: isSelected })} onClick={onClick}>
+    <StyledMetalDiamondIconOption
+      title={_t(value)}
+      className={clsx('option-item', value, { selected: isSelected })}
+      onClick={onClick}
+    >
       <div className="inner" />
     </StyledMetalDiamondIconOption>
   );
@@ -340,6 +353,7 @@ export function BandAccentStyleOptionItem(props: OptionItemComponent) {
 
   return <ImageIconOptionItem {...props} imgSrc={imgSrc} />;
 }
+
 export function HoopAccentStyleOptionItem(props: OptionItemComponent) {
   const imgSrc = generateIconImageUrl(`category-filters-hoop-${props.value}`);
 
