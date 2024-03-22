@@ -90,8 +90,6 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
   const { data: { listPage: plpData } = {} } = usePlpDatoServerside(locale, plpSlug, category);
 
-  console.log('plpData', plpData);
-
   const {
     breadcrumb,
     hero,
