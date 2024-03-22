@@ -100,6 +100,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
     subcategoryFilter,
     sortOptions,
     filterOptions: filterOptionsOverride,
+    shouldAutoLoad,
   } = plpData || {};
 
   const { seoTitle, seoDescription, canonicalOverride } = seo || {};
@@ -273,7 +274,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
             subcategoryFilter={subcategoryFilter}
           />
 
-          {hasNextPage && (
+          {!shouldAutoLoad && hasNextPage && (
             <div className="loader-more-container">
               <DarksideButton
                 disabled={isFetching}
@@ -289,7 +290,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
             </div>
           )}
 
-          <div ref={pageEndRef} />
+          {shouldAutoLoad && <div ref={pageEndRef} />}
 
           <div className="below-banner-container-wrapper">
             <PlpPreviouslyViewed />
@@ -297,44 +298,6 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
           </div>
         </>
       )}
-
-      <PlpProductGrid
-        data={data}
-        plpTitle={hero?.title}
-        isFetching={false}
-        availableFilters={availableFilters}
-        promoCardCollectionId={promoCardCollection?.id}
-        creativeBlockIds={creativeBlockIds}
-        setFilterValues={onFilterChange}
-        filterValue={filterValue}
-        urlFilterMethod={urlFilterMethod}
-        plpSlug={router.query.plpSlug as string}
-        sortOptions={sortOptions}
-        filterOptionsOverride={filterOptionsOverride}
-        onSortChange={onSortChange}
-        subcategoryFilter={subcategoryFilter}
-      />
-
-      {hasNextPage && (
-        <div className="loader-more-container">
-          <DarksideButton
-            disabled={isFetching}
-            onClick={() => fetchNextPage()}
-            className={clsx({
-              'is-fetching': isFetching,
-            })}
-          >
-            {!isFetching && <UIString>Load more</UIString>}
-            {isFetching && <Loader color="#fff" />}
-          </DarksideButton>
-        </div>
-      )}
-
-      <div ref={pageEndRef} />
-      <div className="below-banner-container-wrapper">
-        <PlpPreviouslyViewed />
-        {category && plpSlug && <PlpBlockPicker category={category} plpSlug={plpSlug} />}
-      </div>
     </PlpStyles>
   );
 }
