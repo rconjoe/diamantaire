@@ -497,6 +497,7 @@ function OptionSelector({
           </div>
         </div>
         <button
+          aria-label={_t('previous')}
           className="carousel-arrow arrow-left"
           disabled={!emblaApi?.canScrollPrev()}
           onClick={() => emblaApi?.scrollPrev()}
@@ -504,6 +505,7 @@ function OptionSelector({
           <ArrowLeftIcon />
         </button>
         <button
+          aria-label={_t('next')}
           className="carousel-arrow arrow-right"
           disabled={!emblaApi?.canScrollNext()}
           onClick={() => emblaApi?.scrollNext()}

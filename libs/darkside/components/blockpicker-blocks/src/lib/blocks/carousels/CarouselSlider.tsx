@@ -1,8 +1,10 @@
 import { DarksideButton, Heading } from '@diamantaire/darkside/components/common-ui';
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { DatoDarksideButtonProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 import useEmblaCarousel from 'embla-carousel-react';
+import { useRouter } from 'next/router';
 import { ReactNode, useEffect, useState } from 'react';
 
 import { CarouselSliderContainer } from './CarouselSlider.style';
@@ -38,6 +40,11 @@ const CarouselSlider = ({
   id,
 }: CarouselContentBlockProps) => {
   // https://github.com/davidjerleke/embla-carousel/issues/647
+
+  const { locale } = useRouter();
+
+  const { _t } = useTranslations(locale);
+
   const sliderOptions: any = {
     loop: loopItems,
     dragFree: false,
@@ -46,7 +53,9 @@ const CarouselSlider = ({
       '(min-width: 768px)': { align: 'start' },
     },
   };
+
   const [activeSlide, setActiveSlide] = useState(0);
+
   const [emblaRef, emblaApi] = useEmblaCarousel(sliderOptions);
 
   useEffect(() => {
@@ -97,7 +106,7 @@ const CarouselSlider = ({
               additionalClass,
             )}
           >
-            <button onClick={() => emblaApi.scrollNext()}>
+            <button onClick={() => emblaApi.scrollNext()} title={_t('next')}>
               <ArrowRightIcon />
             </button>
           </div>
@@ -112,7 +121,7 @@ const CarouselSlider = ({
               additionalClass,
             )}
           >
-            <button onClick={() => emblaApi.scrollPrev()}>
+            <button onClick={() => emblaApi.scrollPrev()} title={_t('previous')}>
               <ArrowLeftIcon />
             </button>
           </div>
