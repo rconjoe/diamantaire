@@ -15,7 +15,7 @@ const ProductIconList = `
         image {
             url
             alt
-            responsiveImage (imgixParams: { w: 448, q: 60, auto: format }){
+            responsiveImage (imgixParams: { w: 448, q: 60, auto: [format, compress] }){
                 ...responsiveImageFragment
             }
         }

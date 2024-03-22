@@ -22,7 +22,7 @@ const BlogListTrio = `
         featuredImage {
           url
           alt
-          responsiveImage(imgixParams: {w: 448, h: 300, q: 30, auto: format, fit: crop, crop: focalpoint }) {
+          responsiveImage(imgixParams: {w: 448, h: 300, q: 30, auto: [format, compress], fit: crop, crop: focalpoint }) {
               src
               alt
               aspectRatio

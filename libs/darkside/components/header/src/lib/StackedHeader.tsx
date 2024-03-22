@@ -75,6 +75,10 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
     addHashToURL();
   }
 
+  const appointmentString = showroomLocation
+    ? replacePlaceholders(_t('Visit our %%location%% location'), ['%%location%%'], [showroomLocation?.location]).toString()
+    : _t('Book an appointment');
+
   return (
     <StackedHeaderStylesContainer>
       <div className="stacked-header__container">
@@ -110,18 +114,18 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
               </li>
               <li className="calendar">
                 {showroomLocation ? (
-                  <Link className="calendar__link" href={`/book-appointment/${showroomLocation.handle}`}>
+                  <Link
+                    aria-label={appointmentString}
+                    className="calendar__link"
+                    href={`/book-appointment/${showroomLocation.handle}`}
+                  >
                     <EmptyCalendarIcon />
-                    {replacePlaceholders(
-                      _t('Visit our %%location%% location'),
-                      ['%%location%%'],
-                      [showroomLocation?.location],
-                    ).toString()}
+                    {appointmentString}
                   </Link>
                 ) : (
-                  <Link className="calendar__link" href="/book-appointment/virtual">
+                  <Link aria-label={appointmentString} className="calendar__link" href="/book-appointment/virtual">
                     <EmptyCalendarIcon />
-                    <UIString>Book an appointment</UIString>
+                    {appointmentString}
                   </Link>
                 )}
               </li>

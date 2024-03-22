@@ -261,7 +261,7 @@ export const JEWELRYPRODUCT = `
             image {
                 url
                 alt
-                responsiveImage (imgixParams: { w: 448, q: 60, auto: format }){
+                responsiveImage (imgixParams: { w: 448, q: 60, auto: [format, compress] }){
                     ...responsiveImageFragment
                 }
             }
@@ -442,7 +442,7 @@ export const JEWELRYPRODUCT = `
           image {
             url
             alt
-            responsiveImage(imgixParams: {w: 448, q: 40, auto: format}) {
+            responsiveImage(imgixParams: {w: 448, q: 40, auto: [format, compress]}) {
               src
               alt
               aspectRatio

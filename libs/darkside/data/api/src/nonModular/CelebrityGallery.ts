@@ -14,7 +14,7 @@ const CelebrityGallery = gql`
         url
         alt
         responsiveImage(
-          imgixParams: {w: 500, h: 500, q: 50, auto: format, fit: clamp, crop: focalpoint}
+          imgixParams: {w: 500, h: 500, q: 50, auto: [format, compress], fit: clamp, crop: focalpoint}
           sizes: "50rem"
         ) {
           src
@@ -42,7 +42,7 @@ const CelebrityGallery = gql`
             url
             alt
             responsiveImage(
-              imgixParams: {w: 186, h: 186, q: 30, auto: format, fit: max, crop: focalpoint}
+              imgixParams: {w: 186, h: 186, q: 30, auto: [format, compress], fit: max, crop: focalpoint}
               sizes: "18.6rem"
             ) {
               src
@@ -67,7 +67,7 @@ const CelebrityGallery = gql`
           plpImage {
             url
             alt
-            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: [format, compress], fit: crop, crop: focalpoint }) {
               ...responsiveImageFragment
             }
             alt

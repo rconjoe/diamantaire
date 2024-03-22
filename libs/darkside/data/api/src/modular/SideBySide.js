@@ -8,7 +8,7 @@ const SideBySide = `
     image {
       url
       alt
-      responsiveImage(imgixParams: {w: 635, q: 35, auto: format, fit: max, crop: focalpoint }) {
+      responsiveImage(imgixParams: {w: 635, q: 35, auto: [format, compress], fit: max, crop: focalpoint }) {
             src
             alt
             aspectRatio
@@ -25,7 +25,7 @@ const SideBySide = `
     imageMobile {
       url
       alt
-      responsiveImage(imgixParams: {w: 635, q: 35, auto: format, fit: max, crop: focalpoint }) {
+      responsiveImage(imgixParams: {w: 635, q: 35, auto: [format, compress], fit: max, crop: focalpoint }) {
             src
             alt
             aspectRatio
@@ -42,7 +42,7 @@ const SideBySide = `
     imageInline {
       url
       alt
-      responsiveImage(imgixParams: {w: 635, q: 35, auto: format, fit: max, crop: focalpoint }) {
+      responsiveImage(imgixParams: {w: 635, q: 35, auto: [format, compress], fit: max, crop: focalpoint }) {
             src
             alt
             aspectRatio

@@ -12,6 +12,7 @@ export interface MediaAsset {
   alt?: string;
   title?: string;
   mimeType: MimeTypes;
+  shouldLazyLoad?: boolean;
   customData?: {
     sprite?: string;
     mobile?: string;

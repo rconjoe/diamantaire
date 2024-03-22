@@ -48,23 +48,29 @@ function MediaGallery({
   presetHandSliderValue,
   shouldDisplayDiamondHand = false,
 }: MediaGalleryProps) {
+  const shouldLazyLoadTreshold = 3;
+
   return (
     assets && (
       <MediaGalleryStyles>
-        {assets.map((asset, index) => (
-          <MediaAsset
-            key={asset.id}
-            type={asset.mimeType}
-            asset={asset}
-            options={options}
-            defaultAlt={title}
-            disableVideos={disableVideos}
-            productType={productType}
-            index={index}
-            shownWithCtw={shownWithCtw}
-            className={`product-asset-${index}`}
-          />
-        ))}
+        {assets.map((asset, index) => {
+          return (
+            <MediaAsset
+              key={asset.id}
+              type={asset.mimeType}
+              asset={asset}
+              options={options}
+              defaultAlt={title}
+              disableVideos={disableVideos}
+              productType={productType}
+              index={index}
+              shownWithCtw={shownWithCtw}
+              shouldLazyLoad={index > shouldLazyLoadTreshold}
+              className={`product-asset-${index}`}
+            />
+          );
+        })}
+
         {shouldDisplayDiamondHand && (
           <ProductDiamondHand
             disableControls={disableHandSliderControls}
@@ -91,9 +97,21 @@ interface MediaAssetProps {
   index: number;
   shownWithCtw?: string;
   className?: string;
+  shouldLazyLoad?: boolean;
 }
 
-function MediaAsset({ type, asset, options, defaultAlt, disableVideos, productType, index, shownWithCtw, className }: MediaAssetProps) {
+function MediaAsset({
+  type,
+  asset,
+  options,
+  defaultAlt,
+  disableVideos,
+  productType,
+  index,
+  shownWithCtw,
+  className,
+  shouldLazyLoad,
+}: MediaAssetProps) {
   switch (type) {
     case MimeTypes.ImagePng:
     case MimeTypes.ImageJpeg: {
@@ -116,6 +134,7 @@ function MediaAsset({ type, asset, options, defaultAlt, disableVideos, productTy
           index={index}
           shownWithCtw={shownWithCtw}
           className={className}
+          shouldLazyLoad={shouldLazyLoad}
         />
       );
     }
@@ -155,26 +174,38 @@ type ImageAssetProps = {
   index: number;
   shownWithCtw?: string;
   className: string;
+  shouldLazyLoad?: boolean;
 };
 
-function ImageAsset({ image, defaultAlt, productType, index, shownWithCtw, className }: ImageAssetProps) {
+function ImageAsset({
+  image,
+  defaultAlt,
+  productType,
+  index,
+  shownWithCtw,
+  className,
+  shouldLazyLoad = true,
+}: ImageAssetProps) {
   const { alt, url, title, customData } = image;
 
   const loader = ({ src, width, quality = 50 }: ImageLoaderProps) => {
     const params = {
-      auto: 'format',
+      auto: 'format, compress',
       ar: '1%3A1',
       fit: 'crop',
       crop: 'focalpoint',
       w: width.toString(),
       q: quality.toString(),
     };
+
     const searchParams = new URLSearchParams(params);
 
     return `${src}?${searchParams.toString()}&dpr=2`;
   };
 
   const doesImageHavTitle = title && title.length > 0;
+
+  const isPriority = !shouldLazyLoad;
 
   return (
     <ImageAssetStyles className={className}>
@@ -186,6 +217,8 @@ function ImageAsset({ image, defaultAlt, productType, index, shownWithCtw, class
         fill
         style={{ objectFit: 'cover' }}
         loader={loader}
+        priority={isPriority}
+        loading={isPriority ? 'eager' : 'lazy'}
       />
 
       {index === 0 && productType === 'Engagement Ring' && (

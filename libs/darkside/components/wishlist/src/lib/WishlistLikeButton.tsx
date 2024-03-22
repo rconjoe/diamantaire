@@ -1,6 +1,8 @@
 import { GlobalContext, GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getLocalStorageWishlist } from '@diamantaire/shared/helpers';
 import { LoveIcon, LoveIconActive } from '@diamantaire/shared/icons';
+import { useRouter } from 'next/router';
 import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { StyledWishlistLikeButton } from './WishlistLikeButton.style';
@@ -11,6 +13,10 @@ interface WishlistLikeButtonProps {
 }
 
 const WishlistLikeButton: React.FC<WishlistLikeButtonProps> = (props) => {
+  const { locale } = useRouter();
+
+  const { _t } = useTranslations(locale);
+
   const { productId, extraClass } = props;
 
   const [active, setActive] = useState(false);
@@ -53,7 +59,11 @@ const WishlistLikeButton: React.FC<WishlistLikeButtonProps> = (props) => {
 
   return (
     <StyledWishlistLikeButton className={extraClass}>
-      <button className={`wishlist-like-button ${active ? 'active' : ''}`} onClick={(e) => handleClick(e)}>
+      <button
+        className={`wishlist-like-button ${active ? 'active' : ''}`}
+        onClick={(e) => handleClick(e)}
+        aria-label={_t('add to wishlist')}
+      >
         {active ? <LoveIconActive /> : <LoveIcon />}
       </button>
     </StyledWishlistLikeButton>

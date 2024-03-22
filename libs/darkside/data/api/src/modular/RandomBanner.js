@@ -14,7 +14,7 @@ const RandomBanner = `
     desktopImage {
       url
       alt
-      responsiveImage(imgixParams: {w: 1440, q: 40, auto: format, fit: crop, crop: focalpoint}, sizes: "(min-width: 144rem) 144rem, (min-width: 76.8rem) 100vw") {
+      responsiveImage(imgixParams: {w: 1440, q: 40, auto: [format, compress], fit: crop, crop: focalpoint}, sizes: "(min-width: 144rem) 144rem, (min-width: 76.8rem) 100vw") {
         src
         alt
         aspectRatio
@@ -32,7 +32,7 @@ const RandomBanner = `
     mobileImage {
       url
       alt
-      responsiveImage(imgixParams: {w: 360, q: 30, auto: format, fit: crop, crop: focalpoint}, sizes: "100vw") {
+      responsiveImage(imgixParams: {w: 360, q: 30, auto: [format, compress], fit: crop, crop: focalpoint}, sizes: "100vw") {
         src
         alt
         aspectRatio

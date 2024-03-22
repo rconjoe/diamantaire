@@ -1,7 +1,6 @@
 import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { generateDiamondSpriteImage, generateDiamondSpriteUrl } from '@diamantaire/shared/helpers';
 import { DiamondCtoDataTypes, DiamondDataTypes } from '@diamantaire/shared/types';
-import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
