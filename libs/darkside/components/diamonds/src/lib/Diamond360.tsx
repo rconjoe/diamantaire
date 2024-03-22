@@ -8,6 +8,7 @@ import { useEffect, useState, useCallback } from 'react';
 
 import StyledDiamond360 from './Diamond360.style';
 import DiamondImage from './DiamondImage';
+
 // See https://www.npmjs.com/package/react-player
 const ReactPlayer = dynamic(() => import('react-player/lazy'), { ssr: false });
 
@@ -59,7 +60,8 @@ const Diamond360 = ({
         } else {
           setShowFallback(true);
         }
-      } catch (error) {
+      } catch (e) {
+        console.error(e);
         setShowFallback(true);
       }
     } else if (id) {
@@ -71,7 +73,12 @@ const Diamond360 = ({
 
   useEffect(() => {
     checkAssets();
-  }, [checkAssets]);
+  }, [checkAssets, diamondID]);
+
+  const handleError = (e) => {
+    console.error(e);
+    setShowFallback(true);
+  };
 
   const spriteImageUrl = generateDiamondSpriteImage({ diamondID, diamondType });
 
@@ -95,7 +102,12 @@ const Diamond360 = ({
               height="100%"
               width="100%"
               controls={false}
-              onError={() => setShowFallback(true)}
+              onReady={(e) => {
+                const player = e.getInternalPlayer();
+
+                player.setAttribute('muted', 'true');
+              }}
+              onError={(error) => handleError(error)}
               config={{
                 file: {
                   attributes: {
