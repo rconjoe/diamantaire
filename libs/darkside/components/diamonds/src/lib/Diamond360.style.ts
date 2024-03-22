@@ -16,7 +16,7 @@ const StyledDiamond360 = styled.div`
 
     img {
       max-width: 100% !important;
-      max-height: 100% !important;
+      max-width: 40% !important;
       object-fit: contain !important;
     }
   }
@@ -53,6 +53,7 @@ const StyledDiamond360 = styled.div`
     display: block;
     bottom: 1rem;
     left: 2rem;
+    z-index: 100;
 
     @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
       padding: 0 8rem 0 2.4rem;
