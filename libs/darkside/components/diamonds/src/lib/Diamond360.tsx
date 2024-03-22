@@ -86,7 +86,7 @@ const Diamond360 = ({
 
   useEffect(() => {
     checkAssets();
-  }, [checkAssets]);
+  }, [checkAssets, diamondID]);
 
   const spriteImageUrl = generateDiamondSpriteImage({ diamondID, diamondType });
 
@@ -107,9 +107,15 @@ const Diamond360 = ({
               playsinline
               loop
               muted
+              volume={0}
               height="100%"
               width="100%"
               controls={false}
+              onReady={(e) => {
+                const player = e.getInternalPlayer();
+
+                player.setAttribute('muted', 'true');
+              }}
               config={{
                 file: {
                   attributes: {
