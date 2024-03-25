@@ -37,12 +37,9 @@ const Cart = ({ closeCart }) => {
     cartCtaCopy,
     termsAndConditionsCtaCopy,
     termsAndConditionsCtaRoute,
-    addNoteOptionCta,
     emptyCartMainCopy,
     emptyCartMainCtaCopy,
     emptyCartMainCtaRoute,
-    updateNoteOptionCta,
-    removeNoteOptionCta,
   } = cartCopy?.[0] || {};
 
   useEffect(() => {
