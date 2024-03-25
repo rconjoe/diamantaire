@@ -28,8 +28,8 @@ interface CFYCaratPageQueryParams extends ParsedUrlQuery {
 }
 
 interface CFYCaratPageProps {
-  dehydratedState: DehydratedState;
   locale: string;
+  dehydratedState: DehydratedState;
   options?: CFYCaratPageQueryParams;
 }
 
