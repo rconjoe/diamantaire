@@ -572,7 +572,7 @@ function AddToCartButton({
     });
 
     // Rudderstack - ATC
-    analytics.track('add_to_cart', {
+    analytics?.track('add_to_cart', {
       item_id: id,
       item_name: variantProductTitle,
       item_brand: 'VRAI',

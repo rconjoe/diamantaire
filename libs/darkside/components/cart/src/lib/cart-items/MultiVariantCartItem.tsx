@@ -308,7 +308,7 @@ const MultiVariantCartItem = ({
         },
       });
 
-      analytics.track('remove_from_cart', {
+      analytics?.track('remove_from_cart', {
         item_id: id,
         item_name: productTitle,
         item_brand: 'VRAI',
@@ -394,7 +394,7 @@ const MultiVariantCartItem = ({
         },
       });
 
-      analytics.track('remove_from_cart', {
+      analytics?.track('remove_from_cart', {
         item_id: id,
         item_name: productTitle,
         item_brand: 'VRAI',

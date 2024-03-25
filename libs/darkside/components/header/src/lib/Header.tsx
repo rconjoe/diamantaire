@@ -130,7 +130,7 @@ const Header: FC<HeaderProps> = ({ headerData, isTopbarShowing, setIsTopbarShowi
         products: cartProducts,
       });
 
-      analytics.track('view_cart', {
+      analytics?.track('view_cart', {
         cart_id: cartId,
         products: cartProducts,
       });
