@@ -145,9 +145,8 @@ const DiamondBuildStep = () => {
   const isTableView = true;
   const [options, setOptions] = useState(initialOptions);
   const [activeRow, setActiveRow] = useState(null);
-  console.log('getting diamonds with', { options });
+
   const { data: { diamonds, pagination, ranges } = {} } = useDiamondsData({ ...options });
-  console.log('diamonds', diamonds);
 
   const tableOptions = {
     locale: DEFAULT_LOCALE,
@@ -248,7 +247,7 @@ const DiamondBuildStep = () => {
     if (query?.ringSize) {
       additionalParams.ringSize = Array.isArray(query.ringSize) ? query.ringSize[0] : query.ringSize;
     }
-    console.log('useEffect', { query, additionalParams });
+
     const newRoute = getDiamondShallowRoute(
       options,
       window.location.origin + window.location.pathname,
