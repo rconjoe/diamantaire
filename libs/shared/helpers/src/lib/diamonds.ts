@@ -229,25 +229,13 @@ export const getDiamondShallowRoute = (
   const query = queryURL.toString() ? '?' + queryURL.toString() : '';
 
   // Determine if queries should be shown in the URL based on your conditions
-  const showQueryInUrl = true; // Or any logic you use to determine this
+  const showQueryInUrl = true;
 
-  // Construct the final URL path
   const route = `${overrideUrl ? overrideUrl : diamondRoutePlp}/${overrideUrl ? '' : segments.join('/')}${
     showQueryInUrl ? query : ''
   }`;
 
   return route;
-  // const queryURL = new URLSearchParams(queries).toString();
-
-  // const query = queryURL ? '?' + queryURL : '';
-
-  // const showQueryInUrl = true;
-
-  // const route = `${overrideUrl ? overrideUrl : diamondRoutePlp}/${overrideUrl ? '' : segments.join('/')}${
-  //   showQueryInUrl ? query : ''
-  // }`;
-
-  // return route;
 };
 
 /**
