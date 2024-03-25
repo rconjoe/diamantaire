@@ -105,7 +105,7 @@ const DiamondBuildStep = () => {
   const { diamondTable } = diamondTableData || {};
   const { clearFiltersButtonCopy } = diamondTable || {};
 
-  const acceptedParams = [...DIAMOND_TABLE_DEFAULT_VALID_QUERIES, 'diamondType', 'clarity', 'color', 'cut'];
+  const acceptedParams = [...DIAMOND_TABLE_DEFAULT_VALID_QUERIES, 'diamondType', 'clarity', 'color', 'cut', 'ringSize'];
 
   let routerInitialOptions: object = {
     ...query,
@@ -127,6 +127,7 @@ const DiamondBuildStep = () => {
   const defaultInitialOptions = {
     ...DIAMOND_TABLE_DEFAULT_OPTIONS,
     diamondType: diamondTypeToShow,
+    ringSize: query.ringSize,
     caratMin: isToiMoiOrPair ? 0.5 : 1,
     limit: 20,
   };
@@ -242,10 +243,19 @@ const DiamondBuildStep = () => {
   }, [builderProduct.diamonds]);
 
   useEffect(() => {
-    // Need shallow for smooth scroll to top
-    router.replace(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {
-      shallow: true,
-    });
+    const additionalParams: { ringSize?: string } = {};
+
+    if (query?.ringSize) {
+      additionalParams.ringSize = Array.isArray(query.ringSize) ? query.ringSize[0] : query.ringSize;
+    }
+    const newRoute = getDiamondShallowRoute(
+      options,
+      window.location.origin + window.location.pathname,
+      true,
+      additionalParams,
+    );
+
+    router.replace(newRoute, undefined, { shallow: true });
   }, [options]);
 
   const analytics = useRudderStackAnalytics();
