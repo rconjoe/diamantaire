@@ -439,7 +439,9 @@ const MultiVariantCartItem = ({
         </div>
       </div>
       <div className="cart-item__body">
-        <div className="cart-item__image">{image && <Image {...image} placeholder="empty" alt={info?.pdpTitle} />}</div>
+        <div className="cart-item__image">
+          {image && <Image {...image} placeholder="empty" alt={info?.pdpTitle} unoptimized />}
+        </div>
 
         <div className="cart-item__content">
           <p className="setting-text">

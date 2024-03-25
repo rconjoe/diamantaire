@@ -55,6 +55,7 @@ const StyledConfigurationSelector = styled.div`
     right: 0;
     background-color: transparent;
     padding: 0;
+
     svg {
       transform: scaleX(-1) rotate(100deg);
       position: relative;
@@ -167,6 +168,7 @@ function ConfigurationSelector({
           <span>90°</span>
         </button>
       )}
+
       {validConfigs.map((configurationType) => {
         const options = configurations[configurationType];
 

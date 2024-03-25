@@ -267,6 +267,7 @@ function ProductConfigurator({
           shouldDoublePrice={shouldDoublePrice}
         />
       )}
+
       {(hasMoreThanOneVariant || sizeOptions?.length > 1) && (
         <>
           <ConfigurationSelector
@@ -308,7 +309,6 @@ function ProductConfigurator({
             )}
         </>
       )}
-
       <AnimatePresence>
         {isWeddingBandSizeGuideOpen && (
           <SlideOut
@@ -320,7 +320,6 @@ function ProductConfigurator({
           </SlideOut>
         )}
       </AnimatePresence>
-
       {/* Pair Products */}
       {isSoldAsDouble && (
         <PairSelector
@@ -333,7 +332,6 @@ function ProductConfigurator({
           selectedConfiguration={selectedConfiguration}
         />
       )}
-
       {/* Left/Right Products */}
       {isSoldAsLeftRight && (
         <LeftRightSelector
@@ -343,7 +341,6 @@ function ProductConfigurator({
           setShouldDoublePrice={setShouldDoublePrice}
         />
       )}
-
       {extraOptions && extraOptions.length > 0 && <ProductExtraInfo extraOptions={extraOptions} />}
       {(isEngraveable || hasSingleInitialEngraving) && isConfigurationComplete && !isBuilderFlowOpen && (
         <ProductEngraving
@@ -353,14 +350,12 @@ function ProductConfigurator({
           hasSingleInitialEngraving={hasSingleInitialEngraving}
         />
       )}
-
       {isProductFeedUrl ? (
         <>
           <ProductFeedCompleteYourRingButton ctaText={purchaseWithThisDiamondCopy} diamondsOverride={selectedDiamond} />
           <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
         </>
       ) : null}
-
       {isBuilderFlowOpen ? (
         <CompleteYourRingButton ctaText={settingFlowCtaCopy} />
       ) : additionalVariantData ? (
@@ -681,6 +676,7 @@ function AddToCartButton({
     } else if (productType === 'Gift Card') {
       // eslint-disable-next-line unused-imports/no-unused-vars
       const { shippingText, ...otherAttributes } = defaultAttributes;
+
       const giftCardAttributes = {
         ...otherAttributes,
         pdpUrl: window.location.href,
@@ -688,8 +684,8 @@ function AddToCartButton({
         // Jewelry specific attributes
         metalType: '',
         shippingBusinessDays: '',
-        productIconListShippingCopy: '',
-        shippingText: '',
+        productIconListShippingCopy: shippingText,
+        shippingText: shippingText,
         childProduct: '',
       };
 

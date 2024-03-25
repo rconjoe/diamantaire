@@ -50,7 +50,14 @@ interface OptionSelectorProps {
 const StyledOptionSelector = styled.div`
   &.diamondType {
     width: 100%;
+    min-height: 7.45rem;
   }
+
+  &.metal {
+    width: 100%;
+    min-height: 6.95rem;
+  }
+
   .selector-label {
     display: flex;
     flex-direction: row;
@@ -72,6 +79,7 @@ const StyledOptionSelector = styled.div`
       }
     }
   }
+
   .option-list {
     display: flex;
     flex-direction: row;
@@ -84,6 +92,7 @@ const StyledOptionSelector = styled.div`
     &.bandStoneShape {
       gap: 25px;
     }
+
     &.ringSize {
       flex-wrap: wrap;
       align-items: center;
@@ -173,7 +182,7 @@ const StyledOptionSelector = styled.div`
       margin-top: 1rem;
       position: relative;
       max-width: 100%;
-      min-height: 4.4rem;
+      min-height: 3.9rem;
 
       .diamond-shape__slider {
         width: 100%;
@@ -294,7 +303,10 @@ function OptionSelector({
 
   const { _t } = useTranslations(locale);
   const language = getLanguage(locale);
-  const { _t: translateOptionNames } = useTranslations(locale, [humanNamesMapperType.OPTION_NAMES, humanNamesMapperType.UI_STRINGS_2]);
+  const { _t: translateOptionNames } = useTranslations(locale, [
+    humanNamesMapperType.OPTION_NAMES,
+    humanNamesMapperType.UI_STRINGS_2,
+  ]);
 
   const diamondSliderOptions: any = {
     loop: false,
@@ -485,6 +497,7 @@ function OptionSelector({
           </div>
         </div>
         <button
+          aria-label={_t('previous')}
           className="carousel-arrow arrow-left"
           disabled={!emblaApi?.canScrollPrev()}
           onClick={() => emblaApi?.scrollPrev()}
@@ -492,6 +505,7 @@ function OptionSelector({
           <ArrowLeftIcon />
         </button>
         <button
+          aria-label={_t('next')}
           className="carousel-arrow arrow-right"
           disabled={!emblaApi?.canScrollNext()}
           onClick={() => emblaApi?.scrollNext()}

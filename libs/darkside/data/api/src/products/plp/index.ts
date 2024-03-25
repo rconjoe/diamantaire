@@ -217,7 +217,7 @@ export const LIST_PAGE_DATO_SERVER_QUERY = gql`
         data {
           title
           image {
-            responsiveImage(imgixParams: { w: 200, h: 200, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+            responsiveImage(imgixParams: { w: 200, h: 200, q: 60, auto: [format, compress], fit: crop, crop: focalpoint }) {
               ...responsiveImageFragment
             }
           }
@@ -236,7 +236,7 @@ export const LIST_PAGE_DATO_SERVER_QUERY = gql`
             url
             alt
             mimeType
-            responsiveImage(imgixParams: { w: 1440, h: 338, q: 60, auto: format, fit: crop, crop: focalpoint, dpr: 2 }) {
+            responsiveImage(imgixParams: { w: 1440, h: 338, q: 60, auto: [format, compress], fit: crop, crop: focalpoint, dpr: 2 }) {
               ...responsiveImageFragment
             }
           }
@@ -244,7 +244,7 @@ export const LIST_PAGE_DATO_SERVER_QUERY = gql`
             url
             alt
             mimeType
-            responsiveImage(imgixParams: { w: 375, h: 180, q: 55, auto: format, fit: crop, crop: focalpoint }) {
+            responsiveImage(imgixParams: { w: 375, h: 180, q: 55, auto: [format, compress], fit: crop, crop: focalpoint }) {
               ...responsiveImageFragment
             }
           }
@@ -331,12 +331,12 @@ const LIST_PAGE_PROMO_CARD_COLLECTION_QUERY = gql`
             hex
           }
           image {
-            responsiveImage(imgixParams: { q: 90, w: 344, h: 410, auto: format, fit: crop, crop: focalpoint }) {
+            responsiveImage(imgixParams: { q: 90, w: 344, h: 410, auto: [format, compress], fit: crop, crop: focalpoint }) {
               ...responsiveImageFragment
             }
           }
           imageMobile {
-            responsiveImage(imgixParams: { w: 344, h: 500, auto: format, fit: crop, crop: focalpoint }) {
+            responsiveImage(imgixParams: { w: 344, h: 500, auto: [format, compress], fit: crop, crop: focalpoint }) {
               ...responsiveImageFragment
             }
           }
@@ -371,12 +371,12 @@ const getPlpCreativeBlockQuery = (useLargeCreativeImageInDesktop, useLargeCreati
       id
       enableGwp
       desktopImage {
-        responsiveImage(imgixParams: {w: 636, h: ${desktopImageHeight}, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+        responsiveImage(imgixParams: {w: 636, h: ${desktopImageHeight}, q: 60, auto: [format, compress], fit: crop, crop: focalpoint }) {
           ...responsiveImageFragment
         }
       }
       mobileImage {
-        responsiveImage(imgixParams: {w: 375, h: ${mobileImageHeight}, q: 55, auto: format, fit: crop, crop: focalpoint }) {
+        responsiveImage(imgixParams: {w: 375, h: ${mobileImageHeight}, q: 55, auto: [format, compress], fit: crop, crop: focalpoint }) {
           ...responsiveImageFragment
         }
       }

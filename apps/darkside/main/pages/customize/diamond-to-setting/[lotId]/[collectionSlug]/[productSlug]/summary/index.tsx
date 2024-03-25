@@ -419,6 +419,7 @@ const ReviewBuildStep = () => {
 
   const sizeOptionKey = 'ringSize';
   const router = useRouter();
+  const preselectedRingSize = router.query?.ringSize;
   const { locale } = router;
 
   const { data: seoData } = useBuilderFlowSeo(locale);
@@ -435,12 +436,14 @@ const ReviewBuildStep = () => {
   const [engravingText, setEngravingText] = useState(null);
   const [handCaratValue, setHandCaratValue] = useState(null);
 
+  const preselectedSizeVariant = configurations?.ringSize?.find((item) => item.value === preselectedRingSize);
+
   const [selectedSize, setSelectedSize] = useState<{
     id: string;
     value?: string;
     valueLabel?: string;
     isSelected?: boolean;
-  }>(configurations?.ringSize?.filter((item) => item.value === '5')[0] || '5');
+  }>(preselectedSizeVariant || configurations?.ringSize?.filter((item) => item.value === '5')[0] || '5');
 
   const { productAdded } = useAnalytics();
 
@@ -718,7 +721,9 @@ const ReviewBuildStep = () => {
 
         const variant: any = handle && (await fetchDatoVariant(handle, category, router.locale));
 
-        setSelectedSize(res?.optionConfigs?.ringSize?.filter((item) => item.value === '5')[0] || '5');
+        const querySizeVariant = res?.optionConfigs?.ringSize?.find((item) => item.value === preselectedRingSize);
+
+        setSelectedSize(querySizeVariant || res?.optionConfigs?.ringSize?.filter((item) => item.value === '5')[0] || '5');
 
         return {
           ...res,

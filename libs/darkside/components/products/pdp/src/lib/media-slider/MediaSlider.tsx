@@ -141,6 +141,7 @@ const MediaSlider = ({
       return !target.closest('.no-swiping');
     },
   };
+
   const [emblaRef, emblaApi] = useEmblaCarousel(sliderOptions);
 
   useEffect(() => {
@@ -162,6 +163,8 @@ const MediaSlider = ({
     };
   }, [emblaApi]);
 
+  const shouldLazyLoadTreshold = 1;
+
   return (
     <MediaSliderContainer hasPagination={hasPagination}>
       <div className="embla" ref={emblaRef}>
@@ -170,6 +173,7 @@ const MediaSlider = ({
             const { mimeType, customData } = asset || {};
             const { title: imageTitle } = asset;
             const doesImageHaveTitle = imageTitle && imageTitle.length > 0;
+            const shouldLazyLoad = index > shouldLazyLoadTreshold;
 
             if (customData?.bunny === 'true') return null;
 
@@ -190,7 +194,7 @@ const MediaSlider = ({
 
                 return (
                   <div className="embla__slide" key={`mobile-pdp-slide-${index}`}>
-                    <ShopifyImage image={asset} defaultAlt={title} />
+                    <ShopifyImage image={asset} defaultAlt={title} shouldLazyLoad={shouldLazyLoad} />
 
                     {doesImageHaveTitle && (
                       <p

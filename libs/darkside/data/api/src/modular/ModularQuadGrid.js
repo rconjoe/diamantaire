@@ -18,7 +18,7 @@ const ModularQuadGrid = `
       itemImage {
         url
         alt
-        responsiveImage(imgixParams: {w: 400, q: 50, auto: format, fit: crop, crop: focalpoint}) {
+        responsiveImage(imgixParams: {w: 400, q: 50, auto: [format, compress], fit: crop, crop: focalpoint}) {
           ...responsiveImageFragment
         }
       }

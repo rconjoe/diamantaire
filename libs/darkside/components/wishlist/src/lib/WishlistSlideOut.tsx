@@ -1,21 +1,20 @@
 import { SlideOut } from '@diamantaire/darkside/components/common-ui';
-import { GlobalContext, GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { fetchWishlistProducts } from '@diamantaire/darkside/data/api';
 import { useWishlistContent } from '@diamantaire/darkside/data/hooks';
 import { getLocalStorageWishlist } from '@diamantaire/shared/helpers';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { WishlistProductList } from './WishlistProductList';
 import { StyledWishlistSlideOut } from './WishlistSlideOut.style';
 
-const WishlistSlideOut: React.FC = () => {
+interface WishlistSlideOutProps {
+  closeSlideOut: () => void;
+}
+
+const WishlistSlideOut: React.FC<WishlistSlideOutProps> = ({ closeSlideOut }) => {
   const router = useRouter();
-
-  const updateGlobalContext = useContext(GlobalUpdateContext);
-
-  const { isWishlistOpen } = useContext(GlobalContext);
 
   const [wishlistProductData, setWishlistProductData] = useState<any>(null);
 
@@ -37,20 +36,16 @@ const WishlistSlideOut: React.FC = () => {
 
       setWishlistProductData(wishlistProducts);
 
-      if (isWishlistOpen) {
-        const currentScrollPosition = document.body.scrollTop || document.documentElement.scrollTop;
+      const currentScrollPosition = document.body.scrollTop || document.documentElement.scrollTop;
 
-        setScrollPosition(currentScrollPosition);
-      }
+      setScrollPosition(currentScrollPosition);
     };
 
     fetchData();
-  }, [isWishlistOpen]);
+  }, []);
 
   const handleClose = () => {
-    updateGlobalContext({
-      isWishlistOpen: false,
-    });
+    closeSlideOut();
   };
 
   router?.events?.on('routeChangeComplete', handleClose);
@@ -58,13 +53,11 @@ const WishlistSlideOut: React.FC = () => {
   return (
     <StyledWishlistSlideOut>
       <AnimatePresence>
-        {isWishlistOpen && (
-          <SlideOut title={content?.modalTitle} onClose={handleClose} className="slideout" scrollPosition={scrollPosition}>
-            <div className="wishlist-slide-out">
-              <WishlistProductList products={wishlistProductData} content={content} />
-            </div>
-          </SlideOut>
-        )}
+        <SlideOut title={content?.modalTitle} onClose={handleClose} className="slideout" scrollPosition={scrollPosition}>
+          <div className="wishlist-slide-out">
+            <WishlistProductList products={wishlistProductData} content={content} />
+          </div>
+        </SlideOut>
       </AnimatePresence>
     </StyledWishlistSlideOut>
   );

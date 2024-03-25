@@ -95,6 +95,8 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({
     if (!ready) setReady(true);
   }, [isWishlistUpdated, ready]);
 
+  if (!content) return;
+
   const wishlistResult = (
     <>
       {!isSharedWishlistPage && (

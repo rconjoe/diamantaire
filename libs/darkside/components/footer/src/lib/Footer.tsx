@@ -319,11 +319,11 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
                 <div className="footer-social">
                   <ul>
                     {socialItems.map((item, index) => {
-                      const { url, className, icon } = item;
+                      const { url, className, icon, alt } = item;
 
                       return (
                         <li key={`footer-social-link-${index}`}>
-                          <a target="_blank" href={url} rel="noreferrer" className={className}>
+                          <a aria-label={alt} target="_blank" href={url} rel="noreferrer" className={className}>
                             {icon}
                           </a>
                         </li>
