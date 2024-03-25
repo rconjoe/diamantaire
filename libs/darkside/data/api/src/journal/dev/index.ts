@@ -25,6 +25,7 @@ import {
   Trio9x7,
   TrioSlide9x7,
   TrioStaggered9x7,
+  Accordion
 } from '../../modular';
 
 // Journal type for what's returned in a group of posts
@@ -381,6 +382,7 @@ export async function fetchAllJournalsByMostRecent(locale: string, first: number
 
 // Single Journal
 
+
 const SINGLE_JOURNAL_QUERY = `
   query singleJournal($slug: String!, $locale: SiteLocale){
     blogPost(filter: {slug: {eq: $slug}}, locale: $locale) {
@@ -436,6 +438,7 @@ const SINGLE_JOURNAL_QUERY = `
         ${BlogListTrio}
         ${TrioSlide9x7}
         ${EmailSignup}
+        ${Accordion}
       }
       
     }
