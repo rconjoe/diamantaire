@@ -154,4 +154,3 @@ docs/apps/darkside/main
 
 #swagger
 swagger-spec.json
-.env*.local
