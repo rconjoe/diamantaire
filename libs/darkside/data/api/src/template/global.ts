@@ -133,5 +133,12 @@ query headerNavigationDynamicQuery($locale: SiteLocale) {
         value
       }
     }
+    diamondTable(locale: $locale){
+      carbonNeutralCertification {
+        id
+        url
+        alt
+      }
+    } 
   }
 `;

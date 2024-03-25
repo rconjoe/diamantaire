@@ -1,5 +1,5 @@
-import { Accordion, CertificateThumb, Heading, Slider, UIString } from '@diamantaire/darkside/components/common-ui';
-import { useDiamondPdpData, useDiamondTableData, useDiamondsData, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { Accordion, CarbonNeutralCertification, CertificateThumb, Heading, Slider, UIString } from '@diamantaire/darkside/components/common-ui';
+import { useDiamondPdpData, useDiamondTableData, useDiamondsData, useGlobalData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedCarat } from '@diamantaire/shared/constants';
 import Markdown from 'markdown-to-jsx';
 import Image from 'next/image';
@@ -13,6 +13,7 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
   const { data: { ranges } = {} } = useDiamondsData({ diamondType: product?.diamondType });
   const { data: { diamondTable: DiamondTableData } = {} } = useDiamondTableData(locale);
   const { data: { diamondProduct: DiamondPdpData } = {} } = useDiamondPdpData(locale);
+  const { data: { diamondTable: { carbonNeutralCertification }}} = useGlobalData(locale)
 
   const createNumberArray = (number) => {
     return Array.from({ length: number }, (_, index) => index + 1);
@@ -323,9 +324,17 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
     const { originContent } = DiamondTableData || {};
 
     return (
-      <div className="row">
-        <div className="description">{<Markdown>{originContent}</Markdown>}</div>
-      </div>
+      <>
+        <div className="row">
+          <div className="description">{<Markdown>{originContent}</Markdown>}</div>
+        </div>
+        {carbonNeutralCertification && (
+          <CarbonNeutralCertification 
+            url={carbonNeutralCertification.url}
+            className='carbon-neutral-certification-container'
+          />
+        )}
+      </>
     );
   };
 

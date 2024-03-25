@@ -87,6 +87,9 @@ const StyledDiamondCfyAccordion = styled.div`
       margin: 0 0 0 0;
     }
   }
+  .carbon-neutral-certification-container {
+    padding-top: 1rem;
+  }
 `;
 
 export { StyledDiamondCfyAccordion };
