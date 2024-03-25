@@ -105,7 +105,7 @@ const DiamondBuildStep = () => {
   const { diamondTable } = diamondTableData || {};
   const { clearFiltersButtonCopy } = diamondTable || {};
 
-  const acceptedParams = [...DIAMOND_TABLE_DEFAULT_VALID_QUERIES, 'diamondType', 'clarity', 'color', 'cut', 'ringSize'];
+  const acceptedParams = [...DIAMOND_TABLE_DEFAULT_VALID_QUERIES, 'diamondType', 'clarity', 'color', 'cut'];
 
   let routerInitialOptions: object = {
     ...query,
@@ -127,7 +127,6 @@ const DiamondBuildStep = () => {
   const defaultInitialOptions = {
     ...DIAMOND_TABLE_DEFAULT_OPTIONS,
     diamondType: diamondTypeToShow,
-    ringSize: query.ringSize,
     caratMin: isToiMoiOrPair ? 0.5 : 1,
     limit: 20,
   };
@@ -146,8 +145,9 @@ const DiamondBuildStep = () => {
   const isTableView = true;
   const [options, setOptions] = useState(initialOptions);
   const [activeRow, setActiveRow] = useState(null);
-
+  console.log('getting diamonds with', { options });
   const { data: { diamonds, pagination, ranges } = {} } = useDiamondsData({ ...options });
+  console.log('diamonds', diamonds);
 
   const tableOptions = {
     locale: DEFAULT_LOCALE,
@@ -248,6 +248,7 @@ const DiamondBuildStep = () => {
     if (query?.ringSize) {
       additionalParams.ringSize = Array.isArray(query.ringSize) ? query.ringSize[0] : query.ringSize;
     }
+    console.log('useEffect', { query, additionalParams });
     const newRoute = getDiamondShallowRoute(
       options,
       window.location.origin + window.location.pathname,
