@@ -25,7 +25,7 @@ type PlpDatoServersideProps = {
       };
       canonicalOverride: string;
     };
-
+    shouldAutoLoad: boolean;
     breadcrumb: {
       id: string;
       name: string;
