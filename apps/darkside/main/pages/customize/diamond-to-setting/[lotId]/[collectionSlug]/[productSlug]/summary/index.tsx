@@ -596,9 +596,10 @@ const ReviewBuildStep = () => {
       label: _t('diamondType'),
       value: diamonds?.map((diamond) => diamondShapesTranslations(diamond?.diamondType)).join(' + '),
       onClick: () => {
-        router.push(
-          `/customize/${flowType}/${router.query.lotId}/${router.query.collectionSlug}/${router.query.productSlug}/edit-diamond`,
-        );
+        const baseUrl = `/customize/${flowType}/${router.query.lotId}/${router.query.collectionSlug}/${router.query.productSlug}/edit-diamond`;
+        const urlWithRingSize = preselectedRingSize ? `${baseUrl}?ringSize=${preselectedRingSize}` : baseUrl;
+
+        router.push(urlWithRingSize);
       },
       slug: 'diamondType',
     },
@@ -611,9 +612,10 @@ const ReviewBuildStep = () => {
         )
         .join(' + '),
       onClick: () => {
-        router.push(
-          `/customize/${flowType}/${router.query.lotId}/${router.query.collectionSlug}/${router.query.productSlug}/edit-diamond`,
-        );
+        const baseUrl = `/customize/${flowType}/${router.query.lotId}/${router.query.collectionSlug}/${router.query.productSlug}/edit-diamond`;
+        const urlWithRingSize = preselectedRingSize ? `${baseUrl}?ringSize=${preselectedRingSize}` : baseUrl;
+
+        router.push(urlWithRingSize);
       },
       slug: 'centerstone',
     },

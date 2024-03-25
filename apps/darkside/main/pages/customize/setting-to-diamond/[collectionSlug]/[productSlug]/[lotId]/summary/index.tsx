@@ -617,9 +617,12 @@ const SettingToDiamondSummaryPage = () => {
         )
         .join(' + '),
       onClick: () => {
-        router.push(
-          `/customize/${flowType}/${router.query.collectionSlug}/${router.query.productSlug}/${router.query.lotId}/edit-diamond`,
-        );
+        const queryParameters = preselectedRingSize ? { ringSize: preselectedRingSize } : {};
+
+        router.push({
+          pathname: `/customize/${flowType}/${router.query.collectionSlug}/${router.query.productSlug}/${router.query.lotId}/edit-diamond`,
+          query: queryParameters,
+        });
       },
       slug: 'centerstone',
     },

@@ -70,9 +70,14 @@ const DiamondTableRow = ({
     const flowType = router.asPath.includes('setting-to-diamond') ? 'setting-to-diamond' : 'diamond-to-setting';
     let nextUrl = '';
 
+    // Prepare the ringSize query parameter if it exists
+    const ringSizeQueryParam = router.query.ringSize ? `?ringSize=${router.query.ringSize}` : '';
+
     if (flowType === 'diamond-to-setting' && !router.query.collectionSlug && !router.query.productSlug) {
       console.log('case 001');
-      nextUrl = `${locale === 'en-US' ? '' : `/${locale}`}/customize/diamond-to-setting/${product.lotId}`;
+      nextUrl = `${locale === 'en-US' ? '' : `/${locale}`}/customize/diamond-to-setting/${
+        product.lotId
+      }${ringSizeQueryParam}`;
     } else if (flowType === 'setting-to-diamond') {
       console.log('case 002');
       const productShapeId = builderProduct?.product?.optionConfigs?.diamondType?.find(
@@ -80,7 +85,7 @@ const DiamondTableRow = ({
       )?.id;
 
       nextUrl = `${locale === 'en-US' ? '' : `/${locale}`}/customize/setting-to-diamond/${router?.query
-        ?.collectionSlug}/${productShapeId}/${product.lotId}/summary`;
+        ?.collectionSlug}/${productShapeId}/${product.lotId}/summary${ringSizeQueryParam}`;
     } else {
       // Assuming this is the default or fallback case
       console.log('default case');
@@ -90,10 +95,10 @@ const DiamondTableRow = ({
 
       nextUrl = `${locale === 'en-US' ? '' : `/${locale}`}/customize/diamond-to-setting/${product.lotId}/${
         router.query.collectionSlug
-      }/${productShapeId}/summary`;
+      }/${productShapeId}/summary${ringSizeQueryParam}`;
     }
 
-    return nextUrl; // Just return the constructed URL string
+    return nextUrl; // Just return the constructed URL string with ringSize appended if present
   }
 
   const nextUrl = determineNextUrl();
