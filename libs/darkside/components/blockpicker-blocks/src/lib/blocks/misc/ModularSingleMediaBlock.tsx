@@ -1,11 +1,11 @@
 import { DatoImage, Heading, LazyLoadWrapper, Markdown } from '@diamantaire/darkside/components/common-ui';
-import { CtoDiamondPromoBlock } from '@diamantaire/darkside/data/hooks';
+import { CtoDiamondPromoBlockTypes } from '@diamantaire/darkside/data/hooks';
 import { isCountrySupported } from '@diamantaire/shared/helpers';
 import styled from 'styled-components';
 
 import ModularVideoBlock from '../ModularVideoBlock';
 
-const ModularSingleMediaBlock = (props: CtoDiamondPromoBlock) => {
+const ModularSingleMediaBlock = (props: CtoDiamondPromoBlockTypes) => {
   const {
     media,
     title,
