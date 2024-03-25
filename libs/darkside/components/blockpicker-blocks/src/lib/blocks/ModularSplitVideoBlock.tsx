@@ -89,9 +89,9 @@ const ModularSplitVideoBlockContainer = styled.div`
 const ModularSplitVideoBlock = (props) => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(true);
   const [hasVideoInitialized, setHasVideoInitialized] = useState(false);
-  const { copy, title, videoSources, thumbnail } = props;
+  const { copy, title, video } = props;
 
-  const videoUrls = videoSources?.map((video) => video?.url);
+  const { video: { streamingUrl = '', thumbnailUrl = '' } = {} } = video || {};
 
   const playerRef = useRef(null);
 
@@ -100,7 +100,7 @@ const ModularSplitVideoBlock = (props) => {
       <div className="split-video__wrapper">
         <div className="split-video__video">
           <ReactPlayer
-            url={videoUrls}
+            url={streamingUrl}
             playsinline
             ref={playerRef}
             playing={isVideoPlaying}
@@ -108,7 +108,7 @@ const ModularSplitVideoBlock = (props) => {
             width="100%"
             loop={true}
             controls={false}
-            light={thumbnail?.url}
+            light={thumbnailUrl}
             playIcon={
               <div className="icon-wrapper">
                 <PlayVideoTriangleIcon />
@@ -122,18 +122,14 @@ const ModularSplitVideoBlock = (props) => {
             onPlay={() => setHasVideoInitialized(true)}
           />
 
-          {hasVideoInitialized && (
-            <>
-              {!isVideoPlaying ? (
-                <button className="start-video" onClick={() => setIsVideoPlaying(true)}>
-                  <div className="icon-wrapper">
-                    <PlayVideoTriangleIcon />
-                  </div>
-                </button>
-              ) : (
-                <button className="stop-video" onClick={() => setIsVideoPlaying(false)}></button>
-              )}
-            </>
+          {hasVideoInitialized && !isVideoPlaying ? (
+            <button className="start-video" onClick={() => setIsVideoPlaying(true)}>
+              <div className="icon-wrapper">
+                <PlayVideoTriangleIcon />
+              </div>
+            </button>
+          ) : (
+            hasVideoInitialized && <button className="stop-video" onClick={() => setIsVideoPlaying(false)}></button>
           )}
         </div>
         <div className="split-video__content">
