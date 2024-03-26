@@ -36,7 +36,7 @@ export const ImageTileContainer = styled.div<Props>`
   }
 
   .image-tile__title {
-    margin: 0.5rem 0 0.1rem;
+    margin: 0.5rem 0;
     .in-the-media & {
       font-weight: var(--font-weight-bold);
       text-transform: uppercase;
@@ -79,7 +79,7 @@ export const ImageTileContainer = styled.div<Props>`
   }
 
   .image-tile__copy {
-    margin: 0 0 0.4rem;
+    margin: 0.8rem 0 0.4rem;
     p {
       line-height: 1.4;
       font-size: var(--font-size-xsmall);
