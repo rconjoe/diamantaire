@@ -332,9 +332,6 @@ dependencies:
   react-json-pretty:
     specifier: 2.2.0
     version: 2.2.0(react-dom@18.2.0)(react@18.2.0)
-  react-lazyload:
-    specifier: ^3.2.0
-    version: 3.2.0(react-dom@18.2.0)(react@18.2.0)
   react-player:
     specifier: 2.13.0
     version: 2.13.0(react@18.2.0)
@@ -23852,16 +23849,6 @@ packages:
       react-dom: '>=15.0'
     dependencies:
       prop-types: 15.8.1
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-    dev: false
-
-  /react-lazyload@3.2.0(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-zJlrG8QyVZz4+xkYZH5v1w3YaP5wEFaYSUWC4CT9UXfK75IfRAIEdnyIUF+dXr3kX2MOtL1lUaZmaQZqrETwgw==}
-    peerDependencies:
-      react: ^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
-      react-dom: ^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
-    dependencies:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false

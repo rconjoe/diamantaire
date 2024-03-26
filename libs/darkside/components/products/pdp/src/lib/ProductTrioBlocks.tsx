@@ -17,7 +17,7 @@ const ProductTrioBlocksContainer = styled.div`
     `};
 `;
 
-const ProductTrioBlocks = ({ trioBlocksId }) => {
+const ProductTrioBlocks = ({ trioBlocksId, shouldLazyLoad = true }) => {
   const { locale } = useRouter();
   const { data: { trioBlock: { blocks } = {} } = {} } = useProductTrioBlock(trioBlocksId, locale);
 
@@ -35,6 +35,7 @@ const ProductTrioBlocks = ({ trioBlocksId }) => {
             ctaRoute={ctaRoute}
             darksideButtons={darksideButtons}
             key={`trio-block-${index}`}
+            shouldLazyLoad={shouldLazyLoad}
           />
         );
       })}

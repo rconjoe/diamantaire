@@ -27,14 +27,18 @@ const DiamondCfyAsidePromo = (props: DiamondCfyAsidePromoProps) => {
 
         <div className="blocks">
           {blocks &&
-            blocks?.map((block) => {
+            blocks?.map((block, idx) => {
               const { id, _modelApiKey, title } = block;
 
               if (title.includes('LEONARDO DICAPRIO')) {
                 block.additionalClass = 'leo';
               }
+              const contentIsAboveFold = idx < 2;
+              const shouldLazyLoad = contentIsAboveFold ? false : true;
 
-              return <BlockPicker key={id} _modelApiKey={_modelApiKey} modularBlockData={block} />;
+              return (
+                <BlockPicker key={id} _modelApiKey={_modelApiKey} modularBlockData={block} shouldLazyLoad={shouldLazyLoad} />
+              );
             })}
         </div>
       </div>

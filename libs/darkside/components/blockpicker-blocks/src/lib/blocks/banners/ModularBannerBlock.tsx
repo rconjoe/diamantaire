@@ -1,4 +1,4 @@
-/* 
+/*
   This component is actively being abstracted as more use-cases appear -Sam
 */
 
@@ -116,9 +116,7 @@ const ModularBannerBlock = (props) => {
   );
 
   return (
-    <BannerWrapper
-      textAlign={textAlign}
-    >
+    <BannerWrapper textAlign={textAlign}>
       <div
         className={clsx(
           {
