@@ -5,6 +5,7 @@ import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-contex
 import { useCartData, useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import { countries, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
 import { isUserCloseToShowroom } from '@diamantaire/shared/geolocation';
+import { useRudderStackAnalytics } from '@diamantaire/shared/rudderstack';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence, motion, useScroll } from 'framer-motion';
 import { useRouter } from 'next/router';
@@ -95,6 +96,8 @@ const Header: FC<HeaderProps> = ({ headerData, isTopbarShowing, setIsTopbarShowi
     return setMegaMenuIndex(index);
   }
 
+  const analytics = useRudderStackAnalytics();
+
   function toggleCart() {
     const { id, lines } = checkout || {};
     const cartId = id?.split('/')[2];
@@ -120,10 +123,18 @@ const Header: FC<HeaderProps> = ({ headerData, isTopbarShowing, setIsTopbarShowi
       };
     });
 
-    cartViewed({
-      cart_id: cartId,
-      products: cartProducts,
-    });
+    // Only on opening the cart
+    if (!isCartOpen) {
+      cartViewed({
+        cart_id: cartId,
+        products: cartProducts,
+      });
+
+      analytics?.track('view_cart', {
+        cart_id: cartId,
+        products: cartProducts,
+      });
+    }
 
     // return setIsCartOpen(!isCartOpen);
     return updateGlobalContext({

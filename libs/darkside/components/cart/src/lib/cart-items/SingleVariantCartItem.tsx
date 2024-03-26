@@ -4,9 +4,10 @@ import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { CartCertProps, useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { combinePricesOfMultipleProducts, getFormattedPrice, simpleFormatPrice } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
+import { useRudderStackAnalytics } from '@diamantaire/shared/rudderstack';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { AttributeInput } from 'shopify-buy';
 import styled from 'styled-components';
 
@@ -102,7 +103,6 @@ const SingleVariantCartItem = ({
   item,
   info,
   updateItemQuantity,
-  cartItemDetails,
   certificate,
 }: {
   item: CartItem;
@@ -131,8 +131,6 @@ const SingleVariantCartItem = ({
   const { _t } = useTranslations(locale);
 
   const { refetch } = useCartData(locale);
-
-  const [refinedCartItemDetails, setRefinedCartItemDetails] = useState<{ [key: string]: string }[] | null>(null);
 
   const image = useMemo(() => {
     const matchingAttribute = attributes?.filter((attr) => attr.key === '_productAssetObject')?.[0];
@@ -187,76 +185,7 @@ const SingleVariantCartItem = ({
     return matchingAttribute;
   }, []);
 
-  const itemAttributes = useMemo(() => {
-    const initAttributes = [
-      {
-        label: refinedCartItemDetails?.['diamondType'],
-        value: info?.diamondShape,
-      },
-      {
-        label: refinedCartItemDetails?.['metal'],
-        value: info?.metalType,
-      },
-      // Bracelet Specific
-      {
-        label: 'Chain Length',
-        value: info?.chainLength,
-      },
-      {
-        label: refinedCartItemDetails?.['bandWidth'],
-        value: info?.bandWidth,
-      },
-      {
-        label: refinedCartItemDetails?.['caratWeight'],
-        value: info?.caratWeight,
-      },
-      {
-        label: refinedCartItemDetails?.['centerStone'],
-        value: info?.centerStone,
-      },
-      // no label for band accent
-      {
-        label: _t('band'),
-        value: info?.bandAccent,
-      },
-      {
-        label: refinedCartItemDetails?.['ringSize'],
-        value: info?.ringSize,
-      },
-      {
-        label: _t('Engraving'),
-        value: engraving,
-      },
-    ];
-
-    // show for loose diamonds
-    if (productType === 'Diamond' || productType === 'Diamonds') {
-      initAttributes.push({
-        label: _t('Color'),
-        value: info?.color,
-      });
-      initAttributes.push({
-        label: _t('Cut'),
-        value: info?.cut,
-      });
-      initAttributes.push({
-        label: _t('Clarity'),
-        value: info?.clarity,
-      });
-    }
-
-    return initAttributes;
-  }, [refinedCartItemDetails, info]);
-
-  useEffect(() => {
-    const tempRefinedCartItemDetails: { [key: string]: string }[] = [{}];
-
-    cartItemDetails?.map((item) => {
-      tempRefinedCartItemDetails[item['value']] = item['label'];
-    });
-
-    setRefinedCartItemDetails(tempRefinedCartItemDetails);
-  }, [cartItemDetails]);
+  const analytics = useRudderStackAnalytics();
 
   function handleRemoveProduct() {
     productRemoved({
@@ -297,6 +226,18 @@ const SingleVariantCartItem = ({
           },
         ],
       },
+    });
+
+    analytics?.track('remove_from_cart', {
+      item_id: id,
+      item_name: productTitle,
+      item_brand: 'VRAI',
+      item_category: productType,
+      product_type: productType,
+      price: price,
+      currency,
+      quantity: 1,
+      diamond_type: diamondShape,
     });
 
     updateItemQuantity({

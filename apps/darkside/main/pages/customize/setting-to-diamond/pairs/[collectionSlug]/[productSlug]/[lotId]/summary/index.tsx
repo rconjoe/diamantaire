@@ -1070,6 +1070,7 @@ const SettingToDiamondSummaryPage = () => {
                             diamondImages,
                             productAdded,
                             diamondShapesTranslations,
+                            analytics,
                           })
                         }
                       >

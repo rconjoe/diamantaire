@@ -1037,6 +1037,7 @@ const ReviewBuildStep = () => {
                             diamondImages,
                             productAdded,
                             diamondShapesTranslations,
+                            analytics,
                           })
                         }
                       >
