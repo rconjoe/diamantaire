@@ -32,7 +32,7 @@ type ModularEmailSignupBlockProps = {
 const ModularEmailSignupBlock = ({
   title,
   copy,
-  listData = HUBSPOT_CONTENT_BLOCK_LIST, // TODO: add to dato if we need to customize
+  listData: defaultListData = HUBSPOT_CONTENT_BLOCK_LIST,
   ctaCopy,
   //optInCopy = 'Opt me in',
   // enablePhoneFieldTitle,
@@ -43,6 +43,7 @@ const ModularEmailSignupBlock = ({
   additionalClass,
   headingType,
   headingAdditionalClass,
+  emailList,
 }: ModularEmailSignupBlockProps) => {
   const [loading, setLoading] = useState(false);
   const [showOptIn, setShowOptIn] = useState(false);
@@ -61,7 +62,8 @@ const ModularEmailSignupBlock = ({
   // TODO: Should we create a generic dato email content model
   const { data: { emailPopup: emailPopUpContent } = {} } = useEmailPopup(locale);
   const { errorCopy, successCopy, optInCopy } = emailPopUpContent || {};
-
+  const listData = { ...defaultListData, ...emailList };
+  console.log({ listData });
   useEffect(() => {
     const initializeData = async () => {
       // Fetch user country
