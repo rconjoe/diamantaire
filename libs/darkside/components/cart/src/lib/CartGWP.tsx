@@ -94,13 +94,22 @@ const CartGWP = () => {
   const minSpendValue = minSpendByCurrencyCode?.[currencyCode].toString();
   const isWithinTimeframe = isCurrentTimeWithinInterval(promotionDateRangeStart, promotionDateRangeEnd);
 
-  const hasUserQualified = parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100 >= parseFloat(minSpendValue);
+  // We want to check subtotal for USD, and total for every other currency
+  const checkoutTotal =
+    locale === 'en-US'
+      ? parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100
+      : parseFloat(checkout?.cost?.totalAmount?.amount) * 100;
+
+  const hasUserQualified = checkoutTotal >= parseFloat(minSpendValue);
 
   useEffect(() => {
     async function checkForGWP() {
       if (!checkout || !gwpData || !isWithinTimeframe) return null;
+
       // This is also the item (if it exists 👻)
-      const hasUserQualified = parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100 >= parseFloat(minSpendValue);
+      const hasUserQualified = checkoutTotal >= parseFloat(minSpendValue);
+
+      console.log('hasUserQualified', hasUserQualified);
       const doesUserHaveGWPInCart =
         checkout?.lines?.find((line) => line?.merchandise?.id === `gid://shopify/ProductVariant/${giftProduct.variantId}`) ||
         false;
@@ -143,6 +152,11 @@ const CartGWP = () => {
 
   if (!gwpData) return null;
 
+  console.log({
+    minSpend: parseFloat(minSpendValue),
+    cartTotal: parseFloat(checkout?.cost?.totalAmount?.amount) * 100,
+  });
+
   return (
     <CartGWPStyles bgColor={hasUserQualified ? cartQualifiedBackgroundColor?.hex : cartNonQualifiedBackgroundColor?.hex}>
       <div className="inner">
@@ -165,7 +179,7 @@ const CartGWP = () => {
                     ['%%GWP_remaining_spend%%'],
                     [
                       simpleFormatPrice(
-                        parseFloat(minSpendValue) - parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100,
+                        parseFloat(minSpendValue) - parseFloat(checkout?.cost?.totalAmount?.amount) * 100,
                         locale,
                       ).trim(),
                     ],
