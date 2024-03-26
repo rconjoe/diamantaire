@@ -11,6 +11,7 @@ import {
   simpleFormatPrice,
 } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
+import { useRudderStackAnalytics } from '@diamantaire/shared/rudderstack';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -244,6 +245,8 @@ const MultiVariantCartItem = ({
     return matchingAttribute;
   }, [attributes]);
 
+  const analytics = useRudderStackAnalytics();
+
   async function handleRemoveProduct() {
     if (((hasChildProduct && childProducts.length > 0) || engravingProduct) && checkout?.lines?.length > 1) {
       const total =
@@ -303,6 +306,19 @@ const MultiVariantCartItem = ({
             ...childProductsToRemove,
           ],
         },
+      });
+
+      analytics?.track('remove_from_cart', {
+        item_id: id,
+        item_name: productTitle,
+        item_brand: 'VRAI',
+        item_category: productType,
+        product_type: productType,
+        price: price,
+        currency,
+        quantity: 1,
+        diamond_type: diamondShape,
+        childProducts: childProductsToRemove,
       });
 
       const itemsToRemove = [
@@ -377,6 +393,19 @@ const MultiVariantCartItem = ({
           ],
         },
       });
+
+      analytics?.track('remove_from_cart', {
+        item_id: id,
+        item_name: productTitle,
+        item_brand: 'VRAI',
+        item_category: productType,
+        product_type: productType,
+        price: price,
+        currency,
+        quantity: 1,
+        diamond_type: diamondShape,
+      });
+
       await updateItemQuantity({
         lineId: item.id,
         variantId: merchandise.id,
@@ -439,7 +468,9 @@ const MultiVariantCartItem = ({
         </div>
       </div>
       <div className="cart-item__body">
-        <div className="cart-item__image">{image && <Image {...image} placeholder="empty" alt={info?.pdpTitle} />}</div>
+        <div className="cart-item__image">
+          {image && <Image {...image} placeholder="empty" alt={info?.pdpTitle} unoptimized />}
+        </div>
 
         <div className="cart-item__content">
           <p className="setting-text">

@@ -1,5 +1,5 @@
-import { Accordion, CertificateThumb, Markdown } from '@diamantaire/darkside/components/common-ui';
-import { useDiamondTableData, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { Accordion, CarbonNeutralCertification, CertificateThumb, Markdown } from '@diamantaire/darkside/components/common-ui';
+import { useDiamondTableData, useGlobalData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
 import { useRouter } from 'next/router';
 
@@ -14,6 +14,7 @@ const DiamondDetailRowAccordion = ({
 }) => {
   const { locale } = useRouter();
   const { data: diamondTableData } = useDiamondTableData(locale);
+  const { data: { diamondTable: { carbonNeutralCertification }}} = useGlobalData(locale);
   const { _t } = useTranslations(locale);
 
   if (!product) return;
@@ -161,7 +162,17 @@ const DiamondDetailRowAccordion = ({
           <span>{origin}</span>
         </>
       ),
-      children: <Markdown withStyles={false}>{originContent}</Markdown>,
+      children: (
+        <>
+          <Markdown withStyles={false}>{originContent}</Markdown>
+          {carbonNeutralCertification && (
+            <CarbonNeutralCertification 
+              url={carbonNeutralCertification.url}
+              className='carbon-neutral-certification-container'
+            />
+          )}
+        </>
+      ),
       className: 'origin',
     },
   ];

@@ -14,6 +14,13 @@ export type GlobalDataResponse = {
     copyright: string;
     countryPicker: object[][];
   };
+  diamondTable: {
+    carbonNeutralCertification: {
+      id: string;
+      url: string;
+      alt?: string;
+    }
+  }
 };
 
 export function useGlobalData(locale: string): UseQueryResult<GlobalDataResponse> {

@@ -64,7 +64,7 @@ export const WEDDING_BAND_PDP = `
           image {
             url
             alt
-            responsiveImage (imgixParams: { w: 448, q: 40, auto: format }){
+            responsiveImage (imgixParams: { w: 448, q: 40, auto: format,compress }){
                 src
                 alt
                 aspectRatio

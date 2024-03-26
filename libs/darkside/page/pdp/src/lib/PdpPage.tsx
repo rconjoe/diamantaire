@@ -34,6 +34,7 @@ import {
   useProductVariant,
   useTranslations,
   useDiamondLowestPriceByDiamondType,
+  useProductSkusVariants,
 } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
@@ -52,6 +53,7 @@ import {
   getSWRPageCacheHeader,
   generatePdpAssetAltTag,
 } from '@diamantaire/shared/helpers';
+import { useRudderStackAnalytics } from '@diamantaire/shared/rudderstack';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
@@ -79,6 +81,10 @@ export interface PdpPageProps {
   dehydratedState: DehydratedState;
 }
 
+const LOAD_TANGIBLE_SCRIPT_LOCATION = ['en-US', 'en-GB'];
+const LOAD_TANGIBLE_SCRIPT_PRODUCT_TYPE = ['Wedding Band', 'Engagement Ring'];
+const TANGIBLE_SCRIPT_URL = process.env['NEXT_PUBLIC_VERCEL_ENV'] === 'production' ? 'revision_1' : 'revision_2';
+
 export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const {
     params: { collectionSlug, productSlug: initialProductSlug },
@@ -95,7 +101,13 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const { data: shopifyProductData = {} } = query;
 
+  const { data: productSkusVariants } = useProductSkusVariants(collectionSlug);
+
   const router = useRouter();
+
+  useEffect(() => {
+    initializeVraiProductData();
+  }, [productSkusVariants, shopifyProductData?.sku]);
 
   useEffect(() => {
     const hasProductParams = router.pathname.includes('productParams');
@@ -173,7 +185,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     router.locale,
   );
   let assetStack = productContent?.assetStack; // flatten array in normalization
-
   const variantId = shopifyProductData?.shopifyVariantId;
 
   const productIconListTypeOverride =
@@ -328,6 +339,30 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     setDropHintData(null);
   };
 
+
+  const analytics = useRudderStackAnalytics();
+
+  useEffect(() => {
+    if (analytics) {
+      analytics?.page(shopifyProductData?.productTitle);
+    }
+  }, [analytics?.ready]);
+
+  const loadTangibleScript = () => {
+    return (
+      LOAD_TANGIBLE_SCRIPT_LOCATION.includes(router.locale) &&
+      LOAD_TANGIBLE_SCRIPT_PRODUCT_TYPE.includes(shopifyProductData?.productType)
+    );
+  };
+
+  const initializeVraiProductData = async () => {
+    window['vraiProduct'] = {
+      currentSKU: shopifyProductData?.sku,
+      variants: productSkusVariants,
+    };
+  };
+
+
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
 
@@ -371,7 +406,13 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           src="https://cdn.jsdelivr.net/npm/spritespin@4.1.0/release/spritespin.min.js"
           strategy={'beforeInteractive'}
         />
-
+        {loadTangibleScript() && (
+          <Script
+            async
+            src={`https://cdn.tangiblee.com/integration/5.0/managed/www.vrai.com/${TANGIBLE_SCRIPT_URL}/variation_original/tangiblee-bundle.min.js`}
+            strategy="afterInteractive"
+          />
+        )}
         <PageViewTracker productData={productData} />
 
         <Breadcrumb breadcrumb={breadcrumb} />
@@ -387,6 +428,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               shownWithCtw={additionalVariantData?.shownWithCtw}
               diamondType={configuration?.diamondType}
             />
+
             <MediaSlider
               title={productMediaAltDescription || productTitle}
               assets={assetStack}
@@ -402,12 +444,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           <div className="info-container">
             <div className="info__inner">
               {!isMobile && <WishlistLikeButton extraClass="pdp" productId={`product-${shopifyProductData.productSlug}`} />}
+
               <ProductTitle
                 title={productTitle}
                 override={productTitleOverride}
                 diamondType={configuration?.diamondType}
                 productType={shopifyProductData?.productType}
               />
+
               <ProductPrice
                 isBuilderProduct={isBuilderProduct}
                 price={totalPrice}
@@ -460,9 +504,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 productType={shopifyProductData?.productType}
                 type={isProductFeedUrl ? 'underline' : 'outline'}
               />
-
               <ProductGWP />
-
               {productIconListType && (
                 <ProductIconList
                   productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
@@ -475,9 +517,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                   productImageUrl={productContent?.image?.responsiveImage?.src || productContent?.assetStack?.[0]?.url}
                 />
               )}
-
               {productData && <NeedTimeToThinkForm productData={productData} />}
-
               <ProductDescription
                 title={productTitle}
                 description={productDescription}

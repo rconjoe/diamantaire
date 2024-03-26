@@ -5,6 +5,7 @@ import {
   Modal,
   UIString,
   Loader,
+  CarbonNeutralCertification,
 } from '@diamantaire/darkside/components/common-ui';
 import { sendHubspotForm } from '@diamantaire/darkside/data/api';
 import { countries, languagesByCode, parseValidLocale, HUBSPOT_FOOTER_LIST } from '@diamantaire/shared/constants';
@@ -197,6 +198,9 @@ const FooterStyles = styled.footer`
       font-size: 1.4rem;
     }
   }
+  .carbon-neutral-certification-container {
+    padding-top: 2rem;
+  }
 `;
 
 const socialItems = [
@@ -319,11 +323,11 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
                 <div className="footer-social">
                   <ul>
                     {socialItems.map((item, index) => {
-                      const { url, className, icon } = item;
+                      const { url, className, icon, alt } = item;
 
                       return (
                         <li key={`footer-social-link-${index}`}>
-                          <a target="_blank" href={url} rel="noreferrer" className={className}>
+                          <a aria-label={alt} target="_blank" href={url} rel="noreferrer" className={className}>
                             {icon}
                           </a>
                         </li>
@@ -331,6 +335,12 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
                     })}
                   </ul>
                 </div>
+                {footerData?.carbonNeutralCertification && (
+                  <CarbonNeutralCertification 
+                    url={footerData?.carbonNeutralCertification?.url} 
+                    className="carbon-neutral-certification-container"
+                  />
+                )}
               </div>
             </div>
           </div>

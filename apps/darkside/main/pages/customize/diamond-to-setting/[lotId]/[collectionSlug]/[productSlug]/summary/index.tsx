@@ -55,6 +55,7 @@ import {
   pdpTypeSingleToPluralAsConst,
 } from '@diamantaire/shared/constants';
 import { generateDiamondSpriteImage } from '@diamantaire/shared/helpers';
+import { useRudderStackAnalytics } from '@diamantaire/shared/rudderstack';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { DEFAULT_BUILDER_ENGRAVING_FONT, getRenderedInputEngravingFontStyles } from '@diamantaire/styles/darkside-styles';
@@ -418,6 +419,7 @@ const ReviewBuildStep = () => {
 
   const sizeOptionKey = 'ringSize';
   const router = useRouter();
+  const preselectedRingSize = router.query?.ringSize;
   const { locale } = router;
 
   const { data: seoData } = useBuilderFlowSeo(locale);
@@ -434,12 +436,14 @@ const ReviewBuildStep = () => {
   const [engravingText, setEngravingText] = useState(null);
   const [handCaratValue, setHandCaratValue] = useState(null);
 
+  const preselectedSizeVariant = configurations?.ringSize?.find((item) => item.value === preselectedRingSize);
+
   const [selectedSize, setSelectedSize] = useState<{
     id: string;
     value?: string;
     valueLabel?: string;
     isSelected?: boolean;
-  }>(configurations?.ringSize?.filter((item) => item.value === '5')[0] || '5');
+  }>(preselectedSizeVariant || configurations?.ringSize?.filter((item) => item.value === '5')[0] || '5');
 
   const { productAdded } = useAnalytics();
 
@@ -717,7 +721,9 @@ const ReviewBuildStep = () => {
 
         const variant: any = handle && (await fetchDatoVariant(handle, category, router.locale));
 
-        setSelectedSize(res?.optionConfigs?.ringSize?.filter((item) => item.value === '5')[0] || '5');
+        const querySizeVariant = res?.optionConfigs?.ringSize?.find((item) => item.value === preselectedRingSize);
+
+        setSelectedSize(querySizeVariant || res?.optionConfigs?.ringSize?.filter((item) => item.value === '5')[0] || '5');
 
         return {
           ...res,
@@ -746,6 +752,14 @@ const ReviewBuildStep = () => {
       setHandCaratValue(parseFloat(diamonds?.[0]?.carat));
     }
   }, [diamonds]);
+
+  const analytics = useRudderStackAnalytics();
+
+  useEffect(() => {
+    if (analytics) {
+      analytics?.page();
+    }
+  }, [analytics?.ready]);
 
   if (!shopifyProductData || !shopifyProductData?.productContent?.assetStack[0] || !spriteSpinnerIds)
     return <BuilderFlowLoader />;
@@ -1023,6 +1037,7 @@ const ReviewBuildStep = () => {
                             diamondImages,
                             productAdded,
                             diamondShapesTranslations,
+                            analytics,
                           })
                         }
                       >

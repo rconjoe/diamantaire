@@ -12,7 +12,14 @@ type DiamondVideoThumbImageProps = {
   fallbackSrc?: string;
 };
 
-const DiamondVideoThumbImage = ({ lotId, alt, className, width = 400, height = 400, fallbackSrc }: DiamondVideoThumbImageProps) => {
+const DiamondVideoThumbImage = ({
+  lotId,
+  alt,
+  className,
+  width = 400,
+  height = 400,
+  fallbackSrc,
+}: DiamondVideoThumbImageProps) => {
   const numericalLotId = getNumericalLotId(lotId);
   const src = `${DIAMOND_VIDEO_BASE_URL}/${numericalLotId}-thumb.jpg`;
   const [diamondImageSrc, setDiamondImageSrc] = useState(src);
@@ -22,15 +29,15 @@ const DiamondVideoThumbImage = ({ lotId, alt, className, width = 400, height = 4
   const onImageLoadError = () => {
     // ensure we only set the fallback image once
     if (!errorTriggered) {
-      if(fallbackSrc) {
+      if (fallbackSrc) {
         setDiamondImageSrc(fallbackSrc);
       }
       setErrorTriggered(true);
     }
-  }
+  };
 
   return (
-    <Image 
+    <Image
       src={diamondImageSrc}
       alt={alt}
       width={width}
@@ -39,11 +46,13 @@ const DiamondVideoThumbImage = ({ lotId, alt, className, width = 400, height = 4
       className={className}
       loader={diamondImageLoader}
       onError={onImageLoadError}
-    />);
+      unoptimized
+    />
+  );
 };
 
 function diamondImageLoader({ src }: { src: string }) {
-  return `${src}`;
+  return src;
 }
 
 export { DiamondVideoThumbImage };

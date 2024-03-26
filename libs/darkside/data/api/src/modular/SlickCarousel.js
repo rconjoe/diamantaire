@@ -16,7 +16,7 @@ const SlickCarousel = `
       image {
         url
         alt
-        responsiveImage (imgixParams: {w: 280, q: 30, auto: format, fit: clamp, crop: focalpoint },sizes: "28rem"){
+        responsiveImage (imgixParams: {w: 280, q: 30, auto: [format, compress], fit: clamp, crop: focalpoint },sizes: "28rem"){
             src
             alt
             aspectRatio
@@ -41,7 +41,7 @@ const SlickCarousel = `
       image {
         url
         alt
-        responsiveImage (imgixParams: {w: 280, q: 30, auto: format, fit: clamp, crop: focalpoint },sizes: "28rem"){
+        responsiveImage (imgixParams: {w: 280, q: 30, auto: [format, compress], fit: clamp, crop: focalpoint },sizes: "28rem"){
             src
             alt
             aspectRatio

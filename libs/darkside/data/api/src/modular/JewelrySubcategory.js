@@ -6,7 +6,7 @@ const JewelrySubcategory = `
         title
         image {
             url
-            responsiveImage (imgixParams: {w: 400, auto: format, fit: crop}) {
+            responsiveImage (imgixParams: {w: 400, auto: [format, compress], fit: crop}) {
                 src
                 alt
                 aspectRatio

@@ -34,3 +34,4 @@ export * from './UIString';
 export * from './UniLink';
 export * from './EmailPopup';
 export * from './NeedTimeToThinkEmailForm';
+export * from './CarbonNeutralCertification';

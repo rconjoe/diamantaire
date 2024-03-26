@@ -62,6 +62,7 @@ const ModularContentQuadBlock = (props: ModularContentQuadBlock) => {
               key={`${id}-${index}-${block.title}`}
               isProductImage={true}
               extraClass="-modular-content-quad-block"
+              shouldLazyLoad={shouldLazyLoad}
               {...block}
             />
           </div>

@@ -10,6 +10,7 @@ export interface ProductIconListDataTypes {
   shippingBusinessDays?: string;
   shippingBusinessDaysCountryMap?: string;
   shippingText?: string;
+  useStaticText?: boolean;
   cutForYouShippingBusinessDays: string;
   cutForYouShippingBusinessDaysCountryMap: string;
   cutForYouShippingText: string;

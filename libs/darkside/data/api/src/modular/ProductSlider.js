@@ -19,7 +19,7 @@ const ProductSlider = gql`
         shopifyProductHandle
 
         plpImage {
-          responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+          responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: [format, compress], fit: crop, crop: focalpoint }) {
             ...responsiveImageFragment
           }
           alt

@@ -1,6 +1,5 @@
 import { Footer } from '@diamantaire/darkside/components/footer';
 import { Header } from '@diamantaire/darkside/components/header';
-import { WishlistSlideOut } from '@diamantaire/darkside/components/wishlist';
 import { useGlobalData } from '@diamantaire/darkside/data/hooks';
 import localFont from '@next/font/local';
 import { useRouter } from 'next/router';
@@ -57,15 +56,6 @@ export const scriptMtFont = localFont({
   ],
 });
 
-// const MainContainer = styled.main`
-//   /* Fallback for padding before menu renders - will need to be changed once top bar becomes dynamic */
-//   /* min-height: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop + 1}px` : '7rem')};
-
-//   ${media.medium`
-//     padding-top: ${({ distanceFromTop, $isHome }) => ($isHome ? 0 : distanceFromTop ? `${distanceFromTop}px` : '0')};
-//     min-height: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop + 1}px` : '7rem')};
-//   `} */
-// `;
 const MainContainer = styled.main`
   min-height: '7rem';
 `;
@@ -79,7 +69,7 @@ export const GlobalTemplate = ({ children }) => {
   const { locale } = router;
   const globalTemplateData = useGlobalData(router.locale);
   const headerData = globalTemplateData.data?.headerNavigationDynamic;
-  const footerData = globalTemplateData.data?.footerNavigation;
+  const footerData = globalTemplateData?.data?.footerNavigation;
 
   const [isTopbarShowing, setIsTopbarShowing] = useState(true);
 
@@ -88,6 +78,10 @@ export const GlobalTemplate = ({ children }) => {
   const isBookAppointmentPage = pathname.includes('/book-appointment');
 
   const storedLocale = typeof window !== 'undefined' && window.localStorage.getItem('locale');
+
+  if (globalTemplateData?.data) {
+    footerData['carbonNeutralCertification'] = globalTemplateData?.data?.diamondTable?.carbonNeutralCertification;
+  }
 
   // If a user comes to the site with a different locale, we want to clear the cart, and reset the locale
   if (locale && storedLocale && storedLocale !== locale) {
@@ -117,8 +111,6 @@ export const GlobalTemplate = ({ children }) => {
       <MainContainer $isHome={isHome}>{children}</MainContainer>
 
       {footerData && !isBookAppointmentPage && <Footer footerData={footerData} />}
-
-      <WishlistSlideOut />
     </div>
   );
 };

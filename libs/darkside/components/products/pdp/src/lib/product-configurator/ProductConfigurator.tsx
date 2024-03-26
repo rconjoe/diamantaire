@@ -7,6 +7,7 @@ import { addERProductToCart, addJewelryProductToCart, addMiscProductToCart } fro
 import { useCartData, useProductIconList, useTranslations, useVariantInventory } from '@diamantaire/darkside/data/hooks';
 import { DIAMOND_TYPE_HUMAN_NAMES, getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
 import { getFormattedShipByDate, getShippingTimeStamp, specGenerator } from '@diamantaire/shared/helpers';
+import { useRudderStackAnalytics } from '@diamantaire/shared/rudderstack';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
@@ -151,6 +152,14 @@ function ProductConfigurator({
     return selectedConfiguration;
   }, [requiresCustomDiamond, selectedVariantId]);
 
+  const updateVraiProductSKUData = (shopifyVariantId: string) => {
+    const variant = (variants || []).find((_variant) => _variant.shopifyVariantId === shopifyVariantId);
+
+    if (variant) {
+      window['vraiProduct'].currentSKU = variant['sku'];
+    }
+  };
+
   const handleSizeChange = useCallback((option: OptionItemProps) => {
     if (option?.value) {
       router.push(
@@ -166,6 +175,7 @@ function ProductConfigurator({
         },
       );
     }
+    updateVraiProductSKUData(option.id);
     setSelectVariantId(option.id);
     setSelectedSize(option.value);
   }, []);
@@ -258,6 +268,7 @@ function ProductConfigurator({
           shouldDoublePrice={shouldDoublePrice}
         />
       )}
+
       {(hasMoreThanOneVariant || sizeOptions?.length > 1) && (
         <>
           <ConfigurationSelector
@@ -299,7 +310,6 @@ function ProductConfigurator({
             )}
         </>
       )}
-
       <AnimatePresence>
         {isWeddingBandSizeGuideOpen && (
           <SlideOut
@@ -311,7 +321,6 @@ function ProductConfigurator({
           </SlideOut>
         )}
       </AnimatePresence>
-
       {/* Pair Products */}
       {isSoldAsDouble && (
         <PairSelector
@@ -324,7 +333,6 @@ function ProductConfigurator({
           selectedConfiguration={selectedConfiguration}
         />
       )}
-
       {/* Left/Right Products */}
       {isSoldAsLeftRight && (
         <LeftRightSelector
@@ -334,7 +342,6 @@ function ProductConfigurator({
           setShouldDoublePrice={setShouldDoublePrice}
         />
       )}
-
       {extraOptions && extraOptions.length > 0 && <ProductExtraInfo extraOptions={extraOptions} />}
       {(isEngraveable || hasSingleInitialEngraving) && isConfigurationComplete && !isBuilderFlowOpen && (
         <ProductEngraving
@@ -344,14 +351,12 @@ function ProductConfigurator({
           hasSingleInitialEngraving={hasSingleInitialEngraving}
         />
       )}
-
       {isProductFeedUrl ? (
         <>
           <ProductFeedCompleteYourRingButton ctaText={purchaseWithThisDiamondCopy} diamondsOverride={selectedDiamond} />
           <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
         </>
       ) : null}
-
       {isBuilderFlowOpen ? (
         <CompleteYourRingButton ctaText={settingFlowCtaCopy} />
       ) : additionalVariantData ? (
@@ -468,6 +473,8 @@ function AddToCartButton({
   const { _t } = useTranslations(locale);
   const { _t: diamondShapesTranslations } = useTranslations(locale, ['OPTION_NAMES', 'DIAMOND_SHAPES']);
 
+  const analytics = useRudderStackAnalytics();
+
   const { chainLength, productTitle, productType, color, clarity, bandAccent, caratWeightOverride, image } =
     additionalVariantData;
 
@@ -562,6 +569,20 @@ function AddToCartButton({
           ...selectedConfiguration,
         },
       ],
+    });
+
+    // Rudderstack - ATC
+    analytics?.track('add_to_cart', {
+      item_id: id,
+      item_name: variantProductTitle,
+      item_brand: 'VRAI',
+      item_category: productType,
+      product_type: productType,
+      price: formattedPrice,
+      currency: currencyCode,
+      quantity: 1,
+      diamond_type: selectedConfiguration?.diamondType,
+      ...selectedConfiguration,
     });
 
     // Common attributes
@@ -672,6 +693,7 @@ function AddToCartButton({
     } else if (productType === 'Gift Card') {
       // eslint-disable-next-line unused-imports/no-unused-vars
       const { shippingText, ...otherAttributes } = defaultAttributes;
+
       const giftCardAttributes = {
         ...otherAttributes,
         pdpUrl: window.location.href,
@@ -679,8 +701,8 @@ function AddToCartButton({
         // Jewelry specific attributes
         metalType: '',
         shippingBusinessDays: '',
-        productIconListShippingCopy: '',
-        shippingText: '',
+        productIconListShippingCopy: shippingText,
+        shippingText: shippingText,
         childProduct: '',
       };
 
@@ -709,7 +731,7 @@ function AddToCartButton({
       };
 
       addMiscProductToCart({
-        variantId: id,
+        variantId: variantId,
         attributes: ringSizerAttributes,
         locale,
       })

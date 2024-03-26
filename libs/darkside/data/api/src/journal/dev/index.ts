@@ -25,6 +25,7 @@ import {
   Trio9x7,
   TrioSlide9x7,
   TrioStaggered9x7,
+  Accordion
 } from '../../modular';
 
 // Journal type for what's returned in a group of posts
@@ -130,7 +131,7 @@ const JOURNAL_CONFIGURATION_QUERY = `
         _updatedAt
         sortByDate
         featuredImage {
-          responsiveImage(imgixParams: {w: 568, q: 35, auto: format, fit: crop, crop: focalpoint }) {
+          responsiveImage(imgixParams: {w: 568, q: 35, auto: [format, compress], fit: crop, crop: focalpoint }) {
             ...responsiveImageFragment
           }
         }
@@ -228,7 +229,7 @@ query blogPostsByCategory ($locale: SiteLocale, $category: [ItemId]!, $first: In
       _updatedAt
       sortByDate
       featuredImage {
-        responsiveImage(imgixParams: {w: 568, q: 35, auto: format, fit: crop, crop: focalpoint }) {
+        responsiveImage(imgixParams: {w: 568, q: 35, auto: [format, compress], fit: crop, crop: focalpoint }) {
           ...responsiveImageFragment
         }
       }
@@ -287,7 +288,7 @@ query blogPostsBySubcategory ($locale: SiteLocale, $category: [ItemId]!, $subcat
         _updatedAt
         sortByDate
         featuredImage {
-          responsiveImage(imgixParams: {w: 568, q: 35, auto: format, fit: crop, crop: focalpoint }) {
+          responsiveImage(imgixParams: {w: 568, q: 35, auto: [format, compress], fit: crop, crop: focalpoint }) {
             ...responsiveImageFragment
           }
         }
@@ -381,6 +382,7 @@ export async function fetchAllJournalsByMostRecent(locale: string, first: number
 
 // Single Journal
 
+
 const SINGLE_JOURNAL_QUERY = `
   query singleJournal($slug: String!, $locale: SiteLocale){
     blogPost(filter: {slug: {eq: $slug}}, locale: $locale) {
@@ -436,6 +438,7 @@ const SINGLE_JOURNAL_QUERY = `
         ${BlogListTrio}
         ${TrioSlide9x7}
         ${EmailSignup}
+        ${Accordion}
       }
       
     }

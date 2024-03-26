@@ -29,16 +29,17 @@ const ShopifyImageContainer = styled.div`
 const ShopifyImage = ({ image, className, overrideAlt, defaultAlt = '', shouldLazyLoad = true }: ShopifyImageProps) => {
   const { url, alt, responsiveImage } = image || {};
   const { aspectRatio } = responsiveImage || {};
-
+  const isPriority = !shouldLazyLoad;
   const loader = ({ src, width, quality = 50 }: ImageLoaderProps) => {
     const params = {
-      auto: 'format',
+      auto: 'format, compress',
       ar: '1%3A1',
       fit: 'crop',
       crop: 'focalpoint',
       w: width.toString(),
       q: quality.toString(),
     };
+
     const searchParams = new URLSearchParams(params);
 
     return `${src}?${searchParams.toString()}`;
@@ -54,7 +55,8 @@ const ShopifyImage = ({ image, className, overrideAlt, defaultAlt = '', shouldLa
         loader={loader}
         className={clsx('image', className)}
         sizes={responsiveImage ? responsiveImage?.width + 'px' : image?.width + 'px'}
-        loading={shouldLazyLoad ? 'lazy' : 'eager'}
+        priority={isPriority}
+        loading={isPriority ? 'eager' : 'lazy'}
         fill={true}
         style={{
           aspectRatio,

@@ -1,6 +1,6 @@
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 import { Heading } from '@diamantaire/darkside/components/common-ui';
-import { CtoDiamondPromoBlock } from '@diamantaire/darkside/data/hooks';
+import { CtoDiamondPromoBlockTypes } from '@diamantaire/darkside/data/hooks';
 
 import StyledDiamondCfyAsidePromo from './DiamondCfyAsidePromo.style';
 
@@ -8,7 +8,7 @@ type DiamondCfyAsidePromoProps = {
   data: {
     title: string;
     content: {
-      blocks: CtoDiamondPromoBlock[];
+      blocks: CtoDiamondPromoBlockTypes[];
     };
   }[];
 };

@@ -198,7 +198,6 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
               ranges={ranges}
             />
           )}
-
           <DarksideButton type="underline" colorTheme="teal" className="vo-filter-clear-button" onClick={clearOptions}>
             {clearFiltersButtonCopy}
           </DarksideButton>

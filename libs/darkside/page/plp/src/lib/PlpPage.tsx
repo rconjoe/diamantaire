@@ -21,6 +21,7 @@ import {
   generateLanguageAlternates,
 } from '@diamantaire/shared/constants';
 import { isEmptyObject, getSwrRevalidateConfig } from '@diamantaire/shared/helpers';
+import { useRudderStackAnalytics } from '@diamantaire/shared/rudderstack';
 import { FilterValueProps, generateListPageUrl } from '@diamantaire/shared-product';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import clsx from 'clsx';
@@ -99,6 +100,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
     subcategoryFilter,
     sortOptions,
     filterOptions: filterOptionsOverride,
+    shouldAutoLoad,
   } = plpData || {};
 
   const { seoTitle, seoDescription, canonicalOverride } = seo || {};
@@ -213,6 +215,15 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   const isBasePath = listPagePath === asPath;
   const languageAlternates = isBasePath ? generateLanguageAlternates({ baseUrl, currentPath: listPagePath }) : [];
 
+  const analytics = useRudderStackAnalytics();
+
+  useEffect(() => {
+    if (analytics) {
+      // All the info we need is already in the url + pageview event
+      analytics?.page();
+    }
+  }, [analytics?.ready]);
+
   return (
     <PlpStyles>
       <NextSeo
@@ -263,7 +274,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
             subcategoryFilter={subcategoryFilter}
           />
 
-          {hasNextPage && (
+          {!shouldAutoLoad && hasNextPage && (
             <div className="loader-more-container">
               <DarksideButton
                 disabled={isFetching}
@@ -279,7 +290,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
             </div>
           )}
 
-          <div ref={pageEndRef} />
+          {shouldAutoLoad && <div ref={pageEndRef} />}
 
           <div className="below-banner-container-wrapper">
             <PlpPreviouslyViewed />

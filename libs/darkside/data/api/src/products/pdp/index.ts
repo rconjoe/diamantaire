@@ -69,6 +69,27 @@ export async function getProductPage(productSlug, variantSlug) {
   return response;
 }
 
+// Get All Skus variants for a product
+export async function fetchSKUProductVariants(collectionSlug) {
+  const qParams = new URLSearchParams({
+    collectionSlug,
+  }).toString();
+
+  const apiUrl = `/api/pdp/getPdpProductSKU?${qParams}`;
+
+  let response = {
+    data: [],
+  };
+
+  try {
+    response = await vraiApiClient.get(apiUrl);
+  } catch (error) {
+    console.log(' Error :', error);
+  }
+
+  return response.data;
+}
+
 // PDP - ENGAGEMENT RING DATA - DatoCMS - TODO: What should be prefetched (prob this)
 
 const ENGAGEMENT_RING_QUERY = gql`
@@ -208,7 +229,7 @@ const PRODUCT_ICON_LIST_QUERY = gql`
             id
             title
             image {
-              responsiveImage(imgixParams: { w: 448, q: 60, auto: format }) {
+              responsiveImage(imgixParams: { w: 448, q: 60, auto: [format, compress] }) {
                 ...responsiveImageFragment
               }
             }
@@ -223,6 +244,7 @@ const PRODUCT_ICON_LIST_QUERY = gql`
           _modelApiKey
           shippingBusinessDays
           shippingBusinessDaysCountryMap
+          useStaticText
           shippingText
           cutForYouShippingBusinessDays
           cutForYouShippingBusinessDaysCountryMap
@@ -431,7 +453,7 @@ const DATO_PRODUCT_TRIO_BLOCK_QUERY = gql`
         ctaCopy
         ctaRoute
         image {
-          responsiveImage(imgixParams: { w: 600, q: 40, auto: format, fit: crop, crop: focalpoint }) {
+          responsiveImage(imgixParams: { w: 600, q: 40, auto: [format, compress], fit: crop, crop: focalpoint }) {
             ...responsiveImageFragment
           }
         }
@@ -459,7 +481,9 @@ const DATO_PRODUCT_INSTAGRAM_REEL_QUERY = gql`
           image {
             url
             alt
-            responsiveImage(imgixParams: { w: 280, h: 280, q: 45, auto: format, fit: clamp, crop: focalpoint, dpr: 2 }) {
+            responsiveImage(
+              imgixParams: { w: 280, h: 280, q: 45, auto: [format, compress], fit: clamp, crop: focalpoint, dpr: 2 }
+            ) {
               ...responsiveImageFragment
             }
           }
@@ -483,15 +507,11 @@ const DATO_PRODUCT_VIDEO_BLOCK_QUERY = gql`
         ... on VideoBlockRecord {
           copy
           title
-          videoSources {
-            url
-            alt
-          }
-          thumbnail {
-            url
-            alt
-            width
-            height
+          video {
+            video {
+              streamingUrl
+              thumbnailUrl
+            }
           }
         }
       }
@@ -712,7 +732,9 @@ const DATO_PRODUCT_SUGGESTION_BLOCK_QUERY = gql`
             configuredProductOptionsInOrder
             variantId
             plpImage {
-              responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              responsiveImage(
+                imgixParams: { w: 344, h: 344, q: 60, auto: [format, compress], fit: crop, crop: focalpoint }
+              ) {
                 ...responsiveImageFragment
               }
             }
@@ -732,7 +754,9 @@ const DATO_PRODUCT_SUGGESTION_BLOCK_QUERY = gql`
             _modelApiKey
             shopifyProductHandle
             plpImage {
-              responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              responsiveImage(
+                imgixParams: { w: 344, h: 344, q: 60, auto: [format, compress], fit: crop, crop: focalpoint }
+              ) {
                 ...responsiveImageFragment
               }
             }
@@ -745,7 +769,9 @@ const DATO_PRODUCT_SUGGESTION_BLOCK_QUERY = gql`
             configuredProductOptionsInOrder
             variantId
             plpImage {
-              responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              responsiveImage(
+                imgixParams: { w: 344, h: 344, q: 60, auto: [format, compress], fit: crop, crop: focalpoint }
+              ) {
                 ...responsiveImageFragment
               }
             }
@@ -765,7 +791,9 @@ const DATO_PRODUCT_SUGGESTION_BLOCK_QUERY = gql`
             _modelApiKey
             shopifyProductHandle
             plpImage {
-              responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              responsiveImage(
+                imgixParams: { w: 344, h: 344, q: 60, auto: [format, compress], fit: crop, crop: focalpoint }
+              ) {
                 ...responsiveImageFragment
               }
             }
@@ -778,7 +806,9 @@ const DATO_PRODUCT_SUGGESTION_BLOCK_QUERY = gql`
             configuredProductOptionsInOrder
             variantId
             plpImage {
-              responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              responsiveImage(
+                imgixParams: { w: 344, h: 344, q: 60, auto: [format, compress], fit: crop, crop: focalpoint }
+              ) {
                 ...responsiveImageFragment
               }
             }
@@ -798,7 +828,9 @@ const DATO_PRODUCT_SUGGESTION_BLOCK_QUERY = gql`
             _modelApiKey
             shopifyProductHandle
             plpImage {
-              responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              responsiveImage(
+                imgixParams: { w: 344, h: 344, q: 60, auto: [format, compress], fit: crop, crop: focalpoint }
+              ) {
                 ...responsiveImageFragment
               }
             }
@@ -811,7 +843,9 @@ const DATO_PRODUCT_SUGGESTION_BLOCK_QUERY = gql`
             configuredProductOptionsInOrder
             variantId
             plpImage {
-              responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              responsiveImage(
+                imgixParams: { w: 344, h: 344, q: 60, auto: [format, compress], fit: crop, crop: focalpoint }
+              ) {
                 ...responsiveImageFragment
               }
             }
@@ -831,7 +865,9 @@ const DATO_PRODUCT_SUGGESTION_BLOCK_QUERY = gql`
             _modelApiKey
             shopifyProductHandle
             plpImage {
-              responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              responsiveImage(
+                imgixParams: { w: 344, h: 344, q: 60, auto: [format, compress], fit: crop, crop: focalpoint }
+              ) {
                 ...responsiveImageFragment
               }
             }
@@ -844,7 +880,9 @@ const DATO_PRODUCT_SUGGESTION_BLOCK_QUERY = gql`
             configuredProductOptionsInOrder
             variantId
             plpImage {
-              responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              responsiveImage(
+                imgixParams: { w: 344, h: 344, q: 60, auto: [format, compress], fit: crop, crop: focalpoint }
+              ) {
                 ...responsiveImageFragment
               }
             }

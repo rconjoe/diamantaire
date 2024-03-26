@@ -18,7 +18,7 @@ const Showroom = `
       directionsImage {
         url
         alt
-        responsiveImage (imgixParams: { w: 338, q: 40, auto: format }, sizes: "(min-width: 769px) 600"){
+        responsiveImage (imgixParams: { w: 338, q: 40, auto: [format, compress] }, sizes: "(min-width: 769px) 600"){
             src
             alt
             aspectRatio
@@ -47,7 +47,7 @@ const Showroom = `
     image {
       url
       alt
-      responsiveImage (imgixParams: { w: 338, q: 40, auto: format }, sizes: "(min-width: 769px) 600"){
+      responsiveImage (imgixParams: { w: 338, q: 40, auto: [format, compress] }, sizes: "(min-width: 769px) 600"){
         src
         alt
         aspectRatio

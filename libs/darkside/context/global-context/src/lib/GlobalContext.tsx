@@ -4,7 +4,6 @@ export interface GlobalContextInterface {
   headerHeight?: number;
   isMobile?: boolean;
   isCartOpen?: boolean;
-  isWishlistOpen?: boolean;
   isWishlistUpdated?: number;
   isCartLoading?: boolean;
 }
@@ -20,7 +19,6 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     isMobile: false,
     headerHeight: 0,
     isCartOpen: false,
-    isWishlistOpen: false,
     isWishlistUpdated: 0,
     isCartLoading: false,
   });

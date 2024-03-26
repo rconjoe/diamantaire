@@ -20,7 +20,7 @@ const Accordion = `
           streamingUrl
         }
       alt
-      responsiveImage(imgixParams: {w: 637, h: 769, q: 55, auto: format, fit: crop, crop: focalpoint }, sizes:"100vw") {
+      responsiveImage(imgixParams: {w: 637, h: 769, q: 55, auto: [format, compress], fit: crop, crop: focalpoint }, sizes:"100vw") {
         src
         alt
         aspectRatio

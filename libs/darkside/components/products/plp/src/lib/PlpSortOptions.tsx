@@ -70,9 +70,12 @@ function PlpSortOptions({ sortOptions, onSortOptionChange }: PlpSortOptionsProps
 
   return (
     <PlpSortOptionStyle>
-      <span className="sort-label hide-on-mobile">{_t('Sort')}:</span>
+      <label htmlFor="sort-dropdown" className="sort-label hide-on-mobile">
+        {_t('Sort')}:
+      </label>
 
       <Select
+        inputId="sort-dropdown"
         options={options}
         onChange={(val) => handleSortOptionChange(val)}
         value={currentSortOption}

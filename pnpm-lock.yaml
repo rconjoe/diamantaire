@@ -89,6 +89,9 @@ dependencies:
   '@redis/time-series':
     specifier: ^1.0.5
     version: 1.0.5(@redis/client@1.5.13)
+  '@rudderstack/analytics-js':
+    specifier: 3.0.0-beta.24
+    version: 3.0.0-beta.24
   '@sentry/nextjs':
     specifier: 7.56.0
     version: 7.56.0(next@13.5.6)(react@18.2.0)(webpack@5.88.2)
@@ -8501,6 +8504,10 @@ packages:
       picomatch: 2.3.1
       rollup: 2.79.1
     dev: true
+
+  /@rudderstack/analytics-js@3.0.0-beta.24:
+    resolution: {integrity: sha512-cGUy+sJVwMmBhOC91JRIt71vq0FzYFRL/sdEnnnXsS7SA4077eDrZANh9uOeKGB7u/JnhTZ39/Tl/CMkPHprvw==}
+    dev: false
 
   /@rushstack/eslint-patch@1.5.1:
     resolution: {integrity: sha512-6i/8UoL0P5y4leBIGzvkZdS85RDMG9y1ihZzmTZQ5LdHUYmZ7pKFoj8X0236s3lusPs1Fa5HTQUpwI+UfTcmeA==}

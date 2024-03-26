@@ -8,15 +8,11 @@ type ProductVideoProps = {
     videoBlock: {
       copy: string;
       title: string;
-      videoSources: {
-        url: string;
-        alt: string;
-      };
-      thumbnail: {
-        url: string;
-        alt: string;
-        width: number;
-        height: number;
+      video: {
+        video: {
+          streamingUrl: string;
+          thumbnailUrl: string;
+        };
       };
     };
   };

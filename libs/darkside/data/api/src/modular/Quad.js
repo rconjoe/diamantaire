@@ -11,7 +11,7 @@ const Quad = `
     image1 {
       url
       alt
-      responsiveImage(imgixParams: {w: 400, q: 80, auto: format, fit: crop, crop: focalpoint }) {
+      responsiveImage(imgixParams: {w: 400, q: 80, auto: [format, compress], fit: crop, crop: focalpoint }) {
         src
         alt
         aspectRatio
@@ -35,7 +35,7 @@ const Quad = `
     image2 {
       url
       alt
-      responsiveImage(imgixParams: {w: 400, q: 80, auto: format, fit: crop, crop: focalpoint }) {
+      responsiveImage(imgixParams: {w: 400, q: 80, auto: [format, compress], fit: crop, crop: focalpoint }) {
         src
         alt
         aspectRatio
@@ -59,7 +59,7 @@ const Quad = `
     image3 {
       url
       alt
-      responsiveImage(imgixParams: {w: 400, q: 80, auto: format, fit: crop, crop: focalpoint }) {
+      responsiveImage(imgixParams: {w: 400, q: 80, auto: [format, compress], fit: crop, crop: focalpoint }) {
         src
         alt
         aspectRatio
@@ -83,7 +83,7 @@ const Quad = `
     image4 {
       url
       alt
-      responsiveImage(imgixParams: {w: 400, q: 80, auto: format, fit: crop, crop: focalpoint }) {
+      responsiveImage(imgixParams: {w: 400, q: 80, auto: [format, compress], fit: crop, crop: focalpoint }) {
         src
         alt
         aspectRatio

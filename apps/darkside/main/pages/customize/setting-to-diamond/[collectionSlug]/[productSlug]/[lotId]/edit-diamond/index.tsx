@@ -11,6 +11,7 @@ import {
   DIAMOND_TABLE_DEFAULT_VALID_QUERIES,
 } from '@diamantaire/shared/constants';
 import { getDiamondShallowRoute } from '@diamantaire/shared/helpers';
+import { useRudderStackAnalytics } from '@diamantaire/shared/rudderstack';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
@@ -246,6 +247,14 @@ const DiamondBuildStep = () => {
       shallow: true,
     });
   }, [options]);
+
+  const analytics = useRudderStackAnalytics();
+
+  useEffect(() => {
+    if (analytics) {
+      analytics?.page();
+    }
+  }, [analytics?.ready]);
 
   if (!diamonds || !tableOptions?.initialOptions?.diamondType) return <BuilderFlowLoader />;
 
