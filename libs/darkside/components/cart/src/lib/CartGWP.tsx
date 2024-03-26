@@ -109,7 +109,6 @@ const CartGWP = () => {
       // This is also the item (if it exists 👻)
       const hasUserQualified = checkoutTotal >= parseFloat(minSpendValue);
 
-      console.log('hasUserQualified', hasUserQualified);
       const doesUserHaveGWPInCart =
         checkout?.lines?.find((line) => line?.merchandise?.id === `gid://shopify/ProductVariant/${giftProduct.variantId}`) ||
         false;
@@ -151,11 +150,6 @@ const CartGWP = () => {
   if (!isCountrySupported(gwpSupportedCountries, countryCode) || !isWithinTimeframe) return null;
 
   if (!gwpData) return null;
-
-  console.log({
-    minSpend: parseFloat(minSpendValue),
-    cartTotal: parseFloat(checkout?.cost?.totalAmount?.amount) * 100,
-  });
 
   return (
     <CartGWPStyles bgColor={hasUserQualified ? cartQualifiedBackgroundColor?.hex : cartNonQualifiedBackgroundColor?.hex}>
