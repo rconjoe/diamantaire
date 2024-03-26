@@ -285,7 +285,7 @@ const CardBundle: React.FC<CardBundleProps> = ({
     />,
   ];
 
-  const link = `/customize?step=2&type=setting-to-diamond&collectionSlug=${collectionSlug}&productSlug=${productSlug}&lotId=${lotId}`;
+  const link = `/customize/setting-to-diamond/${collectionSlug}/${productSlug}/${lotId}/summary`;
 
   return (
     <div className="card item-bundle">
