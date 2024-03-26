@@ -601,9 +601,10 @@ const SettingToDiamondSummaryPage = () => {
       label: _t('diamondType'),
       value: diamonds?.map((diamond) => shapes_t(diamond?.diamondType)).join(' + '),
       onClick: () => {
-        router.push(
-          `/customize/${flowType}/${router.query.collectionSlug}/${router.query.productSlug}/${router.query.lotId}/edit-diamond`,
-        );
+        router.push({
+          pathname: `/customize/${flowType}/${router.query.collectionSlug}/${router.query.productSlug}/${router.query.lotId}/edit-diamond`,
+          query: preselectedRingSize ? { ringSize: preselectedRingSize } : {},
+        });
       },
       slug: 'diamondType',
     },
@@ -616,9 +617,12 @@ const SettingToDiamondSummaryPage = () => {
         )
         .join(' + '),
       onClick: () => {
-        router.push(
-          `/customize/${flowType}/${router.query.collectionSlug}/${router.query.productSlug}/${router.query.lotId}/edit-diamond`,
-        );
+        const queryParameters = preselectedRingSize ? { ringSize: preselectedRingSize } : {};
+
+        router.push({
+          pathname: `/customize/${flowType}/${router.query.collectionSlug}/${router.query.productSlug}/${router.query.lotId}/edit-diamond`,
+          query: queryParameters,
+        });
       },
       slug: 'centerstone',
     },
