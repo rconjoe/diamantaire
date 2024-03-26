@@ -40,7 +40,7 @@ const ProductSuggestionBlock = ({ id }) => {
   const { locale } = useRouter();
 
   const { data: { productSuggestionQuadBlock } = {} } = useProductSuggestions(id, locale);
-console.log({ productSuggestionQuadBlock });
+
   const content = productSuggestionQuadBlock?.content?.[0];
 
   const { aboveCopy } = content || {};
