@@ -1,7 +1,7 @@
 import { DarksideButton, DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { addItemToCart, updateMultipleItemsQuantity } from '@diamantaire/darkside/data/api';
 import { useCartData, useCartGwp } from '@diamantaire/darkside/data/hooks';
-import { getCurrency, getFormattedPrice } from '@diamantaire/shared/constants';
+import { getCurrency, simpleFormatPrice } from '@diamantaire/shared/constants';
 import {
   getCountry,
   isCountrySupported,
@@ -164,7 +164,7 @@ const CartGWP = () => {
                     cartNonQualifiedBody,
                     ['%%GWP_remaining_spend%%'],
                     [
-                      getFormattedPrice(
+                      simpleFormatPrice(
                         parseFloat(minSpendValue) - parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100,
                         locale,
                       ).trim(),
