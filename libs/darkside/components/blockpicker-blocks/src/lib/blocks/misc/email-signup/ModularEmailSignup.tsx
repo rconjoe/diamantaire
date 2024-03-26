@@ -27,6 +27,7 @@ type ModularEmailSignupBlockProps = {
   }>;
   ctaCopy?: string;
   optInCopy?: string;
+  emailList?: object;
 };
 
 const ModularEmailSignupBlock = ({
@@ -63,7 +64,7 @@ const ModularEmailSignupBlock = ({
   const { data: { emailPopup: emailPopUpContent } = {} } = useEmailPopup(locale);
   const { errorCopy, successCopy, optInCopy } = emailPopUpContent || {};
   const listData = { ...defaultListData, ...emailList };
-  console.log({ listData });
+
   useEffect(() => {
     const initializeData = async () => {
       // Fetch user country
