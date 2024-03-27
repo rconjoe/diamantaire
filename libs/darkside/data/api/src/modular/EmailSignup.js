@@ -15,6 +15,11 @@ const EmailSignup = `
     }
     enableStackedView
     additionalClass
+    emailList {
+      source
+      listId
+      sfdcCampaignId
+    }
   }
 `;
 
