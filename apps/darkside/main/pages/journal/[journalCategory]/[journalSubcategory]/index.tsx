@@ -6,16 +6,22 @@ import { dehydrate, QueryClient } from '@tanstack/react-query';
 export default JournalSubCategoryEntry;
 
 export async function getStaticPaths() {
-  const paths = await getAllJournalSubCategories();
-  const updatedPaths = paths.map((path) => {
+  const includedLocales = ['en-US'];
+  const slugs = await getAllJournalSubCategories();
+
+  const updatedSlugs = slugs.map((path) => {
     const newPath = path.route.replace('https://www.vrai.com', '');
 
     return newPath;
   });
 
+  const paths = updatedSlugs.flatMap((slug) => {
+    return includedLocales.map((locale) => `/${locale}${slug}`);
+  });
+
   return {
-    paths: updatedPaths,
-    fallback: false,
+    paths,
+    fallback: true,
   };
 }
 

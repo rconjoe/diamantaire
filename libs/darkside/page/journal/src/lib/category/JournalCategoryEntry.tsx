@@ -33,7 +33,9 @@ type JournalCategoryEntryProps = {
 };
 
 const JournalCategoryEntry = (props: JournalCategoryEntryProps) => {
-  const { slug, locale, isSubCategory, parentCategorySlug } = props;
+  const { slug, isSubCategory, parentCategorySlug } = props;
+  const router = useRouter();
+  const { locale } = useRouter();
   const { data: { blogConfiguration } = {} } = useJournalConfig(locale);
 
   const { categoriesToDisplay, postsPerPage } = blogConfiguration || {};
@@ -41,8 +43,6 @@ const JournalCategoryEntry = (props: JournalCategoryEntryProps) => {
   const [latestJournalsIndex, setLatestJournalsIndex] = useState(postsPerPage);
   const [init, setInit] = useState(false);
   const [count, setCount] = useState(0);
-
-  const router = useRouter();
 
   const parentCategory = categoriesToDisplay?.filter((cat) => cat.key === parentCategorySlug)?.[0];
 
