@@ -174,7 +174,12 @@ export const getDiamondOptionsFromUrl = (query, page) => {
   }
 };
 
-export const getDiamondShallowRoute = (options: { diamondType?: string }, overrideUrl?: string, pathsAsParams?: boolean) => {
+export const getDiamondShallowRoute = (
+  options: { diamondType?: string },
+  overrideUrl?: string,
+  pathsAsParams?: boolean,
+  additionalParams?: any,
+) => {
   const segments = DIAMOND_TABLE_FACETED_NAV.reduce((arr: string[], value: string) => {
     if (options[value]) {
       if (value === 'diamondType') {
@@ -213,10 +218,17 @@ export const getDiamondShallowRoute = (options: { diamondType?: string }, overri
     return { ...obj };
   }, {});
 
-  const queryURL = new URLSearchParams(queries).toString();
+  const queryURL = new URLSearchParams(queries);
 
-  const query = queryURL ? '?' + queryURL : '';
+  // Correctly append additionalParams (like ringSize) to the queryURL
+  Object.entries(additionalParams || {}).forEach(([key, value]) => {
+    queryURL.set(key, String(value));
+  });
 
+  // Construct the full query string
+  const query = queryURL.toString() ? '?' + queryURL.toString() : '';
+
+  // Determine if queries should be shown in the URL based on your conditions
   const showQueryInUrl = true;
 
   const route = `${overrideUrl ? overrideUrl : diamondRoutePlp}/${overrideUrl ? '' : segments.join('/')}${

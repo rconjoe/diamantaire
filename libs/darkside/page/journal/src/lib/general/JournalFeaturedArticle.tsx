@@ -4,6 +4,8 @@ import { media } from '@diamantaire/styles/darkside-styles';
 import { format } from 'date-fns';
 import styled from 'styled-components';
 
+const AUTHOR_DEFAULT = 'VRAI';
+
 type JournalFeaturedArticleProps = {
   author: string;
   ctaCopy: string;
@@ -87,7 +89,7 @@ const JournalFeaturedArticle = (props: JournalFeaturedArticleProps) => {
               {title}
             </Heading>
             <p className="date">
-              {author} | {format(new Date(sortByDate), 'MMMM do, yyyy')}
+              {author || AUTHOR_DEFAULT} | {format(new Date(sortByDate), 'MMMM do, yyyy')}
             </p>
             <p>{desktopCopy}</p>
             <DarksideButton href={`/journal/post/${ctaRoute}`} type="underline" colorTheme="teal">

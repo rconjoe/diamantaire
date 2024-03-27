@@ -51,6 +51,11 @@ const StyledDiamondTableRowAccordion = styled.div`
         gap: 2rem;
       }
     }
+
+    .carbon-neutral-certification-container {
+      margin-top: 2rem;
+      width: 10rem;
+    }
   }
 `;
 

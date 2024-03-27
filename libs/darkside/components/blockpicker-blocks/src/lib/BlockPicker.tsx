@@ -1,3 +1,4 @@
+import { LazyInViewBlock } from '@diamantaire/darkside/components/common-ui';
 import {
   MODULAR_ACCORDION_BLOCK,
   MODULAR_BLOG_LIST_TRIO_BLOCK,
@@ -45,7 +46,6 @@ import {
   SOCIAL_MEDIA_SECTION,
   STANDALONE_CELEBRITY_GALLERY,
 } from '@diamantaire/shared/constants';
-import { forceVisible } from 'react-lazyload';
 
 import {
   DynamicEmailSignup,
@@ -157,31 +157,20 @@ type BlockPickerProps = {
 const BlockPicker = ({ _modelApiKey, modularBlockData, countryCode, currencyCode, shouldLazyLoad }: BlockPickerProps) => {
   const BlockComponent = blockConfig?.[_modelApiKey];
 
-  forceVisible();
-
-  return (
-    <>
-      {!BlockComponent && <p>No block found for: {_modelApiKey}</p>}
-
-      {BlockComponent && shouldLazyLoad ? (
-        <BlockComponent
-          countryCode={countryCode}
-          currencyCode={currencyCode}
-          shouldLazyLoad={shouldLazyLoad}
-          {...modularBlockData}
-        />
-      ) : BlockComponent ? (
-        <BlockComponent
-          countryCode={countryCode}
-          currencyCode={currencyCode}
-          shouldLazyLoad={shouldLazyLoad}
-          {...modularBlockData}
-        />
-      ) : (
-        ''
-      )}
-    </>
+  const renderBlockComponent = () => (
+    <BlockComponent
+      countryCode={countryCode}
+      currencyCode={currencyCode}
+      {...modularBlockData}
+      shouldLazyLoad={shouldLazyLoad}
+    />
   );
+
+  if (!BlockComponent) {
+    return <p>No block found for: {_modelApiKey}</p>;
+  }
+
+  return shouldLazyLoad ? <LazyInViewBlock>{renderBlockComponent()}</LazyInViewBlock> : renderBlockComponent();
 };
 
 export { BlockPicker };

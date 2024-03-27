@@ -27,6 +27,7 @@ export async function addCustomProductToCart({
   diamondImages,
   productAdded,
   diamondShapesTranslations,
+  analytics,
 }) {
   const { product, diamonds } = builderProduct;
   const {
@@ -263,6 +264,47 @@ export async function addCustomProductToCart({
 
     // Combine setting and diamonds for the add event
     productAdded({
+      id,
+      category: pdpType,
+      name: settingProductTitle,
+      brand: 'VRAI',
+      variant: variantProductTitle,
+      product: variantProductTitle,
+      image_url: src,
+      ...selectedConfiguration,
+      setting: settingProductTitle,
+      ecommerce: {
+        value: totalAmount,
+        currency: currencyCode,
+        add: {
+          products: [settingProduct, ...diamondProducts],
+        },
+      },
+      items: [
+        {
+          item_id: id,
+          item_name: variantProductTitle,
+          item_brand: 'VRAI',
+          item_category: pdpType,
+          price: formattedSettingPrice,
+          currency: currencyCode,
+          quantity: isSoldAsDouble ? 2 : 1,
+          ...selectedConfiguration,
+        },
+        ...diamondProducts.map((diamond) => ({
+          item_id: diamond.id,
+          item_name: diamond.name,
+          item_brand: 'VRAI',
+          item_category: diamond.category,
+          price: diamond.price,
+          currency: currencyCode,
+          quantity: 1,
+        })),
+      ],
+    });
+
+    // We will use a unique event for this in the next PR
+    analytics.track('add_to_cart', {
       id,
       category: pdpType,
       name: settingProductTitle,

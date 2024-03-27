@@ -1,6 +1,6 @@
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 import { Heading } from '@diamantaire/darkside/components/common-ui';
-import { CtoDiamondPromoBlock } from '@diamantaire/darkside/data/hooks';
+import { CtoDiamondPromoBlockTypes } from '@diamantaire/darkside/data/hooks';
 
 import StyledDiamondCfyAsidePromo from './DiamondCfyAsidePromo.style';
 
@@ -8,7 +8,7 @@ type DiamondCfyAsidePromoProps = {
   data: {
     title: string;
     content: {
-      blocks: CtoDiamondPromoBlock[];
+      blocks: CtoDiamondPromoBlockTypes[];
     };
   }[];
 };
@@ -27,14 +27,18 @@ const DiamondCfyAsidePromo = (props: DiamondCfyAsidePromoProps) => {
 
         <div className="blocks">
           {blocks &&
-            blocks?.map((block) => {
+            blocks?.map((block, idx) => {
               const { id, _modelApiKey, title } = block;
 
               if (title.includes('LEONARDO DICAPRIO')) {
                 block.additionalClass = 'leo';
               }
+              const contentIsAboveFold = idx < 2;
+              const shouldLazyLoad = contentIsAboveFold ? false : true;
 
-              return <BlockPicker key={id} _modelApiKey={_modelApiKey} modularBlockData={block} />;
+              return (
+                <BlockPicker key={id} _modelApiKey={_modelApiKey} modularBlockData={block} shouldLazyLoad={shouldLazyLoad} />
+              );
             })}
         </div>
       </div>

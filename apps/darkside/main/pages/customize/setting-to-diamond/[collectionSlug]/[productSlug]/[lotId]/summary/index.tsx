@@ -18,7 +18,7 @@ import {
   StickyElementWrapper,
   UIString,
 } from '@diamantaire/darkside/components/common-ui';
-import { Diamond360 } from '@diamantaire/darkside/components/diamonds';
+import { Diamond360, DiamondOOS } from '@diamantaire/darkside/components/diamonds';
 import {
   OptionSelector,
   ProductDescription,
@@ -58,7 +58,7 @@ import { generateDiamondSpriteImage } from '@diamantaire/shared/helpers';
 import { useRudderStackAnalytics } from '@diamantaire/shared/rudderstack';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
-import { DEFAULT_BUILDER_ENGRAVING_FONT, getRenderedInputEngravingFontStyles } from '@diamantaire/styles/darkside-styles';
+import { DEFAULT_BUILDER_ENGRAVING_FONT, getRenderedInputEngravingFontStyles, mobileOnly } from '@diamantaire/styles/darkside-styles';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import clsx from 'clsx';
 import useEmblaCarousel from 'embla-carousel-react';
@@ -251,6 +251,9 @@ const ReviewBuildStepStyles = styled(motion.div)`
         border-bottom: 0.1rem solid #ccc;
 
         .builder-summary__content__inner {
+          &.content_inner_oos {
+            ${mobileOnly('padding: 0 1rem;')}
+          }
           ul {
             padding: 0 0 2rem;
             li {
@@ -375,6 +378,14 @@ const ReviewBuildStepStyles = styled(motion.div)`
     }
 
     .atc-button {
+      button {
+        font-size: var(--font-size-xxsmall);
+      }
+    }
+
+    .oss_button {
+      background-color: #D9D9D9 !important;
+      border: 1px solid black;
       button {
         font-size: var(--font-size-xxsmall);
       }
@@ -601,9 +612,10 @@ const SettingToDiamondSummaryPage = () => {
       label: _t('diamondType'),
       value: diamonds?.map((diamond) => shapes_t(diamond?.diamondType)).join(' + '),
       onClick: () => {
-        router.push(
-          `/customize/${flowType}/${router.query.collectionSlug}/${router.query.productSlug}/${router.query.lotId}/edit-diamond`,
-        );
+        router.push({
+          pathname: `/customize/${flowType}/${router.query.collectionSlug}/${router.query.productSlug}/${router.query.lotId}/edit-diamond`,
+          query: preselectedRingSize ? { ringSize: preselectedRingSize } : {},
+        });
       },
       slug: 'diamondType',
     },
@@ -616,9 +628,12 @@ const SettingToDiamondSummaryPage = () => {
         )
         .join(' + '),
       onClick: () => {
-        router.push(
-          `/customize/${flowType}/${router.query.collectionSlug}/${router.query.productSlug}/${router.query.lotId}/edit-diamond`,
-        );
+        const queryParameters = preselectedRingSize ? { ringSize: preselectedRingSize } : {};
+
+        router.push({
+          pathname: `/customize/${flowType}/${router.query.collectionSlug}/${router.query.productSlug}/${router.query.lotId}/edit-diamond`,
+          query: queryParameters,
+        });
       },
       slug: 'centerstone',
     },
@@ -771,6 +786,12 @@ const SettingToDiamondSummaryPage = () => {
       analytics?.page();
     }
   }, [analytics?.ready]);
+  
+  const isDiamondOOS = () => !diamonds?.length || diamonds.some( diamond => !diamond['availableForSale']);
+  const viewDiamondsOOS = () => router.push(
+    `/customize/${flowType}/${router.query.collectionSlug}/${router.query.productSlug}`,
+  );
+  const browseOtherDiamonds = () => router.push(`/customize/${flowType}/${router.query.collectionSlug}/${router.query.productSlug}`)
 
   if (!shopifyProductData || !shopifyProductData?.productContent?.assetStack[0] || !spriteSpinnerIds)
     return <BuilderFlowLoader />;
@@ -901,11 +922,15 @@ const SettingToDiamondSummaryPage = () => {
                 />
               )}
             </div>
-
+            {isDiamondOOS() && (
+              <DiamondOOS items={summaryItems} viewDiamonds={viewDiamondsOOS}/>
+            )}
             <div className="builder-summary__content">
-              <div className="builder-summary__content__inner">
+              <div className={clsx("builder-summary__content__inner", {
+                'content_inner_oos': isDiamondOOS()
+              })}>
                 <ul className="list-unstyled">
-                  {summaryItems?.map((item, index) => {
+                  {!isDiamondOOS() && summaryItems?.map((item, index) => {
                     return (
                       <li key={`summary-1-${index}`}>
                         <span className="label">{_t(item.label)}:</span>
@@ -937,7 +962,6 @@ const SettingToDiamondSummaryPage = () => {
                 </ul>
               </div>
             </div>
-
             {selectedSize && productType === 'Engagement Ring' && (
               <div className="ring-size-container">
                 <OptionSelector
@@ -1035,29 +1059,42 @@ const SettingToDiamondSummaryPage = () => {
                 <ul className="list-unstyled">
                   <li>
                     <StickyElementWrapper>
-                      <DarksideButton
-                        className="atc-button"
-                        onClick={() =>
-                          addCustomProductToCart({
-                            selectedSize,
-                            builderProduct,
-                            router,
-                            engravingText,
-                            updateGlobalContext,
-                            refetch,
-                            productIconList,
-                            checkout,
-                            ToastError,
-                            _t,
-                            datoParentProductData,
-                            diamondImages,
-                            productAdded,
-                            diamondShapesTranslations,
-                          })
-                        }
-                      >
-                        <UIString>Add To Bag</UIString>
-                      </DarksideButton>
+                      {!isDiamondOOS() ? (
+                        <DarksideButton
+                          className="atc-button"
+                          onClick={() =>
+                            addCustomProductToCart({
+                              selectedSize,
+                              builderProduct,
+                              router,
+                              engravingText,
+                              updateGlobalContext,
+                              refetch,
+                              productIconList,
+                              checkout,
+                              ToastError,
+                              _t,
+                              datoParentProductData,
+                              diamondImages,
+                              productAdded,
+                              diamondShapesTranslations,
+                              analytics,
+                            })
+                          }
+                        >
+                          <UIString>Add To Bag</UIString>
+                        </DarksideButton>
+
+                        ) : (
+                          <DarksideButton 
+                            colorTheme="grey"
+                            textSize='medium'
+                            className="oss_button" 
+                            onClick={() => browseOtherDiamonds()}
+                          >
+                            <UIString>Sold: Browse other diamonds</UIString>
+                          </DarksideButton>
+                      )}
                     </StickyElementWrapper>
                   </li>
                   <li>

@@ -42,6 +42,7 @@ import {
   pdpTypeSingleToPluralAsConst,
 } from '@diamantaire/shared/constants';
 import { generateDiamondSpriteImage } from '@diamantaire/shared/helpers';
+import { useRudderStackAnalytics } from '@diamantaire/shared/rudderstack';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import clsx from 'clsx';
@@ -618,6 +619,8 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
     }
   }, [builderProduct?.product?.productSlug, settingSlugs?.productSlug]);
 
+  const analytics = useRudderStackAnalytics();
+
   return (
     <ReviewBuildStepStyles
       key="diamond-step-container"
@@ -876,6 +879,7 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
                             diamondImages,
                             productAdded,
                             diamondShapesTranslations,
+                            analytics,
                           })
                         }
                       >

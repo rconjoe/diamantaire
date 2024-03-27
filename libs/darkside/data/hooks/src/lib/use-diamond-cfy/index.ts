@@ -4,12 +4,7 @@ import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
 import { ProductIconListDataTypes } from '../products/use-product-icons';
 
-interface DiamondShapeDescription {
-  diamondType: string;
-  description: string;
-}
-
-interface CaratSliderTooltip {
+export interface CaratSliderTooltipTypes {
   _modelApiKey: string;
   id: string;
   title: string;
@@ -19,7 +14,7 @@ interface CaratSliderTooltip {
   supportedCountries: { code: string; name: string }[];
 }
 
-export interface CtoDiamondPromoBlock {
+export interface CtoDiamondPromoBlockTypes {
   _modelApiKey: string;
   id: string;
   title: string;
@@ -36,12 +31,12 @@ export interface CtoDiamondPromoBlock {
   additionalClass: string;
 }
 
-interface CtoDiamondTable {
+interface CtoDiamondTableTypes {
   id: string;
   seo: { title: string; description: string };
   seoResults: { title: string; description: string };
   speakWithExpert: string;
-  caratSliderTooltip: CaratSliderTooltip[];
+  caratSliderTooltip: CaratSliderTooltipTypes[];
   headerTitle: string;
   headerCopy: string;
   headerSubtext: string;
@@ -122,7 +117,6 @@ interface CtoDiamondTable {
   vraiDiamondsInfo: string;
   nonStandardShapeAppointmentsBody: string;
   scheduleAnAppointment: string;
-
   blocks: {
     _modelApiKey: string;
     title: string;
@@ -130,15 +124,20 @@ interface CtoDiamondTable {
     headingAdditionalClass: string;
     additionalClass: string;
     content: {
-      blocks: CtoDiamondPromoBlock[];
+      blocks: CtoDiamondPromoBlockTypes[];
     };
   }[];
   productIconList: { items: ProductIconListDataTypes[] };
 }
 
+interface DiamondShapeDescriptionTypes {
+  diamondType: string;
+  description: string;
+}
+
 interface DiamondCfyDataProps {
-  ctoDiamondTable: CtoDiamondTable;
-  allDiamondShapeDescriptions: DiamondShapeDescription[];
+  ctoDiamondTable: CtoDiamondTableTypes;
+  allDiamondShapeDescriptions: DiamondShapeDescriptionTypes[];
 }
 
 export function useDiamondCfyData(locale: string): UseQueryResult<DiamondCfyDataProps, unknown> {

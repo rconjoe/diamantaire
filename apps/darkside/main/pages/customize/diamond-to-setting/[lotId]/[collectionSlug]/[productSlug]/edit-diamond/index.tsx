@@ -240,7 +240,20 @@ const DiamondBuildStep = () => {
   }, [builderProduct.diamonds]);
 
   useEffect(() => {
-    router.replace(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {});
+    const additionalParams: { ringSize?: string } = {};
+
+    if (query?.ringSize) {
+      additionalParams.ringSize = Array.isArray(query.ringSize) ? query.ringSize[0] : query.ringSize;
+    }
+
+    const newRoute = getDiamondShallowRoute(
+      options,
+      window.location.origin + window.location.pathname,
+      true,
+      additionalParams,
+    );
+
+    router.replace(newRoute, undefined, { shallow: true });
   }, [options]);
 
   const analytics = useRudderStackAnalytics();

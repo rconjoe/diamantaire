@@ -1,7 +1,7 @@
 import { DarksideButton, DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { addItemToCart, updateMultipleItemsQuantity } from '@diamantaire/darkside/data/api';
 import { useCartData, useCartGwp } from '@diamantaire/darkside/data/hooks';
-import { getCurrency, getFormattedPrice } from '@diamantaire/shared/constants';
+import { getCurrency, simpleFormatPrice } from '@diamantaire/shared/constants';
 import {
   getCountry,
   isCountrySupported,
@@ -94,13 +94,21 @@ const CartGWP = () => {
   const minSpendValue = minSpendByCurrencyCode?.[currencyCode].toString();
   const isWithinTimeframe = isCurrentTimeWithinInterval(promotionDateRangeStart, promotionDateRangeEnd);
 
-  const hasUserQualified = parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100 >= parseFloat(minSpendValue);
+  // We want to check subtotal for USD, and total for every other currency
+  const checkoutTotal =
+    locale === 'en-US'
+      ? parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100
+      : parseFloat(checkout?.cost?.totalAmount?.amount) * 100;
+
+  const hasUserQualified = checkoutTotal >= parseFloat(minSpendValue);
 
   useEffect(() => {
     async function checkForGWP() {
       if (!checkout || !gwpData || !isWithinTimeframe) return null;
+
       // This is also the item (if it exists 👻)
-      const hasUserQualified = parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100 >= parseFloat(minSpendValue);
+      const hasUserQualified = checkoutTotal >= parseFloat(minSpendValue);
+
       const doesUserHaveGWPInCart =
         checkout?.lines?.find((line) => line?.merchandise?.id === `gid://shopify/ProductVariant/${giftProduct.variantId}`) ||
         false;
@@ -164,8 +172,8 @@ const CartGWP = () => {
                     cartNonQualifiedBody,
                     ['%%GWP_remaining_spend%%'],
                     [
-                      getFormattedPrice(
-                        parseFloat(minSpendValue) - parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100,
+                      simpleFormatPrice(
+                        parseFloat(minSpendValue) - parseFloat(checkout?.cost?.totalAmount?.amount) * 100,
                         locale,
                       ).trim(),
                     ],

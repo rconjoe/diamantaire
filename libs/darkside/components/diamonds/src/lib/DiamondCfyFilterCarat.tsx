@@ -1,5 +1,6 @@
 import { Heading, Tooltip, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
+import { CaratSliderTooltipTypes } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_CFY_CARAT_DEFAULT,
   DIAMOND_CFY_CARAT_RANGE_MAP,
@@ -17,14 +18,26 @@ const SLIDER_MULTIPLIER = 5;
 const SLIDER_MAX_VALUE = 100 * SLIDER_MULTIPLIER;
 const SLIDER_RANGE = SLIDER_MAX_VALUE - SLIDER_MIN_VALUE;
 
-const DiamondCfyFilterCarat = (props) => {
-  const { isMobile } = useContext(GlobalContext);
+interface CaratSliderProps {
+  locale: string;
+  title: string;
+  selectedCarat: number;
+  caratSliderTooltip: CaratSliderTooltipTypes[];
+  selectedDiamondType: {
+    slug: string;
+    title: string;
+  };
+  handleSelectCarat: (number) => void;
+}
 
+const DiamondCfyFilterCarat: React.FC<CaratSliderProps> = (props) => {
   const { title, selectedDiamondType, selectedCarat, handleSelectCarat, locale, caratSliderTooltip } = props;
+
+  const { isMobile } = useContext(GlobalContext);
 
   const countryCode = getCountry(locale);
 
-  const [caratMin, caratMax] = getCaratRangeByDiamondType(selectedDiamondType.slug);
+  const [caratMin, caratMax] = getCaratRangeByDiamondType(selectedDiamondType?.slug);
 
   const initialSliderRangeValue = getSliderValueFromCaratRange(selectedCarat, caratMin, caratMax);
 
@@ -36,6 +49,7 @@ const DiamondCfyFilterCarat = (props) => {
 
   const updateParentState = useCallback(() => {
     const caratValue = getSelectedCaratRange(sliderRangeValue, caratMin, caratMax);
+
     const roundedCaratValue = roundToNearestTenth(caratValue);
 
     if (sliderRangeValue !== roundedCaratValue) {
@@ -43,6 +57,7 @@ const DiamondCfyFilterCarat = (props) => {
 
       const updateCaratAndPrice = () => {
         setCarat(`${roundedCaratValue.toFixed(1)}ct`);
+
         setPrice(getPriceFromCaratWeight(roundedCaratValue));
       };
 
@@ -53,12 +68,16 @@ const DiamondCfyFilterCarat = (props) => {
   const handleSliderChange = useCallback(
     (event) => {
       const value = parseFloat(event.target.value);
+
       const caratValue = getSelectedCaratRange(value, caratMin, caratMax);
+
       const roundedCaratValue = roundToNearestTenth(caratValue);
 
       const updateState = () => {
         setSliderRangeValue(value);
+
         setCarat(`${roundedCaratValue.toFixed(1)}ct`);
+
         setPrice(getPriceFromCaratWeight(roundedCaratValue));
       };
 
@@ -75,12 +94,15 @@ const DiamondCfyFilterCarat = (props) => {
 
   useEffect(() => {
     const delay = 1000;
+
     const timeoutId = setTimeout(updateParentState, delay);
 
     return () => clearTimeout(timeoutId);
   }, [updateParentState]);
 
-  const shape = diamondIconsMap[selectedDiamondType.slug];
+  const shape = diamondIconsMap[selectedDiamondType?.slug];
+
+  if (!selectedDiamondType) return;
 
   return (
     <StyledDiamondCfyFilterCarat

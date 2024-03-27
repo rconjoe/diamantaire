@@ -69,7 +69,7 @@ export const GlobalTemplate = ({ children }) => {
   const { locale } = router;
   const globalTemplateData = useGlobalData(router.locale);
   const headerData = globalTemplateData.data?.headerNavigationDynamic;
-  const footerData = globalTemplateData.data?.footerNavigation;
+  const footerData = globalTemplateData?.data?.footerNavigation;
 
   const [isTopbarShowing, setIsTopbarShowing] = useState(true);
 
@@ -78,6 +78,10 @@ export const GlobalTemplate = ({ children }) => {
   const isBookAppointmentPage = pathname.includes('/book-appointment');
 
   const storedLocale = typeof window !== 'undefined' && window.localStorage.getItem('locale');
+
+  if (globalTemplateData?.data) {
+    footerData['carbonNeutralCertification'] = globalTemplateData?.data?.diamondTable?.carbonNeutralCertification;
+  }
 
   // If a user comes to the site with a different locale, we want to clear the cart, and reset the locale
   if (locale && storedLocale && storedLocale !== locale) {

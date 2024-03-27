@@ -9,6 +9,10 @@ export const ModularAccordionContainer = styled.div`
     width: 100%; /* Use 100% instead of 100vw to avoid horizontal scroll */
     grid-template-columns: 1fr; /* Default grid setting */
     text-align: center;
+    padding: 0 2rem;
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+      padding: 0 20rem;
+    }
     &.-with-image {
       grid-template-columns: 1fr 1fr; /* Define two columns for larger screens */
       text-align: left;

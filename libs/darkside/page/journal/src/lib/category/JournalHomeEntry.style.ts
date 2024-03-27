@@ -31,7 +31,7 @@ export const JournalHomeEntryStyles = styled.div<{
       margin-top: ${setSpace(6)};
       margin-bottom: ${setSpace(3)};
       ${tabletAndUp(`
-      margin-top: ${setSpace(8)};
+      margin-top: 6rem;
         margin-bottom: ${setSpace(4)};
         `)}
     }
@@ -75,7 +75,7 @@ export const JournalHomeEntryStyles = styled.div<{
     }
   
     .journal-item {
-      padding: 0 1.6rem;
+      padding: 1.6rem 1.6rem 5rem 1.6rem;
       @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
         padding: 1rem 0;
       }

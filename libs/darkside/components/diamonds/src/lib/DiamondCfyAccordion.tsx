@@ -1,9 +1,10 @@
-import { Accordion, DarksideButton, Markdown, UIString, UniLink } from '@diamantaire/darkside/components/common-ui';
+import { Accordion, CarbonNeutralCertification, DarksideButton, Markdown, UIString, UniLink } from '@diamantaire/darkside/components/common-ui';
 import {
   DiamondCtoDataProps,
   useDiamondCfyData,
   useDiamondTableData,
   useHumanNameMapper,
+  useGlobalData
 } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { capitalizeFirstLetter } from '@diamantaire/shared/helpers';
@@ -32,6 +33,7 @@ const DiamondCfyAccordion = ({
   const { data: humanStrings = {} } = useHumanNameMapper(locale);
   const { data: { diamondTable: DiamondTableData } = {} } = useDiamondTableData(locale);
   const { data: { ctoDiamondTable: DiamondCfyData } = {} } = useDiamondCfyData(locale);
+  const { data: { diamondTable: { carbonNeutralCertification } }} = useGlobalData(locale)
   const { specs } = DiamondTableData || {};
 
   // COLOR
@@ -272,6 +274,12 @@ const DiamondCfyAccordion = ({
     return (
       <div className="description">
         <Markdown withStyles={false}>{originContent}</Markdown>
+        {carbonNeutralCertification && (
+          <CarbonNeutralCertification 
+            url={carbonNeutralCertification.url} 
+            className='carbon-neutral-certification-container'
+          />
+        )}
       </div>
     );
   };
