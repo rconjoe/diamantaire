@@ -81,8 +81,6 @@ export async function getStaticProps({
     ...subcatQueryParams,
   });
 
-  console.log('yyy', params);
-
   return {
     props: {
       slug: params.journalSubcategory,
