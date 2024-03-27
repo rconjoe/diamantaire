@@ -27,6 +27,7 @@ type JournalSubCategoryEntryProps = {
 
 const JournalSubCategoryEntry = ({ slug, isSubCategory, parentCategorySlug }: JournalSubCategoryEntryProps) => {
   const { asPath, locale } = useRouter();
+
   const { data: { blogConfiguration } = {} } = useJournalConfig(locale);
 
   const { categoriesToDisplay, postsPerPage } = blogConfiguration || {};
@@ -47,13 +48,13 @@ const JournalSubCategoryEntry = ({ slug, isSubCategory, parentCategorySlug }: Jo
 
   const { data, fetchNextPage, refetch, remove } = useJournalSubcategory(
     locale,
-    parentCategory.id,
+    parentCategory?.id,
     subCategory?.id,
     postsPerPage,
     !init ? 0 : infiniteQueryPag,
   );
 
-  const [categoryPosts, setCategoryPosts] = useState(data?.pages?.map((page) => page.allBlogPosts).flat());
+  const [categoryPosts, setCategoryPosts] = useState(data?.pages?.map((page) => page?.allBlogPosts).flat());
 
   async function handleLoadMore() {
     const infinitePagTemp = infiniteQueryPag + postsPerPage;
@@ -190,7 +191,7 @@ const JournalSubCategoryEntry = ({ slug, isSubCategory, parentCategorySlug }: Jo
 
         <div className="container-wrapper with-route">
           <div className="journal-category__content-block-container">
-            {categoryPosts.map((p, i) => (
+            {categoryPosts?.map((p, i) => (
               <ImageTile
                 key={i}
                 forceAspectRatio={true}
