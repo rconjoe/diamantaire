@@ -7,24 +7,20 @@ import { dehydrate, QueryClient } from '@tanstack/react-query';
 export default JournalCategoryEntry;
 
 export async function getStaticPaths() {
-  let paths = await getAllJournalCategories();
+  let slugs = await getAllJournalCategories();
 
-  paths = paths.map((path) => path.replace('https://www.vrai.com/journal/', ''));
-  paths = paths.filter((path) => !path.includes('in-the-media') && !path.includes('test-category'));
+  const includedLocales = ['en-US'];
 
-  const newPaths = paths.map((slug) => {
-    const obj = {
-      params: {
-        journalCategory: slug,
-      },
-    };
+  slugs = slugs.map((path) => path.replace('https://www.vrai.com/journal/', ''));
+  slugs = slugs.filter((path) => !path.includes('in-the-media') && !path.includes('test-category'));
 
-    return obj;
+  const paths = slugs.flatMap((slug) => {
+    return includedLocales.map((locale) => ({ locale, params: { journalCategory: slug } }));
   });
 
   return {
-    paths: newPaths,
-    fallback: false,
+    paths: paths,
+    fallback: true,
   };
 }
 
@@ -98,7 +94,6 @@ export async function getStaticProps({
       parentCategorySlug: params.journalCategory,
       isMobile,
       isSubCategory: false,
-      locale,
       currencyCode,
       countryCode,
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
